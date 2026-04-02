@@ -1,0 +1,982 @@
+{
+  "subject": "formal language and automata theory (flat)",
+  "modules": [
+    {
+      "module": "Foundations of FLAT",
+      "topics": [
+        {
+          "name": "Basics of Strings & Alphabets",
+          "keywords": ["alphabet", "string", "language", "concatenation", "reverse", "string operations", "epsilon", "kleene star"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Alphabets",
+            "Strings",
+            "Language Definitions",
+            "String Operations (Concat, Reverse, etc.)"
+          ],
+          "subtopic_content": {
+            "Alphabets": [
+              "Alphabet (Σ): a finite, non-empty set of symbols. Think of it like the set of letters you are allowed to use. Example: Σ = {a, b} means you can only use 'a' and 'b' to build strings.",
+              "Common examples: Binary alphabet Σ = {0, 1} (used in computers). English alphabet Σ = {a, b, c, ..., z}. DNA alphabet Σ = {A, T, G, C}.",
+              "The alphabet is just the toolbox of available symbols — nothing more."
+            ],
+            "Strings": [
+              "String: a finite sequence of symbols from an alphabet. Example: if Σ = {a, b}, then 'aab', 'bba', 'a', 'ababab' are all valid strings.",
+              "Empty string (ε or λ): the string with zero symbols. Like an empty word. Length of ε is 0. It is a valid string.",
+              "Length of string: |w| = number of symbols. |aab| = 3. |ε| = 0. |abba| = 4.",
+              "Σ* (Sigma Star): the set of ALL possible strings over Σ, including ε. If Σ = {a, b}, then Σ* = {ε, a, b, aa, ab, ba, bb, aaa, ...} — infinite set."
+            ],
+            "Language Definitions": [
+              "Language (L): any subset of Σ*. A language is simply a collection of strings you pick from Σ*.",
+              "Simple examples: L1 = {all strings over {a,b} that start with 'a'} = {a, aa, ab, aaa, aab, aba, ...}. L2 = {strings with equal number of a's and b's} = {ε, ab, ba, aabb, ...}.",
+              "Empty language (∅): the language with NO strings. Different from {ε} which has one string (the empty string).",
+              "Analogy: alphabet = English letters, strings = words, language = a dictionary (collection of valid words)."
+            ],
+            "String Operations (Concat, Reverse, etc.)": [
+              "Concatenation: joining two strings end to end. If x = 'ab' and y = 'ba', then xy = 'abba'. x·ε = x (concatenating empty string changes nothing).",
+              "Reverse: flip the string. Reverse of 'abc' = 'cba'. Reverse of 'aab' = 'baa'. Reverse of ε = ε.",
+              "Kleene Star (w*): the string w repeated 0 or more times. a* = {ε, a, aa, aaa, ...}. (ab)* = {ε, ab, abab, ababab, ...}.",
+              "Kleene Plus (w+): one or more repetitions. a+ = {a, aa, aaa, ...} = a* minus ε.",
+              "String power: w^n means w concatenated n times. a^3 = aaa. (ab)^2 = abab."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Operation | Symbol | Example (w='ab') | Result || Concatenation | xy | 'ab' + 'ba' | 'abba' || Reverse | w^R | 'ab' | 'ba' || Kleene Star | w* | 'a'* | {ε, a, aa, aaa,...} || Kleene Plus | w+ | 'a'+ | {a, aa, aaa,...} || Length | |w| | |'aab'| | 3 || Power | w^n | 'ab'^2 | 'abab'"
+          ],
+          "common_mistakes": [
+            "Confusing empty language ∅ and language containing empty string {ε} — ∅ has NO strings at all. {ε} has exactly ONE string (the empty string)",
+            "Thinking ε (empty string) is same as nothing — ε is a valid string, just with zero length. It exists and matters in automata theory"
+          ]
+        },
+        {
+          "name": "Mathematical Preliminaries",
+          "keywords": ["sets", "relations", "functions", "proof by induction", "proof by contradiction", "mathematical induction"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Sets",
+            "Relations",
+            "Functions",
+            "Proof Techniques (Induction, Contradiction)"
+          ],
+          "subtopic_content": {
+            "Sets": [
+              "Set: unordered collection of distinct objects. A = {1, 2, 3}. Key operations: Union (A∪B = all elements in A or B), Intersection (A∩B = only elements in both), Difference (A-B = elements in A but not B), Power Set (P(A) = all subsets of A).",
+              "Power set size: if |A| = n, then |P(A)| = 2^n. For A = {a, b}, P(A) = {∅, {a}, {b}, {a,b}} — 4 subsets = 2^2.",
+              "Cartesian Product: A × B = all ordered pairs (a, b) where a∈A and b∈B. Used to define transition tables in automata."
+            ],
+            "Relations": [
+              "Relation R on set A: a set of ordered pairs from A×A. Example: 'less than' on integers = {(1,2), (1,3), (2,3), ...}.",
+              "Properties: Reflexive (every element related to itself), Symmetric (if aRb then bRa), Transitive (if aRb and bRc then aRc). Equivalence relation = all three together.",
+              "Equivalence classes: partition a set into groups of equivalent elements. Used in DFA minimization — states in same equivalence class are merged."
+            ],
+            "Functions": [
+              "Function f: A → B maps each element of A to exactly one element of B. A is domain, B is codomain.",
+              "Types: Total function (defined for every element of domain), Partial function (may be undefined for some inputs — NFA transitions are partial functions).",
+              "In automata: transition function δ: Q × Σ → Q maps (current state, input symbol) to next state. This is the heart of a finite automaton."
+            ],
+            "Proof Techniques (Induction, Contradiction)": [
+              "Proof by Induction: prove base case (n=0 or n=1 works), then prove if it works for n, it works for n+1. Used to prove properties of strings and grammars.",
+              "Example: prove |w^n| = n×|w|. Base: |w^0| = |ε| = 0 = 0×|w| ✓. Inductive step: |w^(n+1)| = |w^n · w| = |w^n| + |w| = n|w| + |w| = (n+1)|w| ✓.",
+              "Proof by Contradiction: assume opposite of what you want to prove → show it leads to a logical impossibility → therefore original statement must be true. Used in pumping lemma proofs to show a language is NOT regular."
+            ]
+          },
+          "common_mistakes": [
+            "Forgetting that a function must be defined for every domain element — partial functions in NFA (undefined for some inputs) are a special case, not all functions"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Finite Automata (FA)",
+      "topics": [
+        {
+          "name": "Definition of Finite Automata",
+          "keywords": ["states", "transition", "state diagram", "transition graph", "transition function", "finite automata definition"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "States",
+            "Transition Systems",
+            "State Diagrams",
+            "Transition Graphs",
+            "Transition Functions"
+          ],
+          "subtopic_content": {
+            "States": [
+              "State: a snapshot of the machine's 'memory' at a given moment. Finite automata have a FINITE number of states (hence the name). Think of states as the current 'mood' of the machine.",
+              "Types of states: Start state (where machine begins — marked with an arrow →), Accept/Final state (where machine says 'YES' — marked with double circle ⊙), Reject state (any non-accept state after reading full input).",
+              "Simple analogy: a traffic light has 3 states — Red, Yellow, Green. The light is always in exactly one state at a time. A finite automaton works the same way."
+            ],
+            "Transition Systems": [
+              "Transition: a rule that says 'if you are in state q and read symbol a, move to state p'. Written as δ(q, a) = p.",
+              "The machine reads the input string one symbol at a time, left to right. After each symbol, it transitions to a new state based on the transition rules.",
+              "Think of it as a ball rolling through a maze. Each room is a state. The symbol you read is the door you go through. The room you end up in is the next state."
+            ],
+            "State Diagrams": [
+              "State diagram (transition diagram): visual representation of a finite automaton. Circles = states. Arrows between circles = transitions. Arrow label = input symbol that causes that transition.",
+              "Start state: has a → arrow pointing to it (from nowhere). Accept state: drawn with double circle. Trap/dead state: non-accept state with no way out (machine gets stuck).",
+              "Reading the diagram: trace your finger along the arrows following the input symbols one by one. If you end at a double circle after reading the whole input → ACCEPT. Otherwise → REJECT."
+            ],
+            "Transition Graphs": [
+              "Transition graph: another name for state diagram. Graph where nodes = states and directed edges = transitions labeled with input symbols.",
+              "If multiple transitions go from same state on same symbol → that makes it Non-deterministic (NFA). If exactly one transition per (state, symbol) pair → Deterministic (DFA)."
+            ],
+            "Transition Functions": [
+              "Transition function δ: Q × Σ → Q. Takes current state (from Q) and current symbol (from Σ) and returns next state (from Q).",
+              "Transition TABLE: a table version of the diagram. Rows = states. Columns = input symbols. Cell = next state. Easier to write than drawing a diagram for complex machines.",
+              "Example: DFA with states {q0, q1} and Σ = {a, b}. δ(q0, a) = q1, δ(q0, b) = q0, δ(q1, a) = q1, δ(q1, b) = q0. Table has 2 rows × 2 columns = 4 entries."
+            ]
+          },
+          "required_diagrams": [
+            "Simple DFA state diagram: clean diagram on white background. Three circles labeled q0 (start, with → arrow pointing to it), q1, q2 (accept state, double circle). Arrow from q0 to q1 labeled 'a'. Arrow from q1 to q2 labeled 'b'. Arrow from q0 looping back labeled 'b'. Arrow from q2 looping back labeled 'a' or 'b'. Plain black lines, white background, clear labels."
+          ],
+          "required_tables": [
+            "Transition Table example: State | Input a | Input b || →q0 (start) | q1 | q0 || q1 | q1 | q2 || *q2 (accept) | q2 | q2"
+          ],
+          "common_mistakes": [
+            "Forgetting the start state arrow — every FA diagram must have exactly ONE start state with an incoming arrow from nowhere",
+            "Confusing accept state with end state — machine doesn't 'stop' at accept state. It reads ALL input first, THEN checks if it's in an accept state"
+          ]
+        },
+        {
+          "name": "Deterministic Finite Automata",
+          "keywords": ["dfa", "formal definition", "language acceptance", "extended transition function", "deterministic"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Formal Definition",
+            "Language Acceptance",
+            "Extended Transition Function"
+          ],
+          "subtopic_content": {
+            "Formal Definition": [
+              "DFA is a 5-tuple M = (Q, Σ, δ, q0, F) where: Q = finite set of states, Σ = input alphabet, δ: Q × Σ → Q = transition function (one next state for every state-symbol pair), q0 ∈ Q = start state, F ⊆ Q = set of accept states.",
+              "KEY property of DFA: δ is a TOTAL function — for EVERY state and EVERY symbol, there is EXACTLY one next state. No missing transitions, no choices.",
+              "Simple analogy: DFA is like a vending machine. You are always in exactly one state (e.g., 'waiting', 'coin inserted', 'item dispensed'). Each button press (symbol) moves you to exactly one next state. No ambiguity."
+            ],
+            "Language Acceptance": [
+              "DFA M accepts string w if: starting from q0, after reading all symbols of w one by one, the machine ends in an accept state (state in F).",
+              "Language of M: L(M) = {w ∈ Σ* | M accepts w} — the set of ALL strings that M accepts.",
+              "Example: Design DFA over {a,b} that accepts strings ending in 'b'. State q0 = 'last symbol was not b (or start)'. State q1 = 'last symbol was b' (accept state). δ(q0,a)=q0, δ(q0,b)=q1, δ(q1,a)=q0, δ(q1,b)=q1.",
+              "Trace 'abab': q0 →a→ q0 →b→ q1 →a→ q0 →b→ q1. Ends at q1 (accept) → ACCEPT ✓. Trace 'aba': q0→q0→q1→q0. Ends at q0 (not accept) → REJECT ✗."
+            ],
+            "Extended Transition Function": [
+              "Extended transition function δ*: Q × Σ* → Q handles ENTIRE STRINGS (not just single symbols). δ*(q, ε) = q (empty string keeps you in same state). δ*(q, wa) = δ(δ*(q, w), a) — process string then apply last symbol.",
+              "Simply: δ* tells you which state you end up in after reading an entire string from a given start state. δ*(q0, 'aba') gives the final state after reading 'aba' from q0.",
+              "DFA accepts w iff δ*(q0, w) ∈ F — the final state after reading w must be an accept state."
+            ]
+          },
+          "required_diagrams": [
+            "DFA example diagram: clean diagram on white background. Two circles: q0 (start, arrow →) and q1 (accept, double circle). Four arrows: q0 to q0 labeled 'a', q0 to q1 labeled 'b', q1 to q0 labeled 'a', q1 to q1 labeled 'b'. This DFA accepts strings ending in 'b'. Plain black, white background."
+          ],
+          "common_mistakes": [
+            "DFA must have transition for EVERY symbol from EVERY state — if you miss a transition, it becomes an NFA (or incomplete DFA). Add a dead/trap state for missing transitions",
+            "String is accepted based on FINAL state after reading ENTIRE input — not based on visiting an accept state during processing"
+          ]
+        },
+        {
+          "name": "Nondeterministic Finite Automata",
+          "keywords": ["nfa", "nfa definition", "epsilon nfa", "null moves", "epsilon closure", "nondeterministic"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "NFA Definition",
+            "ε-NFA (Null Moves)",
+            "ε-Closure",
+            "Language Acceptance"
+          ],
+          "subtopic_content": {
+            "NFA Definition": [
+              "NFA: same as DFA but transition function can return a SET of states (including empty set). From one state on one symbol, machine can go to MULTIPLE states OR zero states.",
+              "NFA 5-tuple: M = (Q, Σ, δ, q0, F) where δ: Q × Σ → P(Q) — P(Q) means 'power set of Q' = set of all subsets of Q.",
+              "Imagine NFA as a 'parallel machine' — it tries ALL possible paths simultaneously. If ANY path leads to an accept state → accept. Think of it as a magic machine that always 'guesses right'.",
+              "Example: δ(q0, a) = {q0, q1} means from q0 on 'a', machine can go to EITHER q0 OR q1 (both at same time in parallel)."
+            ],
+            "ε-NFA (Null Moves)": [
+              "ε-NFA: an NFA that also allows ε-transitions (free moves). Machine can move from one state to another WITHOUT consuming any input symbol.",
+              "ε-transitions are like 'teleportation' — you move to another state for free, reading nothing. This makes designing automata much easier.",
+              "Example: δ(q0, ε) = {q1} means machine can spontaneously move from q0 to q1 without reading any symbol.",
+              "Practical use: when combining two automata (union, concatenation), ε-transitions connect them cleanly without modifying individual machines."
+            ],
+            "ε-Closure": [
+              "ε-Closure of state q (written ε-closure(q)): the set of ALL states reachable from q using ONLY ε-transitions (zero or more). q itself is always in its own ε-closure.",
+              "Algorithm: start with {q}. Follow all ε-arrows from q. Follow all ε-arrows from those states. Keep going until no new states added. The result is ε-closure(q).",
+              "Example: if q0 →ε→ q1 →ε→ q2, then ε-closure(q0) = {q0, q1, q2}.",
+              "ε-closure is used to convert ε-NFA to NFA and then to DFA — it tells you which states are 'automatically reachable' without reading anything."
+            ],
+            "Language Acceptance": [
+              "NFA accepts string w if: there EXISTS at least one path through the machine that reads w and ends in an accept state. Even one accepting path is enough.",
+              "NFA rejects w only if ALL possible paths fail to reach an accept state after reading w.",
+              "Equivalence: NFA and DFA accept the SAME class of languages — Regular Languages. NFA is just a more convenient notation. Any NFA can be converted to an equivalent DFA (subset construction)."
+            ]
+          },
+          "required_diagrams": [
+            "NFA vs DFA comparison diagram: clean diagram on white background. Left side (NFA): state q0 with TWO arrows labeled 'a' going to q1 AND q2 simultaneously. Right side (DFA): same state q0 with EXACTLY ONE arrow labeled 'a' going to one state. Label clearly 'NFA: multiple choices' and 'DFA: exactly one choice'. White background, plain black lines."
+          ],
+          "required_tables": [
+            "Comparison: Feature | DFA | NFA | ε-NFA || Transitions | Exactly 1 per (state,symbol) | 0 or more per (state,symbol) | 0 or more + ε moves || Transition function | δ: Q×Σ→Q | δ: Q×Σ→P(Q) | δ: Q×(Σ∪{ε})→P(Q) || Accepts if | Final state is accept | ANY path reaches accept | ANY path reaches accept || Equal power | Yes | Yes (same as DFA) | Yes (same as DFA) || Easier to design | No | Yes | Yes"
+          ],
+          "common_mistakes": [
+            "Thinking NFA is more powerful than DFA — they accept EXACTLY the same languages (regular languages). NFA is only more convenient to design",
+            "ε-closure always includes the state itself — ε-closure(q) always has q in it, even if there are no ε-transitions from q"
+          ]
+        },
+        {
+          "name": "Equivalence of DFA and NFA",
+          "keywords": ["equivalent states", "partition refinement", "myhill nerode", "minimization", "dfa minimization", "subset construction"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Equivalent States",
+            "Partition Refinement",
+            "Myhill-Nerode Theorem",
+            "Minimization Algorithm"
+          ],
+          "subtopic_content": {
+            "Equivalent States": [
+              "Two states p and q are equivalent if: for EVERY string w, starting from p and starting from q both either accept or both reject. They behave identically for all possible inputs.",
+              "If states are equivalent → they can be MERGED into one state → smaller (minimized) DFA.",
+              "Two states are DISTINGUISHABLE if there exists at least one string w that separates them — one accepts, other rejects when reading w from those states."
+            ],
+            "Partition Refinement": [
+              "Table-filling (distinguishability) algorithm: start by separating accept states from non-accept states. Then iteratively mark pairs (p,q) as distinguishable if there exists a symbol a where δ(p,a) and δ(q,a) are already distinguishable.",
+              "Keep refining until no more pairs can be marked. Unmarked pairs = equivalent states = can be merged. This is the basis of DFA minimization."
+            ],
+            "Myhill-Nerode Theorem": [
+              "Myhill-Nerode theorem: a language L is regular IF AND ONLY IF the number of equivalence classes of the relation ~L is finite. The relation ~L: x ~L y if for ALL z, (xz ∈ L ↔ yz ∈ L).",
+              "Simply: two strings x and y are equivalent (~L) if every suffix z makes them both accepted or both rejected. If there are infinitely many classes → language is NOT regular.",
+              "This theorem gives us: (1) a way to prove a language is not regular, (2) the minimum number of states needed in any DFA for L."
+            ],
+            "Minimization Algorithm": [
+              "Goal: find the smallest DFA (fewest states) that accepts the same language. Steps: (1) Remove unreachable states. (2) Use table-filling to find equivalent state pairs. (3) Merge equivalent states. (4) Build new DFA.",
+              "Result: the minimized DFA is unique (up to state renaming) — there is only ONE minimum DFA for any regular language.",
+              "Practical importance: smaller DFA = faster pattern matching, less memory. Used in compilers and text editors for efficient string matching."
+            ]
+          },
+          "common_mistakes": [
+            "Thinking minimization changes the language — minimized DFA accepts EXACTLY the same language as original. Only the number of states changes",
+            "Forgetting to remove unreachable states first — states that can never be reached from start state must be removed before minimization"
+          ]
+        },
+        {
+          "name": "Mealy and Moore Machines",
+          "keywords": ["mealy machine", "moore machine", "output", "transducer", "interconversion", "mealy moore"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Mealy Machine Definition",
+            "Moore Machine Definition",
+            "Output Transitions",
+            "Interconversion"
+          ],
+          "subtopic_content": {
+            "Mealy Machine Definition": [
+              "Mealy Machine: a DFA with OUTPUT. Output depends on BOTH current state AND current input symbol. 6-tuple: (Q, Σ, Δ, δ, λ, q0) where Δ = output alphabet, λ: Q×Σ → Δ = output function.",
+              "Output is produced ON EACH TRANSITION (on each arrow). Reading symbol 'a' from state q produces output λ(q, a).",
+              "Example: 2's complement calculator. States represent carry information. For each input bit, machine outputs the correct complemented bit based on current state and input."
+            ],
+            "Moore Machine Definition": [
+              "Moore Machine: a DFA with OUTPUT. But output depends ONLY on the current state (NOT on input symbol). 6-tuple: (Q, Σ, Δ, δ, λ, q0) where λ: Q → Δ = output function.",
+              "Output is produced for each STATE you visit. Each state has a fixed output label written inside or beside it.",
+              "Example: traffic light controller. Each state (Red, Yellow, Green) has its own fixed output (Stop, Ready, Go). The output doesn't depend on what input you received, only which state you're in."
+            ],
+            "Output Transitions": [
+              "Mealy: output string length = input string length (one output per transition).",
+              "Moore: output string length = number of states visited = input length + 1 (including output of start state). The extra symbol at beginning comes from start state.",
+              "Key difference in where output is attached: Mealy → ON THE ARROW (transition). Moore → INSIDE THE CIRCLE (state)."
+            ],
+            "Interconversion": [
+              "Every Mealy machine can be converted to an equivalent Moore machine and vice versa. They are equally powerful — both produce same output functions.",
+              "Mealy to Moore: for each state that receives different outputs from different incoming transitions, split it into multiple states (one per different output). Label each new state with the output.",
+              "Moore to Mealy: for each transition leading to state q (with output λ(q)), label that transition with output λ(q). Simple relabeling."
+            ]
+          },
+          "required_diagrams": [
+            "Mealy vs Moore comparison diagram: clean diagram on white background. Left (Mealy Machine): two states q0 and q1, arrow labeled 'a/0' meaning input a gives output 0, arrow labeled 'b/1' meaning input b gives output 1. Right (Moore Machine): two states q0 (output:0) and q1 (output:1), arrows labeled only with input symbol. Label clearly where output appears in each. White background, plain black."
+          ],
+          "required_tables": [
+            "Comparison: Feature | Mealy Machine | Moore Machine || Output depends on | State + Input | State only || Output on | Transitions (arrows) | States (circles) || Output length | = Input length | = Input length + 1 || Conversion | Can convert to Moore | Can convert to Mealy || States needed | Fewer states typically | More states typically"
+          ],
+          "common_mistakes": [
+            "Moore machine output length is input_length + 1, not input_length — the start state also produces an output before any input is read"
+          ]
+        },
+        {
+          "name": "Applications of FA",
+          "keywords": ["lexical analysis", "pattern matching", "protocol design", "applications of finite automata"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Lexical Analysis",
+            "Pattern Matching",
+            "Protocol Design"
+          ],
+          "subtopic_content": {
+            "Lexical Analysis": [
+              "Lexical analysis (tokenization): first phase of a compiler. Reads source code and breaks it into tokens (keywords, identifiers, numbers, operators).",
+              "DFA used: one state for each 'partially recognized' token. Example: recognizing the keyword 'if' — states represent having read '', 'i', 'if'. Accept state reached when full keyword recognized.",
+              "Real example: when compiler reads 'int x = 5;', DFA identifies 'int' as keyword token, 'x' as identifier token, '=' as operator, '5' as number, ';' as separator."
+            ],
+            "Pattern Matching": [
+              "String/pattern matching: search for a pattern in a large text. Build a DFA for the pattern → scan text through DFA → each time accept state reached, pattern found.",
+              "Example: grep command in Linux uses DFA internally. Regular expressions in Python (re module) compile to DFA/NFA for fast matching.",
+              "Knuth-Morris-Pratt (KMP) algorithm: builds an FA from the pattern to match. O(n) time complexity — much faster than naive O(n×m) approach."
+            ],
+            "Protocol Design": [
+              "Communication protocols modeled as FA. Each state represents a 'phase' of communication. Transitions represent messages received or sent.",
+              "Example: TCP connection states — CLOSED → SYN_SENT → ESTABLISHED → FIN_WAIT → CLOSED. Each state change triggered by a specific packet (SYN, ACK, FIN). This is a finite automaton!",
+              "Vending machine: states = {idle, got_10, got_20, got_30, dispensing}. Input = coins inserted. DFA models the entire machine behavior."
+            ]
+          },
+          "common_mistakes": [
+            "Thinking FA can handle everything — FA can only recognize REGULAR patterns. It cannot count arbitrary depths (like matching brackets) — that needs PDA"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Regular Languages & Regular Expressions",
+      "topics": [
+        {
+          "name": "Regular Expressions",
+          "keywords": ["regular expression", "regex", "basic syntax", "operator precedence", "regular expression identities", "kleene star"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Basic Syntax",
+            "Operator Precedence",
+            "Regular Expression Identities"
+          ],
+          "subtopic_content": {
+            "Basic Syntax": [
+              "Regular Expression (RE): a compact notation to describe a regular language. Built from: base cases (∅ = empty language, ε = empty string, a = single symbol 'a') and operations (union, concatenation, Kleene star).",
+              "Union (R|S or R+S): 'R or S'. Strings in R OR strings in S. Example: a|b describes {a, b}.",
+              "Concatenation (RS): 'R then S'. Strings of R followed by strings of S. Example: ab describes {ab}.",
+              "Kleene Star (R*): 'R zero or more times'. Example: a* describes {ε, a, aa, aaa, ...}.",
+              "Real examples: (0|1)* = all binary strings. a*b = strings of zero or more a's followed by one b = {b, ab, aab, ...}. (a|b)* = all strings over {a,b}."
+            ],
+            "Operator Precedence": [
+              "Operator precedence (highest to lowest): Star (*) > Concatenation > Union (|). Just like BODMAS in arithmetic.",
+              "So ab* means 'a followed by (b*)' = {a, ab, abb, abbb, ...}. NOT '(ab)*' = {ε, ab, abab, ...}. Use parentheses to override.",
+              "Examples: ab|c = (ab)|c = {ab, c}. a|bc = a|(bc) = {a, bc}. ab*|c = (a(b*))|c = {a, ab, abb, c, ...}."
+            ],
+            "Regular Expression Identities": [
+              "Important identities: R|∅ = R. R·ε = R. R·∅ = ∅. (R*)* = R*. ε|RR* = R* (ε or one-or-more = zero-or-more). R|R = R.",
+              "Distributive: R(S|T) = RS|RT. (R|S)T = RT|ST.",
+              "These identities help simplify complex regular expressions — useful in exams and in converting between RE and FA."
+            ]
+          },
+          "required_tables": [
+            "Regular Expression Examples: RE | Language Described | Sample Strings || a*b | Zero or more a's then one b | b, ab, aab, aaab || (a|b)* | All strings over {a,b} | ε, a, b, ab, ba, aa || a(a|b)*b | Starts with a, ends with b | ab, aab, abb, aabb || (0|1)*00 | Binary strings ending in 00 | 00, 100, 1100 || a+b+ | One or more a's then one or more b's | ab, aab, abb, aabb"
+          ],
+          "common_mistakes": [
+            "a* means zero or more — a* includes ε. If you want one or more, use a+ = aa*",
+            "ab* is NOT (ab)* — precedence: star binds to b only. (ab)* needs parentheses"
+          ]
+        },
+        {
+          "name": "FA and Regular Expressions",
+          "keywords": ["re to fa", "fa to re", "state elimination", "nfa to dfa", "subset construction", "re conversion"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "RE to FA Conversion",
+            "FA to RE (State Elimination Method)",
+            "Transition Systems with Null Moves",
+            "ε-Closures",
+            "Arden's Theorem"
+          ],
+          "subtopic_content": {
+            "RE to FA Conversion": [
+              "Convert RE to ε-NFA using Thompson's construction. Rules: For 'a': make states q0 →a→ q1. For 'R|S': new start → ε → (NFA for R) and ε → (NFA for S), both NFAs connect via ε to new accept. For 'RS': connect accept of NFA-R via ε to start of NFA-S. For 'R*': add ε loop.",
+              "Then convert ε-NFA to DFA using subset construction. This guarantees: every RE has an equivalent DFA.",
+              "Order: RE → ε-NFA (Thompson's) → NFA (ε-closure elimination) → DFA (subset construction) → Minimized DFA."
+            ],
+            "FA to RE (State Elimination Method)": [
+              "State Elimination: convert DFA/NFA back to RE by systematically removing states and replacing them with RE labels on remaining arrows.",
+              "Steps: (1) Add new start state with ε to old start. (2) Add new accept state with ε from old accept states. (3) For each state to eliminate: for every pair of states (A, B) that had a path through eliminated state, add direct transition with RE label. (4) Last remaining transition gives the RE.",
+              "The final RE on the arrow from new start to new accept is the RE for the language."
+            ],
+            "Transition Systems with Null Moves": [
+              "ε-NFA to NFA conversion: replace each ε-transition by computing what states are reachable. For each state q and symbol a: new transition goes to ε-closure of all states reachable on 'a' from ε-closure(q).",
+              "This eliminates all ε-transitions while keeping the same language accepted."
+            ],
+            "ε-Closures": [
+              "ε-closure computation is critical for subset construction (NFA to DFA). For each DFA state (which is a SET of NFA states), compute which NFA states are reachable via ε from those states.",
+              "Algorithm: start with the set, add all states reachable by ε-transitions, repeat until stable. This forms the 'superstate' in the DFA."
+            ],
+            "Arden's Theorem": [
+              "Arden's Theorem: if X = AX | B (where A does not contain ε), then the unique solution is X = A*B. Used to find RE from a system of equations derived from an FA.",
+              "Method: from FA, write equations like q0 = a·q1 | b·q0 | ε (for start state). Solve using Arden's theorem to get the RE for the language.",
+              "Example: q = aq | b. By Arden's, X = AX|B with A=a, B=b → solution X = a*b. So the language is a*b."
+            ]
+          },
+          "required_diagrams": [
+            "RE to NFA Thompson construction diagram: clean diagram on white background. Show three small examples side by side. 1) RE 'a': circle q0 → arrow labeled 'a' → circle q1 (accept). 2) RE 'R|S': new start with two ε-arrows to NFA-R and NFA-S, both connecting via ε to new accept. 3) RE 'R*': loop structure with ε. Label each construction. White background, plain black."
+          ],
+          "common_mistakes": [
+            "State elimination order matters — eliminate non-start, non-accept states first. Different orders give different (but equivalent) REs",
+            "Arden's theorem requires A to NOT contain ε — if A can produce empty string, the theorem doesn't directly apply"
+          ]
+        },
+        {
+          "name": "Closure Properties and Pumping Lemma",
+          "keywords": ["closure properties", "union regular", "concatenation regular", "kleene star regular", "complement regular", "intersection regular", "pumping lemma", "non-regular", "myhill nerode theorem"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Union",
+            "Concatenation",
+            "Kleene Star",
+            "Complement",
+            "Intersection",
+            "Equivalence of Two Automata",
+            "Equivalence of Two REs",
+            "Lemma Statement",
+            "Application to Non-Regularity Proofs",
+            "Theorem Statement",
+            "Applications"
+          ],
+          "subtopic_content": {
+            "Union": [
+              "If L1 and L2 are regular languages, then L1 ∪ L2 is also regular. Proof: build DFA for L1, build DFA for L2, run both simultaneously (product construction) — accept if EITHER accepts."
+            ],
+            "Concatenation": [
+              "If L1 and L2 are regular, then L1·L2 (all strings formed by concatenating a string from L1 with a string from L2) is also regular. Build using ε-NFA: connect accept states of L1 to start of L2 via ε-transitions."
+            ],
+            "Kleene Star": [
+              "If L is regular, then L* is also regular. Build ε-NFA: add ε-loops from old accept states back to old start state, plus new start that is also an accept (for ε)."
+            ],
+            "Complement": [
+              "If L is regular, then complement(L) = Σ* - L is also regular. Simple DFA construction: swap accept and non-accept states. What was accepted is now rejected and vice versa.",
+              "Important: this swap only works for COMPLETE DFA (total transition function). Must add trap state first if DFA is incomplete."
+            ],
+            "Intersection": [
+              "If L1 and L2 are regular, then L1 ∩ L2 is also regular. Use De Morgan's law: L1∩L2 = complement(complement(L1) ∪ complement(L2)). Or directly: product construction — accept only if BOTH DFAs accept."
+            ],
+            "Equivalence of Two Automata": [
+              "Two DFAs M1 and M2 are equivalent if L(M1) = L(M2). Test: build product DFA → check if any state where one accepts and other rejects is reachable. If no such state reachable → equivalent."
+            ],
+            "Equivalence of Two REs": [
+              "Two REs R1 and R2 are equivalent if they describe the same language. Method: convert both to DFAs → minimize both → check if minimized DFAs are isomorphic (same structure with renamed states)."
+            ],
+            "Lemma Statement": [
+              "Pumping Lemma for Regular Languages: if L is regular, then there exists a pumping length p ≥ 1 such that every string w ∈ L with |w| ≥ p can be split as w = xyz where: |xy| ≤ p, |y| ≥ 1, for all i ≥ 0, xy^i z ∈ L.",
+              "Simple interpretation: any sufficiently long string in a regular language has a 'repeatable middle part' (y) that can be pumped (repeated any number of times) and the result stays in the language.",
+              "Use: to prove a language is NOT regular — show that NO matter how you split the string, pumping breaks it (result leaves the language)."
+            ],
+            "Application to Non-Regularity Proofs": [
+              "Proof template: Assume L is regular → pumping length p exists → choose a specific string w ∈ L with |w| ≥ p (carefully chosen to create contradiction) → show that for ALL ways to split w = xyz satisfying conditions, some xy^i z ∉ L → contradiction → L is NOT regular.",
+              "Classic example: L = {a^n b^n | n ≥ 0} is NOT regular. Choose w = a^p b^p. Since |xy| ≤ p, y must be all a's. Pumping y: xy^2z = a^(p+|y|) b^p. More a's than b's → not in L → contradiction.",
+              "Key insight: regular languages can't 'count' — they can't match n a's with exactly n b's for all n."
+            ],
+            "Theorem Statement": [
+              "Myhill-Nerode Theorem: language L is regular ↔ the right congruence relation ~L has finitely many equivalence classes. Two strings x ~L y iff for all z: xz ∈ L iff yz ∈ L.",
+              "Number of equivalence classes = number of states in minimized DFA. If infinite classes → language is not regular."
+            ],
+            "Applications": [
+              "Myhill-Nerode usage: to prove L = {a^n b^n} is not regular — show strings a, aa, aaa, ... are all in different equivalence classes (infinitely many) → not regular.",
+              "Also gives minimum DFA size: number of ~L equivalence classes = minimum number of states in any DFA for L."
+            ]
+          },
+          "common_mistakes": [
+            "Pumping lemma can only DISPROVE regularity — if pumping works, it doesn't PROVE the language is regular. It only proves non-regularity when it fails",
+            "In pumping lemma, YOU choose the string w, but the ADVERSARY splits it — your proof must work for ALL valid splits xyz, not just one"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Regular Grammars",
+      "topics": [
+        {
+          "name": "Regular Sets & Regular Grammars",
+          "keywords": ["regular grammar", "left linear grammar", "right linear grammar", "regular grammar to re", "re to regular grammar"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Left Linear Grammar",
+            "Right Linear Grammar",
+            "Regular Grammar to RE",
+            "RE to Regular Grammar"
+          ],
+          "subtopic_content": {
+            "Left Linear Grammar": [
+              "Left Linear Grammar: every production rule is of the form A → Ba or A → a (non-terminal on LEFT side of terminal in RHS). Example: A → Ba, A → a, B → Cb, B → b.",
+              "The non-terminal in RHS appears at the LEFT end. Derivations grow to the LEFT.",
+              "Left linear grammars correspond to RIGHT-to-LEFT reading of a DFA (read string backward)."
+            ],
+            "Right Linear Grammar": [
+              "Right Linear Grammar: every production rule is of the form A → aB or A → a or A → ε (non-terminal on RIGHT side in RHS). Example: S → aS | bA | ε, A → bA | b.",
+              "The non-terminal in RHS appears at the RIGHT end. More natural — corresponds directly to DFA transitions reading left-to-right.",
+              "Example: S → aS | b corresponds to RE a*b — keep reading 'a' staying at S, or read 'b' and accept. Language = {a^n b | n ≥ 0}."
+            ],
+            "Regular Grammar to RE": [
+              "Convert Right Linear Grammar to RE: set up equations (one per non-terminal). Solve using Arden's theorem.",
+              "Example: S → aS | b. Equation: S = aS | b. Using Arden's (X = AX|B → X = A*B): S = a*b. RE = a*b."
+            ],
+            "RE to Regular Grammar": [
+              "Convert RE to Right Linear Grammar: decompose RE structure. For 'a': add production S → a. For 'ab': S → aA, A → b. For 'a*': S → aS | ε. For 'a|b': S → a | b.",
+              "Every regular language has a right linear grammar and a left linear grammar. Regular grammar ↔ Regular language ↔ DFA/NFA ↔ Regular Expression — all four are equivalent."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Grammar Type | Production Form | Example | Equivalent To || Right Linear | A → aB or A → a | S → aS | b | DFA reading L→R || Left Linear | A → Ba or A → a | A → Ba | DFA reading R→L || Both are Regular Grammars | | | Regular Languages"
+          ],
+          "common_mistakes": [
+            "A grammar with BOTH left-linear and right-linear productions is NOT a regular grammar — it must be consistently one type (all left or all right)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Context-Free Grammars (CFG)",
+      "topics": [
+        {
+          "name": "Definition of CFG",
+          "keywords": ["cfg", "context free grammar", "variables", "terminals", "production rules", "start symbol", "derivation", "parse tree"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Variables, Terminals, Production Rules",
+            "Start Symbol",
+            "Leftmost Derivation",
+            "Rightmost Derivation",
+            "Sentential Forms",
+            "Parse Trees"
+          ],
+          "subtopic_content": {
+            "Variables, Terminals, Production Rules": [
+              "CFG is a 4-tuple G = (V, T, P, S) where: V = variables (non-terminals, written in UPPERCASE like S, A, B), T = terminals (actual symbols like a, b, 0, 1), P = production rules (each rule: variable → string of variables and terminals), S ∈ V = start variable.",
+              "Production rule: A → α where A is a variable and α is any string of variables and terminals (or ε). CFG rule can have ANY string on right side — this is what makes it more powerful than regular grammar.",
+              "Example: G = ({S}, {a,b}, {S → aSb | ε}, S). This generates {a^n b^n | n ≥ 0} — a language that is NOT regular!"
+            ],
+            "Start Symbol": [
+              "Start symbol S: the variable from which all derivations begin. Every string in the language must be derivable from S.",
+              "Language of grammar G: L(G) = {w ∈ T* | S ⇒* w} — all terminal strings derivable from S using zero or more production rule applications."
+            ],
+            "Leftmost Derivation": [
+              "Leftmost derivation: always replace the LEFTMOST (first from left) non-terminal in each step. Gives a unique derivation order.",
+              "Example: S → aSb → aaSbb → aaεbb = aabb. Each step replaces the leftmost S. Leftmost derivation corresponds to top-down parsing."
+            ],
+            "Rightmost Derivation": [
+              "Rightmost derivation: always replace the RIGHTMOST non-terminal. Also gives unique derivation order.",
+              "Example: S → aSb → aaSbb → aaεbb = aabb. Each step replaces rightmost S. Rightmost derivation corresponds to bottom-up parsing."
+            ],
+            "Sentential Forms": [
+              "Sentential form: any string (of variables AND terminals) derivable from S. It can still contain non-terminals — it's an intermediate step in derivation.",
+              "Example: aSb is a sentential form (has variable S and terminals a,b). aabb is a SENTENCE (only terminals, no variables). All sentences are sentential forms but not vice versa."
+            ],
+            "Parse Trees": [
+              "Parse tree: tree representation of a derivation. Root = start symbol S. Internal nodes = variables. Leaf nodes = terminals (or ε). Children of a node = the right-hand side of the production applied to that node.",
+              "Reading leaf nodes left-to-right gives the derived string. Parse trees are used in compilers to represent the grammatical structure of source code.",
+              "Example: For S → aSb → aaSbb → aabb, parse tree has S at root, 'a' and 'b' as leaves with S in middle, expanding further."
+            ]
+          },
+          "required_diagrams": [
+            "Parse tree diagram: clean tree diagram on white background. Root node: S. Two children of S: 'a' (left leaf), S (middle), 'b' (right leaf). Two children of inner S: 'a' (left leaf), S (middle), 'b' (right leaf). Inner S has one child: ε. Reading leaves left to right: a a ε b b = aabb. This shows derivation of 'aabb' from S → aSb grammar. Label each node clearly. White background, plain black lines."
+          ],
+          "common_mistakes": [
+            "CFG production rules can have ANY string on right side (not just one variable + one terminal like in regular grammar). This extra power lets CFG describe nested structures like matching brackets"
+          ]
+        },
+        {
+          "name": "Ambiguity and CFG Simplification",
+          "keywords": ["ambiguous grammar", "ambiguity", "removing ambiguity", "epsilon productions", "unit productions", "useless symbols", "cfg simplification"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Ambiguous Grammars",
+            "Removing Ambiguity",
+            "Removing ε-productions",
+            "Removing Unit Productions",
+            "Removing Useless Symbols"
+          ],
+          "subtopic_content": {
+            "Ambiguous Grammars": [
+              "Ambiguous grammar: a grammar where at least one string has TWO OR MORE different parse trees (or equivalently, two different leftmost derivations).",
+              "Example: E → E+E | E*E | a. The string 'a+a*a' has two parse trees — one treating + as the main operator, another treating * as main. This is bad for compilers — meaning of code becomes ambiguous!",
+              "Famous real example: the 'dangling else' problem in programming languages — 'if c1 then if c2 then s1 else s2' is ambiguous — which 'if' does the 'else' belong to?"
+            ],
+            "Removing Ambiguity": [
+              "Remove ambiguity by adding operator precedence and associativity rules to grammar. Example: E → E+T | T, T → T*F | F, F → a. This forces * to bind tighter than + (like math convention).",
+              "Note: some languages are INHERENTLY ambiguous — no unambiguous grammar exists for them. Example: {a^n b^n c^m | n≥1} ∪ {a^n b^m c^m | n≥1} is inherently ambiguous."
+            ],
+            "Removing ε-productions": [
+              "ε-production: a rule of the form A → ε (non-terminal produces empty string). Most simplification algorithms and normal forms require removing ε-productions.",
+              "Steps: (1) Find all NULLABLE variables (those that can derive ε, directly or indirectly). (2) For each production containing a nullable variable X, add a new production with X removed. (3) Remove all A → ε rules. (4) But add back S → ε if ε ∈ L(G)."
+            ],
+            "Removing Unit Productions": [
+              "Unit production: A → B (one non-terminal produces exactly one non-terminal). Causes problems — creates long chains without producing terminals.",
+              "Remove by: find all pairs (A,B) where A ⇒* B via unit productions. For each such pair and each non-unit production B → α, add A → α directly. Then delete all unit productions."
+            ],
+            "Removing Useless Symbols": [
+              "Useless symbol: a variable that either (1) can never derive any terminal string (non-generating), or (2) can never be reached from start symbol (non-reachable).",
+              "Remove in order: (1) Remove non-generating symbols first (find all variables that CAN derive a terminal string, remove the rest). (2) THEN remove non-reachable symbols (symbols not reachable from S).",
+              "Order matters: always remove non-generating first, then non-reachable. Doing it in opposite order may leave useless symbols."
+            ]
+          },
+          "common_mistakes": [
+            "Ambiguity is a property of a GRAMMAR, not of a language — a language can be non-ambiguous (has an unambiguous grammar) even if one specific grammar for it is ambiguous",
+            "When removing ε-productions, don't forget to check if ε should be in the final language — if S → ε was in original grammar, add back S → ε at the end"
+          ]
+        },
+        {
+          "name": "Normal Forms",
+          "keywords": ["chomsky normal form", "cnf", "greibach normal form", "gnf", "normal forms", "pumping lemma cfg"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Chomsky Normal Form (CNF)",
+            "Greibach Normal Form (GNF)",
+            "Lemma Statement",
+            "Applications"
+          ],
+          "subtopic_content": {
+            "Chomsky Normal Form (CNF)": [
+              "CNF: every production is EITHER A → BC (exactly two variables) OR A → a (exactly one terminal). Nothing else. This makes grammars binary trees — easy for algorithms.",
+              "Conversion to CNF: (1) Remove ε-productions. (2) Remove unit productions. (3) Remove useless symbols. (4) Break long rules: A → BCDE becomes A → BX, X → CY, Y → DE. (5) Fix mixed rules: A → aB becomes A → ZB, Z → a.",
+              "Why useful: CYK parsing algorithm requires CNF grammar. CNF parse trees are always binary — each internal node has exactly 2 children."
+            ],
+            "Greibach Normal Form (GNF)": [
+              "GNF: every production starts with a terminal. Form: A → aα where a is a terminal and α is a (possibly empty) string of variables.",
+              "In GNF: every derivation step produces exactly one terminal. String of length n is derived in exactly n steps.",
+              "Useful for: constructing PDAs from grammars (each production corresponds to one PDA step), proving properties of CFLs."
+            ],
+            "Lemma Statement": [
+              "Pumping Lemma for CFLs: if L is a context-free language, then there exists pumping length p such that every string w ∈ L with |w| ≥ p can be written as w = uvxyz where: |vy| ≥ 1 (v and y not both empty), |vxy| ≤ p, for all i ≥ 0: u v^i x y^i z ∈ L.",
+              "Two parts to pump: v and y (both pumped together by same factor i). This is because CFL parse trees have a repeated non-terminal in long derivations.",
+              "Use: to prove a language is NOT context-free. Classic example: {a^n b^n c^n | n≥0} is not CFL."
+            ],
+            "Applications": [
+              "Prove {a^n b^n c^n} is NOT CFL: choose w = a^p b^p c^p. For any split uvxyz, since |vxy| ≤ p, v and y cannot span all three sections. Pumping gives unequal counts → not in language.",
+              "All non-CFLs cannot be parsed by CFG/PDA — this is fundamental to understanding what programming constructs need more than context-free parsing."
+            ]
+          },
+          "common_mistakes": [
+            "CFG pumping lemma has TWO parts to pump (v AND y together) unlike regular pumping lemma which has one part (y only)",
+            "CNF does not allow ε except possibly S → ε if ε is in the language — all other ε-productions must be eliminated first"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Pushdown Automata (PDA)",
+      "topics": [
+        {
+          "name": "PDA Basics",
+          "keywords": ["pda", "pushdown automata", "stack", "push", "pop", "instantaneous description", "pda definition"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Definition of PDA",
+            "Stack Operations",
+            "Instantaneous Descriptions (ID)"
+          ],
+          "subtopic_content": {
+            "Definition of PDA": [
+              "PDA = FA + a STACK (infinite memory). The stack lets PDA 'remember' an unbounded amount of information, so it can match patterns like a^n b^n that FA cannot.",
+              "PDA 7-tuple: M = (Q, Σ, Γ, δ, q0, Z0, F) where: Q = states, Σ = input alphabet, Γ = stack alphabet, δ = transition function, q0 = start state, Z0 = initial stack symbol (bottom marker), F = accept states.",
+              "Transition: δ(q, a, A) = {(p, γ)} means: in state q, reading input a, with stack top A → move to state p and replace A with string γ (push γ onto stack).",
+              "Analogy: PDA is like a DFA with a notepad. The stack is the notepad. You can write on it (push), read the top (peek), and erase the top (pop). This 'memory' lets you count and match."
+            ],
+            "Stack Operations": [
+              "Push: replace top symbol A with string γ where |γ| > 1. Example: replace A with BC means pop A, push C first, then push B (stack grows).",
+              "Pop: replace top symbol A with ε. This removes the top symbol without pushing anything.",
+              "No change: replace A with A — top symbol stays the same.",
+              "Important: PDA can ONLY see the TOP of stack, not the whole stack. Transition depends on current state, current input symbol, and TOP of stack."
+            ],
+            "Instantaneous Descriptions (ID)": [
+              "ID (configuration): a snapshot of PDA at some moment. Written as (q, w, γ) where q = current state, w = remaining input string, γ = current stack contents (top on left).",
+              "Transition relation ⊢: (q, aw, Aα) ⊢ (p, w, βα) means: from state q, read 'a', pop A from stack top, push β, move to state p.",
+              "Computation: sequence of IDs connected by ⊢. String accepted if computation leads to final configuration (accept state or empty stack)."
+            ]
+          },
+          "required_diagrams": [
+            "PDA structure diagram: clean diagram on white background. Show a box labeled 'Finite Control' (like a DFA brain). Arrow from left showing 'Input Tape' (sequence of symbols). Below the box, show a vertical rectangle labeled 'Stack' with symbols inside (top at top). Arrow from Finite Control to Stack showing push/pop operations. Label all parts clearly. White background, plain black lines."
+          ],
+          "common_mistakes": [
+            "PDA is NONDETERMINISTIC in general — deterministic PDA (DPDA) is a proper subset of NPDA. Unlike FA where DFA=NFA in power, here DPDA is STRICTLY weaker than NPDA"
+          ]
+        },
+        {
+          "name": "PDA Design and Types",
+          "keywords": ["pda for cfg", "acceptance final state", "acceptance empty stack", "dpda", "npda", "cfg to pda", "pda to cfg", "closure cfl"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "PDA for CFG",
+            "Acceptance by Final State",
+            "Acceptance by Empty Stack",
+            "Deterministic PDA (DPDA)",
+            "Non-deterministic PDA (NPDA)",
+            "CFG to PDA Conversion",
+            "PDA to CFG Conversion",
+            "Union",
+            "Concatenation",
+            "Kleene Star",
+            "LL(k) Grammars",
+            "LR(k) Grammars",
+            "Top-Down Parsing",
+            "Bottom-Up Parsing"
+          ],
+          "subtopic_content": {
+            "PDA for CFG": [
+              "Standard PDA for CFG: uses two types of transitions. (1) Predict: if stack top is a variable A, pop A and push any right-hand side of A (non-deterministically choose). (2) Match: if stack top is terminal 'a' and current input is 'a', pop 'a' from stack and consume input 'a'.",
+              "This PDA simulates leftmost derivation. Accepts by empty stack when both input and stack are empty."
+            ],
+            "Acceptance by Final State": [
+              "Acceptance by Final State: PDA accepts string w if it can reach a final state (state in F) after reading all of w, regardless of stack contents.",
+              "Notation: L(M) = {w | (q0, w, Z0) ⊢* (f, ε, α) for some f ∈ F and α ∈ Γ*}."
+            ],
+            "Acceptance by Empty Stack": [
+              "Acceptance by Empty Stack: PDA accepts string w if it can empty the stack after reading all of w, regardless of which state it's in.",
+              "Notation: N(M) = {w | (q0, w, Z0) ⊢* (q, ε, ε) for some q ∈ Q}.",
+              "Both acceptance methods are equivalent in power: for any PDA accepting by final state, there's a PDA accepting same language by empty stack, and vice versa."
+            ],
+            "Deterministic PDA (DPDA)": [
+              "DPDA: PDA where for each (state, input symbol, stack top), there is AT MOST ONE transition. No choices. Also no conflict between ε-move and regular move.",
+              "DPDA is strictly weaker than NPDA. Language {ww^R | w ∈ {a,b}*} (palindromes) requires NPDA — DPDA cannot accept it (can't find midpoint deterministically).",
+              "DPDAs correspond to deterministic context-free languages — languages that can be parsed efficiently (LL and LR parsers)."
+            ],
+            "Non-deterministic PDA (NPDA)": [
+              "NPDA: can have multiple transitions for same (state, symbol, stack top). Accepts if ANY computation path accepts.",
+              "NPDA accepts exactly the context-free languages (CFLs). Every CFL has a NPDA and vice versa. NPDA = CFG in power."
+            ],
+            "CFG to PDA Conversion": [
+              "Convert CFG G to NPDA M (accepting by empty stack): one state q, stack alphabet = G's variables + terminals + Z0.",
+              "For each production A → α: add transition (q, ε, A) → (q, α) — pop A, push α (reverse order). For each terminal a: add (q, a, a) → (q, ε) — match input a with stack a. Start by pushing start symbol S.",
+              "This NPDA simulates G's leftmost derivation."
+            ],
+            "PDA to CFG Conversion": [
+              "Convert NPDA M to CFG G: for each triple (p, A, q) representing 'go from state p to state q while popping A from stack', create a variable [pAq].",
+              "This conversion is complex but proves: every PDA-accepted language has a CFG. Together with CFG-to-PDA, this proves CFL = languages accepted by PDA."
+            ],
+            "Union": [
+              "If L1 and L2 are CFLs, then L1 ∪ L2 is CFL. Proof: build PDA that non-deterministically chooses to simulate PDA for L1 or PDA for L2."
+            ],
+            "Concatenation": [
+              "If L1 and L2 are CFLs, then L1·L2 is CFL. Add new start S → S1S2 where S1 generates L1 and S2 generates L2."
+            ],
+            "Kleene Star": [
+              "If L is CFL, then L* is CFL. Add new start S → SS1 | ε where S1 generates L."
+            ],
+            "LL(k) Grammars": [
+              "LL(k): Left-to-right scan, Leftmost derivation, k symbols of lookahead. Top-down parsers. LL(1) is most common — look one symbol ahead to decide which production to apply.",
+              "LL(1) requires: no left recursion, no ambiguity, predictable from one symbol. Used in recursive descent parsers."
+            ],
+            "LR(k) Grammars": [
+              "LR(k): Left-to-right scan, Rightmost derivation in reverse, k symbols of lookahead. Bottom-up parsers. More powerful than LL — LR(1) can parse more grammars than LL(1).",
+              "All LL(k) grammars are LR(k) but not vice versa. Modern compilers (yacc, bison) use LR parsing."
+            ],
+            "Top-Down Parsing": [
+              "Top-down parsing: start with start symbol, repeatedly expand (apply production rules) to match input. Works left-to-right, leftmost derivation.",
+              "Recursive descent parser: each non-terminal is a function. Function tries to match and calls functions for sub-non-terminals. LL grammars support top-down parsing."
+            ],
+            "Bottom-Up Parsing": [
+              "Bottom-up parsing: start with input string, repeatedly reduce (reverse production rules) to reach start symbol. Recognize handles (substrings that match a RHS) and reduce them.",
+              "Shift-Reduce parsing: shift = push input onto stack, reduce = pop RHS, push LHS. LR parsers use bottom-up approach. More powerful than top-down."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Automaton Type | Acceptance | Memory | Language Class || DFA/NFA | Final state | None | Regular Languages || DPDA | Final state or empty stack | Stack | Deterministic CFLs || NPDA | Final state or empty stack | Stack | Context-Free Languages || TM | Final state | Infinite tape | Recursively Enumerable"
+          ],
+          "common_mistakes": [
+            "CFL is NOT closed under intersection and complement — L1 and L2 both CFL does NOT mean L1 ∩ L2 is CFL. Counter-example: {a^n b^n c^m} ∩ {a^m b^n c^n} = {a^n b^n c^n} which is NOT CFL"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Turing Machines & Computability",
+      "topics": [
+        {
+          "name": "Turing Machine Basics",
+          "keywords": ["turing machine", "tape", "head", "transition function tm", "instantaneous description tm", "halting", "recursive language", "recursively enumerable"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Tape, Head, Transition Function",
+            "Instantaneous Descriptions (IDs)",
+            "Multi-tape TMs",
+            "Non-deterministic TMs",
+            "Multi-track TMs",
+            "Recursive Languages",
+            "Recursively Enumerable Languages",
+            "Halting and Non-halting"
+          ],
+          "subtopic_content": {
+            "Tape, Head, Transition Function": [
+              "Turing Machine: the most powerful computational model. Has an infinite tape (like infinite memory), a read-write head (can read and write), and can move LEFT or RIGHT on tape.",
+              "TM 7-tuple: M = (Q, Σ, Γ, δ, q0, B, F) where: Q = states, Σ = input alphabet, Γ = tape alphabet (Σ ⊂ Γ), δ: Q × Γ → Q × Γ × {L,R} = transition function, q0 = start, B ∈ Γ = blank symbol, F = accept states.",
+              "Transition δ(q, a) = (p, b, R) means: in state q reading 'a' → move to state p, write 'b' where 'a' was, move head RIGHT. TM can rewrite tape and move in both directions.",
+              "Analogy: TM is like a person with a pencil, eraser, and infinite paper. They read, erase, write, and move left or right. This simple model can compute ANYTHING computable."
+            ],
+            "Instantaneous Descriptions (IDs)": [
+              "TM ID: written as αqβ where α = tape content to left of head, q = current state, β = tape content from head position to right. Head is positioned at first symbol of β.",
+              "Example: 'aab q2 bba' means tape has 'aab' to left of head, machine in state q2, head reading first 'b' of 'bba' remaining.",
+              "Computation: sequence of IDs. α1 q1 β1 ⊢ α2 q2 β2 means one step of computation."
+            ],
+            "Multi-tape TMs": [
+              "Multi-tape TM: k tapes, each with its own read-write head. Transition takes current state + symbols on all k tapes, produces new state + write symbols + head directions for each tape.",
+              "Multi-tape TM is NO MORE POWERFUL than single-tape TM — any multi-tape TM can be simulated by single-tape TM. But multi-tape TM can be exponentially more efficient (time complexity)."
+            ],
+            "Non-deterministic TMs": [
+              "Non-deterministic TM (NTM): can have multiple transitions for same (state, tape symbol). Accepts if ANY sequence of choices leads to accept state.",
+              "NTM is equivalent in POWER to deterministic TM — same class of languages. But NTM may be exponentially faster (this is related to the famous P vs NP problem!)."
+            ],
+            "Multi-track TMs": [
+              "Multi-track TM: one tape divided into multiple tracks (like lanes). Head reads all tracks at same position simultaneously. Can store multiple symbols at each position.",
+              "Equivalent in power to standard TM — just a notational convenience for describing complex TMs more easily."
+            ],
+            "Recursive Languages": [
+              "Recursive Language (Decidable): a language L is recursive if there exists a TM that ALWAYS halts and correctly answers YES or NO for every input. It never runs forever.",
+              "Examples: all regular languages, all CFLs, and many more. Any language you can write an algorithm for that always terminates.",
+              "Analogy: a decidable problem has a computer program that always gives an answer — it never gets stuck in infinite loop."
+            ],
+            "Recursively Enumerable Languages": [
+              "Recursively Enumerable (RE) Language: a language L is RE if there exists a TM that: accepts every string in L (and halts), but for strings NOT in L, may either reject (halt) or run forever (loop).",
+              "Every recursive language is RE. But not every RE language is recursive — some RE languages have no algorithm that always halts.",
+              "Analogy: imagine a search engine that always finds what exists, but may search forever for something that doesn't exist."
+            ],
+            "Halting and Non-halting": [
+              "Halting: TM halts if it reaches accept or reject state. Non-halting: TM loops forever on some inputs.",
+              "For recursive languages: TM always halts (on both accepted and rejected strings). For RE languages: TM halts on accepted strings, may loop on rejected strings.",
+              "This is why we have: Recursive ⊂ RE — recursive is a stricter requirement (must halt on everything)."
+            ]
+          },
+          "required_diagrams": [
+            "Turing Machine diagram: clean diagram on white background. Show a horizontal rectangle divided into cells (the tape), with symbols written in cells and one cell marked 'head position' with an arrow pointing down. Below the tape, show a box labeled 'Finite Control' with state inside. Arrow from control to tape showing read/write/move operations. Label: tape, head, finite control, current state. White background, plain black."
+          ],
+          "required_tables": [
+            "Comparison: Language Class | Machine | Always halts? | Can reject? || Regular | DFA/NFA | Yes | Yes || CFL | NPDA | Yes (for accept) | Yes || Recursive | TM (decider) | YES (always) | Yes || RE | TM (acceptor) | Only if accepts | May loop || Not RE | No TM exists | — | —"
+          ],
+          "common_mistakes": [
+            "Thinking Non-deterministic TM is more powerful than deterministic TM — same power (same languages). Difference is only in time/efficiency, not what they can compute"
+          ]
+        },
+        {
+          "name": "Church-Turing Thesis and Undecidability",
+          "keywords": ["church turing thesis", "computability", "halting problem", "undecidable", "reduction", "rice theorem", "universal turing machine"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Computability Concept",
+            "TMs as Universal Models",
+            "Halting Problem",
+            "Reduction Techniques",
+            "Statement and Application"
+          ],
+          "subtopic_content": {
+            "Computability Concept": [
+              "Computability: the study of what problems CAN be solved by a computer (algorithm) and what problems CANNOT, even in principle — regardless of hardware speed or memory.",
+              "Computable function: a function for which an algorithm exists that always terminates with the correct answer. Most mathematical functions are computable.",
+              "Non-computable: some well-defined problems have NO algorithm that solves them for all inputs. The Halting Problem is the most famous example."
+            ],
+            "TMs as Universal Models": [
+              "Church-Turing Thesis: any 'effectively computable' function (any function that can be computed by following a clear step-by-step procedure) can be computed by a Turing Machine.",
+              "This is a THESIS (informal claim based on evidence), not a theorem (formal proof) — because 'effectively computable' is an informal concept. But it is universally accepted.",
+              "Implication: TM captures exactly what computers can compute. If no TM can solve a problem, NO computer (no matter how advanced) can solve it either."
+            ],
+            "Halting Problem": [
+              "Halting Problem: given a program P and input I, will P eventually halt (stop) on input I, or will it run forever? This problem is UNDECIDABLE — no algorithm can solve it for all cases.",
+              "Proof by contradiction (Turing 1936): assume halting decider H(P, I) exists → build program D that uses H → run D on itself → get contradiction (D halts iff D doesn't halt).",
+              "Simple analogy: can you write a program that reads any other program and tells you if it will finish? Turing proved: NO. It's impossible, not just difficult.",
+              "Importance: Halting Problem is the 'original undecidable problem' — many other problems are proved undecidable by reducing them FROM the halting problem."
+            ],
+            "Reduction Techniques": [
+              "Reduction: to prove problem B is undecidable, show that if B were decidable, then the Halting Problem would also be decidable (contradiction).",
+              "Many-one reduction: A ≤m B means 'A reduces to B' — if we can solve B, we can solve A. So B being decidable would make A decidable.",
+              "If A is undecidable and A ≤m B, then B is also undecidable. This chain of reductions is the main tool for proving undecidability.",
+              "Common undecidable problems: does program P halt on empty input? Does L(G) = ∅ for CFG G? Do two CFGs generate the same language? Is a given grammar ambiguous?"
+            ],
+            "Statement and Application": [
+              "Rice's Theorem: any NON-TRIVIAL property of the language recognized by a TM is UNDECIDABLE. A property is non-trivial if some TMs have it and some don't.",
+              "Examples of undecidable TM properties (by Rice's theorem): 'Does TM M accept any string?' 'Does TM M accept all strings?' 'Does TM M accept a regular language?' 'Are two TMs equivalent?'",
+              "Simple check for Rice's theorem: Is the property about the LANGUAGE of TM (not about how many states TM has)? Is it non-trivial? → Undecidable.",
+              "Rice's theorem is extremely powerful — proves MANY things undecidable in one shot without needing individual proofs for each."
+            ]
+          },
+          "common_mistakes": [
+            "Undecidable does NOT mean 'very hard to compute' — it means NO algorithm exists, even with unlimited time and memory. It is fundamentally impossible, not just practically hard",
+            "Rice's theorem applies only to properties of the LANGUAGE, not properties of the TM itself — 'Does TM have 5 states?' is decidable (just count). 'Does TM accept 5 strings?' is undecidable (by Rice's)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Chomsky Hierarchy & Language Theory",
+      "topics": [
+        {
+          "name": "Chomsky Hierarchy",
+          "keywords": ["chomsky hierarchy", "type 0", "type 1", "type 2", "type 3", "regular language", "context free", "context sensitive", "recursively enumerable", "language inclusion", "grammar automata mapping"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Type-3: Regular Languages",
+            "Type-2: Context-Free Languages",
+            "Type-1: Context-Sensitive Languages",
+            "Type-0: Recursively Enumerable Languages",
+            "Language Inclusion Chain",
+            "Grammar-Automata Mapping",
+            "Definitions",
+            "Differences",
+            "TM Recognition Capabilities"
+          ],
+          "subtopic_content": {
+            "Type-3: Regular Languages": [
+              "Type-3 (Regular): most restricted. Grammar: only right-linear or left-linear productions (A → aB or A → a). Automaton: DFA/NFA. Can only describe simple patterns without counting.",
+              "Examples: all strings ending in 'ab', binary strings with even number of 0s, valid identifiers in programming (letter followed by letters/digits)."
+            ],
+            "Type-2: Context-Free Languages": [
+              "Type-2 (Context-Free): Grammar: A → α where A is a single variable (no context required to apply rule). Automaton: NPDA. Can handle nested structures.",
+              "Examples: {a^n b^n}, balanced brackets, arithmetic expressions, programming language syntax. All regular languages are also CFLs."
+            ],
+            "Type-1: Context-Sensitive Languages": [
+              "Type-1 (Context-Sensitive): Grammar: αAβ → αγβ (A can only be replaced in the context of α on left and β on right). No production can make a string shorter (except S → ε).",
+              "Automaton: Linear Bounded Automaton (LBA) — TM that can only use tape space proportional to input length. Examples: {a^n b^n c^n}, the language of valid C programs."
+            ],
+            "Type-0: Recursively Enumerable Languages": [
+              "Type-0 (Recursively Enumerable): most general. Grammar: any production α → β where |α| ≥ 1. Automaton: unrestricted Turing Machine. These are all languages a TM can ever recognize.",
+              "Non-RE languages: languages so complex that even a TM cannot recognize them. Example: the complement of the halting problem."
+            ],
+            "Language Inclusion Chain": [
+              "Hierarchy: Regular ⊂ CFL ⊂ CSL ⊂ RE ⊂ All Languages. Each class is strictly contained in the next — there exist languages in each class not in the previous.",
+              "Visualize as nested circles: Regular (innermost) inside CFL inside CSL inside RE inside all languages (outermost). As you go outward, more complex languages but less efficient machines."
+            ],
+            "Grammar-Automata Mapping": [
+              "Type-3 ↔ DFA/NFA ↔ Regular Expression ↔ Right/Left-Linear Grammar. Type-2 ↔ NPDA ↔ CFG. Type-1 ↔ LBA ↔ Context-Sensitive Grammar. Type-0 ↔ Unrestricted TM ↔ Unrestricted Grammar.",
+              "Key insight: each grammar type corresponds to exactly one class of automata. Understanding one means understanding the other."
+            ],
+            "Definitions": [
+              "Recursive Language: TM always halts and decides correctly (YES or NO) for every input. Also called 'decidable'. Recursive ⊂ RE.",
+              "RE Language: TM accepts all strings in language (and halts), but may loop on strings not in language. Also called 'recognizable' or 'semidecidable'."
+            ],
+            "Differences": [
+              "Recursive vs RE: Recursive languages have TMs that ALWAYS halt. RE languages may have TMs that loop on rejections.",
+              "Co-RE: complement of an RE language. If L is RE and complement(L) is also RE, then L is actually Recursive (both L and its complement are recognizable → L is decidable).",
+              "Non-RE: languages where no TM can even recognize them. Neither L nor complement(L) is RE."
+            ],
+            "TM Recognition Capabilities": [
+              "TM can recognize: all recursive languages (always halts), all RE languages (halts on acceptance, may loop on rejection).",
+              "TM cannot recognize: non-RE languages. Example: the complement of the halting problem — no TM can recognize this language.",
+              "Closure: recursive languages closed under complement, union, intersection. RE languages closed under union and intersection but NOT complement."
+            ]
+          },
+          "required_diagrams": [
+            "Chomsky hierarchy diagram: clean diagram on plain white background. Four nested rectangles (like Russian dolls). Outermost rectangle: 'Type-0: Recursively Enumerable (Unrestricted TM)'. Next inside: 'Type-1: Context-Sensitive (LBA)'. Next: 'Type-2: Context-Free (NPDA, CFG)'. Innermost: 'Type-3: Regular (DFA/NFA, RE)'. Label each rectangle with: grammar type, automaton, example language. Clear black text, white background, plain borders."
+          ],
+          "required_tables": [
+            "Comparison: Chomsky Type | Grammar Form | Automaton | Closed Under Complement | Example Language || Type-3 Regular | A→aB or A→a | DFA/NFA | Yes | a*b* || Type-2 CFL | A→α (single LHS) | NPDA | No | {a^n b^n} || Type-1 CSL | αAβ→αγβ | LBA | Yes | {a^n b^n c^n} || Type-0 RE | α→β | Unrestricted TM | No | Halting problem || Recursive | (special TM) | TM (decider) | Yes | All CFLs"
+          ],
+          "common_mistakes": [
+            "Type number and complexity are INVERSE — Type-3 (highest number 3) is the SIMPLEST (most restricted). Type-0 is the MOST GENERAL (least restricted). Think: lower type number = less restricted = more powerful",
+            "Recursively Enumerable ≠ Recursive — RE is broader. All recursive languages are RE but not all RE languages are recursive"
+          ]
+        }
+      ]
+    }
+  ]
+}

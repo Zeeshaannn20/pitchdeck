@@ -1,0 +1,1669 @@
+{
+  "subject": "operating system",
+  "modules": [
+    {
+      "module": "Fundamentals of Operating Systems",
+      "topics": [
+        {
+          "name": "Introduction to OS",
+          "keywords": ["operating system", "what is os", "user view", "system view", "objectives", "functions"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "What is an Operating System?",
+            "User View",
+            "System View",
+            "Objectives of OS",
+            "Functions of OS"
+          ],
+          "subtopic_content": {
+            "What is an Operating System?": [
+              "OS is a program that acts as an intermediary between user and hardware. Without it, every application would need to directly manage CPU, memory, and I/O — an impossible engineering burden.",
+              "Three roles: Resource allocator (decides who gets CPU, memory), Control program (prevents errors and misuse), Extended machine (hides hardware complexity behind clean abstractions)."
+            ],
+            "User View": [
+              "From a user's perspective, OS is about ease of use — a single user on a PC wants the OS to maximize their productivity, not worry about resource utilization.",
+              "GUI, command-line, and touch interfaces are all OS abstractions for user interaction."
+            ],
+            "System View": [
+              "From the system's perspective, OS is a resource manager — it must allocate CPU time, memory space, I/O device access among competing programs efficiently and fairly.",
+              "Kernel is the one program running at all times — everything else is either a system program or application program."
+            ],
+            "Objectives of OS": [
+              "Primary objectives: convenience (make computer easy to use), efficiency (use hardware efficiently), ability to evolve (allow new functions without disrupting existing services).",
+              "Convenience vs efficiency often conflict — a heavily protected system is safe but slow; OS design is about balancing these."
+            ],
+            "Functions of OS": [
+              "Core functions: Process management (create, schedule, terminate), Memory management (allocate, deallocate), File system management, I/O management, Security and protection.",
+              "Real example: When you open Chrome, OS creates a process, allocates RAM, schedules CPU time, and manages network I/O — all invisibly."
+            ]
+          },
+          "required_diagrams": [
+            "OS layered architecture diagram: three concentric rectangles. Innermost: Hardware (CPU, RAM, I/O). Middle: Operating System Kernel. Outermost: User Applications. Arrows showing user interacts with OS, OS interacts with hardware. Clean white background, labeled boxes."
+          ],
+          "common_mistakes": [
+            "Thinking OS and kernel are the same — kernel is the core of OS, but OS also includes system utilities, shell, and libraries",
+            "Confusing user view and system view — user wants ease of use, system wants efficient resource utilization"
+          ]
+        },
+        {
+          "name": "Types of Operating Systems",
+          "keywords": ["batch os", "time sharing", "real time", "distributed os", "embedded os", "network os", "mobile os", "types of operating system"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Batch Operating System",
+            "Time-sharing Operating System",
+            "Real-time Operating System",
+            "Distributed Operating System",
+            "Embedded Operating System",
+            "Network Operating System",
+            "Mobile Operating System"
+          ],
+          "subtopic_content": {
+            "Batch Operating System": [
+              "Batch OS: jobs collected, grouped, submitted together. No user interaction during execution. IBM mainframes 1950s-60s used this.",
+              "Problem: if one job crashes, entire batch fails. No feedback until batch completes — turnaround time hours to days."
+            ],
+            "Time-sharing Operating System": [
+              "Time-sharing: CPU switches between users so fast each thinks they have dedicated machine. Time quantum (10-100ms) allocated per user.",
+              "UNIX is the classic time-sharing OS. Enables interactive computing — type a command, get response immediately."
+            ],
+            "Real-time Operating System": [
+              "RTOS: responses must occur within strict time deadlines. Hard real-time (miss deadline = system failure — pacemaker, airbag). Soft real-time (miss deadline = degraded quality — video streaming).",
+              "Examples: FreeRTOS (microcontrollers), VxWorks (aerospace), QNX (automotive)."
+            ],
+            "Distributed Operating System": [
+              "Distributed OS manages a collection of independent computers making them appear as one system to users.",
+              "Challenges: partial failures, network latency, no shared clock. Examples: Google's Borg, Apache Mesos."
+            ],
+            "Embedded Operating System": [
+              "Embedded OS runs on dedicated hardware with limited resources — ROM-based, no disk, fixed function. Examples: washing machine controller, smart TV firmware.",
+              "Must be small, fast, reliable — often no virtual memory, no user interface."
+            ],
+            "Network Operating System": [
+              "Network OS provides file sharing, printer sharing, and remote access over a network. Each machine still has its own local OS.",
+              "Examples: Novell NetWare, Windows Server. Different from Distributed OS — users are aware of multiple machines."
+            ],
+            "Mobile Operating System": [
+              "Mobile OS designed for touchscreen, battery constraints, cellular connectivity. Android (Linux-based), iOS (BSD Unix-based).",
+              "Key features: app sandboxing, power management, location services, push notifications."
+            ]
+          },
+          "required_tables": [
+            "Comparison: OS Type | Interaction | Response Time | Example || Batch | None | Hours | IBM OS/360 || Time-sharing | Interactive | Milliseconds | UNIX || Real-time | Minimal | Microseconds | VxWorks || Distributed | Transparent | Variable | Google Borg || Embedded | None/fixed | Deterministic | FreeRTOS || Mobile | Touch | Immediate | Android/iOS"
+          ],
+          "common_mistakes": [
+            "Confusing Real-time OS with fast OS — RTOS guarantees timing, not maximum speed",
+            "Thinking Distributed OS and Network OS are same — Distributed OS hides the distribution, Network OS does not"
+          ]
+        },
+        {
+          "name": "Evolution of OS",
+          "keywords": ["generations", "evolution", "history of os", "generations of operating systems"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Generations of Operating Systems"
+          ],
+          "subtopic_content": {
+            "Generations of Operating Systems": [
+              "1st Gen (1945-55): No OS. Vacuum tubes. Programs wired directly. One job at a time. Programmer = operator.",
+              "2nd Gen (1955-65): Transistors. Batch systems introduced. Jobs on punch cards, output on printer. FMS (Fortran Monitor System).",
+              "3rd Gen (1965-80): ICs. Multiprogramming and time-sharing. IBM System/360. UNIX born (1969). Multiple users simultaneously.",
+              "4th Gen (1980-present): LSI chips. Personal computers. GUI (Xerox PARC → Apple → Windows). Networks. Internet.",
+              "5th Gen (present+): Mobile, cloud, distributed, AI-assisted OS. Android, iOS, containerization (Docker), serverless."
+            ]
+          },
+          "required_diagrams": [
+            "Timeline diagram showing OS generations: horizontal timeline from 1945 to present. Five labeled points: Gen1 (Vacuum tubes, No OS), Gen2 (Transistors, Batch), Gen3 (ICs, Multiprogramming), Gen4 (LSI, Personal Computers), Gen5 (Mobile, Cloud). Clean white background, blue timeline arrow."
+          ],
+          "common_mistakes": [
+            "Thinking GUI was invented by Microsoft — it was pioneered by Xerox PARC, then Apple Macintosh (1984), then Windows (1985)"
+          ]
+        },
+        {
+          "name": "Supervisor & User Mode",
+          "keywords": ["privileged instructions", "mode switching", "supervisor mode", "user mode", "kernel mode", "dual mode"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Privileged Instructions",
+            "Mode Switching"
+          ],
+          "subtopic_content": {
+            "Privileged Instructions": [
+              "Privileged instructions can only execute in kernel mode — examples: I/O instructions, interrupt enable/disable, memory management instructions, halt CPU.",
+              "If user program tries to execute privileged instruction → hardware traps to OS → OS terminates program. This prevents malicious or buggy programs from damaging the system."
+            ],
+            "Mode Switching": [
+              "Mode bit in hardware: 0 = kernel mode, 1 = user mode. Hardware checks this bit before every privileged instruction.",
+              "User → Kernel transition happens via system call (trap instruction). Kernel → User transition happens when OS returns control to process. Context switch preserves all register state."
+            ]
+          },
+          "required_diagrams": [
+            "Dual mode operation diagram: two boxes labeled User Mode and Kernel Mode. Arrow from User Mode to Kernel Mode labeled System Call/Trap/Interrupt. Arrow from Kernel Mode to User Mode labeled Return from system call. Mode bit shown as 0 (kernel) and 1 (user). Clean white background."
+          ],
+          "common_mistakes": [
+            "Thinking mode switch = process switch — mode switching is much faster (no process state saved), process switching saves full PCB"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "System Architecture and Boot Process",
+      "topics": [
+        {
+          "name": "Computer System Architecture",
+          "keywords": ["von neumann", "single core", "multi core", "symmetric multiprocessing", "asymmetric multiprocessing", "distributed systems", "smp", "amp"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Von Neumann Architecture",
+            "Single-core System",
+            "Multi-core System",
+            "Symmetric Multiprocessing",
+            "Asymmetric Multiprocessing",
+            "Distributed Systems"
+          ],
+          "subtopic_content": {
+            "Von Neumann Architecture": [
+              "Von Neumann architecture: single shared memory holds both instructions and data. CPU fetches instruction, decodes, executes — the fetch-decode-execute cycle.",
+              "Von Neumann bottleneck: CPU and memory share one bus — memory access is the speed limiter. Cache was invented to solve this."
+            ],
+            "Single-core System": [
+              "Single-core: one CPU, one execution unit. Achieves concurrency through rapid context switching — illusion of parallel execution.",
+              "All modern single-core multitasking is cooperative or preemptive time-sharing — one process at a time truly runs."
+            ],
+            "Multi-core System": [
+              "Multi-core: multiple CPU cores on single chip sharing L3 cache and memory bus. True parallel execution — 4 cores run 4 threads simultaneously.",
+              "Cache coherence problem: if Core 1 modifies a value, Core 2's cached copy becomes stale. MESI protocol solves this."
+            ],
+            "Symmetric Multiprocessing": [
+              "SMP: all processors are equal, share memory and OS. Any processor can run any process. Linux, Windows use SMP.",
+              "Challenge: synchronization overhead when multiple CPUs access shared kernel data structures simultaneously."
+            ],
+            "Asymmetric Multiprocessing": [
+              "AMP: one master processor runs OS and assigns tasks to slave processors. Simpler synchronization but master is bottleneck.",
+              "Used in older systems and some embedded designs. Modern systems prefer SMP for scalability."
+            ],
+            "Distributed Systems": [
+              "Distributed: multiple independent computers connected via network, coordinating to appear as one system.",
+              "Benefits: fault tolerance, scalability, resource sharing. Challenges: network partitions, consistency (CAP theorem)."
+            ]
+          },
+          "required_diagrams": [
+            "SMP vs AMP diagram: two side-by-side layouts. Left (SMP): 4 equal CPU boxes all connected to shared Memory and OS. Right (AMP): 1 Master CPU connected to OS and 3 Slave CPUs below it. Clean white background, labeled boxes."
+          ],
+          "common_mistakes": [
+            "Thinking multi-core and multiprocessing are same — multi-core is multiple cores on one chip, multiprocessing is multiple physical CPUs"
+          ]
+        },
+        {
+          "name": "Memory Hierarchy",
+          "keywords": ["registers", "cache", "ram", "ssd", "hdd", "memory hierarchy", "storage hierarchy"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Registers",
+            "Cache",
+            "RAM",
+            "SSD",
+            "HDD"
+          ],
+          "subtopic_content": {
+            "Registers": [
+              "Registers: fastest storage, inside CPU, 32-64 bits each, access in 1 CPU cycle. Store operands currently being processed.",
+              "x86-64 has 16 general-purpose registers (RAX, RBX, RCX...). Compiler decides what to keep in registers vs memory."
+            ],
+            "Cache": [
+              "Cache: SRAM between CPU and RAM. L1 (32KB, 4 cycles), L2 (256KB, 12 cycles), L3 (8MB+, 40 cycles). Exploits locality of reference.",
+              "Cache miss: data not in cache → fetch from RAM (200+ cycles penalty). Cache hit rate of 95%+ critical for performance."
+            ],
+            "RAM": [
+              "RAM (DRAM): main memory, volatile, 8-64GB typical. Access time ~100ns. CPU cannot execute code directly from disk — must load to RAM first.",
+              "Virtual memory extends RAM using disk, but disk access 1000x slower — hence performance cliff when RAM fills."
+            ],
+            "SSD": [
+              "SSD: flash-based non-volatile storage. Read: ~0.1ms, Write: ~0.3ms. No moving parts — more reliable, silent, energy efficient than HDD.",
+              "NVMe SSDs use PCIe bus (not SATA) — 5-7 GB/s vs 550 MB/s for SATA SSD."
+            ],
+            "HDD": [
+              "HDD: magnetic platters, mechanical arm. Access time 5-10ms (seek + rotational latency). Sequential read fast (200MB/s), random access slow.",
+              "Still used for bulk storage due to cost — $0.02/GB vs SSD $0.08/GB. OS disk scheduling algorithms designed for HDD."
+            ]
+          },
+          "required_diagrams": [
+            "Memory hierarchy pyramid diagram: triangle divided into 5 horizontal bands from top to bottom. Top (smallest, fastest, most expensive): Registers. Next: Cache (L1/L2/L3). Next: RAM. Next: SSD. Bottom (largest, slowest, cheapest): HDD. Each band labeled with approximate size and access time. Arrow on left showing 'Faster, Smaller, Costlier' going up. Arrow on right showing 'Slower, Larger, Cheaper' going down."
+          ],
+          "common_mistakes": [
+            "Thinking cache is software — CPU cache is hardware managed automatically by the processor, not by OS or programmer"
+          ]
+        },
+        {
+          "name": "Boot Process",
+          "keywords": ["bios", "uefi", "bootloader", "kernel loading", "boot", "booting"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "BIOS/UEFI",
+            "Bootloader",
+            "Kernel Loading"
+          ],
+          "subtopic_content": {
+            "BIOS/UEFI": [
+              "BIOS (Basic Input/Output System): firmware stored in ROM chip on motherboard. First code executed when power on. Performs POST (Power-On Self Test) — checks RAM, CPU, keyboard.",
+              "UEFI replaces BIOS: supports drives >2TB, faster boot, Secure Boot (prevents unauthorized OS loading), GUI interface. All modern systems use UEFI."
+            ],
+            "Bootloader": [
+              "Bootloader: small program loaded by BIOS/UEFI from MBR/EFI partition. Loads the OS kernel into RAM.",
+              "GRUB (Grand Unified Bootloader) on Linux — lets user choose OS at boot. Windows Boot Manager on Windows. Two-stage: stage 1 loads stage 2 which loads kernel."
+            ],
+            "Kernel Loading": [
+              "Kernel loaded into protected memory region. Initializes subsystems: memory manager, process scheduler, device drivers, file systems.",
+              "Init process (PID 1) started — spawns all other processes. On Linux: systemd. On older Unix: SysV init. Boot complete when login prompt appears."
+            ]
+          },
+          "required_diagrams": [
+            "Boot sequence flowchart: vertical flow diagram with 6 boxes connected by arrows. Power ON → BIOS/UEFI (POST) → Bootloader (GRUB) → Kernel Loading → Init/systemd → User Login. Each box labeled with what happens inside it. Clean white background, blue boxes, black arrows."
+          ],
+          "common_mistakes": [
+            "Thinking BIOS loads the OS — BIOS only loads the bootloader (GRUB), which then loads the kernel"
+          ]
+        },
+        {
+          "name": "Program Execution Flow",
+          "keywords": ["source code", "executable", "compiler role", "linking", "loading", "cpu execution", "compilation"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Source Code to Executable",
+            "Compiler Role",
+            "Linking and Loading",
+            "CPU Execution"
+          ],
+          "subtopic_content": {
+            "Source Code to Executable": [
+              "Journey: hello.c → Preprocessor (.i) → Compiler (.s assembly) → Assembler (.o object) → Linker (a.out executable).",
+              "Each stage transforms the representation: human-readable → platform-specific machine code the CPU understands."
+            ],
+            "Compiler Role": [
+              "Compiler translates high-level language to assembly. Performs lexical analysis, parsing, semantic analysis, optimization, code generation.",
+              "GCC: gcc hello.c -o hello. Clang, MSVC are other compilers. Optimization flags (-O2) can double execution speed."
+            ],
+            "Linking and Loading": [
+              "Linker combines object files and libraries into executable. Static linking: library code copied into executable (larger file, no dependency). Dynamic linking: library loaded at runtime (smaller file, shared across processes).",
+              "Loader: OS component that reads executable from disk, allocates memory, loads segments (code, data, stack), transfers control to entry point (main)."
+            ],
+            "CPU Execution": [
+              "Fetch-Decode-Execute cycle: PC register points to next instruction → fetched from memory → decoded → executed → PC incremented.",
+              "Modern CPUs use pipelining (multiple instructions in different stages simultaneously) and out-of-order execution for speed."
+            ]
+          },
+          "required_diagrams": [
+            "Program execution pipeline diagram: left-to-right flow. Source Code (.c) → [Preprocessor] → Expanded (.i) → [Compiler] → Assembly (.s) → [Assembler] → Object (.o) → [Linker + Libraries] → Executable → [Loader] → Process in Memory. Boxes in blue, arrows labeled with file types."
+          ],
+          "common_mistakes": [
+            "Thinking compiler and linker are the same — compiler generates object files, linker combines them into executable"
+          ]
+        },
+        {
+          "name": "Virtualization Basics",
+          "keywords": ["hypervisor", "type 1", "type 2", "virtual machine", "container", "vm", "docker", "virtualization"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "What is a Hypervisor?",
+            "Type 1 vs Type 2 Hypervisors",
+            "Containers vs Virtual Machines"
+          ],
+          "subtopic_content": {
+            "What is a Hypervisor?": [
+              "Hypervisor (Virtual Machine Monitor): software that creates and manages virtual machines. Allows multiple OS instances to run on one physical machine simultaneously.",
+              "Each VM gets virtualized CPU, memory, and I/O — fully isolated from other VMs. Hardware thinks only one OS runs; VMs think they have dedicated hardware."
+            ],
+            "Type 1 vs Type 2 Hypervisors": [
+              "Type 1 (Bare-metal): runs directly on hardware, no host OS. Examples: VMware ESXi, Microsoft Hyper-V, Xen. Used in datacenters. Fast, efficient.",
+              "Type 2 (Hosted): runs on top of host OS like any application. Examples: VirtualBox, VMware Workstation. Easy to use, overhead from host OS. Used by developers."
+            ],
+            "Containers vs Virtual Machines": [
+              "VM: full OS per instance, hardware-level isolation, heavy (GBs), slow to start (minutes). Container: shared OS kernel, process-level isolation, lightweight (MBs), fast to start (seconds).",
+              "Docker containers use Linux namespaces and cgroups. Not truly isolated like VMs — a kernel exploit affects all containers. Use VMs for strong isolation, containers for deployment efficiency."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Feature | Virtual Machine | Container || Isolation | Hardware level | Process level || OS | Full OS per VM | Shared host kernel || Size | GBs | MBs || Startup | Minutes | Seconds || Example | VMware, VirtualBox | Docker, Podman || Security | Stronger | Weaker || Use case | Multi-OS, strong isolation | Microservices, CI/CD"
+          ],
+          "common_mistakes": [
+            "Thinking containers are always better than VMs — containers share the kernel so a kernel vulnerability affects all containers; VMs provide stronger isolation"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "OS Structure and Interfaces",
+      "topics": [
+        {
+          "name": "OS Structure",
+          "keywords": ["monolithic kernel", "microkernel", "modular", "layered", "os architecture", "kernel architecture"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Monolithic Kernel",
+            "Microkernel",
+            "Modular Architecture",
+            "Layered Architecture"
+          ],
+          "subtopic_content": {
+            "Monolithic Kernel": [
+              "Monolithic kernel: entire OS runs in kernel space as single large program. All services (memory, process, file system, drivers) in one address space.",
+              "Advantage: fast — no context switches between components. Disadvantage: one bug crashes entire OS. Examples: Linux, original UNIX."
+            ],
+            "Microkernel": [
+              "Microkernel: only essential services in kernel (IPC, basic memory, scheduling). Everything else (file system, drivers, networking) runs as user-space servers.",
+              "Advantage: fault isolation — a crashed driver doesn't crash kernel. Disadvantage: slower due to IPC overhead for every service call. Examples: Mach, QNX, MINIX."
+            ],
+            "Modular Architecture": [
+              "Modular: core kernel with dynamically loadable kernel modules (LKMs). Best of both worlds — small core but can extend at runtime.",
+              "Linux uses this: lsmod (list modules), insmod (insert), rmmod (remove). Device drivers loaded as modules when hardware plugged in."
+            ],
+            "Layered Architecture": [
+              "Layered: OS divided into N layers. Layer 0 = hardware, Layer N = user interface. Each layer uses only services of layer below it.",
+              "Advantage: clean separation, easy debugging. Disadvantage: performance — must pass through all layers. THE system was first layered OS."
+            ]
+          },
+          "required_diagrams": [
+            "OS architecture comparison diagram: four side-by-side boxes. 1) Monolithic: single large block labeled 'All OS services in kernel'. 2) Microkernel: tiny kernel block, multiple user-space server blocks around it connected by IPC arrows. 3) Modular: kernel core with plug-in module blocks attached. 4) Layered: horizontal bands stacked User/Shell/File System/Memory/Hardware. Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: Architecture | Performance | Reliability | Flexibility | Example || Monolithic | High | Low (one crash = system down) | Low | Linux, UNIX || Microkernel | Low (IPC overhead) | High (isolated) | High | QNX, Mach || Modular | High | Medium | High | Modern Linux || Layered | Low | High | Medium | THE system"
+          ],
+          "common_mistakes": [
+            "Thinking Linux is a microkernel — Linux is monolithic (with modules). GNU/Hurd uses microkernel Mach"
+          ]
+        },
+        {
+          "name": "System Calls",
+          "keywords": ["system call", "syscall", "process control", "file management", "device management", "trap", "trap table"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "What is a System Call?",
+            "Process Control Calls",
+            "File Management Calls",
+            "Device Management Calls",
+            "Information Maintenance Calls",
+            "Communication Calls",
+            "How System Calls Work (Trap Table)"
+          ],
+          "subtopic_content": {
+            "What is a System Call?": [
+              "System call: interface between user process and OS kernel. When user program needs OS service (read file, create process), it makes a system call.",
+              "Without system calls, user programs would directly access hardware — chaos. System calls are the only legal entry point into kernel."
+            ],
+            "Process Control Calls": [
+              "Process control: fork() (create child process), exec() (replace process image), exit() (terminate), wait() (wait for child), getpid() (get process ID).",
+              "On Linux, every process except init was created by fork(). Shell forks itself then exec()s the command you typed."
+            ],
+            "File Management Calls": [
+              "File management: open(), read(), write(), close(), unlink() (delete), stat() (get file info), seek() (reposition).",
+              "Everything in Unix is a file — regular files, directories, devices, sockets all accessed through same file system calls."
+            ],
+            "Device Management Calls": [
+              "Device management: ioctl() (device control), read()/write() on device files (/dev/sda, /dev/tty). Devices appear as files in Unix.",
+              "Device numbers (major, minor) identify device type and instance. ls -l /dev shows major/minor numbers."
+            ],
+            "Information Maintenance Calls": [
+              "Information maintenance: time() (current time), getpid(), getuid(), uname() (system info), sysinfo() (memory/CPU info).",
+              "Used by monitoring tools — top, ps, free all use these calls to get system information."
+            ],
+            "Communication Calls": [
+              "Communication: socket(), bind(), connect(), send(), recv() for network. pipe() for inter-process. mmap() for shared memory.",
+              "All network communication — HTTP, SSH, database queries — ultimately goes through socket system calls."
+            ],
+            "How System Calls Work (Trap Table)": [
+              "System call execution: user program loads syscall number in register → executes INT 0x80 or SYSCALL instruction → CPU switches to kernel mode → kernel reads syscall number → dispatches to handler via trap/syscall table.",
+              "Trap table: array of function pointers indexed by syscall number. read() = syscall 0, write() = 1, open() = 2 on x86-64 Linux. strace command shows all system calls a program makes."
+            ]
+          },
+          "required_diagrams": [
+            "System call flow diagram: two horizontal bands. Top band: User Space with 'User Program' box. Bottom band: Kernel Space with 'Syscall Handler' and 'Trap Table' boxes. Arrow from User Program going DOWN labeled 'SYSCALL instruction (mode switch)'. Arrow from Syscall Handler going UP labeled 'Return to user mode'. Trap Table shown as array with syscall numbers."
+          ],
+          "common_mistakes": [
+            "Thinking printf() is a system call — printf() is a C library function that internally calls write() system call",
+            "Confusing system call number with function address — trap table maps number to handler function pointer"
+          ]
+        },
+        {
+          "name": "Kernel Components",
+          "keywords": ["kernel mode", "user mode", "kernel services", "kernel space", "memory isolation"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Kernel Mode vs User Mode",
+            "Kernel Services",
+            "Memory Isolation"
+          ],
+          "subtopic_content": {
+            "Kernel Mode vs User Mode": [
+              "Kernel mode: full hardware access, can execute any instruction, can access any memory address. Mode bit = 0.",
+              "User mode: restricted — cannot directly access hardware, limited memory access. Mode bit = 1. Protects OS from buggy/malicious programs."
+            ],
+            "Kernel Services": [
+              "Kernel provides: process scheduling, memory management, file system access, network stack, device driver interface, security enforcement.",
+              "User programs access these via system calls — the kernel is the ultimate gatekeeper for all hardware resources."
+            ],
+            "Memory Isolation": [
+              "Each process gets its own virtual address space — Process A cannot read or write Process B's memory. Enforced by MMU hardware.",
+              "Kernel memory mapped into upper address space of every process but inaccessible from user mode. Meltdown vulnerability broke this isolation in 2018."
+            ]
+          },
+          "common_mistakes": [
+            "Thinking kernel mode means faster execution — mode switch has overhead. Kernel mode means privileged, not necessarily faster"
+          ]
+        },
+        {
+          "name": "Kernel Data Structures",
+          "keywords": ["lists", "queues", "stacks", "hash maps", "trees", "bitmaps", "kernel data structures"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Lists",
+            "Queues",
+            "Stacks",
+            "Hash Maps",
+            "Trees",
+            "Bitmaps"
+          ],
+          "subtopic_content": {
+            "Lists": [
+              "Linked lists: OS uses doubly linked lists everywhere. Linux process list (task_struct linked list), open file list, device list.",
+              "Linux list_head: intrusive linked list — struct embeds list_head node, avoiding separate allocation."
+            ],
+            "Queues": [
+              "Ready queue: processes waiting for CPU. I/O wait queues: processes waiting for disk/network. FIFO ordering ensures fairness.",
+              "Priority queues (heaps): used in priority scheduling — O(log n) insert and extract-min for efficient scheduling."
+            ],
+            "Stacks": [
+              "Call stack: each process/thread has its own stack for function calls, local variables, return addresses.",
+              "Kernel stack: separate per-process kernel stack used when process executes in kernel mode (during system calls)."
+            ],
+            "Hash Maps": [
+              "Hash tables: inode cache (maps inode number to inode struct), page cache (maps file offset to page), process ID table.",
+              "O(1) average lookup — critical for performance when OS manages thousands of files and processes simultaneously."
+            ],
+            "Trees": [
+              "Red-Black trees: Linux uses RB-trees for virtual memory areas (vm_area_struct), CFS scheduler (process priorities), and timer management.",
+              "O(log n) guaranteed for insert, delete, search — balanced even in worst case unlike BST."
+            ],
+            "Bitmaps": [
+              "Bitmaps: track free/used resources with single bit per unit. Disk block bitmap (0=free, 1=used), inode bitmap, memory page bitmap.",
+              "Space efficient: 1TB disk with 4KB blocks = 256 million blocks = 32MB bitmap. Fast operations with bitwise AND/OR."
+            ]
+          },
+          "common_mistakes": [
+            "Thinking OS uses simple arrays for process tables — arrays waste space; linked lists and hash maps are more efficient for dynamic structures"
+          ]
+        },
+        {
+          "name": "OS Examples",
+          "keywords": ["dos", "unix", "linux", "windows", "android", "os examples"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "DOS",
+            "UNIX",
+            "Linux",
+            "Windows",
+            "Android"
+          ],
+          "subtopic_content": {
+            "DOS": [
+              "DOS (Disk Operating System): single-user, single-tasking, no memory protection. Command-line only. Microsoft MS-DOS powered IBM PCs 1981-1995.",
+              "No virtual memory, no protected mode — buggy program could overwrite OS. Foundation that Windows 3.x/95/98 ran on top of."
+            ],
+            "UNIX": [
+              "UNIX: Bell Labs 1969, written in C (first OS not in assembly). Multi-user, multi-tasking, portable across hardware.",
+              "UNIX philosophy: small programs that do one thing well, connected by pipes. Everything is a file. Influenced every modern OS."
+            ],
+            "Linux": [
+              "Linux: Linus Torvalds 1991, UNIX-like, open source (GPL). Monolithic kernel with loadable modules. Powers 97% of web servers, Android phones, supercomputers.",
+              "Distributions: Ubuntu (desktop), Red Hat/CentOS (enterprise server), Android (mobile). Kernel is Linux; OS is GNU/Linux."
+            ],
+            "Windows": [
+              "Windows NT kernel: hybrid architecture (monolithic performance + microkernel-like modularity). HAL (Hardware Abstraction Layer) enables portability.",
+              "Win32 API, NTFS file system, Active Directory. Dominates desktop (72% market share). WSL2 runs full Linux kernel inside Windows."
+            ],
+            "Android": [
+              "Android: Linux kernel + Android Runtime (ART, formerly Dalvik). Each app runs in separate process with unique Linux UID — app sandboxing.",
+              "Binder IPC: Android's high-performance IPC mechanism replacing traditional UNIX pipes/sockets for inter-app communication."
+            ]
+          },
+          "required_tables": [
+            "Comparison: OS | Kernel Type | Multi-tasking | Open Source | Primary Use || DOS | None | No | No | Legacy PC || UNIX | Monolithic | Yes | Variants | Servers, research || Linux | Monolithic+modular | Yes | Yes | Servers, embedded || Windows | Hybrid | Yes | No | Desktop, enterprise || Android | Linux-based | Yes | Partial | Mobile"
+          ],
+          "common_mistakes": [
+            "Thinking Android is just Linux — Android uses Linux kernel but has completely different userspace (ART, Binder, Android API)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Process Management",
+      "topics": [
+        {
+          "name": "Process Concepts",
+          "keywords": ["process", "process state", "process life cycle", "pcb", "process control block", "independent process", "cooperating process"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "What is a Process?",
+            "Process States",
+            "Process Life Cycle",
+            "Process Control Block (PCB)",
+            "Independent vs Cooperating Processes"
+          ],
+          "subtopic_content": {
+            "What is a Process?": [
+              "Process: a program in execution. Program is passive (code on disk); process is active (code in memory + CPU registers + stack + heap + open files).",
+              "Process components: text segment (code), data segment (global variables), heap (dynamic allocation), stack (function calls), OS metadata (PCB)."
+            ],
+            "Process States": [
+              "Five states: New (being created), Ready (waiting for CPU), Running (executing), Waiting/Blocked (waiting for I/O or event), Terminated (finished).",
+              "Only one process can be Running per CPU core at a time. Multiple processes can be Ready or Waiting simultaneously."
+            ],
+            "Process Life Cycle": [
+              "New → Ready (admitted by OS) → Running (scheduler dispatches) → Ready (preempted) or Waiting (I/O request) → Ready (I/O complete) → Running → Terminated (exit call).",
+              "Context switch occurs when Running → Ready (timer interrupt) or Running → Waiting (I/O). Saves/restores complete CPU state."
+            ],
+            "Process Control Block (PCB)": [
+              "PCB: OS data structure per process. Contains: PID, process state, program counter, CPU registers, memory management info (page table), I/O status, accounting info.",
+              "Context switch cost: must save full PCB of current process, load PCB of next process. Modern CPUs have hundreds of registers — expensive operation."
+            ],
+            "Independent vs Cooperating Processes": [
+              "Independent: process cannot affect or be affected by other processes. Simple but inflexible — no data sharing.",
+              "Cooperating: processes share data and communicate. More complex but enables parallel computation. Requires synchronization to prevent race conditions."
+            ]
+          },
+          "required_diagrams": [
+            "Process state diagram: five circles labeled New, Ready, Running, Waiting, Terminated. Directed arrows between states with labels: New→Ready (admitted), Ready→Running (scheduler dispatch), Running→Ready (interrupt/preempt), Running→Waiting (I/O or event wait), Waiting→Ready (I/O complete), Running→Terminated (exit). Clean white background, circles with state names."
+          ],
+          "required_tables": [
+            "PCB Contents: Field | Description || PID | Unique process identifier || State | Current process state || Program Counter | Address of next instruction || CPU Registers | All register values saved during context switch || Memory Info | Page table base address, segment table || I/O Status | List of open files, pending I/O || Accounting | CPU time used, priority, scheduling info"
+          ],
+          "common_mistakes": [
+            "Confusing program and process — one program can create multiple processes. A process is a running instance of a program",
+            "Thinking process in Waiting state wastes CPU — Waiting process is NOT on CPU. It's blocked waiting for I/O, freeing CPU for other processes"
+          ]
+        },
+        {
+          "name": "Interprocess Communication",
+          "keywords": ["ipc", "shared memory", "pipes", "fifo", "message queue", "socket", "signal", "interprocess communication"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Shared Memory",
+            "Pipes",
+            "FIFOs",
+            "Message Queues",
+            "Sockets",
+            "Signals"
+          ],
+          "subtopic_content": {
+            "Shared Memory": [
+              "Shared memory: fastest IPC — processes map same physical memory region into their address space. No kernel involvement for data transfer after setup.",
+              "Requires synchronization (mutex/semaphore) — two processes writing simultaneously causes race condition. shmget(), shmat() system calls."
+            ],
+            "Pipes": [
+              "Pipe: unidirectional byte stream between related processes (parent-child). ls | grep .txt — shell creates pipe connecting ls stdout to grep stdin.",
+              "Unnamed pipes: exist only while processes running. Half-duplex. Fixed buffer size (~64KB) — producer blocks when full, consumer blocks when empty."
+            ],
+            "FIFOs": [
+              "FIFO (Named Pipe): pipe with a name in file system — unrelated processes can communicate. Created with mkfifo command.",
+              "Persists until explicitly deleted unlike anonymous pipes. Still unidirectional and half-duplex."
+            ],
+            "Message Queues": [
+              "Message queue: OS-managed queue of messages. Sender puts message in queue, receiver picks up later — asynchronous, no need to be running simultaneously.",
+              "Messages have type — selective retrieval possible. POSIX: mq_open(), mq_send(), mq_receive(). Used in microservices (RabbitMQ, Kafka based on this concept)."
+            ],
+            "Sockets": [
+              "Sockets: bidirectional communication endpoint. Local sockets (Unix domain) for same machine. Network sockets (TCP/UDP) for different machines.",
+              "Most powerful IPC — forms basis of all network communication. Web servers, databases, browsers all communicate via sockets."
+            ],
+            "Signals": [
+              "Signals: software interrupts for event notification. SIGKILL (kill process), SIGTERM (graceful shutdown), SIGINT (Ctrl+C), SIGSEGV (segfault).",
+              "Process can catch and handle signals (except SIGKILL, SIGSTOP). kill command sends signals. Asynchronous — arrives at any time."
+            ]
+          },
+          "required_diagrams": [
+            "IPC mechanisms comparison diagram: six boxes in two rows. Each box shows two processes (P1, P2) and the communication method between them. Shared Memory: shared block between P1 and P2. Pipe: arrow from P1 to P2 through pipe buffer. Message Queue: P1 puts to queue, P2 gets from queue. Socket: bidirectional arrows. Signal: zigzag arrow. Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: IPC Method | Speed | Direction | Persistence | Related Processes Only || Shared Memory | Fastest | Both | Until deleted | No || Pipe | Fast | One-way | Process lifetime | Yes (parent-child) || FIFO | Fast | One-way | Until deleted | No || Message Queue | Medium | Both | Until deleted | No || Socket | Medium | Both | Session | No || Signal | Fast | One-way | No | No"
+          ],
+          "common_mistakes": [
+            "Thinking pipes are bidirectional — standard pipes are unidirectional. Need two pipes for two-way communication"
+          ]
+        },
+        {
+          "name": "UNIX Process Model",
+          "keywords": ["fork", "exec", "wait", "exit", "unix process", "fork exec"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "fork()",
+            "exec()",
+            "wait()",
+            "exit()"
+          ],
+          "subtopic_content": {
+            "fork()": [
+              "fork(): creates exact copy of calling process. Returns PID of child to parent, 0 to child. Child gets copy of parent's memory, file descriptors, registers.",
+              "Copy-on-write optimization: pages not actually copied until one process modifies them — fork() is fast even for large processes."
+            ],
+            "exec()": [
+              "exec(): replaces current process image with new program. After exec(), process has new code, data, stack — only PID remains same.",
+              "Shell workflow: fork() creates child → child calls exec(ls) → ls runs in child's place → parent wait()s for child to finish."
+            ],
+            "wait()": [
+              "wait(): parent blocks until one of its children terminates. Returns PID and exit status of terminated child.",
+              "Without wait(): child becomes zombie process (entry in process table remains even after exit until parent collects status). Init process adopts orphans."
+            ],
+            "exit()": [
+              "exit(): terminates process, releases resources (memory, file descriptors), sends SIGCHLD to parent, becomes zombie until parent calls wait().",
+              "Exit status (0 = success, non-zero = error) communicated to parent via wait(). Shell checks $? for last command's exit status."
+            ]
+          },
+          "required_diagrams": [
+            "fork-exec-wait diagram: timeline diagram showing parent and child processes. Parent at top, fork() creates child (branch point). Child calls exec() replacing its image. Parent calls wait() and blocks. Child runs new program and calls exit(). Parent unblocks, collects exit status. Clean white background with labeled arrows showing sequence."
+          ],
+          "common_mistakes": [
+            "Thinking exec() creates a new process — exec() replaces the current process, does not create a new one. fork() creates, exec() replaces."
+          ]
+        }
+      ]
+    },
+    {
+      "module": "CPU Scheduling",
+      "topics": [
+        {
+          "name": "CPU Scheduler and Criteria",
+          "keywords": ["cpu scheduler", "scheduling criteria", "cpu utilization", "throughput", "turnaround time", "waiting time", "response time", "dispatcher", "context switching"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Definition and Role",
+            "CPU Utilization",
+            "Throughput",
+            "Turnaround Time",
+            "Waiting Time",
+            "Response Time",
+            "Context Switching"
+          ],
+          "subtopic_content": {
+            "Definition and Role": [
+              "CPU scheduler (short-term scheduler): selects which ready process gets CPU next. Invoked every few milliseconds — must be extremely fast.",
+              "Three scheduling decision points: process switches from running to waiting (I/O), running to ready (timer interrupt), waiting to ready (I/O complete), terminates."
+            ],
+            "CPU Utilization": [
+              "CPU Utilization: percentage of time CPU is busy. Goal: keep CPU as busy as possible. Range 40% (lightly loaded) to 90% (heavily loaded).",
+              "Maximize: avoid CPU sitting idle while processes are waiting. Multiprogramming exists specifically to maximize CPU utilization."
+            ],
+            "Throughput": [
+              "Throughput: number of processes completed per unit time. Maximize: complete as many jobs as possible.",
+              "Conflict with response time — maximizing throughput may mean running long batch jobs, hurting interactive response."
+            ],
+            "Turnaround Time": [
+              "Turnaround Time = Completion Time - Arrival Time. Total time from submission to completion including waiting.",
+              "Minimize for batch jobs. Formula: TAT = Burst Time + Waiting Time. Used to evaluate batch scheduling algorithms."
+            ],
+            "Waiting Time": [
+              "Waiting Time: total time process spends in ready queue waiting for CPU. Does not include I/O wait time.",
+              "Minimize: fairness concern. Starvation occurs if waiting time becomes infinite for some processes."
+            ],
+            "Response Time": [
+              "Response Time: time from request submission until first response produced. Critical for interactive systems.",
+              "Web server: time from HTTP request to first byte of response. Minimize for interactive/real-time systems."
+            ],
+            "Context Switching": [
+              "Context switch: saving state of current process (registers, PC, memory maps) and loading state of next process. Pure overhead — no useful work done.",
+              "Context switch time: 1-10 microseconds on modern hardware. If time quantum too small, overhead dominates. Linux uses ~100ms default quantum."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Criteria | Goal | Maximize/Minimize | Suitable For || CPU Utilization | Keep CPU busy | Maximize | All systems || Throughput | Jobs per time unit | Maximize | Batch systems || Turnaround Time | Total completion time | Minimize | Batch systems || Waiting Time | Time in ready queue | Minimize | All systems || Response Time | Time to first response | Minimize | Interactive systems"
+          ],
+          "common_mistakes": [
+            "Confusing turnaround time and waiting time — TAT includes all time from arrival to completion; waiting time is only time spent in ready queue"
+          ]
+        },
+        {
+          "name": "Scheduling Types",
+          "keywords": ["preemptive", "non-preemptive", "preemptive scheduling", "non preemptive scheduling"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Preemptive Scheduling",
+            "Non-preemptive Scheduling"
+          ],
+          "subtopic_content": {
+            "Preemptive Scheduling": [
+              "Preemptive: OS can forcibly remove CPU from running process (via timer interrupt). Process moved back to ready queue involuntarily.",
+              "Enables fairness and responsiveness. Required for real-time and interactive systems. Round Robin, SRTF are preemptive. Linux, Windows use preemptive scheduling."
+            ],
+            "Non-preemptive Scheduling": [
+              "Non-preemptive (cooperative): process runs until it voluntarily gives up CPU (I/O request, yield, terminate). OS cannot forcibly preempt.",
+              "Simpler implementation, no context switch overhead, no race conditions in kernel. But one greedy process can monopolize CPU. FCFS, SJF are non-preemptive."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Feature | Preemptive | Non-preemptive || CPU removal | OS can force | Process decides || Fairness | Better | Worse || Overhead | Higher (context switches) | Lower || Starvation | Less likely | Possible || Response time | Better | Worse || Examples | Round Robin, SRTF | FCFS, SJF || Use case | Interactive, real-time | Batch systems"
+          ],
+          "common_mistakes": [
+            "Thinking non-preemptive is always bad — for batch processing it's efficient since no unnecessary context switches"
+          ]
+        },
+        {
+          "name": "Scheduling Algorithms",
+          "keywords": ["fcfs", "sjf", "srtf", "hrrn", "priority scheduling", "round robin", "multilevel queue", "multilevel feedback queue", "scheduling algorithm"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "FCFS",
+            "SJF",
+            "SRTF",
+            "HRRN",
+            "Priority Scheduling",
+            "Round Robin",
+            "Multilevel Queue Scheduling",
+            "Multilevel Feedback Queue"
+          ],
+          "subtopic_content": {
+            "FCFS": [
+              "FCFS (First Come First Served): processes scheduled in arrival order. Non-preemptive. Simple to implement with a FIFO queue.",
+              "Convoy effect: long process blocks all short ones behind it. Example: P1(24ms), P2(3ms), P3(3ms) arrival order → avg wait = (0+24+27)/3 = 17ms. Reverse order → avg wait = 3ms."
+            ],
+            "SJF": [
+              "SJF (Shortest Job First): process with smallest CPU burst runs next. Provably optimal for minimizing average waiting time among non-preemptive algorithms.",
+              "Problem: cannot know future burst time. Approximation: exponential averaging of past bursts. τ(n+1) = α*t(n) + (1-α)*τ(n)."
+            ],
+            "SRTF": [
+              "SRTF (Shortest Remaining Time First): preemptive SJF. New process preempts current if its burst is shorter than remaining time of current.",
+              "Optimal for minimizing average waiting time overall. High overhead — context switch every time shorter job arrives."
+            ],
+            "HRRN": [
+              "HRRN (Highest Response Ratio Next): priority = (waiting time + burst time) / burst time. Balances SJF efficiency with aging to prevent starvation.",
+              "Response Ratio increases as process waits — long-waiting processes eventually get highest priority. Non-preemptive."
+            ],
+            "Priority Scheduling": [
+              "Priority Scheduling: highest priority process runs next. Preemptive or non-preemptive. Priority can be static (fixed) or dynamic (changes over time).",
+              "Starvation problem: low-priority process may never run. Solution: aging — gradually increase priority of waiting processes over time."
+            ],
+            "Round Robin": [
+              "Round Robin: each process gets CPU for fixed time quantum (10-100ms). After quantum expires, preempted and moved to end of ready queue.",
+              "Optimal for time-sharing. Large quantum → approaches FCFS. Small quantum → excessive context switching. Rule of thumb: 80% of CPU bursts shorter than quantum."
+            ],
+            "Multilevel Queue Scheduling": [
+              "Multiple queues for different process categories: foreground (interactive, high priority, RR), background (batch, low priority, FCFS). Fixed priority between queues.",
+              "Problem: starvation — background process may never run if foreground always has processes."
+            ],
+            "Multilevel Feedback Queue": [
+              "MLFQ: processes can move between queues based on behavior. CPU-bound processes degraded to lower queues. I/O-bound promoted to higher queues. Aging prevents starvation.",
+              "Most general scheduling algorithm — can be configured to mimic FCFS, SJF, RR, Priority. Used in Linux CFS (Completely Fair Scheduler)."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Algorithm | Preemptive | Starvation | Optimal For | Overhead || FCFS | No | No | Batch | Low || SJF | No | Yes | Min avg wait (batch) | Medium || SRTF | Yes | Yes | Min avg wait (overall) | High || Priority | Both | Yes | Priority-based | Medium || Round Robin | Yes | No | Time-sharing | Medium || MLFQ | Yes | No | General purpose | High"
+          ],
+          "common_mistakes": [
+            "Thinking Round Robin is always best — for batch jobs, SJF gives better turnaround time. RR optimal for interactive systems",
+            "Forgetting convoy effect in FCFS — one long CPU-bound process starves all short I/O-bound processes behind it"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Threads and Multithreading",
+      "topics": [
+        {
+          "name": "Thread Basics",
+          "keywords": ["thread", "process vs thread", "multithreading", "benefits of multithreading"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Process vs Thread",
+            "Benefits of Multithreading"
+          ],
+          "subtopic_content": {
+            "Process vs Thread": [
+              "Thread: lightweight process. Threads within a process share code segment, data segment, heap, and open files. Each thread has own stack, registers, and program counter.",
+              "Process creation expensive (copy memory, file descriptors). Thread creation cheap — shares process resources. Context switch between threads faster than between processes."
+            ],
+            "Benefits of Multithreading": [
+              "Responsiveness: UI thread stays responsive while worker thread does computation. Chrome: separate thread per tab.",
+              "Resource sharing: threads share memory — no IPC overhead for communication. Scalability: multiple threads run truly parallel on multi-core CPUs.",
+              "Economy: thread creation 30x cheaper than process creation. Server creates thread per request instead of process — Apache vs Nginx design philosophy."
+            ]
+          },
+          "required_diagrams": [
+            "Process vs Thread diagram: two side-by-side boxes. Left box (Process): shows Code, Data, Files, Stack1 as separate sections, labeled 'Process - everything separate'. Right box (Threads): shows Code, Data, Files shared at top, then three separate Stack sections below labeled Thread1, Thread2, Thread3. Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: Feature | Process | Thread || Memory | Separate address space | Shared address space || Creation | Expensive (fork) | Cheap || Communication | IPC required | Shared memory direct || Context switch | Slow | Fast || Crash isolation | Yes | No (one thread crash = all die) || Example | Chrome tabs (old) | Chrome tab workers"
+          ],
+          "common_mistakes": [
+            "Thinking threads are always better — threads in same process can corrupt each other's data; processes have stronger isolation"
+          ]
+        },
+        {
+          "name": "Thread Models",
+          "keywords": ["user level threads", "kernel level threads", "hybrid threads", "many to one", "one to one", "many to many"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "User-Level Threads",
+            "Kernel-Level Threads",
+            "Hybrid Threads"
+          ],
+          "subtopic_content": {
+            "User-Level Threads": [
+              "User-level threads (Many-to-One): managed by user-space thread library, kernel sees only one process. Thread switch in user space — no system call, very fast.",
+              "Problem: if one thread blocks on I/O, entire process blocks (kernel doesn't know about other threads). Cannot use multiple CPUs. Green threads (Java pre-1.2)."
+            ],
+            "Kernel-Level Threads": [
+              "Kernel-level threads (One-to-One): each user thread mapped to kernel thread. Kernel schedules threads. If one blocks, others continue. Can use multiple CPUs.",
+              "Overhead: every thread operation requires system call. Creating too many threads expensive. Windows, Linux use this model. POSIX pthreads on Linux."
+            ],
+            "Hybrid Threads": [
+              "Hybrid (Many-to-Many): M user threads mapped to N kernel threads (N ≤ M). Combines benefits — fast user-space switching, true parallelism, no blocking issue.",
+              "Solaris used this. Go language goroutines are modern example — thousands of goroutines multiplexed onto OS threads by Go runtime."
+            ]
+          },
+          "required_diagrams": [
+            "Thread mapping models diagram: three side-by-side layouts. Each shows User Threads (circles at top) and Kernel Threads (circles at bottom). 1) Many-to-One: multiple user threads pointing to single kernel thread. 2) One-to-One: each user thread connected to own kernel thread. 3) Many-to-Many: multiple user threads connected to fewer kernel threads. Clean white background."
+          ],
+          "common_mistakes": [
+            "Thinking user-level threads are faster overall — they are faster to create and switch, but block entire process on I/O"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Process Synchronization",
+      "topics": [
+        {
+          "name": "Race Conditions and Critical Section",
+          "keywords": ["race condition", "critical section", "mutual exclusion", "progress", "bounded waiting", "synchronization"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Definition and Examples",
+            "Requirements"
+          ],
+          "subtopic_content": {
+            "Definition and Examples": [
+              "Race condition: outcome depends on relative execution order of concurrent processes. Two processes read-modify-write shared variable — result depends on who goes last.",
+              "Classic example: counter++ in two threads. Translates to: read counter, increment, write. If both read same value, one increment is lost. Bank account: two simultaneous withdrawals of $500 from $1000 account could leave $500 or -$500."
+            ],
+            "Requirements": [
+              "Three requirements for critical section solution: Mutual Exclusion (only one process in CS at a time), Progress (if no process in CS, one of waiting processes must be selected), Bounded Waiting (limit on how many times others enter CS after a process requests entry).",
+              "Progress prevents deadlock. Bounded waiting prevents starvation. Any correct synchronization must satisfy all three."
+            ]
+          },
+          "common_mistakes": [
+            "Thinking mutual exclusion alone solves synchronization — also need progress (no deadlock) and bounded waiting (no starvation)"
+          ]
+        },
+        {
+          "name": "Synchronization Tools",
+          "keywords": ["mutex", "semaphore", "monitor", "mutex lock", "binary semaphore", "counting semaphore", "peterson algorithm", "bakery algorithm"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Peterson's Algorithm",
+            "Bakery Algorithm",
+            "Mutex Locks",
+            "Semaphores",
+            "Monitors",
+            "TestAndSet",
+            "Swap",
+            "CompareAndSwap"
+          ],
+          "subtopic_content": {
+            "Peterson's Algorithm": [
+              "Peterson's algorithm: software solution for 2-process mutual exclusion using shared flag[] and turn variables. Satisfies all three requirements.",
+              "flag[i]=true means process i wants to enter CS. turn gives priority when both want to enter. Proof: if both in CS simultaneously, contradiction in turn variable."
+            ],
+            "Bakery Algorithm": [
+              "Bakery algorithm: Lamport's solution for N processes. Each takes a number (like bakery ticket). Process with smallest number enters CS first. Ties broken by PID.",
+              "Works without hardware support. Practical limitation: numbers can grow unbounded. Important historically — proves software-only solution exists for N processes."
+            ],
+            "Mutex Locks": [
+              "Mutex (Mutual Exclusion lock): binary lock — acquire() before CS, release() after. Only one thread can hold mutex at a time. Other threads block on acquire().",
+              "Spinlock variant: thread busy-waits (wastes CPU). Blocking mutex: thread sleeps when lock unavailable — better for longer CS. pthread_mutex_lock() in C."
+            ],
+            "Semaphores": [
+              "Semaphore: integer variable + two atomic operations. wait(S): if S>0, S--; else block. signal(S): S++, wake one waiting process.",
+              "Binary semaphore (mutex-like, 0 or 1). Counting semaphore: tracks resources. N permits → N processes can proceed. Used for producer-consumer buffer management."
+            ],
+            "Monitors": [
+              "Monitor: high-level synchronization construct. Encapsulates shared data with procedures. Only one process active in monitor at a time — mutual exclusion automatic.",
+              "Condition variables: wait() and signal() within monitor for synchronization beyond mutual exclusion. Java synchronized keyword implements monitor pattern."
+            ],
+            "TestAndSet": [
+              "TestAndSet: atomic hardware instruction. Reads variable, sets it to true, returns old value — atomically. Used to implement spinlocks.",
+              "while(TestAndSet(&lock)); — busy-waits until lock is false. lock = false releases. Cannot be interrupted between read and write."
+            ],
+            "Swap": [
+              "Swap: atomic exchange of two variables. swap(&a, &b) atomically. Used similarly to TestAndSet for lock implementation.",
+              "XCHG instruction on x86. Ensures no two processes see false simultaneously when competing for lock."
+            ],
+            "CompareAndSwap": [
+              "CAS (Compare-And-Swap): if value equals expected, swap with new value atomically. Returns old value. Foundation of lock-free data structures.",
+              "CAS(memory, expected, new): if *memory == expected, set *memory = new. Used in Java AtomicInteger, C++ atomic<>. More powerful than TestAndSet."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Tool | Type | Mutual Exclusion | Counting | Blocking || Mutex | Hardware+SW | Yes | No (binary) | Yes || Binary Semaphore | SW | Yes | No | Yes || Counting Semaphore | SW | Optional | Yes | Yes || Monitor | Language | Automatic | No | Yes || Spinlock | Hardware | Yes | No | No (busy-wait)"
+          ],
+          "common_mistakes": [
+            "Thinking mutex and binary semaphore are identical — mutex has ownership (only acquirer can release), semaphore has no ownership",
+            "Using semaphore.signal() before semaphore.wait() — inverts logic, allows more than intended concurrent access"
+          ]
+        },
+        {
+          "name": "Classical Problems",
+          "keywords": ["bounded buffer", "producer consumer", "readers writers", "dining philosophers", "classical synchronization"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Bounded Buffer Problem",
+            "Readers-Writers Problem",
+            "Dining Philosophers Problem"
+          ],
+          "subtopic_content": {
+            "Bounded Buffer Problem": [
+              "Producer-Consumer with fixed-size buffer. Producer adds items, consumer removes. Problem: producer must wait when full, consumer must wait when empty. No concurrent access to buffer.",
+              "Solution: three semaphores. empty (init=N): how many empty slots. full (init=0): how many full slots. mutex (init=1): mutual exclusion on buffer. Producer: wait(empty), wait(mutex), add, signal(mutex), signal(full)."
+            ],
+            "Readers-Writers Problem": [
+              "Multiple readers can read simultaneously (safe). Only one writer at a time (exclusive). Problem: fairly schedule readers and writers without starvation.",
+              "First readers-writers: no reader kept waiting unless writer has the lock (writer starvation possible). Second: once writer ready, no new readers allowed (reader starvation possible). Third: no starvation solution uses queues."
+            ],
+            "Dining Philosophers Problem": [
+              "5 philosophers at round table, 5 chopsticks between them. Each needs 2 chopsticks to eat. Problem: deadlock if all pick left chopstick simultaneously.",
+              "Solutions: allow only 4 philosophers simultaneously (asymmetric), odd philosopher picks left first/even picks right first, pick up both only if both available (monitor). Classic deadlock and starvation illustration."
+            ]
+          },
+          "required_diagrams": [
+            "Dining Philosophers diagram: circular arrangement of 5 circles labeled P1-P5 (philosophers) alternating with 5 rectangles labeled C1-C5 (chopsticks). Arrows from each philosopher to adjacent chopsticks showing which chopsticks they need. Deadlock scenario: all philosophers holding left chopstick, waiting for right. Clean white background."
+          ],
+          "common_mistakes": [
+            "Thinking dining philosophers solution is to give each philosopher their own chopsticks — problem requires SHARING resources"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Deadlock",
+      "topics": [
+        {
+          "name": "Deadlock Conditions and Resource Graph",
+          "keywords": ["deadlock", "mutual exclusion", "hold and wait", "no preemption", "circular wait", "resource allocation graph", "deadlock conditions"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Mutual Exclusion",
+            "Hold and Wait",
+            "No Preemption",
+            "Circular Wait",
+            "Resource Allocation Graph"
+          ],
+          "subtopic_content": {
+            "Mutual Exclusion": [
+              "Mutual Exclusion condition: at least one resource must be non-shareable. Only one process can use it at a time. If another requests it, must wait.",
+              "Read-only resources (like read-only files) can be shared — no deadlock possible. Printers, tape drives are non-shareable."
+            ],
+            "Hold and Wait": [
+              "Hold and Wait: process holds at least one resource while waiting to acquire additional resources held by other processes.",
+              "Solution: require processes to request all resources at once (low utilization) or release all resources before requesting more."
+            ],
+            "No Preemption": [
+              "No Preemption: resources cannot be forcibly taken from a process. Only voluntarily released when process is done.",
+              "Solution: if process waits for resource, preempt all its resources. Works for resources whose state can be easily saved/restored (CPU registers, memory)."
+            ],
+            "Circular Wait": [
+              "Circular Wait: set {P0, P1, ..., Pn} where P0 waits for resource held by P1, P1 waits for P2, ..., Pn waits for P0.",
+              "Solution: impose total ordering on resource types. All processes request resources in increasing order — breaks cycle. Most practical prevention technique."
+            ],
+            "Resource Allocation Graph": [
+              "RAG: bipartite graph with process nodes (circles) and resource nodes (squares). Request edge: P→R (process wants resource). Assignment edge: R→P (resource assigned to process).",
+              "Cycle in RAG with single-instance resources → deadlock. With multi-instance resources, cycle necessary but not sufficient for deadlock."
+            ]
+          },
+          "required_diagrams": [
+            "Resource Allocation Graph showing deadlock: four circles (P1, P2, P3, P4) and two squares (R1 with 1 instance, R2 with 2 instances). Show deadlock cycle: P1→R1→P2→R2→P1. Assignment and request edges clearly labeled with arrows. Process circles and resource rectangles with dots inside showing instances. Clean white background."
+          ],
+          "common_mistakes": [
+            "Thinking one condition alone causes deadlock — ALL four conditions must hold simultaneously for deadlock to occur"
+          ]
+        },
+        {
+          "name": "Deadlock Handling",
+          "keywords": ["deadlock prevention", "deadlock avoidance", "deadlock detection", "deadlock recovery", "bankers algorithm", "safe state"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Deadlock Prevention",
+            "Deadlock Avoidance",
+            "Deadlock Detection",
+            "Deadlock Recovery",
+            "Banker's Algorithm"
+          ],
+          "subtopic_content": {
+            "Deadlock Prevention": [
+              "Prevention: ensure at least one of four conditions cannot hold. Circular wait prevention most practical — enforce resource ordering.",
+              "Hold and wait prevention: request all resources at once (poor utilization) or release all before requesting new (may cause starvation)."
+            ],
+            "Deadlock Avoidance": [
+              "Avoidance: OS decides at runtime whether to grant resource request based on whether resulting state is safe.",
+              "Requires advance knowledge of maximum resource needs. More flexible than prevention. Banker's Algorithm is the classic avoidance algorithm."
+            ],
+            "Deadlock Detection": [
+              "Detection: allow deadlock to occur, periodically run detection algorithm, recover when found. Wait-for graph (single instance) or detection algorithm (multiple instances).",
+              "Trade-off: overhead of running detection algorithm vs cost of deadlock. Run every hour or when CPU utilization drops below threshold."
+            ],
+            "Deadlock Recovery": [
+              "Recovery options: Process termination (abort all deadlocked processes — simple but wasteful; or abort one at a time until cycle broken).",
+              "Resource preemption: select victim process, take its resources, rollback to safe state. Risk: starvation if same process always chosen as victim."
+            ],
+            "Banker's Algorithm": [
+              "Banker's Algorithm: checks if granting a request leads to safe state. Safe state: there exists a sequence where all processes can finish.",
+              "Data structures: Available (free resources), Max (maximum need), Allocation (currently allocated), Need = Max - Allocation. Safety algorithm: try to find safe sequence."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Strategy | Approach | Overhead | Resource Utilization | Practical Use || Prevention | Deny one condition | Low | Low | Resource ordering in practice || Avoidance | Safe state check | Medium | Medium | Rarely used (needs future info) || Detection+Recovery | Allow then fix | High | High | Databases, OS || Ignore | Ostrich algorithm | None | High | Most OS (Windows, Linux)"
+          ],
+          "common_mistakes": [
+            "Thinking Banker's Algorithm is used in production OS — it requires knowing maximum resource needs in advance, impractical for general OS"
+          ]
+        },
+        {
+          "name": "Starvation & Livelock",
+          "keywords": ["starvation", "livelock", "aging", "starvation prevention"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Concepts and Prevention"
+          ],
+          "subtopic_content": {
+            "Concepts and Prevention": [
+              "Starvation: process waits indefinitely because higher-priority processes always preempt it. Deadlock = everyone stuck; starvation = one process stuck.",
+              "Prevention: aging — gradually increase priority of waiting process. After waiting T time units, priority increases by 1. Eventually becomes highest priority.",
+              "Livelock: processes keep changing state in response to each other but make no progress. Like two people in hallway stepping same direction. Both active but stuck.",
+              "Livelock example: two processes each release resource when they detect conflict, then both retry simultaneously, conflict again — forever. Solution: randomized backoff (Ethernet CSMA/CD)."
+            ]
+          },
+          "common_mistakes": [
+            "Confusing livelock and deadlock — in deadlock processes are blocked (inactive); in livelock processes are active but making no progress"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Memory Management",
+      "topics": [
+        {
+          "name": "Memory Basics",
+          "keywords": ["logical address", "physical address", "memory allocation", "partitioning", "fragmentation", "internal fragmentation", "external fragmentation"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Logical vs Physical Address",
+            "Memory Allocation Strategies",
+            "Partitioning",
+            "Fragmentation (Internal and External)"
+          ],
+          "subtopic_content": {
+            "Logical vs Physical Address": [
+              "Logical address (virtual address): generated by CPU, refers to process's virtual address space. Each process starts at 0.",
+              "Physical address: actual location in RAM. MMU (Memory Management Unit) translates logical to physical at runtime via relocation register or page table.",
+              "Protection: process A with logical address 0x1000 maps to different physical address than process B's 0x1000 — complete isolation."
+            ],
+            "Memory Allocation Strategies": [
+              "First Fit: allocate first hole big enough. Fast. Best Fit: smallest hole that fits. Less wasted space but slower, creates tiny useless fragments.",
+              "Worst Fit: largest available hole. Leaves largest remaining fragment. Simulation shows First Fit and Best Fit better than Worst Fit."
+            ],
+            "Partitioning": [
+              "Fixed partitioning: memory divided into fixed-size partitions at boot. Simple but internal fragmentation — process smaller than partition wastes space.",
+              "Variable partitioning: partitions created dynamically to fit process exactly. No internal fragmentation but external fragmentation accumulates over time."
+            ],
+            "Fragmentation (Internal and External)": [
+              "Internal fragmentation: allocated memory larger than needed. Wasted space inside allocated region. Caused by fixed partitioning and paging.",
+              "External fragmentation: enough total free memory but not contiguous. Cannot allocate despite having free memory. Solution: compaction (expensive) or paging/segmentation."
+            ]
+          },
+          "required_diagrams": [
+            "Memory fragmentation diagram: two side-by-side memory layouts. Left (External fragmentation): memory strip with alternating used and free blocks scattered — enough total free space but not contiguous, request for large block fails. Right (Internal fragmentation): partition larger than process with wasted space highlighted inside. Clean white background, labeled blocks."
+          ],
+          "common_mistakes": [
+            "Confusing internal and external fragmentation — internal is wasted space INSIDE allocated region; external is free space BETWEEN allocated regions"
+          ]
+        },
+        {
+          "name": "Paging",
+          "keywords": ["paging", "page table", "tlb", "multi-level paging", "page frame", "page number", "offset"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Page Table",
+            "TLB",
+            "Multi-level Paging"
+          ],
+          "subtopic_content": {
+            "Page Table": [
+              "Paging: divide logical memory into fixed-size pages (4KB typical), physical memory into frames of same size. No external fragmentation — any free frame can hold any page.",
+              "Page table: per-process array mapping page number to frame number. Logical address = page number + offset. Physical address = frame number + offset. MMU does translation."
+            ],
+            "TLB": [
+              "TLB (Translation Lookaside Buffer): hardware cache for page table entries. Stores recently used page→frame mappings. Access time ~1 cycle vs ~100 cycles for memory page table lookup.",
+              "TLB hit: address translation in 1 cycle. TLB miss: access page table in memory (200+ cycles), update TLB. Effective access time = hit_rate × 1 + miss_rate × 200. Need >99% hit rate for good performance."
+            ],
+            "Multi-level Paging": [
+              "Multi-level paging: page table itself paged to handle large address spaces. 32-bit: 2-level (page directory + page table). 64-bit Linux: 4-level paging.",
+              "Advantage: only needed portions of page table kept in memory. Disadvantage: multiple memory accesses for translation (mitigated by TLB)."
+            ]
+          },
+          "required_diagrams": [
+            "Paging address translation diagram: logical address split into two parts: page number (p) and offset (d). Arrow from page number into page table (array). Page table entry gives frame number (f). Frame number combined with offset gives physical address. TLB cache shown above page table with hit/miss paths. Clean white background, labeled components."
+          ],
+          "common_mistakes": [
+            "Thinking paging eliminates all fragmentation — paging eliminates external fragmentation but has internal fragmentation (last page of process may not be full)"
+          ]
+        },
+        {
+          "name": "Segmentation",
+          "keywords": ["segmentation", "segment table", "segmentation with paging", "segment"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Segment Table",
+            "Segmentation with Paging"
+          ],
+          "subtopic_content": {
+            "Segment Table": [
+              "Segmentation: divide program into logical segments (code, data, stack, heap) of variable size. Matches programmer's view — each segment has meaning.",
+              "Segment table: base address and limit per segment. Logical address = segment number + offset. Hardware checks offset < limit (protection). External fragmentation possible."
+            ],
+            "Segmentation with Paging": [
+              "Combined: segments divided into pages. Eliminates external fragmentation of pure segmentation while maintaining logical structure.",
+              "Intel x86 originally used segmentation + paging. Modern 64-bit OS mostly use paging only — segmentation overhead not worth it."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Feature | Paging | Segmentation || Division basis | Fixed size (4KB) | Logical units (variable) || Programmer visibility | Invisible | Visible (code, data, stack) || External fragmentation | No | Yes || Internal fragmentation | Yes (last page) | No || Protection | Per page | Per segment || Use today | Universal | Rarely (x86 legacy)"
+          ],
+          "common_mistakes": [
+            "Thinking segmentation is better than paging — paging is simpler, more predictable, and universally used in modern OS"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Virtual Memory",
+      "topics": [
+        {
+          "name": "Virtual Memory Concepts",
+          "keywords": ["virtual memory", "address translation", "demand paging", "page fault", "copy on write", "thrashing"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Address Translation",
+            "Page Fault",
+            "Optimization Technique"
+          ],
+          "subtopic_content": {
+            "Address Translation": [
+              "Virtual memory: process sees large contiguous address space independent of physical RAM. Only needed pages loaded in RAM — rest on disk (swap space).",
+              "Enables: running programs larger than RAM, protection (each process isolated), memory sharing (shared libraries mapped to multiple processes)."
+            ],
+            "Page Fault": [
+              "Page fault: process accesses page not in RAM. OS page fault handler: find page on disk, load into free frame, update page table, restart faulted instruction.",
+              "Page fault cost: ~8ms disk access vs ~100ns RAM. Performance critical: keep page fault rate < 0.0001% or effective access time dominated by disk."
+            ],
+            "Optimization Technique": [
+              "Copy-on-Write (COW): after fork(), parent and child share same pages marked read-only. Only when one process writes is the page actually copied.",
+              "COW makes fork() fast — avoid copying GBs of memory. Only pages actually modified get separate copies. Used by Linux, macOS, Windows for process creation."
+            ]
+          },
+          "required_diagrams": [
+            "Page fault handling diagram: flowchart. Process accesses page → Check page table → Valid? Yes → access memory. No → Page fault trap → OS handler → Find page on disk → Load to free frame → Update page table → Restart instruction → Access memory. Clean white background, diamond decision shapes, rectangular process boxes."
+          ],
+          "common_mistakes": [
+            "Thinking virtual memory is just a larger RAM — virtual memory is a technique that uses disk as RAM extension, with significant performance cost"
+          ]
+        },
+        {
+          "name": "Page Replacement Algorithms",
+          "keywords": ["page replacement", "fifo", "lru", "optimal", "clock", "belady anomaly"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "FIFO",
+            "LRU",
+            "Optimal",
+            "Clock"
+          ],
+          "subtopic_content": {
+            "FIFO": [
+              "FIFO: replace oldest page in memory. Simple — just a queue of pages. Belady's Anomaly: adding more frames can increase page faults (counter-intuitive).",
+              "Example: reference string 1,2,3,4,1,2,5,1,2,3,4,5 with 3 frames: 9 faults. With 4 frames: 10 faults. Anomaly!"
+            ],
+            "LRU": [
+              "LRU (Least Recently Used): replace page not used for longest time. Based on temporal locality — recently used pages likely used again soon.",
+              "Implementation: counter-based (timestamp each access) or stack-based (move to top on access). No Belady's anomaly. Good approximation of Optimal. High implementation cost."
+            ],
+            "Optimal": [
+              "Optimal (OPT/Belady): replace page that won't be used for longest time in future. Provably optimal — minimum page faults possible.",
+              "Requires knowing future — impossible in practice. Used as benchmark to evaluate other algorithms. If LRU achieves 80% of Optimal's performance, it's good."
+            ],
+            "Clock": [
+              "Clock (Second Chance): circular list of pages with reference bit. On page fault: check reference bit. If 1: clear bit, move on (second chance). If 0: replace.",
+              "Approximates LRU without expensive timestamp tracking. Used in Linux and Windows. reference bit set by hardware on page access."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Algorithm | Implementation | Belady Anomaly | Performance | Practical Use || FIFO | Simple queue | Yes | Poor | Rarely || LRU | Counter/Stack | No | Good | Common approximations || Optimal | Future knowledge | No | Best possible | Benchmark only || Clock | Reference bit | No | Good | Linux, Windows"
+          ],
+          "common_mistakes": [
+            "Thinking more frames always means fewer page faults — FIFO exhibits Belady's Anomaly where more frames can cause more faults"
+          ]
+        },
+        {
+          "name": "Thrashing",
+          "keywords": ["thrashing", "working set", "frame allocation", "global allocation", "local allocation"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Causes and Solutions",
+            "Global Allocation",
+            "Local Allocation"
+          ],
+          "subtopic_content": {
+            "Causes and Solutions": [
+              "Thrashing: process spends more time paging than executing. OS loads process → page faults → replaces pages → immediately needs replaced pages → constant page faults.",
+              "Cause: total working set size of all processes > available RAM. Solution: working set model — give each process enough frames for its working set (pages used in last Δ references)."
+            ],
+            "Global Allocation": [
+              "Global allocation: process can steal frames from any other process. Higher throughput — can adapt to changing needs. But one process can cause thrashing in others.",
+              "Used by most OS. Risk: memory-hungry process pages out working sets of other processes."
+            ],
+            "Local Allocation": [
+              "Local allocation: process can only replace its own pages. Other processes not affected by one's behavior. Less flexible — cannot use frames idle in other processes.",
+              "Safer but lower overall throughput. Good for real-time processes that need predictable behavior."
+            ]
+          },
+          "common_mistakes": [
+            "Thinking thrashing can be fixed by adding swap space — thrashing is caused by too many processes competing for limited RAM frames, more swap only delays the problem"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "File System Management",
+      "topics": [
+        {
+          "name": "File Concepts and Access Methods",
+          "keywords": ["file", "file types", "file attributes", "sequential access", "direct access", "indexed access", "file system"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "File Types and Attributes",
+            "Sequential Access",
+            "Direct Access",
+            "Indexed Access"
+          ],
+          "subtopic_content": {
+            "File Types and Attributes": [
+              "File: named collection of related information on storage. Types: regular (data), directory, symbolic link, device file, socket, pipe.",
+              "File attributes: name, type, location (disk pointer), size, permissions, timestamps (created, modified, accessed), owner. Stored in inode (Unix) or MFT entry (Windows NTFS)."
+            ],
+            "Sequential Access": [
+              "Sequential access: read/write bytes in order from beginning. Current position pointer advances automatically. Rewind to go back.",
+              "Tape drives must use sequential access. Simple, efficient for large sequential processing. Most common for log files, stream processing."
+            ],
+            "Direct Access": [
+              "Direct access (random access): read/write any block in any order. seek(n) positions to record n directly. Disk files naturally support direct access.",
+              "Essential for databases — query needs specific record, not sequential scan. Hard disk: seek to track, then sector. SSD: direct access without seek penalty."
+            ],
+            "Indexed Access": [
+              "Indexed access: index file maps keys to file positions. Look up key in index → get position → direct access to that position.",
+              "Database indexes work this way (B-tree index). Allows fast key-based lookup without full file scan. Index itself stored on disk."
+            ]
+          },
+          "common_mistakes": [
+            "Thinking direct access is always better — sequential access is faster for reading entire file (no seek overhead, prefetching works well)"
+          ]
+        },
+        {
+          "name": "Directory Structures",
+          "keywords": ["directory", "single level", "two level", "tree directory", "acyclic graph directory", "directory structure"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Single-level Directory",
+            "Two-level Directory",
+            "Tree-based Directory",
+            "Acyclic Graph Directory"
+          ],
+          "subtopic_content": {
+            "Single-level Directory": [
+              "Single-level: all files in one directory. Simple but no organization. Name collision problem — two users cannot have file with same name.",
+              "Used in early systems and embedded devices with few files. Insufficient for multi-user systems."
+            ],
+            "Two-level Directory": [
+              "Two-level: separate directory per user. Master File Directory (MFD) → User File Directory (UFD). Solves name collision between users.",
+              "Still flat within each user's directory. Cannot share files easily. Each user has isolated namespace."
+            ],
+            "Tree-based Directory": [
+              "Tree directory (hierarchical): directories contain files AND subdirectories. Absolute path from root (/home/user/docs/file.txt). Relative path from current directory.",
+              "Used by all modern OS. UNIX: single root /. Windows: per-drive root (C:\\). Allows arbitrary nesting depth."
+            ],
+            "Acyclic Graph Directory": [
+              "Acyclic graph: allows shared subdirectories and files (hard links, symbolic links) — same file accessible via multiple paths. No cycles allowed.",
+              "Hard link: directory entry pointing to same inode. Symbolic link: file containing path to another file. rm removes only the link — file deleted when link count reaches 0."
+            ]
+          },
+          "required_diagrams": [
+            "Directory structure evolution diagram: four small tree diagrams side by side. 1) Single-level: root with all files directly. 2) Two-level: root with user1, user2 nodes, each with files. 3) Tree: root with nested directories and files. 4) Acyclic graph: tree with dashed lines showing shared files accessed from multiple directories. Clean white background."
+          ],
+          "common_mistakes": [
+            "Confusing hard link and symbolic link — hard link points to inode (survives original deletion); symbolic link points to path (breaks if original deleted)"
+          ]
+        },
+        {
+          "name": "Allocation Methods",
+          "keywords": ["contiguous allocation", "linked allocation", "indexed allocation", "file allocation", "FAT", "inode"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Contiguous Allocation",
+            "Linked Allocation",
+            "Indexed Allocation"
+          ],
+          "subtopic_content": {
+            "Contiguous Allocation": [
+              "Contiguous allocation: file stored in consecutive disk blocks. Directory entry: starting block + length. Fast sequential access (one seek), direct access (start + offset).",
+              "Problems: external fragmentation over time, must know file size at creation. Used by CD-ROM file systems (ISO 9660) — files never change."
+            ],
+            "Linked Allocation": [
+              "Linked allocation: each block contains pointer to next block. No external fragmentation — any free block can be used. File can grow dynamically.",
+              "Problems: sequential access only (must traverse links), random access O(n), pointer overhead per block, reliability (broken pointer loses rest of file). FAT (File Allocation Table) is linked allocation with table on disk."
+            ],
+            "Indexed Allocation": [
+              "Indexed allocation: index block contains array of pointers to all file's data blocks. Supports direct access — index[i] gives block i's address.",
+              "Unix inode: 12 direct block pointers + 1 single indirect + 1 double indirect + 1 triple indirect. Handles files from tiny to 16TB efficiently."
+            ]
+          },
+          "required_diagrams": [
+            "File allocation methods diagram: three columns showing disk blocks. 1) Contiguous: consecutive shaded blocks with file occupying blocks 5-9. 2) Linked: scattered blocks connected by arrows (5→12→19→3→END). 3) Indexed: index block listing pointers to data blocks scattered across disk. Clean white background, numbered disk blocks."
+          ],
+          "required_tables": [
+            "Comparison: Method | Sequential Access | Direct Access | Fragmentation | Dynamic Growth || Contiguous | Excellent | Excellent | External | No || Linked | Good | Poor O(n) | None | Yes || Indexed | Good | Good O(1) | None | Yes (within limit)"
+          ],
+          "common_mistakes": [
+            "Thinking indexed allocation is always best — index block itself takes space and extra disk access. For tiny files, direct blocks in inode are more efficient"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "I/O Systems",
+      "topics": [
+        {
+          "name": "I/O Hardware and Device Management",
+          "keywords": ["dma", "interrupts", "device controller", "dedicated device", "shared device", "virtual device", "io hardware"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Dedicated Devices",
+            "Shared Devices",
+            "Virtual Devices",
+            "DMA (Direct Memory Access)",
+            "Interrupts",
+            "Device Controllers"
+          ],
+          "subtopic_content": {
+            "Dedicated Devices": [
+              "Dedicated devices: assigned to one process at a time. Tape drives, some printers. Must allocate entire device — others wait.",
+              "Deadlock-prone: if two processes each hold one dedicated device and need the other → deadlock."
+            ],
+            "Shared Devices": [
+              "Shared devices: multiple processes can use simultaneously. Hard disks — interleave requests from multiple processes. Managed by disk scheduling algorithm.",
+              "OS uses request queuing to handle concurrent access. More complex but better utilization."
+            ],
+            "Virtual Devices": [
+              "Virtual devices: spooling (Simultaneous Peripheral Operations On-Line). Printer spooler makes one printer appear as multiple virtual printers.",
+              "Converts dedicated device to shared. Print jobs queued on disk, spooler sends to printer one at a time. Users don't wait for exclusive printer access."
+            ],
+            "DMA (Direct Memory Access)": [
+              "DMA: hardware controller that transfers data between I/O device and memory without CPU involvement. CPU sets up transfer (source, destination, count), DMA executes it.",
+              "Without DMA: CPU copies each byte (programmed I/O) — wastes CPU. With DMA: CPU free to do computation while DMA transfers megabytes. Interrupt when complete."
+            ],
+            "Interrupts": [
+              "Interrupt: hardware signal to CPU that I/O is complete (or error occurred). CPU saves state, jumps to Interrupt Service Routine (ISR), restores state, continues.",
+              "Interrupt-driven I/O vs polling: polling wastes CPU checking device status. Interrupts allow CPU to do other work and be notified when device ready."
+            ],
+            "Device Controllers": [
+              "Device controller: hardware interface between OS and device. Has registers (status, command, data). OS writes to command register, reads status register.",
+              "Device driver: OS software that knows how to talk to specific controller. One driver per device type. Loaded as kernel module. lspci shows controllers on Linux."
+            ]
+          },
+          "required_diagrams": [
+            "DMA transfer diagram: show CPU, DMA Controller, Memory, and I/O Device as boxes. Step 1: CPU programs DMA (source address, destination address, byte count). Step 2: DMA transfers data directly between I/O Device and Memory (arrow). Step 3: DMA interrupts CPU when done. CPU shown doing other work during step 2. Clean white background, labeled arrows."
+          ],
+          "common_mistakes": [
+            "Thinking interrupts are bad for performance — polling wastes more CPU than interrupts. Interrupts allow CPU to do useful work while waiting for I/O"
+          ]
+        },
+        {
+          "name": "Disk Scheduling",
+          "keywords": ["disk scheduling", "fcfs disk", "sstf", "scan", "c-scan", "look", "c-look", "seek time"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "FCFS",
+            "SSTF",
+            "SCAN and C-SCAN",
+            "LOOK and C-LOOK"
+          ],
+          "subtopic_content": {
+            "FCFS": [
+              "FCFS disk: service requests in order received. Fair but inefficient — arm may move back and forth across disk many times.",
+              "Example: head at 53, requests 98,183,37,122,14,124,65,67. FCFS total movement = 640 cylinders. Simple but high seek time."
+            ],
+            "SSTF": [
+              "SSTF (Shortest Seek Time First): service request closest to current head position. Reduces average seek time significantly.",
+              "Problem: starvation — requests far from current position may wait indefinitely if closer requests keep arriving. Total movement for same example = 236 cylinders."
+            ],
+            "SCAN and C-SCAN": [
+              "SCAN (Elevator): arm moves in one direction, servicing all requests, reverses at end. Like elevator. No starvation. Efficient.",
+              "C-SCAN (Circular SCAN): arm moves in one direction only, jumps back to start without servicing on return. More uniform wait time than SCAN."
+            ],
+            "LOOK and C-LOOK": [
+              "LOOK: like SCAN but arm only goes as far as last request in each direction (doesn't go to disk edge). More efficient than SCAN.",
+              "C-LOOK: like C-SCAN but jumps to farthest request in direction, not disk edge. Linux uses a variant of C-LOOK. Best practical disk scheduling algorithm for HDD."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Algorithm | Starvation | Seek Efficiency | Uniformity | Use Case || FCFS | No | Poor | Fair ordering | Simple systems || SSTF | Yes | Good | Poor | When no starvation concern || SCAN | No | Good | Medium | General purpose || C-SCAN | No | Good | Best | Interactive systems || LOOK/C-LOOK | No | Best | Best | Linux default (HDD)"
+          ],
+          "common_mistakes": [
+            "Applying disk scheduling to SSDs — SSDs have no moving parts, seek time is negligible. Disk scheduling algorithms designed for HDD mechanical arm"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Security and Protection",
+      "topics": [
+        {
+          "name": "OS Security",
+          "keywords": ["security", "authentication", "password", "biometric", "otp", "buffer overflow", "trapdoor", "cache poisoning", "virus", "worm", "trojan", "threats"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Introduction to Threats",
+            "Passwords",
+            "Biometric",
+            "OTP",
+            "Buffer Overflow",
+            "Trapdoors and Backdoors",
+            "Cache Poisoning",
+            "Viruses, Worms, Trojan Horses"
+          ],
+          "subtopic_content": {
+            "Introduction to Threats": [
+              "Security goals: CIA triad — Confidentiality (data only accessible to authorized), Integrity (data not tampered), Availability (system accessible when needed).",
+              "Threats: physical (hardware theft), network (man-in-middle), OS vulnerabilities (buffer overflow), malware, social engineering."
+            ],
+            "Passwords": [
+              "Password hashing: store hash(salt + password), not plaintext. Salting prevents rainbow table attacks — same password → different hash for each user.",
+              "Modern: bcrypt, Argon2 (intentionally slow to make brute force expensive). Minimum: 12 characters, mixed case, numbers, symbols."
+            ],
+            "Biometric": [
+              "Biometric: fingerprint, face recognition, iris scan. Cannot be forgotten or stolen like passwords. False Accept Rate (FAR) vs False Reject Rate (FRR) tradeoff.",
+              "Problem: cannot change if compromised — you can't change your fingerprint. Best used as second factor (MFA)."
+            ],
+            "OTP": [
+              "OTP (One-Time Password): valid for single use or short time window. TOTP (Time-based OTP) used by Google Authenticator — changes every 30 seconds.",
+              "Prevents replay attacks. Even if attacker intercepts OTP, it's already expired. Based on shared secret + current time → HMAC."
+            ],
+            "Buffer Overflow": [
+              "Buffer overflow: writing beyond allocated buffer overwrites adjacent memory — return address, other variables. Attacker injects shellcode and redirects execution.",
+              "Defense: stack canaries (detect overflow before return), ASLR (randomize addresses), NX bit (mark stack non-executable). Classic attack vector for privilege escalation."
+            ],
+            "Trapdoors and Backdoors": [
+              "Trapdoor/Backdoor: secret entry point into software, bypassing normal authentication. Planted by developers intentionally or by attackers who compromise code.",
+              "Notable: NSA backdoor in Dual_EC_DRBG random number generator. Ken Thompson's Compiler backdoor — modifies login program during compilation."
+            ],
+            "Cache Poisoning": [
+              "DNS cache poisoning: attacker inserts false DNS records into resolver cache. Victims redirected to attacker's server even with correct domain name.",
+              "Defense: DNSSEC (cryptographically signed DNS records). Similar attack exists for ARP cache (ARP poisoning) for local network MITM."
+            ],
+            "Viruses, Worms, Trojan Horses": [
+              "Virus: attaches to legitimate files, spreads when files executed/shared. Requires user action. Worm: self-replicating, spreads over network without user action (WannaCry, 2017).",
+              "Trojan: appears legitimate but has malicious payload. Ransomware is modern Trojan — encrypts files, demands payment. Rootkit: hides its presence from OS."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Threat | Self-replicating | User Action Needed | Network Spread | Example || Virus | Yes (needs host) | Yes | Limited | ILOVEYOU || Worm | Yes (standalone) | No | Yes | WannaCry || Trojan | No | Yes | No | Ransomware || Rootkit | No | Yes | No | Stuxnet"
+          ],
+          "common_mistakes": [
+            "Confusing virus and worm — virus needs host file and user action; worm spreads automatically over network without user action"
+          ]
+        },
+        {
+          "name": "Protection Mechanisms",
+          "keywords": ["access control", "access matrix", "acl", "capability list", "users roles groups", "confidentiality integrity availability", "selinux"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Confidentiality, Integrity, Availability",
+            "Access Matrix",
+            "ACLs and Capability Lists",
+            "Users, Roles, Groups",
+            "Encryption, TLS, Certificates",
+            "SELinux, Windows Security Model"
+          ],
+          "subtopic_content": {
+            "Confidentiality, Integrity, Availability": [
+              "CIA Triad: foundation of all security design. Confidentiality — only authorized access. Integrity — data unchanged by unauthorized. Availability — system accessible.",
+              "Real example: hospital database. Confidentiality: only doctors see patient records. Integrity: no unauthorized modification of prescriptions. Availability: ER can access records 24/7."
+            ],
+            "Access Matrix": [
+              "Access matrix: rows = domains (users/processes), columns = objects (files, devices). Cell[i][j] = operations domain i can perform on object j (read, write, execute).",
+              "Theoretical model — too large to store explicitly (millions of users × millions of files). Implemented as ACL or capability list."
+            ],
+            "ACLs and Capability Lists": [
+              "ACL (Access Control List): per-object list of who can do what. -rw-r--r-- owner:group:others. Easy to see all permissions for a file. Hard to see all files a user can access.",
+              "Capability list: per-subject list of objects and permissions. Easy to see what user can access. Hard to revoke access (must find all capability lists). OAuth tokens are capabilities."
+            ],
+            "Users, Roles, Groups": [
+              "RBAC (Role-Based Access Control): permissions assigned to roles, users assigned to roles. User: Alice. Roles: doctor, admin. Permissions: read patient records (doctor role).",
+              "Principle of Least Privilege: give minimum permissions needed. sudo on Linux — run as root only when necessary, not by default."
+            ],
+            "Encryption, TLS, Certificates": [
+              "TLS (Transport Layer Security): encrypts data in transit. HTTPS = HTTP + TLS. Certificate: signed proof of server identity — prevents impersonation.",
+              "Certificate chain: Browser trusts Root CA → Root CA signs Intermediate CA → Intermediate CA signs server cert. Chain of trust from Root CA to server."
+            ],
+            "SELinux, Windows Security Model": [
+              "SELinux (Security-Enhanced Linux): mandatory access control (MAC). Even root cannot access files without correct SELinux context. NSA developed for military-grade security.",
+              "Windows security model: ACLs on every object (files, registry, processes), Security Descriptor, Access Tokens. UAC (User Account Control) prevents privilege escalation."
+            ]
+          },
+          "common_mistakes": [
+            "Thinking file permissions (chmod) is sufficient security — SELinux/AppArmor provides additional mandatory access control layer that even root cannot bypass"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Interprocess Communication (IPC)",
+      "topics": [
+        {
+          "name": "IPC Advanced",
+          "keywords": ["ipc", "mmap", "popen", "pclose", "named pipe", "posix message queue", "tcp udp socket", "signal handling", "shared memory mmap"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Need and Importance",
+            "mmap(), Memory Mapping",
+            "popen(), pclose(), Unnamed Pipes",
+            "Named Pipes",
+            "POSIX and System V Message Queues",
+            "TCP/UDP Communication",
+            "Signal Handling and Masking"
+          ],
+          "subtopic_content": {
+            "Need and Importance": [
+              "IPC enables: data sharing between processes, computation parallelization, modular software design (microservices), client-server communication.",
+              "Without IPC: every program would be monolithic. Modern software — browser, database, web server — all heavily use IPC internally."
+            ],
+            "mmap(), Memory Mapping": [
+              "mmap(): maps file or anonymous memory into process address space. Shared mmap with MAP_SHARED — changes visible to all mapped processes. Fastest IPC.",
+              "Also used for file I/O: map file to memory → read/write memory → OS handles disk synchronization automatically. Basis of shared libraries loading."
+            ],
+            "popen(), pclose(), Unnamed Pipes": [
+              "popen(): creates pipe to/from a shell command. Returns FILE* for reading output or writing input. pclose() waits for command to finish.",
+              "Example: popen(\"ls -la\", \"r\") creates pipe reading ls output. Simpler than creating pipes manually with fork/exec."
+            ],
+            "Named Pipes": [
+              "Named pipe (FIFO): mkfifo(\"/tmp/mypipe\"). Two unrelated processes can communicate — one opens for reading, other for writing.",
+              "Blocks until both ends open. Useful for simple process communication without network or complex shared memory setup."
+            ],
+            "POSIX and System V Message Queues": [
+              "POSIX message queues: mq_open(), mq_send(), mq_receive(). Messages have priority. Multiple readers/writers. Asynchronous — sender doesn't wait for receiver.",
+              "System V (older): msgget(), msgsnd(), msgrcv(). Persistent — survive process termination. Must explicitly delete with msgctl(IPC_RMID)."
+            ],
+            "TCP/UDP Communication": [
+              "TCP socket: reliable, ordered, connection-based. socket() → bind() → listen() → accept() (server). connect() (client). Guaranteed delivery.",
+              "UDP socket: unreliable, connectionless, no ordering. Lower overhead. Used for DNS, video streaming, gaming where latency matters more than reliability."
+            ],
+            "Signal Handling and Masking": [
+              "Signal handling: sigaction() registers custom handler. Signal mask: sigprocmask() blocks signals temporarily during critical sections.",
+              "Async-signal safety: only async-signal-safe functions callable from signal handler (write(), but not printf()). Signal handlers run asynchronously — interrupt any code."
+            ]
+          },
+          "required_tables": [
+            "Comparison: IPC Mechanism | API | Blocking | Persistence | Network || Shared Memory | mmap, shmget | No | Optional | No || Unnamed Pipe | pipe(), popen() | Yes | Process life | No || Named Pipe | mkfifo() | Yes | Until deleted | No || Message Queue | mq_open(), msgget() | Optional | Optional | No || TCP Socket | socket(), connect() | Optional | Session | Yes || UDP Socket | socket(), sendto() | No | Session | Yes || Signal | kill(), sigaction() | No | No | No"
+          ],
+          "common_mistakes": [
+            "Using TCP for same-machine IPC — Unix domain sockets are 2x faster than TCP loopback for local IPC since they bypass network stack"
+          ]
+        }
+      ]
+    }
+  ]
+}

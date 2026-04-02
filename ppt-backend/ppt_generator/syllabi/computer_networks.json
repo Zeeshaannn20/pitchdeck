@@ -1,0 +1,1371 @@
+{
+  "subject": "computer networks",
+  "modules": [
+    {
+      "module": "Introduction to Computer Networking",
+      "topics": [
+        {
+          "name": "What is Internet?",
+          "keywords": ["internet", "hardware view", "software view", "network", "what is internet"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Hardware View",
+            "Software View"
+          ],
+          "subtopic_content": {
+            "Hardware View": [
+              "Hardware view: Internet is a collection of billions of physical devices — computers, smartphones, servers, routers, switches, cables, and wireless access points — all interconnected.",
+              "End systems (hosts): devices at the edge — your laptop, phone, smart TV. Communication links: physical media connecting devices — copper wire, fiber optic, radio waves. Packet switches: routers and switches that forward data packets toward destination.",
+              "Real example: when you open YouTube, your request travels from your phone → home router → ISP router → YouTube's data center server. Each arrow is a different physical link and device."
+            ],
+            "Software View": [
+              "Software view: Internet is an infrastructure that provides services to distributed applications — Web, Email, Video streaming, Online gaming, Video calls.",
+              "Internet provides two service models to applications: reliable delivery (TCP — every byte arrives in order, no loss) and best-effort delivery (UDP — fast but no guarantee). Applications choose which suits their need.",
+              "Programming interface: socket API allows applications to 'plug into' Internet infrastructure and communicate. Just like a power socket — you plug in, you get electricity (network connectivity) without knowing how the power grid works."
+            ]
+          },
+          "required_diagrams": [
+            "Internet hardware view diagram: show a simplified network with end systems (laptop, phone, server icons) at edges, routers in the middle connected by links, ISP cloud in center. Label: End Systems, Packet Switches (Routers), Communication Links. Show data packet traveling from laptop to server through routers. Clean white background."
+          ],
+          "common_mistakes": [
+            "Confusing Internet and WWW — Internet is the physical infrastructure (hardware + protocols). WWW (World Wide Web) is just one application that runs on top of the Internet",
+            "Thinking routers and switches are the same — routers operate at Network layer (IP addresses), switches operate at Data Link layer (MAC addresses)"
+          ]
+        },
+        {
+          "name": "What is Protocol?",
+          "keywords": ["protocol", "real life analogy", "definition", "need for protocol"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Real-Life Analogy",
+            "Definition and Need"
+          ],
+          "subtopic_content": {
+            "Real-Life Analogy": [
+              "Human analogy: imagine meeting a stranger. You follow unspoken rules — greet first ('Hi'), wait for response, then communicate. If you suddenly start speaking in French to someone who only knows Hindi, communication fails.",
+              "Same in networks: two devices must agree on rules before communicating — what language (encoding), how to start, how to handle errors, how to end. These agreed-upon rules are protocols.",
+              "Traffic rules analogy: left side driving in India, right side in USA. Both work but only if everyone follows the SAME rule. Internet works because all devices follow the SAME protocols (TCP/IP)."
+            ],
+            "Definition and Need": [
+              "Protocol: a set of rules defining the format, order of messages sent and received among network entities, and actions taken on message transmission or receipt.",
+              "Without protocols: Device A sends data in format X, Device B expects format Y → communication fails. Protocols ensure interoperability — any two devices worldwide can communicate.",
+              "Key protocol properties: syntax (format of message), semantics (meaning of each field), timing (when and how fast to send). All three must be agreed upon by both sender and receiver."
+            ]
+          },
+          "common_mistakes": [
+            "Thinking protocol is just a format — protocol includes format (syntax), meaning (semantics), AND timing rules. Missing any one makes communication fail"
+          ]
+        },
+        {
+          "name": "Uses of Computer Networks",
+          "keywords": ["data sharing", "resource sharing", "remote access", "real time communication", "uses of network"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Data Sharing, Resource Sharing",
+            "Remote Access, Real-time Communication"
+          ],
+          "subtopic_content": {
+            "Data Sharing, Resource Sharing": [
+              "Data sharing: files, databases, documents shared across network. Google Drive, GitHub, company file servers — data stored once, accessed by many. No need to email files back and forth.",
+              "Resource sharing: expensive hardware (printers, scanners, storage) shared across many users. One office printer serves 50 employees. Cloud computing = extreme resource sharing — millions share same servers."
+            ],
+            "Remote Access, Real-time Communication": [
+              "Remote access: access systems from anywhere. SSH into server from home. VPN to company network. Remote Desktop. Work-from-home is possible only because of networks.",
+              "Real-time communication: voice calls (VoIP), video conferencing (Zoom, Teams), instant messaging (WhatsApp), online gaming. All require low-latency reliable networks.",
+              "Other uses: e-commerce, banking, entertainment streaming, IoT (smart home devices), healthcare (telemedicine), education (online learning). Modern life is impossible without computer networks."
+            ]
+          },
+          "common_mistakes": [
+            "Thinking network is only for Internet — internal company networks (intranets) provide same benefits without Internet connectivity"
+          ]
+        },
+        {
+          "name": "Network Topology",
+          "keywords": ["topology", "bus topology", "ring topology", "star topology", "mesh topology", "tree topology", "hybrid topology", "point to point", "multipoint"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Point-to-Point vs Multi-point",
+            "Bus",
+            "Ring",
+            "Star",
+            "Mesh",
+            "Tree",
+            "Hybrid"
+          ],
+          "subtopic_content": {
+            "Point-to-Point vs Multi-point": [
+              "Point-to-Point: dedicated link between exactly two devices. Like a private phone call between two people. Full bandwidth available to those two. Example: leased line between two offices.",
+              "Multi-point (Multipoint): one link shared among multiple devices. Like a conference call — all on same channel, must take turns. Example: traditional bus topology, WiFi."
+            ],
+            "Bus": [
+              "Bus topology: single backbone cable (bus), all devices tap into it. Data sent by one device travels entire bus, all receive it, only addressed device accepts.",
+              "Advantages: simple, cheap, easy to install. Disadvantages: entire network fails if bus cable breaks. Collision problem — only one device can transmit at a time. Used in early Ethernet (10BASE2)."
+            ],
+            "Ring": [
+              "Ring topology: devices connected in a circle. Data travels in one direction (unidirectional) around the ring, passing through each device until it reaches destination.",
+              "Token Ring: device must hold the 'token' before transmitting — prevents collisions. Disadvantage: one failed device breaks the entire ring (unless dual ring). Used in Token Ring (IEEE 802.5)."
+            ],
+            "Star": [
+              "Star topology: all devices connect to a central hub/switch. Most common topology in modern LANs. Each device has dedicated connection to center.",
+              "Advantages: easy to add/remove devices, fault isolation (one cable fails → only that device affected), easy troubleshooting. Disadvantage: if central switch fails → entire network fails. Central point of failure."
+            ],
+            "Mesh": [
+              "Mesh topology: every device connected to every other device. Full mesh: n devices → n(n-1)/2 links. Extremely fault tolerant — multiple paths between any two devices.",
+              "Advantage: no single point of failure, high redundancy. Disadvantage: expensive (many cables), complex wiring. Used in backbone networks and military networks where reliability is critical."
+            ],
+            "Tree": [
+              "Tree topology: hierarchical — root switch at top, intermediate switches in middle, end devices at bottom. Like an organizational chart. Used in large enterprise networks.",
+              "Root switch connects to ISP. Department switches connect to root. Workstations connect to department switches. Failure at root affects entire network, failure in branch affects only that branch."
+            ],
+            "Hybrid": [
+              "Hybrid topology: combination of two or more topologies. Most real networks are hybrid. Example: Star-Bus (each star network connected to a bus backbone). Star-Ring (stars connected in a ring).",
+              "Advantages: flexible — use best topology for each part of network. Modern enterprise networks typically use hybrid: star within each floor, ring between floors, mesh between buildings."
+            ]
+          },
+          "required_diagrams": [
+            "Network topology comparison diagram: six small topology diagrams arranged in a 2x3 grid. Each shows nodes (circles) and links (lines): 1) Bus - linear with nodes hanging off. 2) Ring - circular arrangement. 3) Star - all nodes connected to center. 4) Mesh - all nodes interconnected. 5) Tree - hierarchical levels. 6) Hybrid - combination. Each labeled with name. Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: Topology | Fault Tolerance | Cost | Scalability | Example Use || Bus | Low | Low | Low | Old Ethernet || Ring | Medium | Medium | Medium | Token Ring || Star | Medium | Medium | High | Modern LAN || Mesh | High | High | Low | Backbone, Military || Tree | Medium | Medium | High | Enterprise LAN || Hybrid | High | High | High | Large Organizations"
+          ],
+          "common_mistakes": [
+            "Thinking star topology has no single point of failure — the central switch IS a single point of failure. Redundant switches needed for high availability"
+          ]
+        },
+        {
+          "name": "Communication Types",
+          "keywords": ["simplex", "half duplex", "full duplex", "unicast", "broadcast", "multicast", "anycast"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Simplex",
+            "Half-Duplex",
+            "Full-Duplex",
+            "Unicast",
+            "Broadcast",
+            "Multicast",
+            "Anycast"
+          ],
+          "subtopic_content": {
+            "Simplex": [
+              "Simplex: data flows in ONE direction only. Sender can only send, receiver can only receive. No reverse channel.",
+              "Examples: TV broadcast (station → viewers, viewers cannot send back), keyboard to computer (keyboard sends, computer never sends to keyboard), FM radio."
+            ],
+            "Half-Duplex": [
+              "Half-Duplex: data flows in BOTH directions but NOT simultaneously. Like a walkie-talkie — press to talk, release to listen. Only one side transmits at a time.",
+              "Examples: walkie-talkie, CB radio, old Ethernet (CSMA/CD), HTTP/1.0 (request then response, not simultaneous)."
+            ],
+            "Full-Duplex": [
+              "Full-Duplex: data flows in BOTH directions simultaneously. Both sides can send and receive at the same time. Separate channels for each direction.",
+              "Examples: telephone call, modern Ethernet switch (each port has dedicated send and receive), TCP connections. Most modern network communication is full-duplex."
+            ],
+            "Unicast": [
+              "Unicast: one-to-one communication. Single sender, single specific receiver. Most common type in networks.",
+              "Examples: loading a webpage (your browser → specific web server), SSH session, regular TCP connection, HTTP request/response."
+            ],
+            "Broadcast": [
+              "Broadcast: one-to-all communication. Single sender, ALL devices in network receive. IPv4: 255.255.255.255 is limited broadcast address.",
+              "Examples: ARP request (who has this IP?), DHCP discovery (who is the DHCP server?), old television. Problem: floods network — not scalable beyond LAN."
+            ],
+            "Multicast": [
+              "Multicast: one-to-many communication. Single sender, only devices that JOINED the multicast group receive. Efficient — data sent once, delivered to group only.",
+              "Examples: IPTV (send video to all subscribers at once), video conferencing (one stream to all participants), stock price feeds. IPv4 multicast: 224.0.0.0 – 239.255.255.255."
+            ],
+            "Anycast": [
+              "Anycast: one-to-nearest communication. Data sent to nearest (topologically closest) member of a group of potential receivers.",
+              "Used in DNS (your query goes to nearest DNS root server), CDNs (nearest server responds), IPv6. Key advantage: automatic load balancing and fault tolerance."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Type | Senders | Receivers | Example || Unicast | 1 | 1 specific | HTTP, SSH || Broadcast | 1 | All in network | ARP, DHCP || Multicast | 1 | Group members | IPTV, Video conf || Anycast | 1 | Nearest in group | DNS root, CDN"
+          ],
+          "common_mistakes": [
+            "Confusing multicast and broadcast — broadcast reaches ALL devices (wasteful), multicast reaches only subscribed group members (efficient)",
+            "Thinking half-duplex and simplex are same — simplex is one-way forever, half-duplex is both-way but one at a time"
+          ]
+        },
+        {
+          "name": "Types of Networks",
+          "keywords": ["lan", "man", "wan", "pan", "wireless lan", "wlan", "internetwork", "network types"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "LAN",
+            "MAN",
+            "WAN",
+            "PAN",
+            "Wireless LAN",
+            "Internetwork (Internet)"
+          ],
+          "subtopic_content": {
+            "LAN": [
+              "LAN (Local Area Network): covers small geographic area — single building, floor, or campus. High speed (1Gbps to 100Gbps). Low latency. Owned and managed by one organization.",
+              "Technologies: Ethernet (IEEE 802.3) for wired, WiFi (IEEE 802.11) for wireless. Example: office network, university campus network, home network."
+            ],
+            "MAN": [
+              "MAN (Metropolitan Area Network): covers a city or metropolitan area (5-50 km). Connects multiple LANs within same city.",
+              "Technologies: fiber optic rings, cable TV networks, WiMAX. Example: city-wide cable TV network, bank branches in a city connected to HQ, municipal WiFi. ISPs often run MANs."
+            ],
+            "WAN": [
+              "WAN (Wide Area Network): covers large geographic area — country or globe. Connects cities, countries. Slower than LAN, higher latency, typically leased from telecom provider.",
+              "Technologies: MPLS, leased lines, satellite links. Example: Internet itself is the largest WAN. Company HQ in Mumbai connected to branch in New York = WAN."
+            ],
+            "PAN": [
+              "PAN (Personal Area Network): covers very small area around a person (1-10 meters). Connects personal devices.",
+              "Technologies: Bluetooth (most common), Zigbee, USB, IrDA. Examples: phone to Bluetooth headphones, laptop to wireless mouse, smartwatch to phone."
+            ],
+            "Wireless LAN": [
+              "WLAN (Wireless LAN): LAN using radio waves instead of cables. IEEE 802.11 standard (WiFi). Access Point (AP) connects wireless devices to wired network.",
+              "Standards: 802.11n (WiFi 4, 600Mbps), 802.11ac (WiFi 5, 3.5Gbps), 802.11ax (WiFi 6, 9.6Gbps). Range: ~30m indoors, ~100m outdoors. Security: WPA3."
+            ],
+            "Internetwork (Internet)": [
+              "Internetwork: network of networks. When multiple different networks are connected using routers, they form an internetwork. The Internet is the world's largest internetwork.",
+              "Router: device that connects different networks. When you send data from your home LAN to a server, it passes through many routers connecting many different networks — each hop is a different network."
+            ]
+          },
+          "required_diagrams": [
+            "Network types scale diagram: horizontal line showing geographic scale from left (small) to right (large). PAN (1-10m) → LAN (building) → MAN (city) → WAN (country/globe) → Internet (worldwide). Each with icon: person with devices, building, city skyline, globe. Clean white background, labeled."
+          ],
+          "required_tables": [
+            "Comparison: Network | Coverage | Speed | Technology | Example || PAN | 1-10m | Low-Medium | Bluetooth, Zigbee | Phone + earphones || LAN | Building/Campus | Very High | Ethernet, WiFi | Office network || MAN | City (5-50km) | High | Fiber, WiMAX | Cable TV network || WAN | Country/Globe | Medium | MPLS, Satellite | Internet, leased line"
+          ],
+          "common_mistakes": [
+            "Thinking Internet and WAN are same — WAN is any wide-area private or public network. Internet is a specific public internetwork using TCP/IP"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Protocol Models & Layering",
+      "topics": [
+        {
+          "name": "Network Software Architecture",
+          "keywords": ["protocol stack", "protocol vs service", "interface", "encapsulation", "decapsulation", "layering"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Protocol Stack Concepts",
+            "Protocol vs Service vs Interface",
+            "Encapsulation and Decapsulation"
+          ],
+          "subtopic_content": {
+            "Protocol Stack Concepts": [
+              "Layered architecture: complex network functions divided into layers. Each layer provides services to layer above and uses services from layer below. Each layer solves a specific sub-problem.",
+              "Benefit: modularity — change one layer's implementation without affecting others. Fiber optic replaced copper cable (Physical layer change) without changing TCP/IP protocols above.",
+              "Protocol stack: the set of protocols used by a system, one protocol per layer. TCP/IP stack: Application + Transport + Network + Link + Physical."
+            ],
+            "Protocol vs Service vs Interface": [
+              "Protocol: set of rules between same-layer entities on different machines. Layer 4 TCP on your machine communicates with Layer 4 TCP on the server using TCP protocol.",
+              "Service: what a layer offers to the layer above it. Transport layer offers reliable data delivery service to Application layer. Service is vertical (between adjacent layers).",
+              "Interface: how a layer accesses the service of the layer below it. Socket API is the interface between Application and Transport layers. Sockets are the doors to the network."
+            ],
+            "Encapsulation and Decapsulation": [
+              "Encapsulation (sending): each layer adds its own header (and sometimes trailer) to the data received from layer above. Application data → Transport adds TCP header → Network adds IP header → Link adds Ethernet header+trailer.",
+              "Decapsulation (receiving): each layer strips its header, processes it, and passes remaining data up. Ethernet header stripped at Link layer → IP header stripped at Network layer → TCP header stripped at Transport layer → Application gets original data.",
+              "PDU names: Application data = Message. Transport layer unit = Segment (TCP) or Datagram (UDP). Network layer unit = Datagram/Packet. Link layer unit = Frame. Physical layer = Bits."
+            ]
+          },
+          "required_diagrams": [
+            "Encapsulation diagram: show sender (left) and receiver (right). Sender stack: App → Transport → Network → Link → Physical going down, each layer adds header shown as colored box. Middle: physical transmission as bit stream. Receiver stack: Physical → Link → Network → Transport → App going up, each layer strips header. Label each PDU: Message, Segment, Packet, Frame, Bits. Clean white background."
+          ],
+          "common_mistakes": [
+            "Thinking protocol and service are same — protocol is peer-to-peer (horizontal) communication rules. Service is what one layer provides to the layer above it (vertical)"
+          ]
+        },
+        {
+          "name": "TCP/IP Protocol Suite",
+          "keywords": ["tcp ip", "tcp/ip model", "layer overview", "protocols in each layer", "internet protocol suite"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Layer Overview",
+            "Protocols in each layer"
+          ],
+          "subtopic_content": {
+            "Layer Overview": [
+              "TCP/IP model has 5 layers (or 4 in original): Application, Transport, Network (Internet), Link (Network Access), Physical.",
+              "Application layer: supports network applications (HTTP, DNS, SMTP, FTP). Transport layer: process-to-process data transfer (TCP, UDP). Network layer: routing packets across networks (IP, ICMP). Link layer: data transfer between neighboring network elements (Ethernet, WiFi). Physical layer: bits on wire."
+            ],
+            "Protocols in each layer": [
+              "Application: HTTP/HTTPS (web), DNS (name resolution), SMTP/POP3/IMAP (email), FTP/SFTP (file transfer), SSH (remote access), DHCP (IP assignment), Telnet.",
+              "Transport: TCP (reliable, connection-oriented), UDP (unreliable, connectionless). Network: IPv4, IPv6, ICMP (error reporting), IGMP (multicast), ARP (address resolution).",
+              "Link: Ethernet (IEEE 802.3), WiFi (IEEE 802.11), PPP. Physical: defines electrical/optical/radio signal characteristics. Not a specific protocol — depends on medium."
+            ]
+          },
+          "required_diagrams": [
+            "TCP/IP layer stack diagram: 5 horizontal bands stacked vertically. From top to bottom: Application (HTTP, DNS, SMTP, FTP, SSH), Transport (TCP, UDP), Network (IP, ICMP, ARP), Link (Ethernet, WiFi, PPP), Physical (Cables, Radio waves). Each band different color, protocol names listed inside each band. Clean white background."
+          ],
+          "common_mistakes": [
+            "Memorizing protocol names without understanding which layer they belong to — focus on WHY each protocol is in its layer, not just memorization"
+          ]
+        },
+        {
+          "name": "OSI Model",
+          "keywords": ["osi model", "7 layers", "osi vs tcp ip", "peer layer", "data encapsulation osi"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "7 Layers and Roles",
+            "Comparison with TCP/IP",
+            "Peer Layer Communication",
+            "Data Encapsulation/De-encapsulation"
+          ],
+          "subtopic_content": {
+            "7 Layers and Roles": [
+              "OSI model: 7 layers. Mnemonic: 'Please Do Not Throw Sausage Pizza Away' (Physical, Data Link, Network, Transport, Session, Presentation, Application).",
+              "Layer 7 Application: end-user services (HTTP, FTP, SMTP). Layer 6 Presentation: data translation, encryption, compression. Layer 5 Session: session establishment, maintenance, termination.",
+              "Layer 4 Transport: end-to-end reliable delivery (TCP/UDP). Layer 3 Network: logical addressing and routing (IP). Layer 2 Data Link: framing, MAC addressing, error detection (Ethernet). Layer 1 Physical: bits on physical medium."
+            ],
+            "Comparison with TCP/IP": [
+              "TCP/IP collapses OSI layers 5,6,7 into one Application layer. TCP/IP has no separate Session and Presentation layers — applications handle these functions themselves.",
+              "OSI is theoretical/reference model — never fully implemented. TCP/IP is practical model — what the Internet actually uses. Study OSI to understand concepts, implement TCP/IP."
+            ],
+            "Peer Layer Communication": [
+              "Peer layer communication: Layer N on one machine communicates logically with Layer N on another machine using Layer N protocol. They are 'peers'.",
+              "Logical vs Physical: Layer 3 on your machine seems to talk directly to Layer 3 on server (logical), but actually data travels down all layers, across physical medium, up all layers on other side (physical path)."
+            ],
+            "Data Encapsulation/De-encapsulation": [
+              "At each layer going down: header added. Physical layer converts everything to bits. At each layer going up on receiver side: corresponding header stripped.",
+              "Layer 2 adds both header AND trailer (for error detection). Other layers typically add only headers. Total overhead can be 50+ bytes per packet for small messages."
+            ]
+          },
+          "required_diagrams": [
+            "OSI vs TCP/IP comparison diagram: two vertical stacks side by side. Left stack: OSI 7 layers (Application, Presentation, Session, Transport, Network, Data Link, Physical). Right stack: TCP/IP 5 layers (Application, Transport, Network, Link, Physical). Bracket showing layers 5-7 of OSI mapping to Application of TCP/IP. Arrows showing correspondence. Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: OSI Layer | Function | TCP/IP Layer | Key Protocols || Application (7) | User interface, app services | Application | HTTP, DNS, SMTP || Presentation (6) | Encryption, compression | Application | SSL/TLS, JPEG || Session (5) | Session management | Application | NetBIOS, RPC || Transport (4) | End-to-end delivery | Transport | TCP, UDP || Network (3) | Routing, logical addressing | Network | IP, ICMP || Data Link (2) | Framing, MAC, error detect | Link | Ethernet, WiFi || Physical (1) | Bits on medium | Physical | Cables, Radio"
+          ],
+          "common_mistakes": [
+            "Thinking OSI is what the Internet uses — Internet uses TCP/IP model. OSI is a reference model for understanding, not implementation"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Physical Layer and Data Communication Basics",
+      "topics": [
+        {
+          "name": "Signals and Performance Metrics",
+          "keywords": ["analog signal", "digital signal", "characteristics", "attenuation", "noise", "delay", "bandwidth", "throughput", "latency", "bitrate", "baud rate"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Characteristics of Signals",
+            "Attenuation",
+            "Noise",
+            "Delay",
+            "Bandwidth",
+            "Throughput",
+            "Latency",
+            "Bitrate",
+            "Baud Rate"
+          ],
+          "subtopic_content": {
+            "Characteristics of Signals": [
+              "Analog signal: continuous wave, varies smoothly over time. Characterized by: amplitude (height = signal strength), frequency (cycles per second = Hz), phase (timing offset).",
+              "Digital signal: discrete levels, typically 0 or 1 (binary). Represented as voltage levels — 0V = bit 0, 5V = bit 1. Simpler to process, more immune to noise than analog."
+            ],
+            "Attenuation": [
+              "Attenuation: signal loses strength as it travels through medium. Signal gets weaker with distance. Like voice fading as you move far from speaker.",
+              "Measured in decibels (dB). Solution: amplifiers (boost analog signals) or repeaters (regenerate digital signals). Fiber optic has much less attenuation than copper wire."
+            ],
+            "Noise": [
+              "Noise: unwanted signals mixed with the original signal. Types: thermal noise (random electron movement), cross-talk (signal leaking from adjacent wire), impulse noise (sudden spikes from lightning/switching).",
+              "SNR (Signal-to-Noise Ratio): ratio of signal power to noise power. Higher SNR = cleaner signal = higher possible data rate. Twisted pair cable: twisting reduces cross-talk noise."
+            ],
+            "Delay": [
+              "Types of delay in networks: Propagation delay (signal travel time = distance/speed of light), Transmission delay (time to push all bits onto link = packet_size/bandwidth), Processing delay (router processing time), Queuing delay (waiting in router queue).",
+              "Total delay = propagation + transmission + processing + queuing. Ping measures round-trip propagation delay. High queuing delay = congested network."
+            ],
+            "Bandwidth": [
+              "Bandwidth: maximum rate at which data can be transmitted over a link. Measured in bits per second (bps). Higher bandwidth = faster data transfer.",
+              "NOT the same as speed — bandwidth is capacity, like width of a road. Actual speed depends on traffic. 100Mbps link can transmit 100 million bits per second maximum."
+            ],
+            "Throughput": [
+              "Throughput: actual data transfer rate achieved in practice. Always ≤ bandwidth. Throughput < bandwidth due to: protocol overhead, congestion, errors, retransmissions.",
+              "Example: 100Mbps bandwidth link with heavy traffic might achieve only 60Mbps throughput. Bottleneck link: the slowest link in path determines end-to-end throughput."
+            ],
+            "Latency": [
+              "Latency: total time for a packet to travel from source to destination. Includes all delay components. Different from bandwidth — you can have high bandwidth but high latency.",
+              "Gaming and video calls are latency-sensitive (need low latency). File downloads are bandwidth-sensitive (need high bandwidth). Satellite internet: high bandwidth but high latency (~600ms)."
+            ],
+            "Bitrate": [
+              "Bitrate (bit rate): number of bits transmitted per second. Units: bps, Kbps, Mbps, Gbps. Bitrate = number of signal changes per second × bits per signal change.",
+              "Example: USB 3.0 = 5 Gbps bitrate. 4K video streaming requires ~25 Mbps bitrate. Higher bitrate requires more bandwidth."
+            ],
+            "Baud Rate": [
+              "Baud rate: number of signal changes (symbols) per second. One baud = one signal change per second.",
+              "Bitrate vs Baud rate: if each symbol encodes 1 bit → bitrate = baud rate. If each symbol encodes 4 bits (16-QAM) → bitrate = 4 × baud rate. Modern modems encode many bits per symbol to increase bitrate without increasing baud rate."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Metric | Definition | Unit | Example || Bandwidth | Max data rate of link | bps | 100 Mbps Ethernet || Throughput | Actual data rate achieved | bps | 60 Mbps on 100Mbps link || Latency | Total packet travel time | ms | 20ms ping to server || Bitrate | Bits transmitted per second | bps | 5 Gbps USB 3.0 || Baud Rate | Signal changes per second | Baud | 1200 baud modem"
+          ],
+          "common_mistakes": [
+            "Confusing bandwidth and throughput — bandwidth is the capacity (maximum), throughput is actual performance. Throughput is always less than or equal to bandwidth",
+            "Confusing bitrate and baud rate — same only when each symbol encodes exactly 1 bit. Modern systems encode multiple bits per symbol"
+          ]
+        },
+        {
+          "name": "Transmission Media",
+          "keywords": ["transmission media", "guided media", "twisted pair", "coaxial", "fiber optic", "unguided media", "radio wave", "microwave", "infrared", "cat5e", "cat6"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Guided (Twisted Pair, Coax, Fiber)",
+            "Unguided (Radio, Microwave, Infrared)",
+            "Ethernet (Cat5e, Cat6)",
+            "Fiber Modes"
+          ],
+          "subtopic_content": {
+            "Guided (Twisted Pair, Coax, Fiber)": [
+              "Twisted Pair: two insulated copper wires twisted together. Twisting reduces cross-talk interference. UTP (Unshielded) — cheap, common in LANs. STP (Shielded) — better noise immunity.",
+              "Coaxial Cable: central copper conductor surrounded by insulating layer, metallic shield, outer jacket. Better shielding than twisted pair. Used in cable TV, older Ethernet.",
+              "Fiber Optic: glass/plastic fiber transmits light pulses instead of electrical signals. Extremely high bandwidth (Tbps), very low attenuation, immune to electromagnetic interference. Used for backbone networks, ISP connections, undersea cables."
+            ],
+            "Unguided (Radio, Microwave, Infrared)": [
+              "Radio waves: omnidirectional, penetrate walls. Used in WiFi (2.4GHz, 5GHz), Bluetooth (2.4GHz), FM radio, cellular networks.",
+              "Microwave: directional, higher frequency (GHz range). Line-of-sight required — no obstacles. Dish antennas on towers. Used for long-distance communication, satellite links, 5G backhaul.",
+              "Infrared: very short range, line-of-sight only, blocked by walls. TV remote controls, IrDA for old device communication. Not used in modern networking."
+            ],
+            "Ethernet (Cat5e, Cat6)": [
+              "Cat5e: 4 twisted pairs, supports 1Gbps up to 100m. Most common in home and office networks. Cheap and widely available.",
+              "Cat6: tighter twist, better insulation, supports 10Gbps up to 55m (or 1Gbps up to 100m). Better noise rejection. Use Cat6 for new installations."
+            ],
+            "Fiber Modes": [
+              "Single-mode fiber (SMF): very thin core (9 microns), single light path, extremely low attenuation. Used for long-distance — kilometers to thousands of km. More expensive.",
+              "Multi-mode fiber (MMF): larger core (50-62.5 microns), multiple light paths, more dispersion. Used for short distances (up to ~2km). Cheaper than single-mode. Used in data centers."
+            ]
+          },
+          "required_diagrams": [
+            "Transmission media comparison diagram: four cross-section diagrams side by side. 1) Twisted Pair: two wires twisted. 2) Coaxial: concentric circles showing conductor, insulator, shield, jacket. 3) Fiber Optic: core, cladding, jacket layers. 4) Radio waves: tower with circular wave rings. Each labeled with key characteristics (bandwidth, distance, cost). Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: Media | Bandwidth | Distance | Cost | Interference Immunity | Use || UTP (Cat6) | 10Gbps | 100m | Low | Low | LAN, office || Coaxial | ~500Mbps | ~500m | Medium | Medium | Cable TV || Fiber (SMF) | Tbps | 100km+ | High | Very High | ISP backbone || WiFi (5GHz) | ~3.5Gbps | ~30m | Low | Low-Medium | WLAN"
+          ],
+          "common_mistakes": [
+            "Thinking WiFi is always fast enough — walls, interference, distance reduce WiFi speed significantly. Wired Ethernet still preferred for reliability-critical applications"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Modulation & Multiplexing",
+      "topics": [
+        {
+          "name": "Digital to Digital Conversion",
+          "keywords": ["nrz", "rz", "manchester coding", "line coding", "digital encoding", "nrz-l", "nrz-i"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "NRZ",
+            "RZ",
+            "Manchester Coding"
+          ],
+          "subtopic_content": {
+            "NRZ": [
+              "NRZ (Non-Return to Zero): signal stays at its level for entire bit duration. NRZ-L (Level): high voltage = 1, low voltage = 0. NRZ-I (Inverted): transition at beginning of bit = 1, no transition = 0.",
+              "Problem with NRZ: long strings of same bit (0000000 or 1111111) → no transitions → clock synchronization lost. Receiver loses track of bit boundaries. NRZ-I solves for long 1s but not long 0s."
+            ],
+            "RZ": [
+              "RZ (Return to Zero): signal goes to zero in the MIDDLE of each bit period. Three levels: +1 (1 bit), -1 (0 bit), 0 (return).",
+              "Advantage: built-in synchronization — transition in middle of every bit. Disadvantage: requires more bandwidth than NRZ (two transitions per bit). Not commonly used in modern systems."
+            ],
+            "Manchester Coding": [
+              "Manchester encoding: transition in the MIDDLE of each bit period carries the data. Low-to-High transition = 1, High-to-Low transition = 0 (or vice versa, depending on standard).",
+              "Advantage: always has transition in middle → self-synchronizing. No long periods without transitions. Used in Ethernet (10BASE-T, 10BASE5). Disadvantage: needs 2× bandwidth of NRZ."
+            ]
+          },
+          "required_diagrams": [
+            "Line coding comparison diagram: show same bit sequence (1 0 1 1 0 0 1) encoded three ways as waveforms stacked vertically. NRZ: stays high/low for bit duration. RZ: returns to zero mid-bit. Manchester: transition in middle of each bit. Label each waveform, mark the bit transitions. Clean white background."
+          ],
+          "common_mistakes": [
+            "Confusing NRZ-L and NRZ-I — NRZ-L: voltage level determines bit value. NRZ-I: transition (or no transition) determines bit value"
+          ]
+        },
+        {
+          "name": "Analog and Digital Conversion",
+          "keywords": ["sampling", "quantization", "pcm", "ask", "fsk", "psk", "am", "fm", "pm", "modulation", "analog to digital", "digital to analog"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Sampling",
+            "Quantization",
+            "PCM",
+            "ASK",
+            "FSK",
+            "PSK",
+            "AM",
+            "FM",
+            "PM"
+          ],
+          "subtopic_content": {
+            "Sampling": [
+              "Sampling: converting continuous analog signal to discrete values by measuring at regular intervals. Sampling rate = number of samples per second (Hz).",
+              "Nyquist theorem: sampling rate must be at least 2× the maximum signal frequency to reconstruct original. Voice (4kHz max) → sample at 8kHz (8000 samples/sec). CD audio (20kHz) → 44.1kHz sampling rate."
+            ],
+            "Quantization": [
+              "Quantization: each sample assigned a discrete numeric value from a fixed set of levels. Example: 8-bit quantization → 256 levels (0-255).",
+              "Quantization error: difference between actual sample value and nearest quantization level. More bits → more levels → less error → better quality. CD uses 16-bit (65,536 levels)."
+            ],
+            "PCM": [
+              "PCM (Pulse Code Modulation): complete analog-to-digital conversion process. Sample the signal → Quantize each sample → Encode as binary bits → Transmit.",
+              "PCM bit rate = sampling rate × bits per sample. Telephone voice: 8000 samples/sec × 8 bits = 64 Kbps. This is why one telephone call needs 64Kbps — a fundamental telecom constant."
+            ],
+            "ASK": [
+              "ASK (Amplitude Shift Keying): digital data represented by changing the amplitude (height) of carrier wave. 1 = high amplitude, 0 = low amplitude (or no signal).",
+              "Vulnerable to noise — noise changes amplitude easily. Low bandwidth efficiency. Used in optical fiber communication and some low-speed modems."
+            ],
+            "FSK": [
+              "FSK (Frequency Shift Keying): digital data represented by changing the frequency of carrier wave. 1 = higher frequency (f1), 0 = lower frequency (f2).",
+              "More noise-resistant than ASK. Uses more bandwidth. Used in early modems (BELL 202: 1200bps), caller ID, RFID. FM radio uses analog version."
+            ],
+            "PSK": [
+              "PSK (Phase Shift Keying): digital data represented by changing the phase of carrier wave. BPSK (Binary): 0° phase = 1, 180° phase = 0. QPSK: 4 phases, 2 bits per symbol.",
+              "Good bandwidth efficiency. Noise-resistant (harder to change phase than amplitude). Used in WiFi (802.11), satellite communication, USB 3.0. QAM combines amplitude + phase for higher data rates."
+            ],
+            "AM": [
+              "AM (Amplitude Modulation): analog modulation — vary carrier amplitude based on analog message signal. Used in AM radio (530-1700 kHz).",
+              "Susceptible to noise (noise affects amplitude). Simple receivers. Long range at low frequencies due to ground wave propagation."
+            ],
+            "FM": [
+              "FM (Frequency Modulation): vary carrier frequency based on analog message signal. Used in FM radio (88-108 MHz), TV sound, two-way radios.",
+              "Better noise immunity than AM (noise affects amplitude, not frequency). Higher audio quality. Shorter range than AM."
+            ],
+            "PM": [
+              "PM (Phase Modulation): vary carrier phase based on analog message signal. Very similar to FM. PM and FM are mathematically related.",
+              "PM is basis for digital PSK. Used in some data modems and satellite communication."
+            ]
+          },
+          "required_diagrams": [
+            "Modulation types comparison diagram: show four waveforms for same bit pattern (1 0 1). Top: original digital signal. ASK: amplitude changes high/low. FSK: frequency changes high/low. PSK: phase shifts at bit transitions. Each labeled clearly. Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: Modulation | What Changes | Noise Immunity | Bandwidth | Use Case || ASK | Amplitude | Low | Low | Optical fiber || FSK | Frequency | Medium | Medium | Old modems, RFID || PSK | Phase | High | Medium | WiFi, Satellite || QAM | Amplitude+Phase | High | High | Cable modem, 4G/5G"
+          ],
+          "common_mistakes": [
+            "Confusing ASK/FSK/PSK (digital modulation) with AM/FM/PM (analog modulation) — ASK/FSK/PSK are digital (modulate to transmit bits), AM/FM/PM are analog (modulate continuous signals)"
+          ]
+        },
+        {
+          "name": "Multiplexing Techniques",
+          "keywords": ["fdm", "tdm", "wdm", "multiplexing", "frequency division", "time division", "wavelength division"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "FDM",
+            "TDM",
+            "WDM"
+          ],
+          "subtopic_content": {
+            "FDM": [
+              "FDM (Frequency Division Multiplexing): divide available bandwidth into sub-channels, each with different frequency range. Multiple signals transmitted simultaneously, each in own frequency band.",
+              "Guard bands: small empty frequency ranges between channels to prevent interference. Used in AM/FM radio (each station has its own frequency), cable TV (each channel has its own frequency), ADSL (separate frequencies for voice and data)."
+            ],
+            "TDM": [
+              "TDM (Time Division Multiplexing): divide time into slots, each signal gets its slot in rotation. All signals use full bandwidth but at different time slots.",
+              "Synchronous TDM: fixed slots assigned even if source has nothing to send (wasteful). Statistical TDM: slots assigned only when source has data (more efficient). Used in telephone networks (T1 line = 24 channels, each gets 1/24 of time)."
+            ],
+            "WDM": [
+              "WDM (Wavelength Division Multiplexing): fiber optic version of FDM. Each signal uses different wavelength (color) of light. Multiple colors travel through same fiber simultaneously.",
+              "DWDM (Dense WDM): pack many wavelengths very close together — 80+ channels in same fiber. Used in long-haul fiber backbone networks. Enables Tbps throughput on single fiber strand."
+            ]
+          },
+          "required_diagrams": [
+            "Multiplexing comparison diagram: three rows showing FDM, TDM, WDM. FDM: frequency axis divided into bands, each band labeled User 1, 2, 3. TDM: time axis divided into slots, rotating between User 1, 2, 3. WDM: fiber with different colored light beams (wavelengths) traveling together. Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: Technique | Division | Used for | Key Feature || FDM | Frequency | Radio, Cable TV, ADSL | Simultaneous transmission in different frequencies || TDM | Time | Telephone (T1), Digital networks | Round-robin time slots || WDM | Wavelength (light color) | Fiber optic backbone | Multiple colors in one fiber"
+          ],
+          "common_mistakes": [
+            "Confusing FDM and TDM — FDM divides by frequency (simultaneous), TDM divides by time (sequential). Both achieve multiple signals on one medium"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Data Link Layer",
+      "topics": [
+        {
+          "name": "Design Issues and Protocols",
+          "keywords": ["framing", "error control", "flow control", "stop and wait", "sliding window", "data link layer"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Framing",
+            "Error Control",
+            "Flow Control",
+            "Stop-and-Wait",
+            "Sliding Window"
+          ],
+          "subtopic_content": {
+            "Framing": [
+              "Framing: dividing bitstream into discrete frames (units). Receiver needs to know where one frame ends and next begins. Four methods: character count, flag bytes with byte stuffing, flag bits with bit stuffing, physical layer coding violations.",
+              "Flag byte (0x7E in HDLC): marks start and end of frame. Problem: what if data contains 0x7E? Solution: byte stuffing — insert escape character before any 0x7E in data. Receiver strips escape characters."
+            ],
+            "Error Control": [
+              "Error control: detect and/or correct errors introduced during transmission. Two approaches: error detection + retransmission (ARQ), or error correction (FEC — Forward Error Correction).",
+              "ARQ (Automatic Repeat reQuest): receiver detects error → sends NAK (negative acknowledgment) → sender retransmits. Or receiver doesn't acknowledge → sender times out → retransmits."
+            ],
+            "Flow Control": [
+              "Flow control: prevent fast sender from overwhelming slow receiver. Without flow control: receiver's buffer overflows → packets dropped → retransmissions → network congestion.",
+              "Two mechanisms: feedback-based (receiver tells sender how much buffer space available — TCP's sliding window), rate-based (sender limited to certain transmission rate)."
+            ],
+            "Stop-and-Wait": [
+              "Stop-and-Wait: sender sends one frame, waits for ACK, then sends next frame. Simplest ARQ protocol.",
+              "Efficiency problem: if propagation delay is large, sender wastes time waiting. Efficiency = T_transmit / (T_transmit + 2×T_propagate). For satellite link: efficiency ≈ 1% (99% time wasted waiting)."
+            ],
+            "Sliding Window": [
+              "Sliding Window: sender can have multiple outstanding (unacknowledged) frames — up to window size W. Dramatically improves efficiency.",
+              "Window size W = 1 → Stop-and-Wait. Window size = bandwidth-delay product → full efficiency. Go-Back-N: error → retransmit from error frame. Selective Repeat: retransmit only errored frame."
+            ]
+          },
+          "required_diagrams": [
+            "Stop-and-Wait vs Sliding Window comparison diagram: two timelines side by side. Left (Stop-and-Wait): sender sends frame, waits long time (propagation delay shown as arrow), receives ACK, sends next frame — lots of idle time shown. Right (Sliding Window): sender sends multiple frames in sequence without waiting, ACKs come back while new frames being sent — high utilization shown. Label idle time and utilization. Clean white background."
+          ],
+          "common_mistakes": [
+            "Thinking Stop-and-Wait is efficient for fast links — it's inefficient when propagation delay >> transmission time. Sliding window solves this"
+          ]
+        },
+        {
+          "name": "Error Detection and Correction",
+          "keywords": ["parity bit", "crc", "checksum", "hamming code", "two dimensional parity", "error detection", "error correction"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Parity Bit",
+            "CRC",
+            "Checksum",
+            "Hamming Code",
+            "Two-dimensional Parity"
+          ],
+          "subtopic_content": {
+            "Parity Bit": [
+              "Parity bit: extra bit added to make total number of 1s even (even parity) or odd (odd parity). Simple single-bit error detection.",
+              "Example (even parity): data 1010001 has three 1s → add parity bit 1 → 10100011. Detects single-bit errors, cannot detect 2-bit errors (they cancel out). Cannot correct errors."
+            ],
+            "CRC": [
+              "CRC (Cyclic Redundancy Check): treats frame as a polynomial, divides by agreed-upon generator polynomial, appends remainder as checksum. Very powerful error detection.",
+              "CRC-32 used in Ethernet: detects all single-bit errors, double-bit errors, burst errors up to 32 bits. Steps: divide message polynomial by generator polynomial (modulo-2 division), append remainder to message. Receiver does same division — if remainder is 0, no error."
+            ],
+            "Checksum": [
+              "Checksum: sum all data words (one's complement), append sum as checksum. Used in IP and TCP/UDP headers.",
+              "IP checksum: sum all 16-bit words in header using one's complement arithmetic → take one's complement of sum → this is checksum. Receiver sums all words including checksum → result should be all 1s if no error."
+            ],
+            "Hamming Code": [
+              "Hamming code: error CORRECTION code — not just detection. Adds redundant parity bits at positions 1, 2, 4, 8, 16... (powers of 2). Each parity bit covers specific data bits.",
+              "Hamming distance: minimum number of bit changes to convert one valid codeword to another. For error correction: Hamming distance must be ≥ 2t+1 where t = errors to correct. Hamming(7,4): 7 total bits (4 data + 3 parity), corrects 1 error."
+            ],
+            "Two-dimensional Parity": [
+              "2D parity: organize data as a matrix (rows and columns). Add parity bit for each row AND each column. Can detect and localize single-bit error — error is at intersection of failed row and column.",
+              "Can detect all 1, 2, and 3-bit errors. Can correct single-bit errors. More overhead than simple parity but much more powerful."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Method | Type | Detects | Corrects | Overhead | Use || Parity | Detection | Single bit | No | 1 bit/data | Simple systems || CRC | Detection | Burst errors | No | 16-32 bits | Ethernet, storage || Checksum | Detection | Some errors | No | 16 bits | IP, TCP, UDP || Hamming | Correction | 1+ bits | 1 bit | Several bits | Memory (ECC RAM) || 2D Parity | Both | 1-3 bits | 1 bit | Row+Col bits | Some comm systems"
+          ],
+          "common_mistakes": [
+            "Thinking checksum is as strong as CRC — checksum can miss some multi-bit errors. CRC is much more robust. Use CRC for reliable detection"
+          ]
+        },
+        {
+          "name": "Media Access Control",
+          "keywords": ["aloha", "slotted aloha", "csma", "csma cd", "csma ca", "mac", "media access", "collision", "ethernet protocol", "hub", "switch", "bridge"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "ALOHA",
+            "Slotted ALOHA",
+            "CSMA",
+            "CSMA/CD",
+            "CSMA/CA",
+            "Ethernet Frame Structure",
+            "Hub",
+            "Switch",
+            "Bridge"
+          ],
+          "subtopic_content": {
+            "ALOHA": [
+              "Pure ALOHA: transmit whenever you have data. If collision → wait random time → retransmit. Extremely simple. Maximum efficiency: 18.4% — wastes 81.6% of capacity.",
+              "First random access protocol (University of Hawaii, 1970). Basis for all subsequent MAC protocols. Still used in some IoT and satellite communication where simplicity matters."
+            ],
+            "Slotted ALOHA": [
+              "Slotted ALOHA: divide time into equal slots. Can only transmit at beginning of a slot. Reduces collision overlap — collisions only full slot overlap.",
+              "Maximum efficiency: 36.8% — twice that of Pure ALOHA. Simple improvement with significant gain. Used in cellular networks' control channels."
+            ],
+            "CSMA": [
+              "CSMA (Carrier Sense Multiple Access): 'listen before talk'. Check if channel is busy before transmitting. Reduces (but doesn't eliminate) collisions.",
+              "Non-persistent: if busy, wait random time then check again. 1-persistent: if busy, keep checking — transmit immediately when free. p-persistent: if free, transmit with probability p. 1-persistent used in Ethernet initially."
+            ],
+            "CSMA/CD": [
+              "CSMA/CD (Collision Detection): add collision detection to CSMA. During transmission, monitor channel. If collision detected → stop → send jam signal → wait random time → retry.",
+              "Used in wired Ethernet (half-duplex). Requires frame to be long enough for sender to detect collision during transmission. Minimum Ethernet frame = 64 bytes. Modern full-duplex Ethernet doesn't use CSMA/CD — dedicated links eliminate collisions."
+            ],
+            "CSMA/CA": [
+              "CSMA/CA (Collision Avoidance): cannot detect collisions in wireless (hidden terminal problem). Instead, avoid collisions proactively. Random backoff before transmitting even when channel appears free.",
+              "Optional RTS/CTS: send Request-to-Send before data, wait for Clear-to-Send. Solves hidden terminal problem. Used in WiFi (802.11). Less efficient than CD but necessary for wireless."
+            ],
+            "Ethernet Frame Structure": [
+              "Ethernet II frame: Preamble (8 bytes, 10101010...10101011 — synchronization) | Destination MAC (6 bytes) | Source MAC (6 bytes) | Type/Length (2 bytes) | Data (46-1500 bytes) | FCS (4 bytes CRC).",
+              "Minimum frame 64 bytes (excluding preamble), maximum 1518 bytes. If data < 46 bytes, padding added. FCS = CRC-32 over all fields except preamble and FCS itself."
+            ],
+            "Hub": [
+              "Hub: Layer 1 (Physical) device. Broadcasts every received signal to ALL ports. All devices share same collision domain — only one can transmit at a time.",
+              "Largely obsolete — replaced by switches. Still used in network testing (traffic analyzer needs to see all traffic). Half-duplex operation only."
+            ],
+            "Switch": [
+              "Switch: Layer 2 (Data Link) device. Learns MAC addresses → forwards frames only to correct port. Each port is separate collision domain — full-duplex possible.",
+              "MAC address table (CAM table): switch builds table mapping MAC address to port number by examining source MAC of incoming frames. Unknown destination → flood all ports (like hub) until learned."
+            ],
+            "Bridge": [
+              "Bridge: Layer 2 device connecting two network segments. Similar to switch but typically only 2 ports. Used to divide large collision domain into two smaller ones.",
+              "Software-based (slower than switch). Modern switches have essentially replaced bridges. Bridge = 2-port switch conceptually."
+            ]
+          },
+          "required_diagrams": [
+            "Hub vs Switch diagram: show two scenarios side by side. Left (Hub): 4 computers connected to hub, arrows showing broadcast to all when one sends. Right (Switch): 4 computers connected to switch, arrows showing directed forwarding only to destination MAC. Label MAC address table in switch. Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: Device | Layer | Intelligence | Collision Domain | Broadcast Domain || Hub | Physical (1) | None | All ports share one | All ports share one || Bridge | Data Link (2) | MAC table | Per segment | All ports share one || Switch | Data Link (2) | MAC table | Per port (full-duplex) | All ports share one || Router | Network (3) | Routing table | Per port | Per interface"
+          ],
+          "common_mistakes": [
+            "Confusing CSMA/CD (wired Ethernet, detect collision after it happens) with CSMA/CA (WiFi, avoid collision before it happens) — different environments need different approaches"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Network Layer",
+      "topics": [
+        {
+          "name": "IP Addressing",
+          "keywords": ["ipv4", "ip classes", "subnetting", "supernetting", "cidr", "ipv6", "subnet mask", "classful", "classless"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Routing",
+            "Forwarding",
+            "Addressing",
+            "IPv4 Classes",
+            "Subnetting",
+            "Supernetting",
+            "CIDR",
+            "IPv6 Format and Addressing"
+          ],
+          "subtopic_content": {
+            "Routing": [
+              "Routing: process of determining the path from source to destination across multiple networks. Routers build routing tables using routing protocols (RIP, OSPF, BGP).",
+              "Routing table: maps destination network prefixes to next-hop router addresses. Router consults table for each packet → forwards to next hop toward destination."
+            ],
+            "Forwarding": [
+              "Forwarding: moving packet from router's input to correct output port. Per-packet, very fast operation (hardware-based in modern routers). Uses forwarding table (derived from routing table).",
+              "Routing vs Forwarding: routing is slow, happens periodically, builds the map. Forwarding is fast, happens for every packet, uses the map. Like GPS computing route (routing) vs driver following directions (forwarding)."
+            ],
+            "Addressing": [
+              "IP address: 32-bit (IPv4) or 128-bit (IPv6) number uniquely identifying a network interface. Two parts: network prefix (identifies network) + host part (identifies device within network).",
+              "Every packet carries source and destination IP address. Routers use destination IP to make forwarding decisions. Unlike MAC addresses, IP addresses are logically structured for hierarchical routing."
+            ],
+            "IPv4 Classes": [
+              "Classful addressing: Class A (0.0.0.0/8 prefix, 8-bit network, 24-bit host, 16 million hosts), Class B (128.0.0.0/16, 65,536 hosts), Class C (192.0.0.0/24, 254 hosts).",
+              "Special: Class D (224.0.0.0-239.255.255.255) for multicast. Class E (240.0.0.0-255.255.255.255) reserved. Private addresses: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 — not routed on Internet."
+            ],
+            "Subnetting": [
+              "Subnetting: divide a large network into smaller subnetworks (subnets) by borrowing bits from host part for network part. Increases network flexibility and security.",
+              "Example: 192.168.1.0/24 (256 addresses) split into 4 subnets /26 (64 addresses each). Subnet mask /26 = 255.255.255.192. Network address: all host bits = 0. Broadcast: all host bits = 1. Usable hosts = 2^n - 2."
+            ],
+            "Supernetting": [
+              "Supernetting: combine multiple smaller networks into one larger network by moving network/host boundary left. Reduces routing table size.",
+              "Example: four /24 networks (192.168.0.0, 192.168.1.0, 192.168.2.0, 192.168.3.0) combined into 192.168.0.0/22. Prerequisite: networks must be contiguous and correctly aligned."
+            ],
+            "CIDR": [
+              "CIDR (Classless Inter-Domain Routing): replace classful A/B/C system with flexible prefix length notation. 192.168.1.0/24 → /24 is prefix length (24 network bits, 8 host bits).",
+              "CIDR aggregation: ISPs advertise one block covering many customer networks. Reduces Internet routing table from millions to hundreds of thousands of entries. Route aggregation is critical for Internet scalability."
+            ],
+            "IPv6 Format and Addressing": [
+              "IPv6: 128-bit addresses written as 8 groups of 4 hex digits. 2001:0db8:85a3:0000:0000:8a2e:0370:7334. Abbreviation: omit leading zeros, replace consecutive zero groups with ::.",
+              "Why IPv6: IPv4 exhaustion (only 4.3 billion addresses, already depleted). IPv6 has 2^128 = 340 undecillion addresses — enough for every grain of sand to have billions of addresses.",
+              "IPv6 features: no NAT needed (huge address space), built-in IPsec, simplified header (40 bytes fixed vs IPv4 variable), stateless address autoconfiguration (SLAAC), no broadcast (uses multicast)."
+            ]
+          },
+          "required_diagrams": [
+            "Subnetting diagram: show 192.168.1.0/24 network at top divided into four /26 subnets below. Each subnet box shows: network address, broadcast address, usable range, number of hosts. Arrows showing the division. Label subnet mask 255.255.255.192. Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: Class | First Bits | Range | Default Prefix | Networks | Hosts/Network || A | 0 | 1-126 | /8 | 128 | 16,777,214 || B | 10 | 128-191 | /16 | 16,384 | 65,534 || C | 110 | 192-223 | /24 | 2,097,152 | 254 || D | 1110 | 224-239 | N/A | Multicast | N/A"
+          ],
+          "common_mistakes": [
+            "Forgetting to subtract 2 from host count — network address (all 0s) and broadcast address (all 1s) are not usable. Usable hosts = 2^n - 2",
+            "Confusing subnet mask and prefix length — /24 = 255.255.255.0, /25 = 255.255.255.128. They are two notations for same thing"
+          ]
+        },
+        {
+          "name": "Routing Algorithms",
+          "keywords": ["routing algorithm", "dijkstra", "distance vector", "link state", "static routing", "dynamic routing", "ospf", "rip", "bgp"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Static Routing",
+            "Dynamic Routing",
+            "Shortest Path (Dijkstra)",
+            "Distance Vector",
+            "Link State"
+          ],
+          "subtopic_content": {
+            "Static Routing": [
+              "Static routing: network administrator manually configures routing table entries. Routes don't change automatically. Simple, predictable, secure (no routing protocol traffic).",
+              "Disadvantages: doesn't adapt to network failures, time-consuming in large networks. Used in small networks, default routes (ip route 0.0.0.0 0.0.0.0 next-hop)."
+            ],
+            "Dynamic Routing": [
+              "Dynamic routing: routers use routing protocols to automatically discover networks and exchange routing information. Adapts automatically to network changes (link failures, new links).",
+              "Categories: IGP (Interior Gateway Protocol — within one organization: RIP, OSPF, EIGRP) and EGP (Exterior Gateway Protocol — between organizations: BGP — the protocol of the Internet)."
+            ],
+            "Shortest Path (Dijkstra)": [
+              "Dijkstra's algorithm: finds shortest path from source to all other nodes. Used in OSPF. Each router runs Dijkstra on complete network graph.",
+              "Algorithm: start at source (cost 0), repeatedly pick unvisited node with minimum cost, update neighbors. After completion, routing table has optimal path to every destination. O(n²) complexity."
+            ],
+            "Distance Vector": [
+              "Distance Vector: each router maintains table of distances to all destinations. Periodically share table with direct neighbors. Bellman-Ford algorithm.",
+              "Count-to-infinity problem: when link fails, routers may count up slowly to infinity before realizing destination is unreachable. Solutions: split horizon, route poisoning, holddown timers. Used in RIP."
+            ],
+            "Link State": [
+              "Link State: each router floods information about its direct links to ALL routers. Every router builds complete network map. Then runs Dijkstra locally.",
+              "Advantages: fast convergence, loop-free, scales better. Disadvantages: more memory and CPU than distance vector. Used in OSPF (Open Shortest Path First) and IS-IS."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Algorithm | Information Shared | Scope | Convergence | Complexity | Protocol || Distance Vector | Routing table (next hop + cost) | Neighbors only | Slow | O(n²) | RIP || Link State | Link state advertisements | All routers | Fast | O(n log n) | OSPF, IS-IS || Path Vector | Full path to each network | AS-level | Medium | Complex | BGP"
+          ],
+          "common_mistakes": [
+            "Confusing routing and forwarding — routing builds the table (slow, periodic), forwarding uses the table (fast, per-packet). They are separate processes"
+          ]
+        },
+        {
+          "name": "IP Header, ICMP and ARP",
+          "keywords": ["ip header", "fragmentation", "icmp", "arp", "rarp", "error messages", "control messages"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "IP Header",
+            "Fragmentation",
+            "Error Messages",
+            "Control Messages",
+            "ARP",
+            "RARP"
+          ],
+          "subtopic_content": {
+            "IP Header": [
+              "IPv4 header (minimum 20 bytes): Version (4 bits), IHL (header length), DSCP/ToS, Total Length, Identification, Flags (DF/MF), Fragment Offset, TTL, Protocol, Header Checksum, Source IP, Destination IP, Options.",
+              "Key fields: TTL (Time to Live) — decremented by 1 at each router, packet discarded at 0, prevents infinite loops. Protocol field identifies upper layer (6=TCP, 17=UDP, 1=ICMP). Identification+Flags+Offset used for fragmentation."
+            ],
+            "Fragmentation": [
+              "Fragmentation: if packet larger than link's MTU (Maximum Transmission Unit), router fragments it into smaller pieces. Each fragment has same Identification number.",
+              "Fragment reassembly: done ONLY at destination host (not intermediate routers). MF (More Fragments) flag: 1 = more fragments follow, 0 = last fragment. Fragment Offset: byte offset of this fragment in original datagram.",
+              "IPv6 does NOT allow fragmentation at routers — only source can fragment. If packet too big, router sends ICMPv6 'Packet Too Big' message → source reduces packet size (Path MTU Discovery)."
+            ],
+            "Error Messages": [
+              "ICMP (Internet Control Message Protocol): IP's companion for error reporting and network diagnostics. Encapsulated in IP packets (Protocol = 1).",
+              "Error messages: Type 3 (Destination Unreachable — host/port/network not reachable), Type 11 (Time Exceeded — TTL expired), Type 4 (Source Quench — deprecated congestion notification), Type 12 (Parameter Problem — bad IP header)."
+            ],
+            "Control Messages": [
+              "ICMP control/query messages: Type 8/0 (Echo Request/Reply — used by ping), Type 13/14 (Timestamp Request/Reply — measure one-way delay), Type 5 (Redirect — tell host to use better route).",
+              "Traceroute: sends packets with TTL=1, 2, 3... Each router that drops packet (TTL=0) sends ICMP Time Exceeded back → traceroute collects each hop's IP address."
+            ],
+            "ARP": [
+              "ARP (Address Resolution Protocol): translate IP address to MAC address within same LAN. 'Who has IP 192.168.1.5? Tell 192.168.1.1'.",
+              "Process: check ARP cache → if not found, broadcast ARP request → target replies with its MAC → cache entry stored. ARP cache entries expire (typically 2-20 minutes). Only works within same subnet."
+            ],
+            "RARP": [
+              "RARP (Reverse ARP): translate MAC address to IP address. Diskless workstation boots, knows only its MAC, asks 'Who am I?' RARP server maps MAC → IP.",
+              "Largely obsolete — replaced by DHCP (more flexible, provides more info than just IP). RARP required a dedicated RARP server on each subnet."
+            ]
+          },
+          "required_diagrams": [
+            "ARP process diagram: show Host A (192.168.1.1, MAC AA) and Host B (192.168.1.5, MAC BB) on same LAN. Step 1: Host A broadcasts ARP Request (Who has 192.168.1.5?). Step 2: All hosts receive, only Host B replies. Step 3: Host B sends ARP Reply (I am 192.168.1.5, MAC=BB) directly to Host A. Step 4: Host A updates ARP cache. Clean white background, labeled arrows."
+          ],
+          "common_mistakes": [
+            "Thinking ARP works across routers — ARP only works within same subnet (same LAN). To reach different subnet, packet goes to default gateway (router), which has its own ARP process"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Transport Layer",
+      "topics": [
+        {
+          "name": "Transport Layer Functions",
+          "keywords": ["transport layer", "process to process", "multiplexing", "demultiplexing", "reliable data transfer", "port number"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Process-to-Process Communication",
+            "Multiplexing",
+            "Demultiplexing",
+            "Reliable Data Transfer"
+          ],
+          "subtopic_content": {
+            "Process-to-Process Communication": [
+              "Network layer delivers packets to correct HOST (using IP address). Transport layer delivers data to correct PROCESS/APPLICATION on that host (using port number).",
+              "Socket: combination of IP address + port number. Source socket + Destination socket uniquely identifies each connection. Example: 192.168.1.5:52342 ↔ 142.250.190.46:443 is one specific HTTPS connection."
+            ],
+            "Multiplexing": [
+              "Multiplexing (at sender): gathering data from multiple application processes, encapsulating with header, passing to network layer. Multiple apps (Chrome tabs, email, music) share one network connection.",
+              "Transport layer multiplexes by adding source port number — identifies which application sent the data. Network layer receives one stream of segments from transport layer."
+            ],
+            "Demultiplexing": [
+              "Demultiplexing (at receiver): delivering received segments to correct socket/application. Transport layer reads destination port number → delivers to correct application.",
+              "TCP demultiplexing: uses 4-tuple (src IP, src port, dst IP, dst port) to identify socket — different connections get different sockets even if same dst port. UDP: uses only destination IP + port — simpler."
+            ],
+            "Reliable Data Transfer": [
+              "Reliable data transfer: ensuring all data arrives correctly, in order, without duplicates. Mechanisms: sequence numbers (detect lost/reordered packets), acknowledgments (confirm receipt), retransmissions (resend on timeout/NAK), checksums (detect corruption).",
+              "rdt (reliable data transfer) evolution: rdt1.0 (perfect channel), rdt2.0 (bit errors), rdt2.1 (bit errors + ACK errors), rdt2.2 (NAK-free), rdt3.0 (packet loss + errors) → Sliding Window → TCP."
+            ]
+          },
+          "common_mistakes": [
+            "Confusing IP address and port number roles — IP address identifies the host, port number identifies the process/application on that host. Both together (socket) identify the exact endpoint"
+          ]
+        },
+        {
+          "name": "UDP",
+          "keywords": ["udp", "udp segment", "udp format", "udp use cases", "udp limitations", "user datagram protocol"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "UDP Segment Format",
+            "Use Cases",
+            "Limitations"
+          ],
+          "subtopic_content": {
+            "UDP Segment Format": [
+              "UDP header: only 8 bytes. Source Port (2 bytes), Destination Port (2 bytes), Length (2 bytes — total length including header), Checksum (2 bytes).",
+              "Minimal overhead — 8 bytes vs TCP's 20+ bytes. No connection setup. Send and receive, that's it. Total simplicity."
+            ],
+            "Use Cases": [
+              "UDP used when: speed matters more than reliability, application does its own error handling, or loss is acceptable.",
+              "DNS: query-response, if lost just retry. DHCP: broadcast-based discovery. Streaming video/audio: occasional loss better than delay from retransmission. Online gaming: stale game state useless, better to get newer state. VoIP: real-time, can't wait for retransmission."
+            ],
+            "Limitations": [
+              "No connection establishment (no handshake), no ordering guarantee (packets may arrive out of order), no reliability (no ACKs, no retransmission), no congestion control (can flood network).",
+              "No flow control: fast sender can overwhelm slow receiver — application must handle this if needed. Despite limitations, UDP applications typically have better performance than TCP for the right use cases."
+            ]
+          },
+          "required_diagrams": [
+            "UDP vs TCP header comparison diagram: two header format boxes side by side. UDP: 4 fields (Src Port, Dst Port, Length, Checksum) = 8 bytes. TCP: many fields (Src Port, Dst Port, Seq#, Ack#, Header Length, Flags, Window, Checksum, Urgent, Options) = 20+ bytes. Show relative sizes. Label each field. Clean white background."
+          ],
+          "common_mistakes": [
+            "Thinking UDP is always inferior to TCP — UDP is better for real-time applications (gaming, VoIP, DNS) where speed matters more than guaranteed delivery"
+          ]
+        },
+        {
+          "name": "TCP",
+          "keywords": ["tcp", "tcp features", "3 way handshake", "tcp segment", "tcp timers", "congestion control", "flow control tcp", "error control tcp", "tcp fast open"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "TCP Features",
+            "TCP Segment Format",
+            "3-Way Handshake",
+            "TCP Timers",
+            "Congestion Control",
+            "Flow Control",
+            "Error Control",
+            "TCP Fast Open"
+          ],
+          "subtopic_content": {
+            "TCP Features": [
+              "TCP: reliable, in-order byte stream delivery. Features: connection-oriented (handshake before data), reliable delivery (ACKs + retransmission), ordered delivery (sequence numbers), flow control (window), congestion control (AIMD), full-duplex.",
+              "TCP provides application with illusion of reliable pipe — application sends bytes, TCP ensures all arrive correctly at other end, in order, exactly once."
+            ],
+            "TCP Segment Format": [
+              "TCP header (20 bytes minimum): Source Port, Destination Port, Sequence Number (32-bit), Acknowledgment Number (32-bit), Header Length, Flags (URG/ACK/PSH/RST/SYN/FIN), Window Size, Checksum, Urgent Pointer, Options.",
+              "Sequence number: byte number of first data byte in segment. ACK number: next expected byte from other side. Window size: flow control — how much receiver can accept. SYN/FIN/RST: connection control flags."
+            ],
+            "3-Way Handshake": [
+              "3-Way Handshake (connection setup): Client → Server: SYN (seq=x). Server → Client: SYN-ACK (seq=y, ack=x+1). Client → Server: ACK (ack=y+1). Connection established, data can flow.",
+              "4-Way Termination: either side sends FIN → other side ACKs → other side sends FIN → first side ACKs → both sides CLOSED. TIME_WAIT: wait 2×MSL (Maximum Segment Lifetime) before fully closing — ensures last ACK received."
+            ],
+            "TCP Timers": [
+              "Retransmission Timer (RTO): time to wait before retransmitting unacknowledged segment. RTO calculated from RTT measurements: RTO = EstimatedRTT + 4×DevRTT (adaptive).",
+              "Persist timer: prevents deadlock when window = 0. Keepalive timer: detect dead connections. TIME_WAIT timer: 2×MSL after connection close."
+            ],
+            "Congestion Control": [
+              "TCP congestion control: prevent network collapse. Algorithm: AIMD (Additive Increase Multiplicative Decrease). Slow start: begin slow, double window each RTT. Congestion avoidance: increase by 1 per RTT. Congestion detected (loss) → cut window in half.",
+              "Congestion window (cwnd): limits transmission rate. Effective window = min(cwnd, receiver window). TCP probes for available bandwidth by increasing cwnd until loss detected."
+            ],
+            "Flow Control": [
+              "Flow control: prevent sender from overwhelming receiver. Receiver advertises receive window (rwnd) in ACK — how much buffer space available.",
+              "Sender limits outstanding data to min(cwnd, rwnd). If rwnd = 0, sender sends 1-byte probe periodically (persist timer) to check when window opens."
+            ],
+            "Error Control": [
+              "TCP error control: sequence numbers detect out-of-order and duplicate segments. Checksum detects corruption. ACKs confirm receipt. Timeout triggers retransmission.",
+              "Fast Retransmit: 3 duplicate ACKs (same ACK received 4 times) indicates packet loss → retransmit without waiting for timeout. Much faster than timeout-based retransmission."
+            ],
+            "TCP Fast Open": [
+              "TCP Fast Open (TFO): reduces latency for repeated connections to same server. First connection: normal 3-way handshake, server provides TFO cookie. Subsequent connections: client sends SYN + data + cookie → server verifies cookie → processes data immediately without full handshake.",
+              "Saves one RTT for repeated connections. Significant improvement for short-lived connections (HTTP requests). Requires both client and server support."
+            ]
+          },
+          "required_diagrams": [
+            "TCP 3-way handshake diagram: timeline with Client on left and Server on right. Three arrows: 1) Client → Server: SYN (seq=x) labeled. 2) Server → Client: SYN-ACK (seq=y, ack=x+1) labeled. 3) Client → Server: ACK (ack=y+1) labeled. Show connection ESTABLISHED state at bottom. Include time axis. Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: Feature | TCP | UDP || Connection | Required (3-way) | Connectionless || Reliability | Guaranteed | Not guaranteed || Ordering | In-order delivery | Not guaranteed || Flow Control | Yes (window) | No || Congestion Control | Yes (AIMD) | No || Header size | 20+ bytes | 8 bytes || Speed | Slower | Faster || Use case | HTTP, Email, FTP | DNS, Video, Gaming"
+          ],
+          "common_mistakes": [
+            "Thinking SYN flood is just a performance issue — SYN flood attack exhausts server's half-open connection queue, completely preventing new connections. SYN cookies mitigate this",
+            "Confusing flow control and congestion control — flow control prevents receiver overflow (end-to-end), congestion control prevents network congestion (network-wide)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Application Layer",
+      "topics": [
+        {
+          "name": "Application Architecture",
+          "keywords": ["client server", "peer to peer", "p2p", "cdn", "load balancer", "reverse proxy", "application architecture"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Client-Server Model",
+            "Peer-to-Peer Architecture",
+            "CDN",
+            "Load Balancer",
+            "Reverse Proxy"
+          ],
+          "subtopic_content": {
+            "Client-Server Model": [
+              "Client-Server: clients request services, server provides services. Server: always-on, fixed IP address, serves multiple clients. Client: on/off, dynamic IP, initiates requests.",
+              "Examples: Web (browser=client, web server=server), Email (email client → SMTP server), Online banking. Scale: server must handle all clients → expensive for massive scale."
+            ],
+            "Peer-to-Peer Architecture": [
+              "P2P: no dedicated server. Peers both request and provide services to each other. Highly scalable — capacity grows as users join.",
+              "BitTorrent: each peer uploads pieces of file while downloading others. Skype (original): calls routed through other users. Blockchain: distributed ledger across all peers. Challenge: security, incentivizing participation."
+            ],
+            "CDN": [
+              "CDN (Content Delivery Network): geographically distributed servers caching content close to users. When you load Netflix, video comes from nearest CDN edge server, not Netflix's main data center.",
+              "Benefits: lower latency (content geographically closer), reduced load on origin server, higher availability (if one server fails, another serves). Major CDNs: Cloudflare, Akamai, AWS CloudFront."
+            ],
+            "Load Balancer": [
+              "Load balancer: distributes incoming requests across multiple servers to prevent any one server from being overwhelmed. Algorithms: Round Robin, Least Connections, IP Hash.",
+              "Health checking: load balancer periodically checks server health → removes failed servers from pool → directs traffic to healthy servers only. Essential for high-availability architectures."
+            ],
+            "Reverse Proxy": [
+              "Reverse proxy: sits in front of web servers, intercepts requests from clients. Clients think they're talking to the server, but actually talking to proxy.",
+              "Functions: SSL termination (decrypt HTTPS once at proxy instead of each backend server), caching, compression, request routing, security (hide backend server IPs). Nginx commonly used as reverse proxy."
+            ]
+          },
+          "required_diagrams": [
+            "Client-Server vs CDN diagram: two layouts side by side. Left: traditional client-server — all users connected to single origin server (showing high latency for distant users). Right: CDN — origin server in center, edge servers distributed globally, nearby users connect to nearest edge server (showing low latency). Label origin server, edge servers, users in different geographic regions. Clean white background."
+          ],
+          "common_mistakes": [
+            "Thinking CDN only caches static files — modern CDNs cache dynamic content, handle SSL, protect against DDoS, and much more"
+          ]
+        },
+        {
+          "name": "HTTP Overview",
+          "keywords": ["http", "http methods", "http message", "https", "web caching", "stateless", "rest", "soap", "http/1.1", "http/2", "http/3"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "HTTP Methods",
+            "HTTP Message Format",
+            "HTTPS",
+            "Web Caching",
+            "Stateless vs Stateful",
+            "REST vs SOAP",
+            "HTTP/1.1",
+            "HTTP/2",
+            "HTTP/3"
+          ],
+          "subtopic_content": {
+            "HTTP Methods": [
+              "GET: retrieve resource. POST: submit data to server (form submission, create resource). PUT: update/replace resource. DELETE: remove resource. PATCH: partial update. HEAD: same as GET but no body (check if resource exists). OPTIONS: what methods does server support?",
+              "Idempotent methods: GET, PUT, DELETE — calling multiple times gives same result. Non-idempotent: POST — calling multiple times may create multiple resources. Safe methods: GET, HEAD — no server state change."
+            ],
+            "HTTP Message Format": [
+              "Request: Method SP URL SP HTTP/version CRLF | Headers CRLF | Blank line CRLF | Body (optional). Example: GET /index.html HTTP/1.1, Host: www.example.com",
+              "Response: HTTP/version SP Status-Code SP Reason-Phrase CRLF | Headers CRLF | Blank line CRLF | Body. Status codes: 1xx (Informational), 2xx (Success — 200 OK), 3xx (Redirect — 301 Moved), 4xx (Client error — 404 Not Found), 5xx (Server error — 500 Internal Error)."
+            ],
+            "HTTPS": [
+              "HTTPS = HTTP + TLS (Transport Layer Security). TLS provides: encryption (no eavesdropping), authentication (server certificate proves identity), integrity (data not tampered).",
+              "TLS handshake: client hello → server certificate + key exchange → symmetric key derived → encrypted communication begins. HTTPS on port 443 (HTTP on port 80). All web traffic should be HTTPS — plain HTTP is insecure."
+            ],
+            "Web Caching": [
+              "Web cache (proxy cache): stores copies of recently fetched objects. If client requests object already in cache → cache returns it without contacting origin server. Reduces latency and origin server load.",
+              "Cache headers: Cache-Control: max-age=3600 (cache for 1 hour). ETag: version identifier. If-Modified-Since: conditional GET — only send if changed. Conditional GET: 304 Not Modified → use cached copy."
+            ],
+            "Stateless vs Stateful": [
+              "HTTP is stateless: server maintains no information about past client requests. Each request independent. Simplifies server design and scalability.",
+              "Cookies add statefulness: server sends Set-Cookie header → browser stores cookie → sends cookie with every subsequent request. Used for sessions, login, preferences. Session management built on top of stateless HTTP."
+            ],
+            "REST vs SOAP": [
+              "REST (Representational State Transfer): architectural style using HTTP methods (GET/POST/PUT/DELETE) on resources identified by URLs. Stateless, lightweight, JSON typically used. Most modern APIs are REST.",
+              "SOAP (Simple Object Access Protocol): protocol using XML messages, strict contracts (WSDL), can work over multiple transports. More complex, verbose. Used in enterprise/legacy systems. REST has largely replaced SOAP for new APIs."
+            ],
+            "HTTP/1.1": [
+              "HTTP/1.1 improvements over 1.0: persistent connections (reuse TCP connection for multiple requests), pipelining (send multiple requests without waiting for each response), Host header (virtual hosting — multiple sites on one IP).",
+              "Head-of-line blocking: response must complete in order, stuck behind slow response. 6 parallel connections per domain as browser workaround. Still widely used."
+            ],
+            "HTTP/2": [
+              "HTTP/2 improvements: multiplexing (multiple streams on ONE TCP connection simultaneously — no head-of-line blocking at HTTP level), server push (server proactively sends resources client will need), header compression (HPACK — reduces overhead), binary framing (more efficient parsing).",
+              "Same semantics as HTTP/1.1 — same methods, status codes, headers. Just more efficient transport. Requires HTTPS in practice (all major browsers enforce)."
+            ],
+            "HTTP/3": [
+              "HTTP/3: runs over QUIC (UDP-based transport) instead of TCP. Eliminates TCP head-of-line blocking (TCP's HOL blocking still affects HTTP/2's multiplexed streams).",
+              "QUIC benefits: connection migration (mobile users switching WiFi→cellular don't drop connection), faster connection setup (0-RTT), independent stream multiplexing. Future of HTTP — already used by Google, Facebook, 25%+ of web traffic."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Version | Connection | Multiplexing | Protocol | Key Feature || HTTP/1.0 | New per request | No | TCP | Basic HTTP || HTTP/1.1 | Persistent | Pipeline only | TCP | Virtual hosting || HTTP/2 | Single per origin | Yes (multiple streams) | TCP (TLS) | Binary, compression || HTTP/3 | Single per origin | Yes (independent) | QUIC/UDP | No TCP HOL blocking"
+          ],
+          "common_mistakes": [
+            "Thinking HTTP/2 fully solves head-of-line blocking — HTTP/2 fixes HTTP-level HOL blocking but TCP-level HOL blocking remains. HTTP/3 (QUIC) fixes both"
+          ]
+        },
+        {
+          "name": "DNS, Email and File Transfer",
+          "keywords": ["dns", "dns resolution", "dns records", "dns caching", "smtp", "pop3", "imap", "ftp", "sftp", "email protocols"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "DNS Resolution",
+            "DNS Records",
+            "DNS Caching",
+            "SMTP",
+            "POP3",
+            "IMAP",
+            "FTP",
+            "SFTP"
+          ],
+          "subtopic_content": {
+            "DNS Resolution": [
+              "DNS (Domain Name System): translates human-readable names (www.google.com) to IP addresses (142.250.190.46). Distributed, hierarchical database.",
+              "Resolution process: browser cache → OS cache → local DNS resolver (ISP's) → Root DNS server (13 clusters worldwide) → TLD server (.com, .in) → Authoritative DNS server (knows the actual IP) → returns IP to resolver → resolver caches and returns to client.",
+              "Recursive vs Iterative: Recursive — resolver does all the work, returns final answer. Iterative — server returns referral to next server, resolver contacts each. Local resolver typically does iterative to root, recursive to client."
+            ],
+            "DNS Records": [
+              "A record: domain → IPv4 address. AAAA record: domain → IPv6 address. CNAME: alias → canonical name (www.google.com → google.com). MX: mail server for domain. NS: authoritative name servers. TXT: arbitrary text (SPF, DKIM for email verification).",
+              "SOA (Start of Authority): primary name server and email of admin. PTR: reverse DNS (IP → domain name). SRV: service location records. TTL (Time to Live): how long to cache the record."
+            ],
+            "DNS Caching": [
+              "DNS caching: resolvers cache responses for TTL duration. Greatly reduces DNS query volume and latency. Browser has cache, OS has cache, ISP resolver has cache.",
+              "TTL trade-off: long TTL (hours/days) → fewer queries, faster responses, but slow propagation of changes. Short TTL (seconds/minutes) → more queries, slower, but changes propagate quickly. DNS TTL = 300s-3600s typical."
+            ],
+            "SMTP": [
+              "SMTP (Simple Mail Transfer Protocol): send email from client to server, and between mail servers. TCP port 25 (server-to-server) or 587 (client-to-server with authentication).",
+              "SMTP commands: HELO/EHLO (greeting), MAIL FROM (sender), RCPT TO (recipient), DATA (message body), QUIT. Email journey: sender's client → sender's SMTP server → recipient's SMTP server → recipient's mailbox."
+            ],
+            "POP3": [
+              "POP3 (Post Office Protocol v3): download emails from server to client. TCP port 110. Simple — connects, downloads all new mail, optionally deletes from server, disconnects.",
+              "Access from one device only (downloaded mail not on server). Good for limited server storage. Modern variant keeps copy on server ('keep on server' option). Largely replaced by IMAP for multi-device access."
+            ],
+            "IMAP": [
+              "IMAP (Internet Message Access Protocol): manage email ON the server. TCP port 143 (993 for SSL). Emails stay on server, clients see synchronized view.",
+              "Multiple device access: read on phone → marked read on laptop too. Folders synchronized across devices. Better for modern multi-device usage. Gmail, Outlook use IMAP. POP3 = download and done. IMAP = server is truth."
+            ],
+            "FTP": [
+              "FTP (File Transfer Protocol): transfer files between systems. TCP port 21 (control) and 20 (data) — two separate connections. Active vs Passive mode.",
+              "Plaintext — credentials sent unencrypted. Security problem: anyone sniffing network sees username/password. Still used on internal networks or with firewalls. Largely replaced by SFTP/FTPS for internet use."
+            ],
+            "SFTP": [
+              "SFTP (SSH File Transfer Protocol): file transfer over SSH (Secure Shell). Single TCP port 22. All data encrypted — login credentials and file contents protected.",
+              "Not the same as FTPS (FTP + SSL/TLS). SFTP is completely different protocol on top of SSH. SFTP standard for secure file transfer. Used by web developers (upload to servers), system administrators, cloud storage."
+            ]
+          },
+          "required_diagrams": [
+            "DNS resolution diagram: show step-by-step. Browser (1. Check cache) → Local Resolver (2. Check cache) → Root DNS (3. Query root for .com) → TLD Server (4. Query .com for google.com) → Authoritative Server (5. Query for www.google.com → returns 142.250.x.x) → back to resolver → back to browser. Number each step, label each server type. Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: Protocol | Purpose | Port | Security | Direction || SMTP | Send email | 25/587 | TLS optional | Client→Server, Server→Server || POP3 | Receive email | 110/995 | SSL optional | Server→Client (download) || IMAP | Manage email on server | 143/993 | SSL optional | Bidirectional sync || FTP | File transfer | 20/21 | None | Bidirectional || SFTP | Secure file transfer | 22 | SSH (always) | Bidirectional"
+          ],
+          "common_mistakes": [
+            "Confusing SMTP with POP3/IMAP — SMTP sends mail, POP3/IMAP receive/manage mail. All three are needed for complete email system"
+          ]
+        },
+        {
+          "name": "Authentication and API Gateways",
+          "keywords": ["oauth", "jwt", "api gateway", "authentication", "authorization", "token"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "OAuth",
+            "JWT",
+            "Overview",
+            "Use Cases"
+          ],
+          "subtopic_content": {
+            "OAuth": [
+              "OAuth 2.0: authorization framework allowing third-party apps to access user resources without sharing password. 'Login with Google/Facebook' uses OAuth.",
+              "Flow: user approves → authorization server issues access token → app uses token to access API. Token has limited scope and expiry. User password never shared with third-party app. Four grant types: Authorization Code (most secure), Implicit, Client Credentials, Resource Owner Password."
+            ],
+            "JWT": [
+              "JWT (JSON Web Token): compact, self-contained token for transmitting information. Structure: header.payload.signature (base64 encoded, dot-separated).",
+              "Payload contains claims (user ID, role, expiry). Signature verifies token not tampered (server's secret key). Stateless — server doesn't need to store session. Common in REST APIs and OAuth access tokens."
+            ],
+            "Overview": [
+              "API Gateway: single entry point for all API requests. Routes requests to appropriate microservices. Functions: authentication/authorization, rate limiting, request/response transformation, logging, SSL termination.",
+              "Without gateway: clients call each microservice directly — complex for clients, hard to secure. With gateway: clients call one endpoint, gateway handles routing and cross-cutting concerns."
+            ],
+            "Use Cases": [
+              "API Gateway use cases: microservices architecture (route to correct service), mobile APIs (aggregate multiple calls into one), partner APIs (rate limit and monetize), internal APIs (security and monitoring).",
+              "Popular API Gateways: AWS API Gateway, Kong, NGINX, Azure API Management, Google Apigee."
+            ]
+          },
+          "common_mistakes": [
+            "Confusing authentication and authorization — authentication: who are you? (verify identity). Authorization: what can you do? (verify permissions). OAuth is authorization, not authentication (use OpenID Connect for authentication)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Network Security",
+      "topics": [
+        {
+          "name": "Security Goals and Threats",
+          "keywords": ["confidentiality", "integrity", "availability", "malware", "spoofing", "dos", "ddos", "mitm", "security goals", "cia triad"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Confidentiality",
+            "Integrity",
+            "Availability",
+            "Malware",
+            "Spoofing",
+            "DoS",
+            "MITM"
+          ],
+          "subtopic_content": {
+            "Confidentiality": [
+              "Confidentiality: ensure data is accessible only to authorized parties. Encryption is primary mechanism. Unauthorized party cannot read intercepted data.",
+              "Levels: data confidentiality (protect content), traffic flow confidentiality (hide communication patterns). HTTPS ensures web traffic confidentiality. End-to-end encryption (WhatsApp) ensures even service provider cannot read."
+            ],
+            "Integrity": [
+              "Integrity: ensure data is not modified (accidentally or maliciously) during transmission. Receiver can verify data is exactly what sender sent.",
+              "Mechanisms: cryptographic hash functions (SHA-256 — any modification changes hash), digital signatures (proves sender identity + integrity), MACs (Message Authentication Code). HTTPS provides integrity. File download: verify SHA-256 hash after download."
+            ],
+            "Availability": [
+              "Availability: ensure network services are accessible when needed by authorized users. Availability threatened by DoS/DDoS attacks, hardware failures, software bugs.",
+              "Redundancy, load balancing, DDoS protection services (Cloudflare) improve availability. SLA (Service Level Agreement): 99.9% availability = 8.76 hours downtime/year. 99.99% = 52 minutes/year."
+            ],
+            "Malware": [
+              "Malware: malicious software. Types: virus (requires host program, spreads by infection), worm (self-replicating, spreads autonomously over network), Trojan (disguised as legitimate software), ransomware (encrypts files, demands payment), spyware (secretly monitors user).",
+              "Botnets: network of malware-infected computers (bots) controlled by attacker. Used for DDoS attacks, spam, cryptocurrency mining. Spread via phishing emails, malicious websites, drive-by downloads."
+            ],
+            "Spoofing": [
+              "Spoofing: pretending to be someone/something else. IP spoofing: forge source IP address. ARP spoofing: broadcast fake ARP replies mapping attacker's MAC to victim's IP. DNS spoofing: inject fake DNS responses to redirect traffic.",
+              "IP spoofing used in DDoS reflection attacks — send requests with victim's IP as source → servers flood victim with responses. Prevented by ingress filtering (don't route packets with invalid source IPs)."
+            ],
+            "DoS": [
+              "DoS (Denial of Service): overwhelm target with traffic/requests, making it unavailable. Single attacker sends flood of packets — SYN flood, UDP flood, HTTP flood.",
+              "DDoS (Distributed DoS): attack from thousands of compromised computers (botnet). Massive scale — Terabits per second traffic. Cloudflare, Akamai provide DDoS mitigation services. Record attack: 3.47 Tbps in 2021."
+            ],
+            "MITM": [
+              "MITM (Man-in-the-Middle): attacker secretly intercepts communication between two parties, each believing they communicate directly with each other.",
+              "Techniques: ARP spoofing (local network), rogue WiFi access points (public WiFi), DNS spoofing, BGP hijacking. Prevention: HTTPS (certificate validates server identity), certificate pinning, HSTS (HTTP Strict Transport Security)."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Attack | Targets | Mechanism | Defense || IP Spoofing | Availability, Trust | Forge source IP | Ingress filtering || ARP Spoofing | Confidentiality, MITM | Fake ARP replies | Dynamic ARP inspection || DNS Spoofing | Integrity | Inject false DNS | DNSSEC || DoS/DDoS | Availability | Traffic flood | DDoS mitigation service || MITM | Confidentiality | Intercept traffic | HTTPS, cert pinning"
+          ],
+          "common_mistakes": [
+            "Thinking HTTPS completely prevents MITM — HTTPS prevents MITM if certificate is properly validated. SSL stripping attack downgrades to HTTP. HSTS prevents this"
+          ]
+        },
+        {
+          "name": "Cryptography and Secure Communication",
+          "keywords": ["symmetric encryption", "aes", "des", "public key", "rsa", "ecc", "hashing", "sha", "md5", "ssl", "tls", "dnssec"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Symmetric Encryption (AES, DES)",
+            "Public Key Encryption (RSA, ECC)",
+            "Hashing (SHA, MD5)",
+            "SSL/TLS",
+            "DNSSEC"
+          ],
+          "subtopic_content": {
+            "Symmetric Encryption (AES, DES)": [
+              "Symmetric encryption: same key used for encryption and decryption. Fast, suitable for large data. Problem: key exchange — how to securely share key with recipient?",
+              "DES (Data Encryption Standard): 56-bit key — too small, brute-forceable in hours. Obsolete. AES (Advanced Encryption Standard): 128/192/256-bit keys. AES-256 is military-grade — current standard. Used in TLS, file encryption, WiFi (WPA2/WPA3), disk encryption."
+            ],
+            "Public Key Encryption (RSA, ECC)": [
+              "Asymmetric encryption: key pair — public key (share with everyone) and private key (keep secret). Data encrypted with public key can only be decrypted with private key.",
+              "RSA: based on difficulty of factoring large numbers. Common key sizes: 2048-4096 bits. Slow compared to AES — used for key exchange, not bulk data. ECC (Elliptic Curve Cryptography): same security as RSA with much smaller keys. 256-bit ECC ≈ 3072-bit RSA. Used in TLS, Bitcoin, mobile devices."
+            ],
+            "Hashing (SHA, MD5)": [
+              "Cryptographic hash function: one-way function — produces fixed-size digest from any input. Small change in input → completely different hash. Cannot reverse hash to get original data.",
+              "MD5: 128-bit hash, BROKEN — do not use for security. SHA-1: 160-bit, BROKEN. SHA-256: 256-bit, secure — used in SSL/TLS, Bitcoin, password storage. SHA-3: latest standard. Passwords: store hash(salt+password), not plaintext."
+            ],
+            "SSL/TLS": [
+              "TLS (Transport Layer Security): cryptographic protocol providing security over TCP. TLS 1.3 (current): faster handshake, stronger cipher suites, removes weak algorithms.",
+              "TLS handshake: Client Hello (supported cipher suites) → Server Certificate + Hello → Key Exchange (using asymmetric crypto to establish symmetric session key) → Finished → Encrypted data using AES session key.",
+              "Certificate: digital document binding public key to domain name. Signed by Certificate Authority (CA — DigiCert, Let's Encrypt). Browser trusts CAs → trusts certificates signed by them → trusts server identity."
+            ],
+            "DNSSEC": [
+              "DNSSEC (DNS Security Extensions): add digital signatures to DNS records. Protects against DNS spoofing/cache poisoning attacks.",
+              "DNS response signed with zone's private key. Resolver verifies signature using public key. Chain of trust from root DNS to TLD to domain. Limitation: only provides data integrity, NOT confidentiality — DNS queries still visible. DNS over HTTPS (DoH) adds confidentiality."
+            ]
+          },
+          "required_diagrams": [
+            "TLS handshake diagram: client (left) and server (right) with timeline. Client Hello (cipher suites) → Server Certificate + Server Hello → Client: verify certificate, generate pre-master secret, encrypt with server public key → Both derive symmetric session key → Encrypted application data using AES. Label each step. Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: Algorithm | Type | Key Size | Speed | Use Case || DES | Symmetric | 56-bit | Fast | Obsolete || AES-256 | Symmetric | 256-bit | Very Fast | TLS, disk encryption || RSA-2048 | Asymmetric | 2048-bit | Slow | Key exchange, certificates || ECC-256 | Asymmetric | 256-bit | Medium | TLS, mobile || SHA-256 | Hash | N/A (256-bit output) | Fast | Password storage, certificates || MD5 | Hash | N/A (128-bit output) | Very Fast | Broken — avoid"
+          ],
+          "common_mistakes": [
+            "Using MD5 for password storage — MD5 is cryptographically broken, rainbow tables exist. Always use bcrypt, Argon2, or SHA-256 with salt for passwords"
+          ]
+        },
+        {
+          "name": "Firewalls, VPNs and IDS/IPS",
+          "keywords": ["firewall", "packet filtering", "stateful inspection", "vpn", "remote vpn", "site to site vpn", "ids", "ips", "intrusion detection", "intrusion prevention"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Packet Filtering",
+            "Stateful Inspection",
+            "VPN (Remote & Site-to-Site)",
+            "Intrusion Detection Systems",
+            "Intrusion Prevention Systems"
+          ],
+          "subtopic_content": {
+            "Packet Filtering": [
+              "Packet filtering firewall: examine each packet's headers (source/destination IP and port, protocol) against rules. Allow or deny based on rule match. Operates at Network/Transport layer.",
+              "Rule example: ALLOW TCP 0.0.0.0/0 → 192.168.1.0/24 port 80. DENY TCP 0.0.0.0/0 → 192.168.1.0/24 port 23 (block Telnet). Rules processed top-to-bottom, first match wins. Stateless — each packet independent."
+            ],
+            "Stateful Inspection": [
+              "Stateful firewall: tracks connection state (SYN, established, FIN). Maintains connection table. Can allow return traffic automatically based on established connection state.",
+              "Example: allow outbound HTTP request → automatically allow inbound HTTP response. Packet filter would need explicit rule for return traffic. More secure and flexible than stateless. Most modern firewalls are stateful."
+            ],
+            "VPN (Remote & Site-to-Site)": [
+              "VPN (Virtual Private Network): creates encrypted tunnel over public Internet. Makes remote network appear as if locally connected.",
+              "Remote-access VPN: employee connects laptop to company network from home. Client VPN software creates encrypted tunnel to company VPN server. All traffic routed through company network.",
+              "Site-to-Site VPN: permanently connect two office locations over Internet. IPsec protocol typically used. No client software needed — gateway devices create tunnel. Cheaper than dedicated leased lines."
+            ],
+            "Intrusion Detection Systems": [
+              "IDS (Intrusion Detection System): monitors network traffic for suspicious patterns. Generates alerts when potential attack detected. PASSIVE — only detects, does not block.",
+              "Signature-based: match against known attack patterns database. Fast but misses new attacks. Anomaly-based: learn normal behavior, alert on deviations. Catches new attacks but more false positives. Network IDS (NIDS) monitors network traffic. Host IDS (HIDS) monitors single host."
+            ],
+            "Intrusion Prevention Systems": [
+              "IPS (Intrusion Prevention System): IDS + ability to take action. ACTIVE — can block, reset connections, drop packets automatically. Inline with traffic.",
+              "Placement: IPS between firewall and internal network. Risk: false positives can block legitimate traffic. Tuning required to reduce false positives without missing real attacks. Next-Generation Firewall (NGFW) typically integrates firewall + IPS + application awareness."
+            ]
+          },
+          "required_diagrams": [
+            "Network security architecture diagram: show Internet on left, then DMZ (with web/email servers), then internal network on right. Firewall between Internet and DMZ. Another firewall between DMZ and internal network. IDS/IPS shown inline. VPN gateway shown on perimeter. Label each component and zone (Internet, DMZ, Internal). Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: Device | Layer | Action | State-aware | Use Case || Packet Filter Firewall | 3-4 | Allow/Deny by IP/Port | No | Basic network protection || Stateful Firewall | 3-4 | Allow/Deny + track connections | Yes | Standard perimeter security || IDS | 3-7 | Alert only | Yes | Monitor and detect attacks || IPS | 3-7 | Block + alert | Yes | Active threat prevention || NGFW | 3-7 | Allow/Deny + DPI + IPS | Yes | Modern comprehensive security"
+          ],
+          "common_mistakes": [
+            "Confusing IDS and IPS — IDS only detects and alerts (passive), IPS detects AND blocks (active). IPS must be inline with traffic to block, IDS can be passive tap"
+          ]
+        }
+      ]
+    }
+  ]
+}

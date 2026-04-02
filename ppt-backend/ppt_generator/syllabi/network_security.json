@@ -1,0 +1,1602 @@
+{
+  "subject": "network security",
+  "modules": [
+    {
+      "module": "Introduction to Network Security",
+      "topics": [
+        {
+          "name": "What is Network Security",
+          "keywords": ["network security definition", "CIA triad", "confidentiality", "integrity", "availability", "security objectives", "prevention detection response recovery"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Definition and purpose",
+            "Security principles (Confidentiality, Integrity, Availability)",
+            "Security objectives (Prevention, Detection, Response, Recovery)"
+          ],
+          "subtopic_content": {
+            "Definition and purpose": [
+              "Network Security: the practice of protecting computer networks and data from unauthorized access, misuse, modification, or denial. It combines hardware, software, and policies to create a secure environment.",
+              "Purpose: ensure that only authorized users can access resources, data remains accurate and unaltered, services remain available when needed, and threats are detected and contained before causing damage.",
+              "Real-world scope: covers everything from home WiFi routers to global enterprise data centers, cloud infrastructures, and critical national systems like power grids and banking networks."
+            ],
+            "Security principles (Confidentiality, Integrity, Availability)": [
+              "Confidentiality: ensures data is accessible ONLY to authorized individuals. Achieved via encryption, access controls, authentication. Violation example: an attacker intercepts unencrypted login credentials (MITM attack).",
+              "Integrity: ensures data is accurate and has NOT been tampered with. Achieved via hashing (SHA-256), digital signatures, checksums. Violation example: attacker modifies a financial transaction in transit without detection.",
+              "Availability: ensures systems and data are accessible to authorized users WHEN needed. Achieved via redundancy, backups, DDoS mitigation. Violation example: Denial of Service attack floods a web server, making it unreachable.",
+              "CIA Triangle: all three must be balanced. Extreme confidentiality (encrypt everything, no access) breaks availability. Security decisions always involve tradeoffs between the three."
+            ],
+            "Security objectives (Prevention, Detection, Response, Recovery)": [
+              "Prevention: stop attacks before they happen. Tools: firewalls, antivirus, access controls, patching, encryption, security awareness training.",
+              "Detection: identify attacks that bypass prevention. Tools: IDS/IPS, SIEM, log analysis, anomaly detection, honeypots. Goal: minimize dwell time (time attacker is inside before detection).",
+              "Response: contain and neutralize active threats. Includes isolating infected systems, blocking malicious IPs, activating incident response team, notifying stakeholders.",
+              "Recovery: restore normal operations after an attack. Includes restoring from backups, rebuilding compromised systems, conducting post-incident analysis, and improving defenses to prevent recurrence."
+            ]
+          },
+          "required_diagrams": [
+            "CIA Triad diagram: clean diagram on plain white background. Three overlapping circles or a triangle. Each point/circle labeled: Confidentiality (with example: Encryption), Integrity (with example: Hashing), Availability (with example: Redundancy). Center shows 'Balanced Security'. Black labels, white background, no gradients."
+          ],
+          "required_tables": [
+            "Comparison: Objective | Goal | Tools | Attack Example || Prevention | Stop attacks before they happen | Firewall, Antivirus, Patching | Block malware at perimeter || Detection | Identify active threats | IDS, SIEM, Log analysis | Detect port scan || Response | Contain and neutralize | Incident Response Plan, Isolation | Quarantine infected host || Recovery | Restore normal operations | Backups, Rebuilding | Restore from clean backup"
+          ],
+          "common_mistakes": [
+            "Thinking CIA stands for the intelligence agency — in security, CIA = Confidentiality, Integrity, Availability",
+            "Treating availability as less important — a hospital system that is secure but unavailable can cost lives. All three pillars are equally critical"
+          ]
+        },
+        {
+          "name": "Threats, Vulnerabilities, and Risks",
+          "keywords": ["threat vulnerability risk", "threat vectors", "vulnerability lifecycle", "patch management", "CVE", "exploit"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Difference between threat, vulnerability, risk",
+            "Common threat vectors",
+            "Vulnerability lifecycle",
+            "Patch management"
+          ],
+          "subtopic_content": {
+            "Difference between threat, vulnerability, risk": [
+              "Threat: any potential danger that could exploit a vulnerability. Examples: hackers, malware, natural disasters, insider threats, power outages. Threats can be intentional or accidental.",
+              "Vulnerability: a weakness or flaw in a system, application, or process that can be exploited by a threat. Examples: unpatched software, weak passwords, open ports, SQL injection flaws.",
+              "Risk: the LIKELIHOOD that a threat will exploit a vulnerability AND the IMPACT if it does. Risk = Threat × Vulnerability × Impact. Risk can be accepted, mitigated, transferred (insurance), or avoided.",
+              "Example: Unpatched web server (vulnerability) + hacker scanning for CVEs (threat) = HIGH RISK. Same server in an air-gapped lab = LOW RISK (threat cannot reach it)."
+            ],
+            "Common threat vectors": [
+              "Network-based: attackers exploit open ports, unencrypted traffic, misconfigured firewalls. Includes port scanning, man-in-the-middle, DDoS.",
+              "Email-based: phishing, spear phishing, malicious attachments, Business Email Compromise (BEC). Most common initial access vector in enterprise breaches.",
+              "Web-based: drive-by downloads, malicious websites, browser exploits, XSS, SQL injection through web apps.",
+              "Physical: tailgating into secured areas, USB drop attacks (leaving infected USB drives in parking lots), shoulder surfing, hardware tampering.",
+              "Insider threats: disgruntled employees, contractors with excess privileges, unintentional mistakes by authorized users."
+            ],
+            "Vulnerability lifecycle": [
+              "Discovery: researcher or attacker finds a flaw in software. If researcher → responsible disclosure. If attacker → zero-day exploit.",
+              "Disclosure: flaw published as CVE (Common Vulnerabilities and Exposures) with a CVSS score (0-10, higher = more critical). Vendor notified.",
+              "Patch development: vendor develops and tests a fix. Can take days to months depending on severity and complexity.",
+              "Patch release: fix made publicly available. Window between disclosure and patch release = extremely dangerous (attackers rush to exploit).",
+              "Patch deployment: organizations apply patch to affected systems. Many breaches happen because of delayed patching (WannaCry exploited a patch that existed for months)."
+            ],
+            "Patch management": [
+              "Patch management: systematic process of identifying, testing, and applying software updates to fix vulnerabilities and bugs.",
+              "Process: Inventory assets → Scan for missing patches → Prioritize by CVSS score → Test in non-production environment → Deploy in maintenance window → Verify → Document.",
+              "Critical patches (CVSS 9-10): apply within 24-72 hours. High (7-8.9): within 7-30 days. Medium/Low: within 90 days. Zero-day: emergency patching immediately.",
+              "Tools: WSUS (Windows), Ansible, Puppet, Chef, Qualys, Tenable Nessus for scanning. Automated patch management reduces human error and speeds deployment."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Term | Definition | Example | Who controls it? || Threat | Potential danger | Hacker, Ransomware | External — cannot fully control || Vulnerability | Weakness to exploit | Unpatched Apache, Weak password | You — can fix it || Risk | Likelihood × Impact | Unpatched server exposed to internet | You — can reduce it"
+          ],
+          "common_mistakes": [
+            "Confusing vulnerability with risk — a vulnerability with no accessible threat = low risk. Always consider both likelihood AND impact together",
+            "Delaying patching because of 'testing' — critical vulnerabilities (CVSS 9+) must be patched immediately. Attackers exploit within hours of disclosure"
+          ]
+        },
+        {
+          "name": "Security Domains",
+          "keywords": ["administrative controls", "physical controls", "technical controls", "security controls", "types of controls"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Administrative controls",
+            "Physical controls",
+            "Technical controls"
+          ],
+          "subtopic_content": {
+            "Administrative controls": [
+              "Administrative controls: policies, procedures, and guidelines that govern how security is managed. The foundation of a security program — technical tools only work when supported by policy.",
+              "Examples: Security policies (AUP, password policy), Security awareness training, Background checks for employees, Incident response procedures, Change management policy, Business continuity planning (BCP), Disaster recovery planning (DRP).",
+              "Key principle: without administrative controls, technical controls can be bypassed. An employee who doesn't know phishing is dangerous will click the link regardless of email filters."
+            ],
+            "Physical controls": [
+              "Physical controls: tangible, physical measures that prevent unauthorized physical access to systems, equipment, and facilities.",
+              "Examples: Locks and badge readers on server rooms, CCTV cameras, Biometric scanners (fingerprint, iris), Security guards, Mantraps (double-door entry requiring badge then PIN), Cable locks on laptops, Equipment cages, Environmental controls (fire suppression, temperature monitoring).",
+              "Physical security is the first line of defense — even perfect software security fails if an attacker can walk into a server room and steal a drive."
+            ],
+            "Technical controls": [
+              "Technical controls: hardware and software mechanisms that enforce security policy automatically. The most measurable and enforceable type of control.",
+              "Examples: Firewalls, Encryption (TLS, AES), IDS/IPS, Antivirus/EDR, Multi-factor authentication, VPNs, Access Control Lists (ACLs), SIEM, Data Loss Prevention (DLP), Patch management systems.",
+              "Technical controls must be properly configured — a firewall with 'allow all' rules provides zero protection. Misconfiguration is the #1 cause of security failures in technical controls."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Control Type | What it is | Examples | Weakness || Administrative | Policies and procedures | AUP, Security training, DR Plan | Only as effective as human compliance || Physical | Tangible physical barriers | Locks, CCTV, Biometrics, Guards | Can be defeated by social engineering || Technical | Hardware/software enforcement | Firewall, Encryption, MFA, IDS | Effectiveness depends on correct configuration"
+          ],
+          "common_mistakes": [
+            "Thinking technical controls alone are sufficient — the most common breaches bypass all technical controls via social engineering (phishing). Administrative + physical + technical together = defense in depth"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Networking Foundations for Security Professionals",
+      "topics": [
+        {
+          "name": "OSI and TCP/IP Models",
+          "keywords": ["osi model", "tcp ip model", "7 layers", "encapsulation", "decapsulation", "protocol layers", "network layers"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "7 OSI layers and their functions",
+            "TCP/IP 4-layer mapping",
+            "Encapsulation and decapsulation"
+          ],
+          "subtopic_content": {
+            "7 OSI layers and their functions": [
+              "Layer 7 Application: user-facing protocols — HTTP, HTTPS, FTP, SMTP, DNS, SSH. Where data originates. Security: WAF, application firewalls.",
+              "Layer 6 Presentation: data formatting, encryption, compression — SSL/TLS termination, JPEG, ASCII. Security: encryption at this layer.",
+              "Layer 5 Session: establishes, manages, terminates sessions — NetBIOS, RPC. Security: session hijacking attacks target this layer.",
+              "Layer 4 Transport: end-to-end delivery, TCP (reliable) vs UDP (unreliable), ports. Security: port scanning, SYN flood attacks, firewall rules operate here.",
+              "Layer 3 Network: logical addressing and routing — IP, ICMP, routing protocols. Security: IP spoofing, routing attacks, packet filtering firewalls.",
+              "Layer 2 Data Link: MAC addressing, switching, framing — Ethernet, WiFi (802.11). Security: ARP poisoning, MAC spoofing, VLAN hopping.",
+              "Layer 1 Physical: bits on wire, cables, wireless signals. Security: physical tapping, signal interception, hardware keyloggers."
+            ],
+            "TCP/IP 4-layer mapping": [
+              "Application layer (OSI 5+6+7): HTTP, HTTPS, FTP, SMTP, DNS, SSH, SNMP. All application-level protocols.",
+              "Transport layer (OSI 4): TCP and UDP. TCP = reliable, connection-oriented. UDP = fast, connectionless.",
+              "Internet layer (OSI 3): IP, ICMP, ARP, routing. Handles addressing and path selection.",
+              "Network Access layer (OSI 1+2): Ethernet, WiFi, physical transmission. Hardware and MAC addressing."
+            ],
+            "Encapsulation and decapsulation": [
+              "Encapsulation (sender side): each layer adds its own header (and sometimes trailer) to data received from layer above. Application data → Transport adds TCP header → Network adds IP header → Data Link adds Ethernet frame → Physical sends bits.",
+              "Decapsulation (receiver side): each layer strips its header, processes it, passes data up. Bits received → Data Link strips Ethernet → Network strips IP → Transport strips TCP → Application receives original data.",
+              "Security relevance: deep packet inspection (DPI) firewalls inspect headers at multiple layers. Encrypted traffic (TLS) hides Layer 7 content — only Layer 3/4 headers visible. This is why HTTPS is safer than HTTP."
+            ]
+          },
+          "required_diagrams": [
+            "OSI vs TCP/IP mapping diagram: clean diagram on white background. Two vertical stacks side by side. Left: OSI 7 layers (Application, Presentation, Session, Transport, Network, Data Link, Physical). Right: TCP/IP 4 layers (Application, Transport, Internet, Network Access). Brackets showing which OSI layers map to each TCP/IP layer. Each layer labeled with example protocol. Plain black lines, white background."
+          ],
+          "required_tables": [
+            "Comparison: OSI Layer | Name | Key Protocols | Security Threats | Security Controls || 7 | Application | HTTP, SMTP, DNS | XSS, SQLi, Phishing | WAF, Application Firewall || 4 | Transport | TCP, UDP | SYN Flood, Port Scan | Stateful Firewall, Rate Limiting || 3 | Network | IP, ICMP | IP Spoofing, Routing Attack | Packet Filter, ACL || 2 | Data Link | Ethernet, WiFi | ARP Poison, MAC Spoof | 802.1X, Dynamic ARP Inspection || 1 | Physical | Cables, Radio | Wiretapping, Jamming | Physical security, Shielding"
+          ],
+          "common_mistakes": [
+            "Memorizing OSI layers without understanding which attacks/defenses belong to each — exams and interviews always ask 'at which layer does X attack occur?'"
+          ]
+        },
+        {
+          "name": "Common Network Protocols and IP Addressing",
+          "keywords": ["tcp udp", "icmp", "arp", "dns", "http https", "ftp smtp snmp", "ipv4 ipv6", "subnetting", "cidr", "nat pat", "private public ip"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "TCP vs UDP",
+            "ICMP, ARP, DNS",
+            "HTTP, HTTPS, FTP, SMTP, SNMP",
+            "IPv4 vs IPv6",
+            "Subnetting and CIDR",
+            "NAT and PAT",
+            "Private vs Public IPs"
+          ],
+          "subtopic_content": {
+            "TCP vs UDP": [
+              "TCP (Transmission Control Protocol): connection-oriented, reliable. 3-way handshake (SYN→SYN-ACK→ACK) before data transfer. Guarantees delivery, ordering, error checking. Slower due to overhead. Used by HTTP, HTTPS, FTP, SMTP, SSH.",
+              "UDP (User Datagram Protocol): connectionless, unreliable, no handshake, no guaranteed delivery. Fast, low overhead. Used by DNS, DHCP, VoIP, video streaming, gaming.",
+              "Security: TCP SYN flood attack exploits handshake — attacker sends thousands of SYN packets, server allocates resources waiting for ACK that never comes → exhaustion. Mitigation: SYN cookies, rate limiting."
+            ],
+            "ICMP, ARP, DNS": [
+              "ICMP (Internet Control Message Protocol): used for network diagnostics — ping (echo request/reply), traceroute (TTL exceeded messages). Security: ICMP flood (ping of death), ICMP tunneling to exfiltrate data through firewalls.",
+              "ARP (Address Resolution Protocol): maps IP addresses to MAC addresses on local network. Broadcast-based — no authentication. Security: ARP poisoning/spoofing — attacker sends fake ARP replies associating their MAC with victim's IP → MITM attack.",
+              "DNS (Domain Name System): translates domain names to IP addresses. Port 53. Security: DNS spoofing (cache poisoning), DNS amplification DDoS (small query → huge response), DNS tunneling for data exfiltration, typosquatting."
+            ],
+            "HTTP, HTTPS, FTP, SMTP, SNMP": [
+              "HTTP (Port 80): unencrypted web traffic. Everything visible in plaintext — credentials, session cookies, data. NEVER use for anything sensitive.",
+              "HTTPS (Port 443): HTTP + TLS encryption. Protects confidentiality, integrity, and authenticates server via certificate. All modern websites must use HTTPS.",
+              "FTP (Port 21): file transfer — sends credentials in PLAINTEXT. Should be replaced with SFTP (SSH, port 22) or FTPS (FTP+TLS). Attacker can sniff FTP credentials easily.",
+              "SMTP (Port 25/465/587): email sending. Historically no authentication — email spoofing was trivial. Modern: SPF, DKIM, DMARC records verify sender identity.",
+              "SNMP (Port 161 UDP): network device management (routers, switches). SNMPv1/v2: community strings (passwords) sent in plaintext. SNMPv3: adds encryption and authentication. Use only SNMPv3."
+            ],
+            "IPv4 vs IPv6": [
+              "IPv4: 32-bit addresses (4.3 billion total), written as dotted decimal (192.168.1.1). Address exhaustion was the main driver for IPv6.",
+              "IPv6: 128-bit addresses (3.4×10^38 total), written as colon-separated hex (2001:0db8::1). Built-in IPsec support, no broadcast (uses multicast), simpler header, stateless autoconfiguration (SLAAC).",
+              "Security difference: IPv6 eliminates NAT (which provided implicit security through obscurity). Every device gets a globally routable address. Firewalls must explicitly block IPv6 traffic — many don't, creating security gaps."
+            ],
+            "Subnetting and CIDR": [
+              "Subnetting: divide a large network into smaller subnetworks. Improves security by isolating different network segments. Finance servers in /24 subnet, guest WiFi in another /24 — compromise of one doesn't expose the other.",
+              "CIDR (Classless Inter-Domain Routing): /notation specifies how many bits are the network portion. 192.168.1.0/24 = 24 network bits, 8 host bits = 256 addresses (254 usable). /25 = 128 addresses, /26 = 64 addresses.",
+              "Security use: create separate subnets for DMZ, internal servers, user workstations, IoT devices, guest network. Use ACLs between subnets to control traffic flow."
+            ],
+            "NAT and PAT": [
+              "NAT (Network Address Translation): translates private IPs to public IPs and vice versa. Allows multiple internal devices to share one public IP. Hides internal network topology from internet.",
+              "PAT (Port Address Translation / NAT Overload): extends NAT by adding port numbers — thousands of internal devices share one public IP using different port numbers. Most home routers use PAT.",
+              "Security: NAT provides implicit security (internet cannot directly reach internal hosts), but should NOT be relied upon as a firewall. Stateful firewall still required."
+            ],
+            "Private vs Public IPs": [
+              "Private IP ranges (RFC 1918): 10.0.0.0/8 (Class A), 172.16.0.0/12 (Class B), 192.168.0.0/16 (Class C). Not routable on internet — used internally.",
+              "Public IPs: globally routable, assigned by ISPs. Exposed to internet — must be protected by firewall.",
+              "Security significance: if you see 192.168.x.x or 10.x.x.x as source IP in internet traffic → spoofed/forged. Ingress filtering blocks packets from internet claiming to be from private IPs (anti-spoofing)."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Protocol | Port | Secure? | Replacement | Attack || HTTP | 80 | No (plaintext) | HTTPS | Credential theft, MITM || FTP | 21 | No (plaintext) | SFTP (22) | Credential sniffing || SMTP | 25 | Partially | STARTTLS/SMTPS | Email spoofing || SNMP v1/v2 | 161 UDP | No | SNMPv3 | Community string theft || Telnet | 23 | No | SSH (22) | Credential interception"
+          ],
+          "common_mistakes": [
+            "Thinking NAT is a firewall — NAT hides internal IPs but does not inspect or block malicious traffic. Always use a dedicated stateful firewall alongside NAT",
+            "Using FTP for file transfers — FTP credentials are sent in plaintext. Always use SFTP (SSH-based) or FTPS for any file transfer"
+          ]
+        },
+        {
+          "name": "Network Devices and Functions",
+          "keywords": ["switches", "routers", "firewalls", "load balancers", "access points", "bridges", "modems", "gateways", "network devices"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Switches and routers",
+            "Firewalls and load balancers",
+            "Access points and bridges",
+            "Modems and gateways"
+          ],
+          "subtopic_content": {
+            "Switches and routers": [
+              "Switch (Layer 2): connects devices within same network. Uses MAC address table to forward frames only to correct port. Managed switches support VLANs, port security, 802.1X authentication.",
+              "Router (Layer 3): connects different networks, routes packets using IP addresses. Implements ACLs to filter traffic. Edge routers connect organization to ISP — critical security boundary.",
+              "Security: switch port security limits MAC addresses per port (prevents MAC flooding). Routers implement ACLs blocking traffic between network segments."
+            ],
+            "Firewalls and load balancers": [
+              "Firewall: monitors and controls incoming/outgoing network traffic based on security rules. Types: packet filtering, stateful inspection, application layer, NGFW. First line of network defense.",
+              "Load balancer: distributes traffic across multiple servers to prevent overload and improve availability. Also provides: SSL termination, DDoS absorption, health checking. Web Application Firewall (WAF) often integrated.",
+              "Security: load balancers hide backend server IPs, can detect and block abnormal traffic patterns, support connection limiting to mitigate DoS."
+            ],
+            "Access points and bridges": [
+              "Access Point (AP): extends wired network wirelessly. Broadcasts SSID, handles 802.11 protocol, authenticates wireless clients. Security: must implement WPA3, 802.1X for enterprise, disable WPS.",
+              "Bridge: connects two network segments at Layer 2, forwards frames based on MAC. Used to extend networks or segment collision domains. Wireless bridges connect buildings wirelessly.",
+              "Security risk: rogue access points — attackers set up unauthorized APs to capture credentials. Wireless IDS (WIDS) detects rogue APs."
+            ],
+            "Modems and gateways": [
+              "Modem: modulates/demodulates signal between digital (computer) and analog (telephone/cable) transmission. DSL modem connects home to ISP over phone line.",
+              "Gateway: connects networks using different protocols. Default gateway = the router that handles traffic destined outside local network. Security gateway = device combining firewall + NAT + VPN.",
+              "Security: home modems/gateways often have default credentials (admin/admin) — attackers scan for these. Always change default passwords on all network devices."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Device | OSI Layer | Function | Security Feature | Attack Target || Switch | Layer 2 | Connect LAN devices | Port security, VLAN, 802.1X | MAC flooding, VLAN hopping || Router | Layer 3 | Connect networks, route packets | ACLs, routing security | IP spoofing, routing attacks || Firewall | Layer 3-7 | Traffic filtering | Stateful inspection, IPS | Firewall bypass, misconfiguration || Access Point | Layer 1-2 | Wireless connectivity | WPA3, 802.1X | Rogue AP, deauth attack || Load Balancer | Layer 4-7 | Distribute traffic | DDoS absorption, SSL termination | Application-layer DDoS"
+          ],
+          "common_mistakes": [
+            "Thinking a switch is secure by default — unmanaged switches have no security features. Always use managed switches with port security and VLAN segmentation"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Threat Landscape and Attack Vectors",
+      "topics": [
+        {
+          "name": "Malware Types",
+          "keywords": ["virus", "worm", "trojan", "ransomware", "rootkit", "adware", "spyware", "malware types", "malicious software"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Virus",
+            "Worm",
+            "Trojan",
+            "Ransomware",
+            "Rootkit",
+            "Adware",
+            "Spyware"
+          ],
+          "subtopic_content": {
+            "Virus": [
+              "Virus: malware that attaches itself to legitimate files and replicates when infected files are executed. Requires HOST FILE and USER ACTION to spread (unlike worm).",
+              "Types: File infector (attaches to .exe/.com), Macro virus (in Office documents — VBA macros), Boot sector virus (infects MBR). Famous examples: ILOVEYOU, Melissa, CIH (Chernobyl).",
+              "Defense: updated antivirus, disable macros in Office, email scanning, sandboxing suspicious attachments."
+            ],
+            "Worm": [
+              "Worm: self-replicating malware that spreads automatically across networks WITHOUT needing a host file or user action. Exploits network vulnerabilities to propagate.",
+              "Examples: WannaCry (2017, exploited EternalBlue/MS17-010 SMB vulnerability, encrypted files on 200,000+ systems in 150 countries), Conficker, Slammer.",
+              "Defense: patch management (WannaCry exploited a patched vulnerability — unpatched systems were vulnerable), network segmentation, disable unnecessary services/ports."
+            ],
+            "Trojan": [
+              "Trojan (Trojan Horse): malware disguised as legitimate software. User willingly installs it, but it performs malicious actions in background (creates backdoor, downloads more malware, steals data).",
+              "Types: Remote Access Trojan (RAT — gives attacker full remote control), Banking Trojan (steals financial credentials), Downloader Trojan (installs additional malware).",
+              "Defense: download software only from official sources, verify digital signatures, application whitelisting, EDR solutions."
+            ],
+            "Ransomware": [
+              "Ransomware: encrypts victim's files and demands ransom (usually cryptocurrency) for decryption key. Most financially destructive malware type.",
+              "Attack chain: Phishing email → User clicks → Ransomware downloads → Spreads laterally → Encrypts files → Ransom note displayed. Common variants: LockBit, REvil, Ryuk, WannaCry.",
+              "Defense: offline backups (3-2-1 rule: 3 copies, 2 media types, 1 offsite), patch management, email filtering, network segmentation, user training. NEVER pay ransom — no guarantee of decryption."
+            ],
+            "Rootkit": [
+              "Rootkit: malware designed to hide itself and other malware from detection by modifying OS kernel, system calls, or file system. Makes infected system 'lie' to security tools.",
+              "Types: Kernel rootkit (most dangerous — modifies kernel), Bootloader rootkit (modifies MBR/UEFI), User-mode rootkit. Famous: Sony BMG rootkit (installed by music CDs, 2005).",
+              "Defense: Secure Boot (UEFI), TPM (Trusted Platform Module), offline scanning with trusted OS, integrity monitoring. Very difficult to remove — often requires full OS reinstall."
+            ],
+            "Adware": [
+              "Adware: automatically displays or downloads advertisements. Often bundled with free software. Usually less harmful but degrades performance, can open doors for more dangerous malware.",
+              "Behavior: browser hijacking (changes home page/search engine), pop-up ads, redirect clicks to ad sites, track browsing habits. Example: Superfish (pre-installed on Lenovo laptops, 2015 — also broke HTTPS by injecting fake CA certificate).",
+              "Defense: be careful with free software installation (read EULA), use reputable sources, browser extensions blocker, antivirus with PUP detection."
+            ],
+            "Spyware": [
+              "Spyware: secretly monitors user activity and sends data to attacker — keystrokes, screenshots, browsing history, credentials, microphone/camera access.",
+              "Types: Keylogger (records every keystroke), Screen scraper, Credential harvester, Commercial spyware (Pegasus — used against journalists/politicians). Often installed alongside adware or via phishing.",
+              "Defense: keep OS and software updated, use reputable antivirus/anti-spyware, avoid untrusted websites and software, cover webcam, use password manager (defeats keyloggers)."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Malware | Spreads How | Needs User Action | Primary Goal | Famous Example || Virus | Attaches to files | Yes | Damage, Replicate | ILOVEYOU, Melissa || Worm | Network self-propagation | No | Spread, Damage | WannaCry, Conficker || Trojan | Disguised as legit software | Yes (install) | Backdoor, RAT | Zeus, DarkComet || Ransomware | Phishing, Exploit | Often | Financial extortion | LockBit, REvil || Rootkit | Via other malware | No | Persistence, Hide | Sony BMG || Adware | Bundled software | Yes (install) | Revenue via ads | Superfish || Spyware | Download, Phishing | Yes | Credential theft | Pegasus, Keyloggers"
+          ],
+          "common_mistakes": [
+            "Thinking viruses and worms are the same — viruses need a host file and user action, worms spread autonomously through network. WannaCry was a worm, not a virus",
+            "Believing paying ransomware ransom guarantees file recovery — attackers often take money and disappear. Best defense is offline backups"
+          ]
+        },
+        {
+          "name": "Network-Based Attacks",
+          "keywords": ["dos", "ddos", "mitm", "replay attack", "dns spoofing", "arp poisoning", "network attacks", "denial of service"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "DoS",
+            "DDoS",
+            "MITM",
+            "Replay attacks",
+            "DNS spoofing",
+            "ARP poisoning"
+          ],
+          "subtopic_content": {
+            "DoS": [
+              "DoS (Denial of Service): attacker sends massive traffic from SINGLE source to overwhelm target system/network, making it unavailable to legitimate users.",
+              "Types: Volume-based (UDP flood, ICMP flood), Protocol-based (SYN flood exhausts connection table), Application layer (HTTP flood — harder to detect, mimics legitimate traffic).",
+              "Defense: rate limiting, SYN cookies, upstream filtering with ISP, ingress filtering, failover systems."
+            ],
+            "DDoS": [
+              "DDoS (Distributed Denial of Service): DoS from THOUSANDS of distributed sources (botnet). Massively amplified, harder to block because traffic comes from legitimate-looking IPs worldwide.",
+              "Attack types: Volumetric (Tbps of traffic), Reflection/Amplification (small UDP query → huge response from DNS/NTP servers, attacker uses victim's IP as source), Application (Layer 7 HTTP floods).",
+              "Defense: DDoS mitigation services (Cloudflare, Akamai, AWS Shield), anycast routing, scrubbing centers, rate limiting, geo-blocking, Blackhole routing for extreme attacks."
+            ],
+            "MITM": [
+              "MITM (Man-in-the-Middle): attacker secretly intercepts and potentially alters communication between two parties who believe they're communicating directly.",
+              "Techniques: ARP poisoning (LAN-based), Rogue WiFi AP (public WiFi attack), SSL stripping (downgrade HTTPS to HTTP), BGP hijacking (intercept internet-scale routing).",
+              "Defense: use HTTPS with HSTS, certificate pinning, mutual TLS (mTLS), VPN on public WiFi, DNSSEC, verify certificates, 802.1X port authentication."
+            ],
+            "Replay attacks": [
+              "Replay attack: attacker captures a valid authentication token or session data and replays it later to impersonate the legitimate user, without needing to crack credentials.",
+              "Example: attacker captures Kerberos ticket, uses it later to authenticate as that user. Or captures session cookie from HTTP and reuses it.",
+              "Defense: timestamps + expiry in tokens, nonces (one-time random values), sequence numbers, TLS prevents replays for transport-layer communications."
+            ],
+            "DNS spoofing": [
+              "DNS spoofing (DNS cache poisoning): attacker injects malicious DNS records into resolver cache, redirecting users to fake websites (even typing correct URL → attacker's server).",
+              "Example: user types bank.com → resolver has poisoned cache → resolves to attacker's IP → user enters credentials on fake site. Famous: Kaminsky attack (2008) exploited predictable DNS transaction IDs.",
+              "Defense: DNSSEC (digitally signs DNS records), randomize source port + transaction ID, use encrypted DNS (DNS over HTTPS/TLS), frequent cache timeouts."
+            ],
+            "ARP poisoning": [
+              "ARP poisoning (ARP spoofing): attacker sends gratuitous (unsolicited) ARP replies on local network, associating their MAC address with another host's IP (usually the gateway), enabling MITM on the entire LAN.",
+              "Example: attacker sends 'I am the router (10.0.0.1), my MAC is ATTACKER_MAC' to all hosts → all traffic goes through attacker → captured, potentially modified.",
+              "Defense: Dynamic ARP Inspection (DAI) on managed switches, static ARP entries for critical devices, ARP detection tools (ARPwatch, XArp), use encrypted protocols (even if MITM occurs, data is encrypted)."
+            ]
+          },
+          "required_diagrams": [
+            "MITM attack diagram: clean diagram on white background. Three boxes: Client (left), Server (right), Attacker (middle). Normal arrows labeled 'Client thinks it talks to Server' and 'Server thinks it talks to Client'. All traffic actually flows through Attacker in middle. Attacker intercepts and reads/modifies data. Plain black arrows, white background, labeled clearly."
+          ],
+          "required_tables": [
+            "Comparison: Attack | Target | Mechanism | Detection | Defense || DoS | Availability | Single-source flood | Traffic spike from one IP | Rate limiting, ingress filtering || DDoS | Availability | Botnet flood | Distributed high-volume traffic | Scrubbing centers, Anycast || MITM | Confidentiality | Intercept traffic | Certificate warnings, ARP alerts | HTTPS, HSTS, VPN || Replay | Authentication | Replay captured token | Timestamp check | Nonces, token expiry || DNS Spoofing | Integrity | Poison DNS cache | DNSSEC validation failures | DNSSEC, DNS over HTTPS || ARP Poisoning | Confidentiality | Fake ARP replies | Duplicate IP alerts | Dynamic ARP Inspection"
+          ],
+          "common_mistakes": [
+            "Thinking HTTPS prevents all MITM attacks — SSL stripping attack downgrades HTTPS to HTTP. HSTS (HTTP Strict Transport Security) prevents this by forcing HTTPS always"
+          ]
+        },
+        {
+          "name": "Social Engineering and Advanced Threats",
+          "keywords": ["phishing", "spear phishing", "vishing", "smishing", "tailgating", "pretexting", "baiting", "zero day", "apt", "supply chain attack", "insider threat"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Phishing",
+            "Spear phishing",
+            "Vishing",
+            "Smishing",
+            "Tailgating",
+            "Pretexting",
+            "Baiting",
+            "Zero-day exploits",
+            "APTs",
+            "Supply chain attacks",
+            "Insider threats"
+          ],
+          "subtopic_content": {
+            "Phishing": [
+              "Phishing: mass email attack impersonating trusted entity (bank, PayPal, Microsoft) to trick users into revealing credentials or clicking malicious links. Low effort, high volume, targets everyone.",
+              "Indicators: urgent language ('Your account will be suspended'), generic greeting ('Dear Customer'), mismatched sender domain (support@paypa1.com), suspicious links (hover to check URL before clicking).",
+              "Defense: email filtering (SPF/DKIM/DMARC), anti-phishing training, MFA (even if password stolen, account protected), report suspicious emails."
+            ],
+            "Spear phishing": [
+              "Spear phishing: targeted phishing against specific individual using personalized information. Attacker researches target (LinkedIn, social media, company website) before crafting convincing email.",
+              "Example: CFO receives email appearing to be from CEO (whale phishing/BEC): 'I'm in a meeting, please wire $50,000 to this vendor urgently.' Uses CEO's real name, writing style.",
+              "Defense: verify unusual financial requests via phone call using known number, dual approval for large transactions, executive training on BEC scams."
+            ],
+            "Vishing": [
+              "Vishing (Voice Phishing): phone-based social engineering. Attacker calls pretending to be IT support, bank fraud department, IRS, etc. Uses urgency and authority to extract information.",
+              "Example: 'This is Microsoft support, we detected a virus on your computer. I need remote access to fix it.' Victim installs remote access tool → attacker takes control.",
+              "Defense: never give information to unsolicited callers, call back using official number from company website, no legitimate support team asks for passwords or remote access unprompted."
+            ],
+            "Smishing": [
+              "Smishing (SMS Phishing): phishing via text message. Attacker sends SMS appearing to be from bank, delivery company (FedEx/UPS), or government claiming action required.",
+              "Example: 'Your package is on hold. Click link to confirm address: [malicious URL]'. Link leads to credential-harvesting fake site or malware download.",
+              "Defense: don't click links in unsolicited SMS. Verify by going directly to official website. Use spam filtering on mobile. Enable MFA."
+            ],
+            "Tailgating": [
+              "Tailgating (Piggybacking): attacker gains physical access to secured area by following authorized person through badge-controlled door without badging in themselves.",
+              "Example: attacker carries boxes, pretending to be delivery person. Employee holds door open to be helpful. Attacker now has access to server room or office.",
+              "Defense: security awareness training (never hold doors for strangers regardless of appearance), mantraps (double doors requiring two authentications), security guards, CCTV."
+            ],
+            "Pretexting": [
+              "Pretexting: attacker creates fabricated scenario (pretext) to manipulate victim into providing information or access. More elaborate than simple phishing.",
+              "Example: attacker calls HR pretending to be a new employee who forgot their ID and needs their employee number. Or poses as auditor needing to review server room.",
+              "Defense: verify identity through established channels, strict need-to-know policies, train employees to be skeptical of unusual requests."
+            ],
+            "Baiting": [
+              "Baiting: attacker leaves infected USB drives in parking lots or common areas. Curious employees plug them in → malware installs automatically.",
+              "Research: University of Illinois experiment dropped 297 USB drives — 45% were plugged in and opened files. Pentagon and government agencies have been targeted with baiting attacks.",
+              "Defense: disable USB autorun, enforce USB port blocking policy, employee training (don't plug in unknown USB drives), endpoint protection that scans removable media."
+            ],
+            "Zero-day exploits": [
+              "Zero-day: a vulnerability that is unknown to the software vendor — 'zero days' to patch it because no patch exists yet. Extremely valuable and dangerous.",
+              "Lifecycle: researcher or attacker discovers flaw → if attacker: exploited immediately (zero-day exploit) → eventually discovered/disclosed → vendor develops patch → patch deployed. Until patch deployed, all users vulnerable.",
+              "Defense: defense in depth (no single control), network segmentation (limits blast radius), EDR (behavioral detection catches unknown threats), threat intelligence feeds, virtual patching with WAF/IPS."
+            ],
+            "APTs": [
+              "APT (Advanced Persistent Threat): sophisticated, long-term, targeted attack by well-resourced threat actor (usually nation-state or organized crime). Goal: steal data over months/years, not immediate disruption.",
+              "Characteristics: stealth (avoids detection), persistence (maintains foothold), lateral movement (spreads through network slowly), specific target (government, defense, critical infrastructure).",
+              "Famous: APT29 (Cozy Bear — Russian, SolarWinds attack), APT41 (Chinese, espionage + financial crime), Lazarus Group (North Korean, financial heists).",
+              "Defense: threat hunting, behavioral analytics (UEBA), network traffic analysis, zero trust architecture, privileged access management (PAM), regular red team exercises."
+            ],
+            "Supply chain attacks": [
+              "Supply chain attack: instead of attacking target directly, attacker compromises a trusted supplier/vendor whose software/hardware the target uses. Target installs compromised software from trusted source.",
+              "Famous examples: SolarWinds (2020) — attackers injected malware into SolarWinds Orion update, deployed to 18,000+ organizations including US government. XZ Utils (2024) — backdoor in Linux compression library.",
+              "Defense: software composition analysis (SCA), verify software integrity (cryptographic signatures), vendor risk management, least-privilege for third-party software, SBOM (Software Bill of Materials)."
+            ],
+            "Insider threats": [
+              "Insider threat: security risk from current or former employees, contractors, or business partners who have authorized access. Can be intentional (malicious) or unintentional (negligence).",
+              "Types: Malicious insider (disgruntled employee exfiltrating data), Negligent insider (clicks phishing link, uses weak password), Compromised insider (external attacker using stolen credentials).",
+              "Defense: least privilege access (only access needed for job), User and Entity Behavior Analytics (UEBA — detects abnormal behavior), DLP (Data Loss Prevention), offboarding procedures, monitor privileged users."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Attack | Medium | Target | Technique | Defense || Phishing | Email | Mass users | Fake emails with links/attachments | Email filtering, MFA, Training || Spear Phishing | Email | Specific person | Personalized using researched info | Verify requests, Dual approval || Vishing | Phone | Anyone | Impersonate authority (IT, bank) | Never give info to unsolicited callers || Smishing | SMS | Mobile users | Fake SMS with malicious link | Don't click SMS links, go direct to site || Tailgating | Physical | Anyone entering facility | Follow through secured door | Mantrap, Security awareness || Baiting | Physical | Curious employees | Infected USB drives | Disable USB autorun, Policy"
+          ],
+          "common_mistakes": [
+            "Thinking technical controls stop social engineering — phishing and pretexting bypass ALL technical controls. Security awareness training is the only effective defense against human-targeted attacks",
+            "Dismissing insider threats as rare — Verizon DBIR consistently shows insiders involved in 20-25% of breaches. Implement least privilege and monitoring for all users including admins"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Network Security Devices and Controls",
+      "topics": [
+        {
+          "name": "Firewalls",
+          "keywords": ["packet filtering firewall", "stateful inspection", "application layer firewall", "NGFW", "UTM", "firewall types", "next generation firewall"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Packet filtering",
+            "Stateful inspection",
+            "Application layer firewalls",
+            "NGFW",
+            "UTM"
+          ],
+          "subtopic_content": {
+            "Packet filtering": [
+              "Packet filtering: examines each packet's headers (source/destination IP, port, protocol) against ACL rules. Stateless — each packet evaluated independently, no awareness of session context.",
+              "Rules example: ALLOW TCP any → 192.168.1.10 port 80. DENY TCP any → any port 23. Rules processed top-to-bottom, first match wins.",
+              "Weakness: cannot detect attacks split across multiple packets, cannot inspect payload content, easily spoofed. Best for simple perimeter filtering."
+            ],
+            "Stateful inspection": [
+              "Stateful inspection (SPI): tracks active TCP connections in a state table. Allows return traffic for established connections automatically. Blocks unsolicited inbound connections.",
+              "Example: internal user requests google.com → firewall records (src:192.168.1.5:52341 → dst:142.250.1.1:443) in state table → response packets allowed because matching connection exists.",
+              "Advantage over packet filtering: prevents IP spoofing attacks, handles FTP passive mode, detects TCP session hijacking. Standard for most enterprise firewalls."
+            ],
+            "Application layer firewalls": [
+              "Application layer firewall (proxy firewall): inspects payload at Layer 7, understands application protocols. Can detect malicious HTTP requests, SQL injection attempts in web traffic, file type violations.",
+              "Acts as proxy — all connections terminate at firewall, firewall creates new connection to server. Hides internal network completely. Slower due to deep inspection but far more intelligent.",
+              "Web Application Firewall (WAF): specialized application firewall protecting web apps. Blocks OWASP Top 10 attacks (SQLi, XSS, CSRF, etc.). Can inspect encrypted HTTPS traffic (SSL inspection)."
+            ],
+            "NGFW": [
+              "NGFW (Next-Generation Firewall): combines traditional stateful firewall + DPI (Deep Packet Inspection) + application awareness + user identity awareness + IPS + SSL inspection + threat intelligence.",
+              "Capabilities: identify applications regardless of port (Skype on port 80), user-based policies (allow IT admins to use SSH, block others), decrypt and inspect HTTPS, built-in IPS, threat feeds integration.",
+              "Examples: Palo Alto Networks (market leader), Fortinet FortiGate, Cisco Firepower, Check Point. Standard for modern enterprise security."
+            ],
+            "UTM": [
+              "UTM (Unified Threat Management): single device combining multiple security functions — firewall, IPS, antivirus, anti-spam, URL filtering, VPN, bandwidth management.",
+              "Advantage: single pane of glass management, lower cost than multiple separate devices, simpler for SMBs. Disadvantage: single point of failure, performance hit when all features enabled simultaneously.",
+              "Best for: small-medium businesses needing comprehensive protection without dedicated security team. Large enterprises typically use best-of-breed separate solutions."
+            ]
+          },
+          "required_diagrams": [
+            "Firewall evolution diagram: clean diagram on white background. Four boxes from left to right showing evolution: 1) Packet Filtering - shows header inspection only (IP, Port). 2) Stateful Inspection - shows connection state table. 3) Application Layer - shows payload inspection. 4) NGFW - shows App ID, User ID, IPS, SSL inspection layers. Each box labeled with key capability. Arrows showing progression. White background, plain black."
+          ],
+          "required_tables": [
+            "Comparison: Firewall Type | OSI Layer | Inspects | Strength | Weakness | Best Use || Packet Filtering | 3-4 | IP, Port, Protocol | Fast, Simple | No payload inspection, Stateless | Basic perimeter || Stateful Inspection | 3-4 | Headers + Connection state | Tracks sessions, blocks spoofing | No payload inspection | Standard enterprise || Application Layer | 7 | Full payload, Application protocol | Detects SQLi, XSS, deep inspection | Slow, expensive | Web application protection || NGFW | 3-7 | Everything + User identity | Comprehensive, App-aware | Complex, expensive | Modern enterprise || UTM | 3-7 | Multiple security functions | All-in-one, easy management | Single point of failure | SMB"
+          ],
+          "common_mistakes": [
+            "Thinking any firewall blocks all threats — even NGFW cannot stop zero-days. Defense in depth requires multiple layers beyond just the firewall"
+          ]
+        },
+        {
+          "name": "IDS/IPS and NAT",
+          "keywords": ["ids", "ips", "signature based", "anomaly based", "hids", "nids", "intrusion detection", "intrusion prevention", "nat", "static nat", "dynamic nat", "pat"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Signature-based IDS",
+            "Anomaly-based IDS",
+            "HIDS",
+            "NIDS",
+            "IPS vs IDS",
+            "Static NAT",
+            "Dynamic NAT",
+            "PAT"
+          ],
+          "subtopic_content": {
+            "Signature-based IDS": [
+              "Signature-based detection: compares traffic/behavior against a database of known attack signatures (patterns). Fast and accurate for known attacks — low false positives.",
+              "Weakness: cannot detect unknown/new attacks (zero-days). Must be constantly updated with new signatures. Attacker can evade by slightly modifying attack pattern.",
+              "Example: Snort IDS signature for SQL injection: 'SELECT * FROM users WHERE' in HTTP body → alert triggered."
+            ],
+            "Anomaly-based IDS": [
+              "Anomaly-based detection: learns normal network behavior (baseline), alerts when significant deviation detected. Can detect unknown/zero-day attacks.",
+              "Weakness: high false positive rate during initial learning phase. Legitimate unusual activity (new software deployment, maintenance) triggers alerts. Requires tuning.",
+              "Example: normally server receives 100 connections/min. Suddenly 10,000/min → anomaly detected → possible DDoS or worm spreading."
+            ],
+            "HIDS": [
+              "HIDS (Host-based IDS): installed on individual endpoints (servers, workstations). Monitors system calls, file changes, registry, log files, running processes on that specific host.",
+              "Advantages: can detect insider attacks, monitors encrypted traffic on the host, persistent even if network is segmented, can detect rootkits.",
+              "Examples: OSSEC, Tripwire (file integrity monitoring), Windows Security Center, Carbon Black."
+            ],
+            "NIDS": [
+              "NIDS (Network-based IDS): monitors network traffic in real-time from a network tap or port mirror. Protects entire network segment with single sensor.",
+              "Deployment: placed at network perimeter, in DMZ, between critical segments. Cannot decrypt encrypted traffic (limitation). Examples: Snort, Suricata, Zeek.",
+              "Cannot see traffic within encrypted sessions (HTTPS) unless SSL inspection deployed alongside."
+            ],
+            "IPS vs IDS": [
+              "IDS (Intrusion Detection System): PASSIVE — monitors and ALERTS on suspicious activity. Does not block traffic. Like a security camera — records and alarms but doesn't stop intruder.",
+              "IPS (Intrusion Prevention System): ACTIVE — monitors AND BLOCKS suspicious traffic in real-time. Inline with traffic flow — can drop packets, reset connections, block IPs.",
+              "Tradeoff: IPS is more powerful but risk of false positives causing legitimate traffic to be blocked. IDS is safer (only alerts) but slower response. Modern NGFW includes IPS functionality."
+            ],
+            "Static NAT": [
+              "Static NAT: one-to-one permanent mapping between private IP and public IP. Same private IP always maps to same public IP. Used for servers that need to be consistently reachable from internet (web server, mail server).",
+              "Example: Web server at 10.0.0.5 (private) → always appears as 203.0.113.10 (public). Incoming traffic to 203.0.113.10 always forwarded to 10.0.0.5."
+            ],
+            "Dynamic NAT": [
+              "Dynamic NAT: pool of public IPs assigned dynamically to private IPs as needed. Many internal hosts share a smaller pool of public IPs.",
+              "Example: 100 internal hosts share 10 public IPs. Host needs internet → assigned available public IP from pool. When session ends → IP returned to pool. If pool exhausted → new connections fail."
+            ],
+            "PAT": [
+              "PAT (Port Address Translation, also called NAT Overload): many-to-one. Thousands of internal hosts share single public IP, distinguished by unique port numbers.",
+              "Example: Host A (192.168.1.2:54123) → maps to 203.0.113.1:54123. Host B (192.168.1.3:54123) → maps to 203.0.113.1:54124. Same public IP, different ports. Most common — used in home routers."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Feature | IDS | IPS || Mode | Passive (monitor only) | Active (inline, blocks traffic) || Response | Generate alert | Block, drop, reset connection || False positive impact | Alert fatigue only | Blocks legitimate traffic (serious) || Placement | Out-of-band (network tap) | Inline (traffic flows through it) || Risk | Low (never blocks) | Higher (misconfiguration blocks legit traffic) || Use case | Monitoring, forensics | Active threat prevention"
+          ],
+          "common_mistakes": [
+            "Confusing IDS and IPS placement — IDS is out-of-band (tap/mirror), IPS is inline. IDS cannot block traffic by design. IPS must be inline to block"
+          ]
+        },
+        {
+          "name": "Proxies and Gateways",
+          "keywords": ["forward proxy", "reverse proxy", "transparent proxy", "application proxy", "proxy server", "web proxy"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Forward proxy",
+            "Reverse proxy",
+            "Transparent proxy",
+            "Application proxy"
+          ],
+          "subtopic_content": {
+            "Forward proxy": [
+              "Forward proxy: sits between internal clients and internet. Clients configure browser to use proxy. All outbound web requests go through proxy — caches content, filters URLs, enforces policy.",
+              "Security benefits: blocks malicious websites, enforces acceptable use policy, caches content (bandwidth saving), can decrypt HTTPS for inspection (SSL inspection), hides internal IPs from internet.",
+              "Example: corporate proxy blocks social media, logs all web browsing, scans downloads for malware."
+            ],
+            "Reverse proxy": [
+              "Reverse proxy: sits in front of web servers, receives requests from internet on behalf of servers. Internet clients never directly communicate with actual servers — only with the proxy.",
+              "Security benefits: hides server IPs (DDoS harder to target), SSL termination (offloads TLS from servers), WAF capabilities, load balancing, caching, DDoS protection.",
+              "Examples: Nginx, HAProxy, Cloudflare (acts as reverse proxy for millions of websites), AWS CloudFront."
+            ],
+            "Transparent proxy": [
+              "Transparent proxy: intercepts traffic without clients knowing or needing configuration. Network routing redirects traffic through proxy automatically (WCCP or policy routing).",
+              "Advantage: no client configuration needed (works for all devices including IoT, printers). Disadvantage: clients unaware → cannot choose to bypass → privacy concerns.",
+              "Used by ISPs to cache content, corporations to enforce web filtering without per-device configuration."
+            ],
+            "Application proxy": [
+              "Application proxy: specialized proxy that fully understands a specific application protocol (HTTP, FTP, SMTP, DNS). Terminates and re-initiates connections at application layer.",
+              "Advantage: deep protocol inspection, strips dangerous content, enforces protocol compliance, prevents protocol-based attacks.",
+              "Example: SMTP proxy strips malicious email attachments, rewrites headers for privacy, enforces message size limits before passing email to internal mail server."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Proxy Type | Direction | Client Awareness | Use Case | Security Benefit || Forward Proxy | Client → Internet | Client configures proxy | URL filtering, corporate web control | Block malicious sites, enforce AUP || Reverse Proxy | Internet → Server | No (clients unaware) | Web server protection, load balancing | Hide server IPs, WAF, DDoS protection || Transparent Proxy | Both | No (automatic interception) | ISP caching, corporate filtering | No config needed, scales well || Application Proxy | Both | Depends | Protocol-specific security | Deep protocol inspection, strip malicious content"
+          ],
+          "common_mistakes": [
+            "Confusing forward and reverse proxy direction — forward proxy serves internal clients going OUT to internet. Reverse proxy serves external internet users coming IN to your servers"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Cryptography in Network Security",
+      "topics": [
+        {
+          "name": "Encryption Basics and Hashing",
+          "keywords": ["symmetric encryption", "asymmetric encryption", "block cipher", "stream cipher", "aes", "rsa", "md5", "sha", "hmac", "hash collision", "cryptography"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Symmetric encryption",
+            "Asymmetric encryption",
+            "Block vs stream ciphers",
+            "Common algorithms (AES, RSA, etc.)",
+            "MD5",
+            "SHA-1, SHA-2, SHA-3",
+            "HMAC",
+            "Hash collisions"
+          ],
+          "subtopic_content": {
+            "Symmetric encryption": [
+              "Symmetric encryption: SAME key used for both encryption and decryption. Fast — suitable for large data. Problem: key distribution (how to securely share key with recipient?).",
+              "Key distribution problem: if you can securely send the key, why not send the data that way? Solved by using asymmetric encryption to exchange symmetric keys (hybrid encryption).",
+              "Examples: AES (current standard), DES (obsolete, 56-bit), 3DES (deprecated). Used for: disk encryption, database encryption, VPN data channels."
+            ],
+            "Asymmetric encryption": [
+              "Asymmetric encryption: uses KEY PAIR — public key (share with everyone) + private key (keep secret). Data encrypted with public key can ONLY be decrypted with private key. Slow — only for small data or key exchange.",
+              "Use cases: key exchange (encrypt symmetric key with recipient's public key), digital signatures (sign with private key, verify with public key), TLS handshake, SSH.",
+              "Examples: RSA (most common, 2048-4096 bit keys), ECC (Elliptic Curve — smaller keys, same security, faster), Diffie-Hellman (key exchange)."
+            ],
+            "Block vs stream ciphers": [
+              "Block cipher: encrypts data in fixed-size blocks (AES: 128-bit blocks). Padding added if data isn't exact multiple of block size. Modes: ECB (insecure — same plaintext = same ciphertext), CBC, GCM (authenticated encryption — recommended).",
+              "Stream cipher: encrypts one bit/byte at a time using keystream. Faster for real-time data, no padding needed. Examples: RC4 (broken), ChaCha20 (modern, used in TLS 1.3).",
+              "Modern recommendation: AES-256-GCM (block cipher, authenticated encryption) or ChaCha20-Poly1305 (stream cipher with authentication). Both provide confidentiality + integrity."
+            ],
+            "Common algorithms (AES, RSA, etc.)": [
+              "AES (Advanced Encryption Standard): 128/192/256-bit symmetric block cipher. NIST standard since 2001. Extremely fast in hardware. AES-256-GCM = current gold standard for symmetric encryption.",
+              "RSA: asymmetric, based on difficulty of factoring large primes. Use 2048+ bit keys. Slower than AES. Being phased out in favor of ECC for new deployments.",
+              "ECC (Elliptic Curve Cryptography): asymmetric, smaller keys for equivalent security (256-bit ECC ≈ 3072-bit RSA). Used in TLS 1.3, cryptocurrency, modern SSH.",
+              "DH (Diffie-Hellman): key exchange — two parties establish shared secret over insecure channel without ever transmitting the secret. Foundation of HTTPS key exchange."
+            ],
+            "MD5": [
+              "MD5 (Message Digest 5): produces 128-bit hash. CRYPTOGRAPHICALLY BROKEN — collision attacks feasible in seconds on modern hardware. DO NOT use for security purposes.",
+              "Still used for: non-security file integrity checks (download verification), checksums where security doesn't matter. Never use for password storage, digital signatures, or certificate signatures.",
+              "Famous break: Flame malware (2012) forged a Microsoft certificate using MD5 collision to appear legitimately signed."
+            ],
+            "SHA-1, SHA-2, SHA-3": [
+              "SHA-1: 160-bit hash. DEPRECATED — collision demonstrated by Google in 2017 (SHAttered attack). All major browsers and CAs stopped accepting SHA-1 certificates.",
+              "SHA-2 family: SHA-256 (256-bit, most common), SHA-384, SHA-512. Currently secure — no known practical collision attacks. Standard for TLS certificates, code signing, password hashing (with salting).",
+              "SHA-3 (Keccak): completely different algorithm than SHA-2. NIST standard since 2015. Resistant to length extension attacks. Not yet widely deployed but good for future-proofing."
+            ],
+            "HMAC": [
+              "HMAC (Hash-based Message Authentication Code): combines hash function with a secret key. Provides BOTH integrity (data not tampered) AND authenticity (came from someone with the key).",
+              "HMAC(key, message): produces fixed-length authentication tag. Only party with the key can generate or verify HMAC. Used in: HTTPS (MAC on TLS records), API authentication, JWT tokens (HMAC-SHA256).",
+              "Difference from simple hashing: hash only proves data integrity. HMAC also proves the sender had the secret key — authentication + integrity together."
+            ],
+            "Hash collisions": [
+              "Hash collision: two different inputs producing the same hash output. Theoretically possible (pigeonhole principle), but must be computationally infeasible for a secure hash function.",
+              "Types: Collision resistance (hard to find any two inputs with same hash — SHA-256 safe), Preimage resistance (given hash, hard to find input — all good hashes), Second preimage resistance (given input+hash, hard to find different input with same hash).",
+              "Real-world impact: collision in digital certificate hash → forge certificate to impersonate any website. This happened with MD5 certificates. SHA-256 has no known practical collisions."
+            ]
+          },
+          "required_diagrams": [
+            "Symmetric vs Asymmetric encryption diagram: clean diagram on white background. Left side (Symmetric): sender and receiver both have identical key icon. Arrow showing encrypted message between them. Right side (Asymmetric): sender has receiver's public key (lock open icon), receiver has private key (lock closed icon). Arrow showing encryption with public key, decryption with private key. Label each side clearly. White background, plain black."
+          ],
+          "required_tables": [
+            "Hash Algorithm Comparison: Algorithm | Output Size | Status | Vulnerability | Recommended Use || MD5 | 128-bit | Broken | Collision in seconds | Non-security checksums only || SHA-1 | 160-bit | Deprecated | Collision demonstrated 2017 | Legacy only, avoid || SHA-256 | 256-bit | Secure | None known | Certificates, Code signing, TLS || SHA-512 | 512-bit | Secure | None known | High-security applications || SHA-3 | Variable | Secure | None known | Future-proofing"
+          ],
+          "common_mistakes": [
+            "Using MD5 or SHA-1 for password hashing — never use fast hash functions for passwords. Use bcrypt, Argon2, or PBKDF2 which are slow by design (makes brute force infeasible)",
+            "Confusing encryption with hashing — encryption is reversible (with key), hashing is one-way. Passwords should be HASHED not encrypted. If encryption key is stolen, all passwords exposed"
+          ]
+        },
+        {
+          "name": "PKI and Secure Communications",
+          "keywords": ["pki", "digital certificates", "certificate authority", "x509", "crl", "ocsp", "tls", "ssl", "https", "ipsec", "openvpn", "l2tp", "ssl handshake"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Digital certificates",
+            "Certificate Authorities",
+            "X.509 standard",
+            "CRL and OCSP",
+            "TLS/SSL handshake",
+            "HTTPS",
+            "IPsec",
+            "OpenVPN, L2TP"
+          ],
+          "subtopic_content": {
+            "Digital certificates": [
+              "Digital certificate: electronic document that binds a public key to an identity (domain name, organization, individual). Signed by a trusted Certificate Authority (CA). Browsers trust CA signatures → trust the certificate → trust the public key → verify you're talking to the right server.",
+              "Contains: Subject (owner identity), Public key, Issuer (CA), Validity period, Serial number, Signature algorithm, CA's digital signature.",
+              "Types: DV (Domain Validation — only verifies domain ownership, cheapest), OV (Organization Validation — verifies organization), EV (Extended Validation — rigorous vetting, green bar in old browsers)."
+            ],
+            "Certificate Authorities": [
+              "CA (Certificate Authority): trusted third party that issues and signs digital certificates. Web of trust — browsers ship with ~150 pre-trusted root CAs. Certificate chain: Root CA → Intermediate CA → End-entity certificate.",
+              "Public CAs: DigiCert, Comodo, GlobalSign, Let's Encrypt (free, automated). Private/internal CAs: Microsoft AD CS, OpenSSL — used for internal services.",
+              "CA compromise is catastrophic — DigiNotar (2011): Iranian hackers compromised Dutch CA, issued fraudulent certificates for Google, Yahoo, allowing MITM on Iranian users. DigiNotar subsequently bankrupt."
+            ],
+            "X.509 standard": [
+              "X.509: ITU-T standard defining format for public key certificates. Defines fields: Version, Serial Number, Signature Algorithm, Issuer, Validity (Not Before/Not After), Subject, Subject Public Key Info, Extensions.",
+              "Extensions: Subject Alternative Name (SAN) — list of domain names covered (replaces Common Name for modern certs), Basic Constraints (is this a CA cert?), Key Usage (what can this key be used for?).",
+              "PEM format (.pem, .crt, .cer): Base64 encoded, human-readable, starts with -----BEGIN CERTIFICATE-----. DER format: binary encoding. PKCS#12 (.pfx, .p12): bundles certificate + private key."
+            ],
+            "CRL and OCSP": [
+              "CRL (Certificate Revocation List): CA-published list of revoked certificate serial numbers. Browsers download and check. Problem: large files, updated infrequently, clients may have stale list.",
+              "OCSP (Online Certificate Status Protocol): real-time certificate validity check. Browser sends serial number to CA's OCSP responder → gets 'good', 'revoked', or 'unknown'. Faster than CRL but adds latency and privacy concerns (CA learns which sites you visit).",
+              "OCSP Stapling: server proactively fetches and caches OCSP response, includes it in TLS handshake. Eliminates privacy concern and latency. Modern best practice."
+            ],
+            "TLS/SSL handshake": [
+              "TLS 1.3 Handshake (simplified): Client Hello (TLS version, cipher suites, random value, key share) → Server Hello (chosen cipher, random, key share, certificate) → Both derive session keys using ECDH → Client Finished → Server Finished → Encrypted application data.",
+              "TLS 1.3 improvements over 1.2: fewer round trips (1-RTT vs 2-RTT, 0-RTT resumption), removed weak algorithms (RSA key exchange, MD5, SHA-1, RC4, DES), all handshake messages after Server Hello encrypted.",
+              "What TLS provides: Confidentiality (AES encryption), Integrity (HMAC/GCM authentication), Authentication (server certificate), Perfect Forward Secrecy (ephemeral keys — past sessions safe if key compromised)."
+            ],
+            "HTTPS": [
+              "HTTPS: HTTP over TLS. All data encrypted between browser and server. Port 443. Provides: confidentiality (ISP/attacker can't read), integrity (no tampering), authentication (you're talking to real server).",
+              "HSTS (HTTP Strict Transport Security): server tells browser 'only connect via HTTPS for next X days'. Prevents SSL stripping attacks. Preload list: browsers hardcode major sites as HTTPS-only before ever visiting.",
+              "Certificate Transparency (CT): all publicly-trusted certificates must be logged in public CT logs. Allows domain owners to detect unauthorized certificates issued for their domain."
+            ],
+            "IPsec": [
+              "IPsec (Internet Protocol Security): suite of protocols securing IP communications at network layer. Provides authentication, integrity, and optionally encryption for all IP traffic.",
+              "Modes: Transport mode (encrypts payload only, headers visible — for end-to-end between hosts) and Tunnel mode (encrypts entire packet, new IP header added — used in VPNs).",
+              "Components: IKE (Internet Key Exchange — negotiates security parameters, authenticates peers), AH (Authentication Header — integrity + authentication, no encryption), ESP (Encapsulating Security Payload — confidentiality + integrity).",
+              "Used in: site-to-site VPNs, L2TP/IPsec remote access, securing routing protocol communications."
+            ],
+            "OpenVPN, L2TP": [
+              "OpenVPN: open-source VPN using SSL/TLS for key exchange and encryption. Highly configurable, cross-platform, uses UDP or TCP port 1194 (or any port). Penetrates firewalls easily because it looks like HTTPS traffic. Most flexible VPN solution.",
+              "L2TP/IPsec: Layer 2 Tunneling Protocol + IPsec for security. L2TP creates tunnel, IPsec provides encryption. Native support in Windows/Mac/iOS/Android — no client software needed. Uses UDP ports 500, 4500, 1701.",
+              "WireGuard: modern VPN protocol. Extremely simple, fast, cryptographically strong (ChaCha20, Poly1305, Curve25519). 4000 lines of code vs OpenVPN's 400,000 — smaller attack surface. Becoming the new standard."
+            ]
+          },
+          "required_diagrams": [
+            "TLS handshake diagram: clean diagram on white background. Two columns: Client (left) and Server (right). Timeline arrows between them: 1) Client Hello (cipher suites, random) → Server. 2) Server Hello + Certificate + Server Hello Done → Client. 3) Client Key Exchange + Change Cipher Spec + Finished → Server. 4) Change Cipher Spec + Finished → Client. 5) Encrypted Application Data ↔ both ways. Label each step. White background, plain black arrows."
+          ],
+          "required_tables": [
+            "VPN Protocol Comparison: Protocol | Security | Speed | Ports | OS Support | Use Case || OpenVPN | High (TLS) | Good | Any (default 1194) | All (needs client) | Remote access, site-to-site || L2TP/IPsec | High (IPsec) | Medium | UDP 500,4500,1701 | All (native) | Consumer VPN, no-install-needed || IKEv2/IPsec | High | Fast | UDP 500, 4500 | Windows/iOS native | Mobile VPN || WireGuard | Very High | Very Fast | UDP 51820 | All (needs client) | Modern deployments || PPTP | Broken | Fast | TCP 1723 | Legacy | Do not use"
+          ],
+          "common_mistakes": [
+            "Thinking SSL and TLS are different things — SSL is the predecessor of TLS. Modern systems use TLS 1.2 or 1.3. SSL 3.0 and all earlier versions are broken and disabled",
+            "Using self-signed certificates in production — browsers show security warnings, users click through, no protection against MITM. Use proper CA-signed certificates (Let's Encrypt is free)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Wireless Network Security",
+      "topics": [
+        {
+          "name": "Wi-Fi Standards and Wireless Attacks",
+          "keywords": ["ieee 802.11", "wifi standards", "wep", "wpa", "wpa2", "wpa3", "2.4ghz", "5ghz", "evil twin", "rogue ap", "deauth attack", "packet sniffing", "wireless security"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "IEEE 802.11a/b/g/n/ac/ax",
+            "2.4 GHz vs 5 GHz",
+            "WEP, WPA, WPA2, WPA3",
+            "Evil twin",
+            "Rogue AP",
+            "Deauth attacks",
+            "Packet sniffing"
+          ],
+          "subtopic_content": {
+            "IEEE 802.11a/b/g/n/ac/ax": [
+              "802.11b (WiFi 1, 1999): 2.4GHz, 11 Mbps. 802.11a (1999): 5GHz, 54 Mbps. 802.11g (2003): 2.4GHz, 54 Mbps.",
+              "802.11n (WiFi 4, 2009): 2.4/5GHz, up to 600 Mbps, MIMO (multiple antennas). 802.11ac (WiFi 5, 2013): 5GHz only, up to 3.5 Gbps, MU-MIMO, beamforming.",
+              "802.11ax (WiFi 6/6E, 2019): 2.4/5/6GHz, up to 9.6 Gbps, OFDMA, better performance in dense environments, WPA3 requirement, Target Wake Time (battery saving for IoT)."
+            ],
+            "2.4 GHz vs 5 GHz": [
+              "2.4 GHz: longer range (walls less blocking), slower speed, crowded spectrum (Bluetooth, microwave ovens, baby monitors all use it). Only 3 non-overlapping channels in 20MHz mode.",
+              "5 GHz: shorter range (higher frequency absorbed more), faster speed, less interference, 25 non-overlapping channels. Best for high-bandwidth applications within range.",
+              "Security: more congested 2.4GHz spectrum easier to jam. 5GHz less vulnerable to interference-based attacks. 6GHz (WiFi 6E) adds new clean spectrum."
+            ],
+            "WEP, WPA, WPA2, WPA3": [
+              "WEP (Wired Equivalent Privacy, 1997): uses RC4 with static keys. COMPLETELY BROKEN — can be cracked in minutes using freely available tools (Aircrack-ng). Never use.",
+              "WPA (WiFi Protected Access, 2003): introduced TKIP, per-packet keys. Temporary fix, still vulnerable. Deprecated, never use.",
+              "WPA2 (2004): uses AES-CCMP encryption. WPA2-Personal (PSK — single password) vulnerable to offline dictionary attacks if weak password. WPA2-Enterprise uses 802.1X (per-user authentication).",
+              "WPA3 (2018): SAE (Simultaneous Authentication of Equals) replaces PSK — prevents offline dictionary attacks even if handshake captured. Forward secrecy, 192-bit Enterprise mode, Protected Management Frames (PMF) mandatory. Use WPA3 for all new deployments."
+            ],
+            "Evil twin": [
+              "Evil twin: attacker creates malicious WiFi AP with same SSID as legitimate network. Broadcasts stronger signal → clients connect automatically → all traffic captured.",
+              "Attack flow: identify target SSID → clone SSID and BSSID → broadcast stronger signal → clients prefer attacker AP → capture credentials, MITM all traffic.",
+              "Defense: verify AP MAC address, use 802.1X (per-user certificate-based auth — rogue AP can't fake it), VPN on all connections, certificate pinning."
+            ],
+            "Rogue AP": [
+              "Rogue AP: unauthorized access point installed on corporate network — by attacker (malicious) or employee (well-intentioned but insecure). Creates unsecured backdoor into network.",
+              "Example: employee frustrated with corporate WiFi restrictions plugs in personal router → creates open WiFi with direct corporate LAN access → attacker connects from parking lot.",
+              "Defense: Wireless IDS (WIDS) detects unauthorized APs, regular RF spectrum scanning, 802.1X on wired ports (prevents unauthorized device connecting to LAN)."
+            ],
+            "Deauth attacks": [
+              "Deauthentication attack: attacker sends spoofed deauthentication frames (Management frames — unprotected in WPA2) to disconnect client from legitimate AP. Client disconnects → attacker can capture reconnection handshake for offline cracking.",
+              "Also used to force clients to connect to evil twin — deauth from real AP → client looks for network → connects to attacker's stronger AP.",
+              "Defense: WPA3 mandates Protected Management Frames (PMF/802.11w) — management frames are encrypted and authenticated, preventing fake deauth frames."
+            ],
+            "Packet sniffing": [
+              "Packet sniffing on WiFi: WiFi is shared medium — in monitor mode, all traffic in range can be captured. On unencrypted networks (open WiFi) or WEP: all traffic readable.",
+              "Tools: Wireshark with WiFi adapter in monitor mode, Kismet, tcpdump. Passive attack — victim unaware.",
+              "Defense: never use open WiFi for sensitive activities, always use HTTPS (encrypted even if packet captured), use VPN on public WiFi, WPA2/WPA3 with strong password encrypts traffic between client and AP."
+            ]
+          },
+          "required_tables": [
+            "WiFi Security Protocol Comparison: Protocol | Year | Encryption | Authentication | Security Status | Action || WEP | 1997 | RC4 (broken) | Shared key | Completely broken — crack in minutes | Disable immediately || WPA | 2003 | TKIP (RC4) | PSK/802.1X | Deprecated, vulnerable | Disable || WPA2-Personal | 2004 | AES-CCMP | PSK | Vulnerable to dictionary if weak password | Use strong password (20+ chars) || WPA2-Enterprise | 2004 | AES-CCMP | 802.1X (per-user cert) | Secure | Recommended for enterprise || WPA3-Personal | 2018 | AES-CCMP/GCMP | SAE | Secure, no offline attacks | Use for all new deployments || WPA3-Enterprise | 2018 | 192-bit AES | 802.1X | Highest security | Government/critical infrastructure"
+          ],
+          "common_mistakes": [
+            "Thinking SSID hiding provides security — security by obscurity is not security. SSIDs are visible in probe requests and beacon frames. Attackers find hidden SSIDs in seconds with Kismet",
+            "Using WPA2 with weak password — WPA2-Personal with captured 4-way handshake can be cracked offline. Use 20+ character random password or switch to WPA3"
+          ]
+        },
+        {
+          "name": "Wireless Protections",
+          "keywords": ["wpa3 enterprise", "mac filtering", "ssid hiding", "wids wips", "wireless protection", "802.1x wireless"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "WPA3 Enterprise",
+            "MAC filtering",
+            "SSID hiding",
+            "WIDS/WIPS"
+          ],
+          "subtopic_content": {
+            "WPA3 Enterprise": [
+              "WPA3 Enterprise: uses 802.1X authentication with EAP (Extensible Authentication Protocol). Each user authenticates individually with credentials or certificates — not a shared password.",
+              "192-bit mode: uses GCMP-256 encryption, BIP-GMAC-256 for management frames, ECDSA-384 for certificate authentication. Required for government and high-security environments.",
+              "Infrastructure needed: RADIUS server (FreeRADIUS, Microsoft NPS), certificates (PKI), 802.1X-capable access points. More complex to deploy but eliminates shared password risk entirely."
+            ],
+            "MAC filtering": [
+              "MAC filtering: access point only allows connections from pre-approved MAC addresses. Whitelist approach — unknown MACs denied.",
+              "Security value: VERY LOW — MAC addresses are broadcast in plaintext and trivially spoofed (macchanger tool in Linux). Attacker observes allowed MAC addresses (Wireshark), clones one of them.",
+              "Use only as additional layer alongside proper authentication, never as primary security control. Administrative overhead of maintaining lists not worth the minimal security gain."
+            ],
+            "SSID hiding": [
+              "SSID hiding: configure AP not to broadcast SSID in beacon frames. Network doesn't appear in normal WiFi scans.",
+              "Security value: EXTREMELY LOW — security theater. SSIDs visible in probe requests (clients actively search for known networks), association requests, and captured with passive tools (Kismet) in seconds.",
+              "May cause issues: Windows repeatedly broadcasts probe requests searching for hidden network, revealing SSID publicly. Can cause connectivity problems with some devices."
+            ],
+            "WIDS/WIPS": [
+              "WIDS (Wireless Intrusion Detection System): monitors RF spectrum for unauthorized APs (rogue AP detection), deauth attacks, unusual client behavior, clients connected to non-approved APs.",
+              "WIPS (Wireless Intrusion Prevention System): WIDS + ability to take action — can automatically contain rogue APs by sending deauth frames, alert administrators, block suspicious clients.",
+              "Deployment: dedicated sensors (overlay network) or built into existing APs (dual-radio mode — one radio serves clients, other monitors). Integration with SIEM for centralized alerting. Enterprise wireless solutions (Cisco, Aruba, Mist) include WIDS/WIPS."
+            ]
+          },
+          "common_mistakes": [
+            "Relying on MAC filtering or SSID hiding as security controls — both are trivially defeated. Spend time on WPA3 and 802.1X instead, which provide actual cryptographic security"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Authentication, Authorization & Access Control",
+      "topics": [
+        {
+          "name": "Authentication Methods and Access Control Models",
+          "keywords": ["password authentication", "mfa", "biometrics", "smart cards", "certificate auth", "dac", "mac access control", "rbac", "abac", "authentication methods"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Password-based auth",
+            "Multifactor auth (MFA)",
+            "Biometrics",
+            "Smart cards",
+            "Certificate-based auth",
+            "DAC",
+            "MAC",
+            "RBAC",
+            "ABAC"
+          ],
+          "subtopic_content": {
+            "Password-based auth": [
+              "Password authentication: something you KNOW. Weakest authentication factor — vulnerable to phishing, keylogging, brute force, credential stuffing, shoulder surfing.",
+              "Password hygiene: minimum 12-16 characters, complexity (upper, lower, numbers, special), no reuse, different for each service. Password managers make this practical.",
+              "Storage: never store plaintext. Use bcrypt (cost factor 10+), Argon2, or PBKDF2 with salt. Salting prevents rainbow table attacks."
+            ],
+            "Multifactor auth (MFA)": [
+              "MFA: requires two or more authentication factors from different categories. Even if password stolen, attacker cannot access account without second factor.",
+              "Three factor categories: Something you KNOW (password, PIN), Something you HAVE (phone, hardware token, smart card), Something you ARE (fingerprint, face, iris — biometrics).",
+              "MFA types by strength (weakest to strongest): SMS OTP (vulnerable to SIM swapping), App-based OTP (TOTP — Google Authenticator, better), Push notification (Duo, Microsoft Authenticator), Hardware token (YubiKey, FIDO2 — strongest, phishing-resistant).",
+              "MFA bypass attacks: SIM swapping (attacker convinces carrier to transfer victim's number), MFA fatigue (bombard with push notifications until user accidentally approves), SS7 attacks, adversary-in-the-middle (real-time phishing proxies)."
+            ],
+            "Biometrics": [
+              "Biometrics: authenticate using unique biological characteristics — fingerprint, facial recognition, iris scan, voice recognition, retina scan.",
+              "Advantages: cannot be forgotten, cannot be easily shared, convenient. Disadvantages: cannot be changed if compromised (your fingerprint is permanent), privacy concerns, FRR/FAR tradeoffs.",
+              "FAR (False Acceptance Rate): biometric incorrectly accepts unauthorized user. FRR (False Rejection Rate): incorrectly rejects authorized user. Security-critical systems minimize FAR even at cost of higher FRR."
+            ],
+            "Smart cards": [
+              "Smart card: credit-card sized device containing embedded chip storing credentials and cryptographic keys. Something you HAVE factor. PIN required to activate (combines two factors).",
+              "PKI smart cards: certificate and private key stored on chip. Private key never leaves card — all cryptographic operations performed on-chip. Examples: CAC (Common Access Card — US military), PIV cards.",
+              "Attacks: relay attacks (use card signal without physical card), PIN capture, card cloning (microprocessor cards resistant). Physical possession required."
+            ],
+            "Certificate-based auth": [
+              "Certificate-based authentication: user presents X.509 certificate (usually stored on smart card or software token) to prove identity. Server verifies certificate chain and signature.",
+              "Advantages: phishing-resistant (certificate bound to domain), no passwords, mutual authentication possible, non-repudiation.",
+              "Used in: client certificates for VPN authentication, mutual TLS (mTLS) for API security, SSH key-based authentication, PIV/CAC smart cards."
+            ],
+            "DAC": [
+              "DAC (Discretionary Access Control): resource OWNER decides who has access. Most flexible — owner grants permissions at their discretion. Used in most OS file systems (Unix permissions, Windows NTFS).",
+              "Example: file owner can chmod 777 (give everyone access) or be selective. Weakness: users can inadvertently share sensitive data — human error risk."
+            ],
+            "MAC": [
+              "MAC (Mandatory Access Control): security POLICY set by administrator/system, not by resource owner. Users cannot override or grant access above their clearance level. Used in classified/government environments.",
+              "Labels: each subject (user) has clearance level (Unclassified, Secret, Top Secret), each object (file) has sensitivity label. Access only allowed if user clearance ≥ object sensitivity.",
+              "Examples: SELinux (Linux), AppArmor, Windows Mandatory Integrity Control. Bell-LaPadula model (no read up, no write down) enforces MAC for confidentiality."
+            ],
+            "RBAC": [
+              "RBAC (Role-Based Access Control): permissions assigned to ROLES, users assigned to roles. User inherits permissions of their role. Most widely used access control model in enterprises.",
+              "Example: 'Database Administrator' role has full DB access. 'Developer' role has read-only. 'Intern' role has no DB access. User assigned role, not individual permissions.",
+              "Advantages: easy management (change role → all users in role updated), least privilege enforcement, audit-friendly. Separation of duties: no single role has all permissions for sensitive operations."
+            ],
+            "ABAC": [
+              "ABAC (Attribute-Based Access Control): access decisions based on attributes of user, resource, and environment. Most flexible and granular — policy language considers multiple context factors simultaneously.",
+              "Example: 'Allow access IF user.department = Finance AND resource.classification = Internal AND environment.time = BusinessHours AND user.location = Corporate_Network'",
+              "Used in: cloud IAM (AWS IAM policies), Kubernetes RBAC extensions, Zero Trust architectures where context determines access. More complex to implement than RBAC but enables fine-grained control."
+            ]
+          },
+          "required_tables": [
+            "Access Control Model Comparison: Model | Who sets policy | Flexibility | Security | Use Case | Example || DAC | Resource owner | High | Lower | General OS, file systems | Unix file permissions, Windows ACL || MAC | System/administrator | Low | Highest | Government, classified systems | SELinux, MLS systems || RBAC | Administrator | Medium | High | Enterprise applications | Active Directory groups || ABAC | Administrator (policy) | Very High | High | Cloud, Zero Trust | AWS IAM, Kubernetes"
+          ],
+          "common_mistakes": [
+            "Thinking SMS-based MFA is as secure as hardware tokens — SMS is vulnerable to SIM swapping and SS7 attacks. Use authenticator apps or hardware tokens (FIDO2/YubiKey) for high-security accounts",
+            "Giving users individual permissions instead of roles (RBAC) — creates management nightmare. Assign to roles, assign roles to users"
+          ]
+        },
+        {
+          "name": "AAA Framework and Directory Services",
+          "keywords": ["aaa", "radius", "tacacs+", "authentication", "authorization", "accounting", "ldap", "active directory", "kerberos", "directory services"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Authentication",
+            "Authorization",
+            "Accounting",
+            "RADIUS",
+            "TACACS+",
+            "LDAP",
+            "Active Directory",
+            "Kerberos"
+          ],
+          "subtopic_content": {
+            "Authentication": [
+              "Authentication (AAA context): verify identity of user/device requesting network access. 'Who are you?' Performed FIRST — no authorization without authentication.",
+              "Network authentication: 802.1X port-based NAC (Network Access Control) — device presents credentials to authenticator (switch/AP) → forwarded to authentication server (RADIUS) → access granted or denied."
+            ],
+            "Authorization": [
+              "Authorization: determine what authenticated user is ALLOWED to do. 'What can you do?' Comes AFTER authentication.",
+              "Network authorization: after 802.1X authentication → RADIUS sends authorization attributes → user placed in correct VLAN, ACL applied, time restrictions enforced, QoS policies applied."
+            ],
+            "Accounting": [
+              "Accounting: record what user DID — login time, logout time, bytes transferred, commands executed, resources accessed. 'What did you do?'",
+              "Critical for: forensic investigation (what did attacker do after compromise), compliance (who accessed sensitive data?), billing (ISPs charge by usage), capacity planning."
+            ],
+            "RADIUS": [
+              "RADIUS (Remote Authentication Dial-In User Service): most widely used AAA protocol. Client-server protocol — network devices (switch, AP, VPN) = RADIUS clients, central RADIUS server authenticates.",
+              "Ports: UDP 1812 (authentication/authorization), UDP 1813 (accounting). Only password is encrypted in RADIUS packets (not entire packet — security concern). Authenticates user, not device-to-server session.",
+              "Used by: 802.1X WiFi authentication, VPN authentication, ISP dial-up authentication, network device management."
+            ],
+            "TACACS+": [
+              "TACACS+ (Terminal Access Controller Access Control System Plus): Cisco-developed AAA protocol. Separates Authentication, Authorization, and Accounting into independent functions (RADIUS combines auth+authz).",
+              "Key differences from RADIUS: TCP (not UDP — more reliable), encrypts ENTIRE packet (not just password), granular per-command authorization (RADIUS cannot do per-command), separates AAA functions.",
+              "Primary use: network device management (router, switch, firewall administrator authentication and command authorization). 'Allow admin to run show commands but not delete config.'"
+            ],
+            "LDAP": [
+              "LDAP (Lightweight Directory Access Protocol): protocol for accessing and maintaining distributed directory information. Port 389 (plaintext), 636 (LDAPS — SSL/TLS encrypted).",
+              "Directory: hierarchical database of objects (users, groups, computers, printers). Distinguished Name (DN) identifies each object: cn=Alice,ou=Users,dc=company,dc=com.",
+              "Used by: applications to query Active Directory for user authentication, email clients to look up addresses, VPN gateways to verify group membership."
+            ],
+            "Active Directory": [
+              "Active Directory (AD): Microsoft's implementation of LDAP directory services + Kerberos authentication + Group Policy. Dominant in Windows enterprise environments.",
+              "Components: Domain Controller (DC — authenticates users, stores directory), Forest (collection of domains with trust relationships), Organizational Units (OUs — logical grouping for policy application), Group Policy Objects (GPOs — enforce security settings).",
+              "Security: AD is primary target in enterprise attacks. Compromise of Domain Controller = complete network compromise. Key protections: privileged access workstations (PAW), tiered administration model, Protected Users security group, Credential Guard."
+            ],
+            "Kerberos": [
+              "Kerberos: network authentication protocol used by Active Directory. Ticket-based — users receive time-limited tickets, never send password across network repeatedly.",
+              "Flow: User logs in → AS (Authentication Server) issues TGT (Ticket Granting Ticket) → User presents TGT to TGS (Ticket Granting Server) for service ticket → User presents service ticket to resource.",
+              "Attacks: Pass-the-Ticket (steal and reuse TGT), Kerberoasting (request service tickets for accounts with SPNs, crack offline), Golden Ticket (forge TGT using krbtgt hash — domain persistence), AS-REP Roasting (attack accounts without pre-authentication).",
+              "Defense: strong passwords for service accounts, Managed Service Accounts (MSAs), monitor 4769 events (service ticket requests), protect krbtgt account with regular password rotation."
+            ]
+          },
+          "required_tables": [
+            "RADIUS vs TACACS+ Comparison: Feature | RADIUS | TACACS+ || Protocol | UDP | TCP || Encryption | Password only | Entire packet || AAA separation | Combined auth+authz | Fully separated || Per-command authorization | No | Yes || Primary use | Network access (WiFi, VPN) | Device management (router, switch) || Vendor | Open standard | Cisco proprietary (open implementations exist) || Ports | UDP 1812/1813 | TCP 49"
+          ],
+          "common_mistakes": [
+            "Using RADIUS for network device management — RADIUS cannot authorize specific commands. Use TACACS+ for router/switch/firewall administrator access control",
+            "Not encrypting LDAP traffic — LDAP on port 389 sends credentials in plaintext. Always use LDAPS (636) or STARTTLS for any LDAP authentication traffic"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Secure Network Design and Architecture",
+      "topics": [
+        {
+          "name": "Segmentation, Zero Trust and Defense in Depth",
+          "keywords": ["vlan", "dmz", "subnetting", "air gap", "zero trust", "verify explicitly", "least privilege", "assume breach", "defense in depth", "layered security", "network hardening"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "VLANs",
+            "Subnetting",
+            "DMZ",
+            "Air-gapped networks",
+            "Verify explicitly",
+            "Least privilege access",
+            "Assume breach",
+            "Layered security",
+            "Redundant defenses",
+            "Fail-safe defaults",
+            "Disable unused services",
+            "Secure defaults",
+            "Network baselining"
+          ],
+          "subtopic_content": {
+            "VLANs": [
+              "VLAN (Virtual LAN): logically segment network on same physical switch infrastructure. Devices in different VLANs cannot communicate without going through router/firewall (even on same switch).",
+              "Security use: VLAN 10 (Finance), VLAN 20 (Engineering), VLAN 30 (Guest), VLAN 40 (IoT). Compromise of guest VLAN cannot access Finance VLAN directly — must traverse firewall.",
+              "VLAN hopping attacks: switch spoofing (attacker pretends to be a trunk port), double tagging (send frame with two 802.1Q tags). Defense: disable auto-trunking (switchport nonegotiate), set native VLAN to unused VLAN."
+            ],
+            "Subnetting": [
+              "Subnetting for security: divide IP space into separate subnets for different security zones. Apply ACLs between subnets on router/firewall to control inter-zone traffic.",
+              "Example: 10.0.1.0/24 = servers, 10.0.2.0/24 = workstations, 10.0.3.0/24 = IoT, 10.0.4.0/24 = guest. Default deny between subnets — only allow necessary traffic explicitly."
+            ],
+            "DMZ": [
+              "DMZ (Demilitarized Zone): network zone between internet and internal network hosting services that must be accessible from internet (web servers, email servers, DNS servers).",
+              "Architecture: Internet → External Firewall → DMZ → Internal Firewall → Internal Network. Servers in DMZ exposed to internet but isolated from internal network. Compromise of DMZ server does NOT give access to internal network.",
+              "Traffic rules: Internet can reach DMZ servers (HTTP/HTTPS). DMZ servers cannot initiate connections to internal network (only respond to internal-initiated). Internal can reach DMZ. Prevents pivoting from compromised DMZ host."
+            ],
+            "Air-gapped networks": [
+              "Air-gapped network: physically isolated from internet and other networks — no cable or wireless connection to outside. Ultimate isolation for critical systems.",
+              "Used for: nuclear facility control systems, classified government networks (NSANet, SIPRNet), industrial control systems (SCADA), payment card processing systems.",
+              "Not 100% secure: Stuxnet (2010) infected Iranian nuclear centrifuges through infected USB drive despite air gap — first known malware to jump an air gap. Ultrasonic, thermal, and LED-based covert channels demonstrated in research."
+            ],
+            "Verify explicitly": [
+              "Zero Trust principle: never assume trust based on network location. Verify EVERY access request — even if user is inside corporate network, on corporate device, or previously authenticated.",
+              "Implementation: strong identity verification (MFA), device health check before access, least-privilege access, continuous authentication (re-verify periodically or when context changes).",
+              "Traditional model (castle-and-moat): inside network = trusted. Zero Trust: location is irrelevant — verify every request explicitly every time."
+            ],
+            "Least privilege access": [
+              "Least privilege: grant users and systems ONLY the minimum permissions necessary to perform their job function, nothing more. Limits blast radius of compromise.",
+              "Implementation: regular access reviews (remove unused privileges), just-in-time access (elevate temporarily when needed, revoke after), separate admin accounts from regular accounts, privileged access workstations (PAW) for admin tasks.",
+              "Violation example: developer with Domain Admin rights → developer account compromised → attacker has full domain control. Should have had only development environment access."
+            ],
+            "Assume breach": [
+              "Assume breach: design security assuming attackers are ALREADY inside. Focus on detection, lateral movement prevention, and limiting blast radius rather than only preventing initial compromise.",
+              "Actions: network segmentation (limits lateral movement), end-to-end encryption (even internal traffic encrypted — prevents snooping by compromised insider), behavior analytics (detect unusual internal activity), minimize trust even internally.",
+              "Shift from perimeter-only defense to defending every asset individually — every workstation, server, and service is its own security boundary."
+            ],
+            "Layered security": [
+              "Defense in Depth / Layered Security: multiple independent security controls that an attacker must bypass sequentially. No single control is relied upon exclusively.",
+              "Example layers: Perimeter firewall → Network IPS → Endpoint antivirus/EDR → Application firewall → Database encryption → SIEM monitoring → User training. Attacker must defeat ALL layers.",
+              "Diversity principle: use different vendors for different layers. If all layers use same product and a vulnerability is found, all layers fail simultaneously."
+            ],
+            "Redundant defenses": [
+              "Redundant defenses: have backup controls that activate if primary controls fail. Dual firewalls from different vendors, multiple IDS systems, redundant SIEM collectors.",
+              "Fail-open vs fail-closed: when a security control fails, does it allow all traffic (fail-open) or block all traffic (fail-closed)? Security-critical controls should fail-closed — deny all access until restored."
+            ],
+            "Fail-safe defaults": [
+              "Fail-safe defaults: default configuration should be most secure option. Deny by default — only explicitly allow what is needed. Systems should start secure and become less restrictive as needed.",
+              "Examples: new firewall rule default = deny. New user account default = no access. New server default = all ports closed. Requires positive action to open access."
+            ],
+            "Disable unused services": [
+              "Hardening — disable unused services: every running service is an attack surface. Disable any service not required for system function. Close all ports not needed.",
+              "Example server hardening: disable Telnet (use SSH), disable FTP (use SFTP), disable HTTP (use HTTPS), remove default accounts, close port 23, 21, 80. CIS Benchmarks provide hardening guides for every OS and application."
+            ],
+            "Secure defaults": [
+              "Secure defaults (hardening): change all default credentials immediately, remove sample applications, disable debugging interfaces in production, set restrictive file permissions, enable host-based firewall.",
+              "Common failures: default SNMP community strings ('public', 'private'), default admin passwords on network devices, WordPress installations with default admin username."
+            ],
+            "Network baselining": [
+              "Network baselining: document normal network behavior — typical traffic volumes, normal ports used, standard connections, peak usage times. Anything deviating from baseline = potential indicator of compromise.",
+              "Tools: NetFlow analysis, SIEM dashboards, SNMP monitoring (Nagios, Zabbix, PRTG). Baseline enables anomaly detection — new external connection from server that never made external connections = suspicious."
+            ]
+          },
+          "required_diagrams": [
+            "DMZ architecture diagram: clean diagram on white background. Three zones separated by firewall symbols. Left: Internet (cloud icon). Middle zone (DMZ): Web Server, Email Server, DNS Server boxes. Right: Internal Network with Database, Internal Servers, User Workstations. Two firewall symbols between Internet-DMZ and DMZ-Internal. Arrows showing allowed traffic direction. Labels: External Firewall, DMZ, Internal Firewall, Internal Network. White background, plain black."
+          ],
+          "required_tables": [
+            "Zero Trust vs Traditional Model: Aspect | Traditional (Perimeter) | Zero Trust || Trust model | Inside network = trusted | Never trust, always verify || Verification | One-time authentication | Continuous, contextual || Network location | Determines trust | Irrelevant to trust || Lateral movement | Easy once inside | Difficult - each resource requires auth || Data protection | Perimeter focused | Data-centric, everywhere || Implementation | Firewall, VPN | MFA, microsegmentation, UEBA"
+          ],
+          "common_mistakes": [
+            "Confusing VLAN with physical network separation — VLANs are logical separation on same hardware. VLAN hopping attacks can cross VLANs if not properly configured. Use separate physical switches for truly sensitive networks"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Monitoring, Logging & Incident Response",
+      "topics": [
+        {
+          "name": "Traffic Monitoring and Log Management",
+          "keywords": ["wireshark", "tcpdump", "netflow", "sflow", "syslog", "log rotation", "elk stack", "graylog", "log management", "traffic monitoring"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Wireshark",
+            "tcpdump",
+            "NetFlow",
+            "sFlow",
+            "Syslog",
+            "Log rotation",
+            "ELK stack",
+            "Graylog"
+          ],
+          "subtopic_content": {
+            "Wireshark": [
+              "Wireshark: open-source graphical packet analyzer. Captures live network traffic or reads PCAP files. Decodes 1000+ protocols, reassembles TCP streams, follows conversations.",
+              "Key use: incident response (analyze captured attack traffic), protocol debugging, password auditing (check if credentials sent in plaintext), malware traffic analysis.",
+              "Display filters: http.request.method == 'POST' (find form submissions), ip.addr == 192.168.1.5 (traffic from/to IP), tcp.port == 443 (HTTPS traffic), tcp.flags.syn == 1 and tcp.flags.ack == 0 (SYN packets — possible port scan)."
+            ],
+            "tcpdump": [
+              "tcpdump: command-line packet analyzer for Linux/Unix. Lightweight, scriptable, perfect for remote systems without GUI. Captures to PCAP files for later analysis in Wireshark.",
+              "Common commands: tcpdump -i eth0 (capture on interface), tcpdump -w capture.pcap (write to file), tcpdump host 192.168.1.5 (filter by host), tcpdump port 80 (filter by port), tcpdump -n (don't resolve hostnames — faster)."
+            ],
+            "NetFlow": [
+              "NetFlow (Cisco) / IPFIX: router/switch exports flow statistics — summary of each network conversation (src IP, dst IP, src port, dst port, protocol, bytes, packets, duration). NOT full packet capture — just metadata.",
+              "Advantages: scales to high-bandwidth networks (full capture impossible at 10Gbps+), privacy-preserving (no payload), long retention feasible. Disadvantages: no payload analysis, encrypted traffic metadata only.",
+              "Security use: detect unusual data volumes (data exfiltration), identify unusual connections (internal server connecting to external C2), DDoS detection, network topology mapping."
+            ],
+            "sFlow": [
+              "sFlow: samples 1 in N packets (e.g., 1 in 1000) and exports sampled headers to collector. Vendor-neutral standard (unlike Cisco NetFlow). Works at wire speed on any traffic volume.",
+              "Advantages: suitable for extremely high-bandwidth networks, works with any switch/router supporting sFlow, vendor-independent. Trade-off: sampled (may miss low-volume attacks).",
+              "Combined use: NetFlow/sFlow for traffic analytics + full packet capture on critical segments for forensics."
+            ],
+            "Syslog": [
+              "Syslog: standard protocol for sending log messages across IP networks. Port 514 UDP (original, unreliable), 6514 TLS (secure). Logs from routers, switches, firewalls, servers, applications all sent to central syslog server.",
+              "Severity levels (0-7): 0=Emergency, 1=Alert, 2=Critical, 3=Error, 4=Warning, 5=Notice, 6=Informational, 7=Debug. Security events typically at Error (3) and above.",
+              "Plain syslog issues: UDP (no guarantee of delivery), no authentication (anyone can send fake syslog), no encryption. Use syslog over TLS (RFC 5425) for security."
+            ],
+            "Log rotation": [
+              "Log rotation: manage log file size by automatically compressing, archiving, and deleting old log files. Prevents logs from filling disk (which would cause logging to stop — exactly what an attacker wants).",
+              "logrotate (Linux): configure rotation frequency (daily/weekly), retention period, compression (gzip), post-rotation action (restart service). Critical: logs must be retained long enough for forensics but not forever (storage + privacy).",
+              "Log retention requirements: PCI-DSS requires 12 months (3 months immediately available), HIPAA requires 6 years, GDPR requires appropriate period. Balance security need against storage cost and privacy."
+            ],
+            "ELK stack": [
+              "ELK Stack: Elasticsearch + Logstash + Kibana. Open-source log management and analytics platform. Logstash collects and parses logs, Elasticsearch indexes and stores, Kibana visualizes with dashboards and queries.",
+              "Beats (lightweight shippers): Filebeat (log files), Metricbeat (system metrics), Packetbeat (network traffic), Winlogbeat (Windows events) → send to Logstash/Elasticsearch.",
+              "Used for: centralized log aggregation from hundreds of sources, security analytics, compliance reporting, performance monitoring. Elastic Security (formerly SIEM) adds threat detection on top."
+            ],
+            "Graylog": [
+              "Graylog: open-source log management platform. Built-in GELF (Graylog Extended Log Format) support, stream-based routing, alerting, dashboards. Easier to operate than ELK for pure log management.",
+              "Advantages over ELK: simpler architecture, better out-of-box security features, role-based access, built-in alerting. Used by organizations wanting simpler alternative to full ELK stack."
+            ]
+          },
+          "required_code": "# tcpdump essential commands for security analysis\n\n# Capture all traffic on interface eth0\ntcpdump -i eth0\n\n# Capture and save to PCAP file (analyze later in Wireshark)\ntcpdump -i eth0 -w /tmp/capture.pcap\n\n# Filter by host (show traffic to/from specific IP)\ntcpdump -i eth0 host 192.168.1.100\n\n# Filter by port (show only HTTP traffic)\ntcpdump -i eth0 port 80\n\n# Show SYN packets only (detect port scanning)\ntcpdump -i eth0 'tcp[tcpflags] & tcp-syn != 0 and tcp[tcpflags] & tcp-ack == 0'\n\n# Capture DNS queries (detect DNS tunneling)\ntcpdump -i eth0 port 53\n\n# Show traffic between two specific hosts\ntcpdump -i eth0 'host 192.168.1.5 and host 10.0.0.1'\n\n# Verbose output with packet contents in ASCII\ntcpdump -i eth0 -A port 80\n\n# Don't resolve hostnames (faster, avoids DNS leakage)\ntcpdump -n -i eth0\n\n# Capture 1000 packets then stop\ntcpdump -i eth0 -c 1000 -w capture.pcap",
+          "common_mistakes": [
+            "Storing logs on the same system being monitored — attacker who compromises the system can delete logs. Always ship logs to a separate, hardened log server immediately",
+            "Not monitoring logs — having logs without reviewing them is useless. Implement automated alerting for critical events (failed admin logins, large data transfers, new outbound connections)"
+          ]
+        },
+        {
+          "name": "SIEM and Incident Response",
+          "keywords": ["siem", "splunk", "qradar", "ossim", "incident response", "ir lifecycle", "preparation detection containment eradication recovery", "forensics", "chain of custody"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Real-time event correlation",
+            "Alerting and dashboards",
+            "Splunk",
+            "QRadar",
+            "OSSIM",
+            "Preparation",
+            "Detection",
+            "Containment",
+            "Eradication",
+            "Recovery",
+            "Lessons learned",
+            "Disk and memory imaging",
+            "Chain of custody",
+            "Timeline reconstruction"
+          ],
+          "subtopic_content": {
+            "Real-time event correlation": [
+              "SIEM (Security Information and Event Management): aggregates logs from all security devices and systems, correlates events across sources to detect attacks that no single source would reveal alone.",
+              "Correlation example: firewall logs show new outbound connection from server A → IDS shows port scan from server A → EDR shows unknown process on server A → SIEM correlates these three events → single 'Potential compromise of Server A' alert.",
+              "Without correlation: three separate alerts in three separate tools, no human analyst connects them. With SIEM: automated correlation creates actionable alert."
+            ],
+            "Alerting and dashboards": [
+              "SIEM dashboards: real-time visualization of security posture — active threats, authentication failures, traffic anomalies, geolocation of connections, top talkers.",
+              "Alert tuning: reduce false positives (alert fatigue causes real alerts to be missed) while maintaining true positive detection. SIEM rules need ongoing tuning as network changes.",
+              "SOC integration: SIEM is the primary tool in Security Operations Center (SOC). Tier 1 analysts triage alerts, escalate to Tier 2/3 for investigation."
+            ],
+            "Splunk": [
+              "Splunk: leading commercial SIEM platform. Proprietary SPL (Splunk Processing Language) for searching and correlating logs. Extremely powerful and flexible. Expensive — priced per daily data ingestion volume.",
+              "Key features: real-time search, correlations, dashboards, integration with threat intelligence, machine learning for anomaly detection (UEBA), Splunk SOAR for automated response.",
+              "SPL example: index=firewall action=blocked | stats count by src_ip | sort -count | head 20 (shows top 20 IPs blocked by firewall)"
+            ],
+            "QRadar": [
+              "IBM QRadar: enterprise SIEM with built-in network flow analysis (QRadar can consume NetFlow directly — unique capability). Uses offense management for prioritized incident queue.",
+              "Differentiator: built-in asset discovery, network behavior analytics, and correlation with both log events AND NetFlow data. Strong in large enterprise environments."
+            ],
+            "OSSIM": [
+              "OSSIM (Open Source Security Information Management): AlienVault's open-source SIEM. Includes built-in asset discovery, vulnerability assessment, behavioral monitoring.",
+              "Advantages: free (open-source), good for small-medium organizations, includes network scanning. Disadvantage: limited scalability, requires significant tuning."
+            ],
+            "Preparation": [
+              "IR Preparation: establish incident response policy, create IR team (CIRT), document procedures (runbooks), deploy monitoring tools, conduct tabletop exercises, establish communication channels.",
+              "Key preparations: IR contact list (who to call when), backup systems tested, forensic tools ready, legal/PR notified of procedures, relationships with external responders (FBI, CERTs)."
+            ],
+            "Detection": [
+              "Detection: identify that a security incident has occurred. Sources: SIEM alerts, IDS/IPS alerts, user reports, threat intelligence, log review, anomaly detection.",
+              "Mean Time to Detect (MTTD): industry average is 197 days (IBM Cost of Data Breach Report). Reducing MTTD is primary goal — every day undetected = more damage, more data stolen."
+            ],
+            "Containment": [
+              "Containment: stop the spread of the incident without destroying evidence. Short-term (immediate): isolate compromised systems (network isolation, not shutdown — shutdown may destroy evidence), block malicious IPs.",
+              "Long-term containment: implement temporary fixes, monitor for reinfection, prepare for eradication. Balance: too fast = destroy evidence. Too slow = attacker spreads further."
+            ],
+            "Eradication": [
+              "Eradication: remove the threat from the environment. Remove malware, delete attacker accounts, patch exploited vulnerabilities, remove persistence mechanisms (scheduled tasks, registry keys, modified files).",
+              "Verify eradication: scan all potentially affected systems, check for IOCs (Indicators of Compromise) — ensure attacker has no remaining foothold before returning systems to production."
+            ],
+            "Recovery": [
+              "Recovery: restore systems to normal operations. Restore from clean backups (verified uncompromised), rebuild compromised systems, reintegrate to network gradually with enhanced monitoring.",
+              "Validate: ensure systems working correctly, monitor closely for signs of reinfection. Communicate status to stakeholders. Return to normal operations only when confident threat is eliminated."
+            ],
+            "Lessons learned": [
+              "Lessons learned (Post-Incident Review): what happened, why, how detected, how contained, what went well, what didn't, what to improve. Within 2 weeks of incident closure.",
+              "Output: updated IR procedures, new detection rules in SIEM, patching priorities, additional monitoring, security awareness topics, executive report. This phase prevents same incident from recurring."
+            ],
+            "Disk and memory imaging": [
+              "Forensic imaging: create bit-for-bit copy of storage (disk image) or capture volatile memory contents (RAM dump) before any analysis. Always work from copy — never from original evidence.",
+              "Disk imaging tools: dd (Linux), FTK Imager (Windows, free), dcfldd (forensic dd). Verify hash (MD5/SHA-256) of original and image must match — proves image integrity.",
+              "Memory forensics: Volatility Framework analyzes RAM dumps — running processes, network connections, decrypted content, malware hiding from disk analysis. Critical for detecting fileless malware."
+            ],
+            "Chain of custody": [
+              "Chain of custody: documented record tracking who had possession of evidence, when, and what was done with it. Legally required for evidence to be admissible in court proceedings.",
+              "Documentation: evidence label (case number, date, description, hash), sign-out log for each person who accessed evidence, sealed tamper-evident bags, secure storage.",
+              "Digital evidence: document acquisition method, tool used, hash values (before and after), analyst name. Any gap in chain of custody can invalidate evidence in court."
+            ],
+            "Timeline reconstruction": [
+              "Timeline reconstruction: build chronological sequence of events from log files, file timestamps, network captures, and other artifacts to understand what the attacker did and when.",
+              "Sources: filesystem timestamps (MAC times — Modified, Accessed, Changed), Windows Event Logs, web server logs, firewall logs, DNS logs, authentication logs, memory artifacts.",
+              "Tools: Plaso (log2timeline) — automatically parses 200+ artifact types, creates unified timeline. Kibana/Splunk for visualizing timeline across multiple sources."
+            ]
+          },
+          "required_diagrams": [
+            "Incident Response lifecycle diagram: clean circular diagram on white background. Six boxes arranged in a circle with arrows between them: 1) Preparation → 2) Detection & Analysis → 3) Containment → 4) Eradication → 5) Recovery → 6) Lessons Learned → back to 1) Preparation. Each box labeled with key activity. Center shows 'IR Lifecycle'. White background, plain black arrows."
+          ],
+          "required_tables": [
+            "IR Phase Summary: Phase | Goal | Key Activities | Key Metrics || Preparation | Ready for incidents | IR plan, team, tools, training | Time to build capability || Detection | Identify incidents | SIEM alerts, IDS, user reports | MTTD (Mean Time to Detect) || Containment | Stop spread | Isolate systems, block IPs | Scope of compromise || Eradication | Remove threat | Remove malware, patch vulnerabilities | Confirmed clean systems || Recovery | Restore operations | Restore from backup, rebuild | MTTR (Mean Time to Recover) || Lessons Learned | Prevent recurrence | Post-incident review, improve controls | Recurring incidents rate"
+          ],
+          "common_mistakes": [
+            "Shutting down compromised systems immediately — destroys volatile memory evidence (running processes, network connections, encryption keys). Isolate from network but keep powered on for forensic imaging",
+            "Skipping lessons learned — most organizations repeat the same incidents. The post-incident review is where actual security improvement happens"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Advanced Security Topics",
+      "topics": [
+        {
+          "name": "Web Security and Cloud Security",
+          "keywords": ["owasp top 10", "waf", "secure headers", "secure apis", "cloud security", "aws security groups", "iam", "vpc", "docker hardening", "kubernetes rbac", "service mesh"],
+          "nature": "theoretical",
+          "no_code": false,
+          "subtopics": [
+            "OWASP Top 10",
+            "WAF",
+            "Secure headers",
+            "Secure APIs",
+            "AWS/GCP/Azure security groups",
+            "IAM policy hardening",
+            "VPC security",
+            "Docker hardening",
+            "Kubernetes RBAC",
+            "Network policies",
+            "Service mesh (Istio, Linkerd)"
+          ],
+          "subtopic_content": {
+            "OWASP Top 10": [
+              "OWASP Top 10 (2021): most critical web application security risks. A01 Broken Access Control (most common — 94% of apps tested), A02 Cryptographic Failures (sensitive data exposure), A03 Injection (SQLi, XSS, command injection).",
+              "A04 Insecure Design (missing security controls by design), A05 Security Misconfiguration (default credentials, open cloud storage), A06 Vulnerable Components (log4shell — Log4j vulnerability hit 44% of networks worldwide).",
+              "A07 Authentication Failures (weak auth, no MFA), A08 Software/Data Integrity (supply chain attacks, unsigned updates), A09 Security Logging Failures (no monitoring), A10 SSRF (Server-Side Request Forgery)."
+            ],
+            "WAF": [
+              "WAF (Web Application Firewall): filters, monitors, and blocks HTTP/HTTPS traffic to and from web applications. Specifically designed to detect and block OWASP Top 10 attacks.",
+              "Modes: Blocking (actively blocks detected attacks), Detection only (logs and alerts, doesn't block — useful for tuning), Transparent. Deployed inline (traffic flows through) or out-of-band.",
+              "Types: Network-based (hardware appliance, F5 ASM), Host-based (ModSecurity on Apache/Nginx), Cloud-based (Cloudflare WAF, AWS WAF, Akamai). Cloud WAF easiest to deploy and maintain."
+            ],
+            "Secure headers": [
+              "Secure HTTP headers: response headers that instruct browsers to enforce security policies. Simple to implement, significant security benefit.",
+              "Key headers: Strict-Transport-Security (HSTS — force HTTPS), Content-Security-Policy (CSP — prevent XSS by whitelisting allowed content sources), X-Frame-Options (prevent clickjacking — DENY or SAMEORIGIN), X-Content-Type-Options: nosniff (prevent MIME sniffing), Referrer-Policy (control referrer information).",
+              "Testing: securityheaders.com — scan any URL and grade security headers. Most websites fail. Each missing header is a specific attack vector."
+            ],
+            "Secure APIs": [
+              "API security: REST APIs are primary attack surface for modern applications. Key protections: authentication (OAuth 2.0 / API keys), authorization (check permissions for each request), rate limiting (prevent brute force and DDoS), input validation (reject malformed requests), TLS everywhere.",
+              "OWASP API Security Top 10: API1 Broken Object Level Authorization (access other users' data by changing ID in URL), API2 Broken Authentication, API3 Excessive Data Exposure (return full object, client filters — attacker gets full data).",
+              "API gateway: centralize authentication, rate limiting, logging, and routing for all APIs. Examples: Kong, AWS API Gateway, Azure API Management."
+            ],
+            "AWS/GCP/Azure security groups": [
+              "Security groups (AWS): virtual firewalls for EC2 instances — stateful, allow rules only (no explicit deny), applied at instance level. Default: block all inbound, allow all outbound.",
+              "Network ACLs (AWS): subnet-level, stateless, both allow and deny rules. Use security groups for instance protection, NACLs for subnet-level defense in depth.",
+              "Shared responsibility model: cloud provider secures the infrastructure (hardware, hypervisor, physical). Customer secures: configuration, data, access management, network security, applications."
+            ],
+            "IAM policy hardening": [
+              "IAM (Identity and Access Management): manage who can access what in cloud. Key principle: least privilege — grant minimum permissions required.",
+              "Hardening: avoid root account for daily use, enable MFA on all accounts, use roles instead of long-term access keys, set permission boundaries, use AWS Organizations SCPs to limit what even admins can do, enable CloudTrail logging for all API calls.",
+              "Common mistake: wildcard permissions (Action: '*', Resource: '*') — full access to everything. Use specific actions and resources: S3:GetObject on specific bucket only."
+            ],
+            "VPC security": [
+              "VPC (Virtual Private Cloud): isolated virtual network in cloud. Security controls: subnets (public vs private), security groups, NACLs, VPC Flow Logs (NetFlow equivalent for cloud), VPC Endpoints (access AWS services without internet).",
+              "Architecture: public subnet for load balancers (internet-facing), private subnet for application servers, isolated subnet for databases (no internet route). Instances in private subnet cannot be reached directly from internet."
+            ],
+            "Docker hardening": [
+              "Docker security: containers share OS kernel — less isolation than VMs. Key hardening: don't run as root (USER directive), read-only filesystem (--read-only), no privileged mode (--privileged grants host access), limit capabilities (--cap-drop ALL, add only needed), use trusted base images, scan images for vulnerabilities.",
+              "Image security: use minimal base images (Alpine Linux — 5MB vs Ubuntu 72MB), sign images (Docker Content Trust), scan with Trivy or Snyk before deployment."
+            ],
+            "Kubernetes RBAC": [
+              "Kubernetes RBAC: control who can do what in Kubernetes cluster. Roles (namespace-scoped) and ClusterRoles (cluster-wide) define permissions. RoleBindings attach roles to users/service accounts.",
+              "Principle: each service account should have minimum permissions. Avoid cluster-admin for regular workloads. Separate namespaces for different teams/applications. Regular audit of permissions."
+            ],
+            "Network policies": [
+              "Kubernetes Network Policies: define which pods can communicate with each other and external endpoints. Default: all pods can talk to all other pods (no isolation).",
+              "Best practice: default-deny all ingress and egress, then explicitly allow only required communication. Example: frontend pods can only talk to backend pods on port 8080, not to database pods."
+            ],
+            "Service mesh (Istio, Linkerd)": [
+              "Service mesh: infrastructure layer handling service-to-service communication in microservices. Provides: mutual TLS (mTLS — encrypt all inter-service traffic automatically), observability (metrics, traces, logs), traffic management, fine-grained authorization.",
+              "Istio: most feature-rich service mesh. Envoy sidecar proxy injected into every pod. mTLS between all services. Linkerd: simpler, lightweight alternative. Cilium: eBPF-based, high performance.",
+              "Security value: even if attacker compromises one service, mTLS prevents them from communicating with other services without valid certificates."
+            ]
+          },
+          "required_code": "# Secure HTTP Headers — Nginx configuration example\nserver {\n    listen 443 ssl;\n    server_name example.com;\n\n    # Force HTTPS for 1 year, include subdomains, preload\n    add_header Strict-Transport-Security \\\n        \"max-age=31536000; includeSubDomains; preload\" always;\n\n    # Prevent XSS by whitelisting content sources\n    add_header Content-Security-Policy \\\n        \"default-src 'self'; script-src 'self' 'nonce-{RANDOM}'; \\\n         style-src 'self'; img-src 'self' data:; \\\n         frame-ancestors 'none'\" always;\n\n    # Prevent clickjacking\n    add_header X-Frame-Options \"DENY\" always;\n\n    # Prevent MIME type sniffing\n    add_header X-Content-Type-Options \"nosniff\" always;\n\n    # Control referrer information\n    add_header Referrer-Policy \"strict-origin-when-cross-origin\" always;\n\n    # Permissions policy (disable unused browser features)\n    add_header Permissions-Policy \\\n        \"camera=(), microphone=(), geolocation=()\" always;\n}",
+          "common_mistakes": [
+            "Running containers as root — if container is compromised and process escapes, attacker has root on host. Always specify non-root USER in Dockerfile",
+            "Using wildcard IAM policies in cloud — Action: '*' Resource: '*' gives attacker full cloud account access if credentials are stolen. Always specify minimum required actions and resources"
+          ]
+        },
+        {
+          "name": "Threat Intelligence",
+          "keywords": ["threat intelligence", "threat feeds", "ioc", "iocs", "ttps", "mitre attack", "indicators of compromise"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Threat feeds",
+            "IOCs",
+            "TTPs"
+          ],
+          "subtopic_content": {
+            "Threat feeds": [
+              "Threat feeds: curated, frequently updated intelligence about current threats — malicious IPs, domains, file hashes, attack patterns. Consumed by SIEM, firewalls, EDR to automatically block known bad indicators.",
+              "Types: Free (AlienVault OTX, abuse.ch, Emerging Threats), Commercial (Recorded Future, Mandiant, CrowdStrike Intelligence), Government (CISA AIS, FBI InfraGard), ISACs (sector-specific sharing).",
+              "Feed types: IP reputation (block known malicious IPs), Domain blocklists, File hash lists (block known malware files), YARA rules (pattern matching for malware families), Vulnerability feeds (CVE data)."
+            ],
+            "IOCs": [
+              "IOCs (Indicators of Compromise): artifacts observed on network or system indicating a potential intrusion. Evidence that a security incident has occurred or is in progress.",
+              "Types: Network IOCs (malicious IP addresses, domains, URLs, unusual DNS queries, suspicious network connections), Host IOCs (malicious file hashes, registry keys, file paths, process names), Email IOCs (phishing sender addresses, malicious attachment hashes).",
+              "STIX/TAXII: standards for representing (STIX) and sharing (TAXII) threat intelligence including IOCs. Enables automated machine-to-machine sharing between organizations and tools."
+            ],
+            "TTPs": [
+              "TTPs (Tactics, Techniques, and Procedures): describes HOW attackers operate. Higher-value than IOCs — IPs and domains change daily, but attacker TTPs change slowly.",
+              "MITRE ATT&CK Framework: comprehensive knowledge base of adversary TTPs organized by 14 tactics (Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Command and Control, Exfiltration, Impact).",
+              "Use: map detected attacker behavior to MITRE ATT&CK techniques → understand what phase attacker is in → predict next steps → detect and respond. Hunt for known TTPs of threat actors targeting your industry."
+            ]
+          },
+          "required_tables": [
+            "Intelligence Types by Value: Type | Example | Lifespan | Value | Volume || File Hashes | SHA-256 of malware | Hours-days | Low (easily changed) | High || IP Addresses | C2 server IP | Days-weeks | Low-Medium | High || Domains | malware-c2.com | Weeks | Medium | Medium || TTPs | Spearphishing with macro-enabled docs | Years | High (hard to change) | Low"
+          ],
+          "common_mistakes": [
+            "Only blocking IOCs without understanding TTPs — attackers rotate IPs and domains constantly. Focus on detecting TTP patterns which remain stable across campaigns"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Compliance, Policy & Governance",
+      "topics": [
+        {
+          "name": "Security Policies and Frameworks",
+          "keywords": ["aup", "password policy", "byod", "remote work policy", "iso 27001", "nist csf", "gdpr", "hipaa", "pci dss", "compliance frameworks", "security governance"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "AUP",
+            "Password policy",
+            "Remote work policy",
+            "BYOD policy",
+            "ISO 27001",
+            "NIST CSF",
+            "GDPR",
+            "HIPAA",
+            "PCI-DSS"
+          ],
+          "subtopic_content": {
+            "AUP": [
+              "AUP (Acceptable Use Policy): defines what users may and may not do with organizational IT resources. Legal foundation for disciplinary action — users must acknowledge and sign.",
+              "Covers: personal use of company devices, prohibited content, social media use, data handling, software installation, remote work requirements. Employees must sign before accessing systems."
+            ],
+            "Password policy": [
+              "Password policy: defines requirements for passwords — minimum length (12+ characters), complexity, maximum age (90 days or 'never expire' with MFA), history (cannot reuse last 12 passwords), account lockout (5 failed attempts → 15 min lockout).",
+              "Modern NIST guidance (SP 800-63): length over complexity, don't force frequent changes (causes weak passwords), check against compromised password lists (Have I Been Pwned API), allow paste in password fields (helps password managers)."
+            ],
+            "Remote work policy": [
+              "Remote work policy: security requirements for working outside office. Typically requires: VPN for accessing corporate resources, approved device (company-managed with MDM), MFA, screen lock, no public WiFi without VPN, secure home network requirements.",
+              "Pandemic accelerated remote work — many organizations added 'always-on VPN' (split-tunnel vs full-tunnel), cloud-based security (SASE), zero trust network access (ZTNA) to replace traditional VPN."
+            ],
+            "BYOD policy": [
+              "BYOD (Bring Your Own Device): allows employees to use personal devices for work. Security challenge: organization has limited control over personal devices.",
+              "Controls: MDM enrollment required (allows remote wipe, enforce encryption, push certificates), containerization (separate work apps from personal), only approved apps for corporate data, clear data retention/deletion rights documented."
+            ],
+            "ISO 27001": [
+              "ISO 27001: international standard for Information Security Management Systems (ISMS). Defines requirements for establishing, implementing, maintaining, and continually improving information security.",
+              "Certification: organizations undergo audit by accredited certification body. 114 controls across 14 domains (A.5-A.18). Requires risk assessment, risk treatment plan, Statement of Applicability (SoA). Recognized globally.",
+              "Benefits: structured security framework, vendor/partner confidence, regulatory compliance aid, continuous improvement culture."
+            ],
+            "NIST CSF": [
+              "NIST Cybersecurity Framework: US government-developed voluntary framework. Five core functions: Identify (understand assets, risks), Protect (implement safeguards), Detect (identify cybersecurity events), Respond (act on detected events), Recover (restore capabilities).",
+              "CSF 2.0 (2024): added Govern function (leadership, policy, culture). Implementation tiers (1-4): Partial → Risk Informed → Repeatable → Adaptive. Profiles: current vs target security posture gap analysis."
+            ],
+            "GDPR": [
+              "GDPR (General Data Protection Regulation): EU regulation for personal data protection. Applies to any organization processing EU residents' data, regardless of company location.",
+              "Key requirements: lawful basis for processing, privacy by design/default, data subject rights (access, erasure, portability), 72-hour breach notification to supervisory authority, DPO (Data Protection Officer) for large processors.",
+              "Penalties: up to €20 million or 4% of global annual turnover (whichever higher). Facebook fined €1.2 billion (2023), Amazon €746 million (2021)."
+            ],
+            "HIPAA": [
+              "HIPAA (Health Insurance Portability and Accountability Act): US law protecting health information (PHI — Protected Health Information). Applies to covered entities (hospitals, insurers) and business associates.",
+              "Security Rule requirements: access controls, audit logging, encryption for PHI at rest and in transit, workforce training, risk analysis, business associate agreements (BAA) with all PHI-handling vendors.",
+              "Penalties: up to $1.9 million per violation category per year. Criminal charges possible for deliberate violations."
+            ],
+            "PCI-DSS": [
+              "PCI-DSS (Payment Card Industry Data Security Standard): requirements for organizations handling credit/debit card data. Not a law — contractual requirement from card brands (Visa, Mastercard).",
+              "12 requirements: install firewall, no default passwords, protect cardholder data, encrypt transmission, update antivirus, develop secure systems, restrict access on need-to-know, unique IDs, restrict physical access, monitor and log, test systems regularly, maintain security policy.",
+              "Levels: merchants processing 6M+ transactions/year must do annual QSA (Qualified Security Assessor) audit. Smaller merchants self-assess with SAQ (Self-Assessment Questionnaire). Non-compliance → fines → loss of card processing ability."
+            ]
+          },
+          "required_tables": [
+            "Compliance Framework Comparison: Framework | Type | Scope | Enforced By | Penalty || ISO 27001 | Certification standard | All organizations | Certification body | Loss of certification || NIST CSF | Voluntary framework | US critical infrastructure | Government guidance | None (voluntary) || GDPR | Law | Any org processing EU data | Supervisory authorities | 4% global revenue || HIPAA | Law | US healthcare industry | HHS OCR | Up to $1.9M/violation || PCI-DSS | Contractual standard | Card payment handlers | Card brands/banks | Fines, loss of processing rights"
+          ],
+          "common_mistakes": [
+            "Thinking compliance = security — compliance is a minimum baseline. An organization can be fully compliant and still get breached. Security goes beyond checkbox compliance"
+          ]
+        },
+        {
+          "name": "Auditing and Risk Management",
+          "keywords": ["vulnerability assessment", "risk assessment", "security audit", "compliance reporting", "penetration testing", "risk management"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Vulnerability assessment",
+            "Risk assessment",
+            "Security audits",
+            "Compliance reporting"
+          ],
+          "subtopic_content": {
+            "Vulnerability assessment": [
+              "Vulnerability assessment: systematic review of systems to identify, classify, and prioritize known vulnerabilities. Uses automated scanners (Nessus, OpenVAS, Qualys) to check for missing patches, misconfigurations, weak credentials.",
+              "Differs from penetration testing: VA identifies vulnerabilities without exploiting them. Pentest attempts to exploit vulnerabilities to demonstrate impact.",
+              "Output: list of vulnerabilities with CVSS scores, affected systems, remediation recommendations. Prioritize by: CVSS score, exposure (internet-facing?), exploitability (known exploit available?), business criticality of affected system."
+            ],
+            "Risk assessment": [
+              "Risk assessment: identify and evaluate risks to the organization. Quantitative: assign monetary values (ALE = SLE × ARO — Annual Loss Expectancy = Single Loss Expectancy × Annual Rate of Occurrence). Qualitative: High/Medium/Low risk ratings.",
+              "Process: Asset identification → Threat identification → Vulnerability identification → Likelihood assessment → Impact assessment → Risk rating → Risk treatment decision.",
+              "Risk treatment options: Mitigate (implement controls), Accept (acknowledge and monitor), Transfer (insurance, outsource), Avoid (stop the activity that creates risk)."
+            ],
+            "Security audits": [
+              "Security audit: formal examination of organization's security controls, policies, and practices against a defined standard or checklist. Can be internal (own security team) or external (third-party auditors).",
+              "Types: compliance audit (are we meeting requirements?), technical audit (are controls implemented correctly?), procedural audit (are policies followed?), penetration test (can controls be bypassed?).",
+              "Output: audit findings, risk ratings, recommendations, management response and remediation timeline. Audit trail must be maintained."
+            ],
+            "Compliance reporting": [
+              "Compliance reporting: demonstrate to regulators, customers, and partners that security controls meet requirements. Includes: security metrics, audit reports, penetration test results, vulnerability scan results, training completion rates.",
+              "Common reports: SOC 2 Type II (AICPA — cloud service providers, year-long controls audit), PCI-DSS SAQ/ROC, ISO 27001 certification, GDPR DPIA (Data Protection Impact Assessment).",
+              "Continuous compliance: use GRC (Governance, Risk, Compliance) tools to automate evidence collection and reporting — ServiceNow GRC, RSA Archer, Vanta, Drata."
+            ]
+          },
+          "common_mistakes": [
+            "Treating vulnerability assessment as a one-time event — new vulnerabilities disclosed daily. Run automated scans weekly, full assessment quarterly minimum"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Practical Labs & Capstone",
+      "topics": [
+        {
+          "name": "Lab Setup and Security Tools",
+          "keywords": ["kali linux", "metasploit", "nmap", "wireshark", "burp suite", "nikto", "openvas", "virtualbox", "vmware", "metasploitable", "pfsense", "security tools", "ctf"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "VirtualBox",
+            "VMware",
+            "Kali Linux",
+            "Metasploitable",
+            "pfSense",
+            "Nmap",
+            "Wireshark",
+            "Burp Suite",
+            "Metasploit",
+            "Nikto",
+            "OpenVAS",
+            "TryHackMe",
+            "Hack The Box",
+            "Blue Team Labs"
+          ],
+          "subtopic_content": {
+            "VirtualBox": [
+              "VirtualBox: free, open-source virtualization platform. Run multiple OS simultaneously on one physical machine. Essential for security labs — create isolated network environments.",
+              "Lab setup: create host-only or NAT network, deploy attacker VM (Kali Linux) + target VM (Metasploitable). Isolated from real network — practice attacks safely.",
+              "Features: snapshots (save VM state before attack — revert after), shared folders, port forwarding, virtual networking (internal, host-only, NAT, bridged)."
+            ],
+            "VMware": [
+              "VMware Workstation (paid) / VMware Player (free): industry-standard virtualization. Better performance than VirtualBox, more networking options.",
+              "VMware vSphere/ESXi: enterprise virtualization platform. Industry standard for data centers. Understanding VMware security (vSAN encryption, vDS security, NSX micro-segmentation) essential for enterprise security roles."
+            ],
+            "Kali Linux": [
+              "Kali Linux: Debian-based Linux distribution designed for penetration testing and security research. Pre-installed with 600+ security tools (Nmap, Metasploit, Wireshark, Burp Suite, Aircrack-ng, John the Ripper, Hashcat).",
+              "Principle: legal and ethical use only — on systems you own or have written permission to test. Kali is just a tool — using it without authorization = criminal offense.",
+              "Certification: OSCP (Offensive Security Certified Professional) — industry-respected pentest certification using Kali Linux, 24-hour practical exam."
+            ],
+            "Metasploitable": [
+              "Metasploitable: intentionally vulnerable Linux VM designed for practicing exploitation. Contains dozens of unpatched, misconfigured, vulnerable services. Safe target for learning.",
+              "Common exercises: exploit vsftpd 2.3.4 backdoor, exploit unrealircd backdoor, exploit Samba usermap_script, exploit PostgreSQL, privilege escalation via SUID binaries.",
+              "Never expose Metasploitable to internet — it is intentionally insecure and will be immediately compromised."
+            ],
+            "pfSense": [
+              "pfSense: open-source firewall/router OS based on FreeBSD. Full-featured NGFW capabilities — stateful packet filtering, NAT, VPN (IPsec, OpenVPN), traffic shaping, IDS/IPS (via Snort/Suricata packages), web filtering.",
+              "Lab use: deploy as virtual firewall between Kali attacker VM and Metasploitable target VM. Practice firewall rule creation, VPN setup, IDS tuning. Industry-relevant — pfSense used in many SMBs."
+            ],
+            "Nmap": [
+              "Nmap (Network Mapper): most widely used network scanning tool. Discovers hosts, open ports, services, OS fingerprinting, vulnerability scanning (NSE scripts).",
+              "Essential commands: nmap -sV 192.168.1.0/24 (service version scan on subnet), nmap -sS -O target (SYN scan + OS detection), nmap -sC -sV -oN scan.txt target (default scripts, versions, save output), nmap --script vuln target (run vulnerability scripts)."
+            ],
+            "Wireshark": [
+              "Wireshark in lab: capture traffic during attack exercises. See exactly what Metasploit exploit looks like on the wire. Understand how different attacks appear in packet captures.",
+              "Practice: capture Metasploit exploit against Metasploitable → analyze in Wireshark → create Snort IDS rule based on what you see. Builds deep understanding of both offense and defense."
+            ],
+            "Burp Suite": [
+              "Burp Suite: web application security testing platform. Intercept proxy (modify HTTP requests in real-time), spider, scanner (Community = manual, Pro = automated), intruder (brute force, fuzzing), repeater (replay modified requests).",
+              "Community Edition (free): essential for web app testing. Pro Edition (paid): automated scanner for vulnerabilities (OWASP Top 10), used by professional penetration testers.",
+              "Setup: configure browser proxy → 192.168.x.x:8080 → all web traffic intercepted in Burp → modify and forward. Essential skill for web application testing."
+            ],
+            "Metasploit": [
+              "Metasploit Framework: most powerful exploitation framework. Modules: exploits (attack code), payloads (what runs after exploit — Meterpreter shell), auxiliary (scanning, brute force), post (post-exploitation — privilege escalation, persistence, lateral movement).",
+              "Basic workflow: msfconsole → search for exploit → use exploit/multi/handler → set RHOSTS, PAYLOAD, LHOST → run → receive shell → post-exploitation.",
+              "Legal use only: written authorization required. Professional penetration testers use Metasploit daily. Understanding attacker tools makes you better defender."
+            ],
+            "Nikto": [
+              "Nikto: open-source web server scanner. Checks for dangerous files/CGIs, outdated software, server misconfigurations, SSL issues. Fast, noisy (easily detected by IDS).",
+              "Usage: nikto -h http://target.com — scans for 6700+ potentially dangerous files and programs. Not subtle — generates significant log entries. Use only on authorized targets."
+            ],
+            "OpenVAS": [
+              "OpenVAS (Open Vulnerability Assessment System): open-source vulnerability scanner. Part of Greenbone Vulnerability Management (GVM). Checks for 50,000+ vulnerabilities. Free alternative to Nessus.",
+              "Provides: authenticated and unauthenticated scans, web application scanning, compliance checks, detailed reports with remediation guidance. Enterprise alternative: Nessus Professional, Qualys, Rapid7 InsightVM."
+            ],
+            "TryHackMe": [
+              "TryHackMe: beginner-friendly cybersecurity learning platform. Browser-based — no local VM setup needed. Guided learning paths: Pre-Security, SOC Level 1, Jr Penetration Tester, CompTIA Security+ prep.",
+              "Features: structured rooms (guided challenges with hints), OpenVPN access to vulnerable machines, community forums, progress tracking. Subscription: free tier available, premium unlocks all content. Best starting point for beginners."
+            ],
+            "Hack The Box": [
+              "Hack The Box (HTB): intermediate-advanced hacking challenge platform. Realistic machines and challenges — no guided hints (unlike TryHackMe). Must find vulnerabilities yourself.",
+              "Structure: Active machines (solve for points, no writeups allowed), Retired machines (official writeups available for learning). Pro Labs (enterprise-level simulated environments — RastaLabs, Offshore).",
+              "Career relevance: OSCP candidates use HTB extensively for practice. Completing HTB machines demonstrates practical skills to employers."
+            ],
+            "Blue Team Labs": [
+              "Blue Team Labs Online: defensive security challenges — log analysis, SIEM investigation, threat hunting, forensics, incident response. Complements HTB's offensive focus.",
+              "Exercises: analyze SIEM logs to find attack, investigate memory dump, reconstruct attack timeline from logs, identify malware in packet capture, threat hunting scenarios.",
+              "Essential skill balance: security professionals need both offensive (understand attacks) and defensive (detect and respond) skills."
+            ]
+          },
+          "required_code": "# Nmap essential scanning commands\n\n# Host discovery — find live hosts in subnet\nnmap -sn 192.168.1.0/24\n\n# SYN scan (stealthy) + service versions + OS detection\nnmap -sS -sV -O 192.168.1.100\n\n# Full port scan (all 65535 ports)\nnmap -p- 192.168.1.100\n\n# Default NSE scripts + version detection (recommended for initial recon)\nnmap -sC -sV -oN initial_scan.txt 192.168.1.100\n\n# Vulnerability scan using NSE scripts\nnmap --script vuln 192.168.1.100\n\n# UDP scan (often missed) — DNS, SNMP, DHCP\nnmap -sU --top-ports 100 192.168.1.100\n\n# Aggressive scan (OS detection, version, scripts, traceroute)\nnmap -A 192.168.1.100\n\n# Scan multiple targets from file\nnmap -iL targets.txt -sV -oN multi_scan.txt\n\n# Nikto web vulnerability scan\nnikto -h http://192.168.1.100\n\n# Metasploit basic workflow\n# msfconsole\n# > search vsftpd\n# > use exploit/unix/ftp/vsftpd_234_backdoor\n# > set RHOSTS 192.168.1.100\n# > run",
+          "required_tables": [
+            "Security Tools by Category: Category | Tool | Purpose | Free? || Vulnerability Scanner | Nessus Essentials | Network vuln scanning | Free (limited) || Vulnerability Scanner | OpenVAS/GVM | Network vuln scanning | Yes (open source) || Web App Testing | Burp Suite Community | Web proxy, manual testing | Yes || Exploitation | Metasploit | Penetration testing framework | Yes (open source) || Network Analysis | Wireshark | Packet capture and analysis | Yes || Network Scanning | Nmap | Host discovery, port scanning | Yes || Web Scanner | Nikto | Web server misconfiguration | Yes || SIEM | Splunk Free | Log analysis (500MB/day limit) | Yes (limited) || Practice Lab | TryHackMe | Guided learning challenges | Yes (some free)"
+          ],
+          "common_mistakes": [
+            "Running security tools against systems without written authorization — unauthorized scanning is illegal under computer fraud laws worldwide. Always get written permission before any testing",
+            "Only practicing offensive skills — defensive skills (log analysis, SIEM, incident response) are equally important and often more in demand in job market"
+          ]
+        }
+      ]
+    }
+  ]
+}

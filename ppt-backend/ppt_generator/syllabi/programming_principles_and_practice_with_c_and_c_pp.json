@@ -1,0 +1,1204 @@
+{
+  "subject": "Programming Principles and Practice with C and C++",
+  "subject_key": "programming principles and practice with c and c++",
+  "language": "C",
+  "modules": [
+    {
+      "module": "Language Fundamentals",
+      "topics": [
+        {
+          "name": "Computer Fundamentals",
+          "keywords": [
+            "computer fundamentals",
+            "programming languages",
+            "how to program",
+            "von neumann"
+          ],
+          "nature": "theoretical",
+          "subtopics": [
+            "Need of Programming Languages",
+            "How to Program a Computer?",
+            "Organization of a Computer (Von Neumann Architecture)"
+          ],
+          "required_content": [
+            "Explain what a program is and why programming languages exist",
+            "Describe the Von Neumann architecture — CPU, Memory, I/O — and how instructions flow",
+            "Explain the fetch-decode-execute cycle with a simple analogy"
+          ],
+          "required_diagrams": [
+            "Von Neumann architecture block diagram: CPU (ALU + CU + Registers), Memory Unit, Input/Output devices, connected by buses (Data Bus, Address Bus, Control Bus). Clean labeled diagram with arrows showing data flow."
+          ],
+          "required_tables": [],
+          "no_code": true,
+          "common_mistakes": [
+            "Confusing Von Neumann bottleneck with bus speed",
+            "Thinking CPU directly reads from secondary storage"
+          ]
+        },
+        {
+          "name": "Basics of Computer Programming",
+          "keywords": [
+            "programming language",
+            "mll",
+            "hll",
+            "assembler",
+            "compiler",
+            "interpreter",
+            "paradigm",
+            "structured",
+            "object oriented"
+          ],
+          "nature": "theoretical",
+          "subtopics": [
+            "Classification of Programming Languages — MLL (Machine Level), ALL (Assembly Level), HLL (High Level)",
+            "Translators — Assembler: converts assembly to machine code (NASM example)",
+            "Translators — Compiler: translates entire HLL source to executable (GCC, batch process)",
+            "Translators — Interpreter: translates and executes HLL line-by-line (Python, runtime)",
+            "Compiler vs Interpreter — key differences in speed, error detection, portability",
+            "Programming Paradigms — Unstructured (GOTO-based, spaghetti code)",
+            "Programming Paradigms — Structured (top-down, functions, loops — C is the gold standard)",
+            "Programming Paradigms — Object-Oriented (objects, encapsulation, real-world modelling)"
+          ],
+          "required_content": [
+            "MLL: binary/hex instructions, CPU-specific, no portability. Example: 00011010 means ADD",
+            "ALL: mnemonics (MOV, ADD, JMP) replacing opcodes, 1-to-1 mapping, needs Assembler",
+            "HLL: English-like syntax, machine-independent, needs Compiler or Interpreter. Examples: C, Python, Java",
+            "Assembler: input=Assembly code, output=Object/Machine code. Example: NASM, GAS",
+            "Compiler: input=HLL source, output=Executable. Translates ALL at once. Example: GCC for C",
+            "Interpreter: input=HLL source, output=Direct execution. Line-by-line. Example: Python interpreter",
+            "Compiler advantage: faster execution. Interpreter advantage: easier debugging, platform flexibility",
+            "Unstructured: uses GOTO, hard to trace (spaghetti code), no modularity. Example: early BASIC",
+            "Structured: top-down decomposition, functions, loops, no GOTO. C is the model language",
+            "OOP: data + behaviour in objects, models real-world entities. Emerges from structured's scaling limits"
+          ],
+          "required_diagrams": [
+            "Language levels pyramid: 3-tier diagram. Bottom tier: Machine Code (binary 0s/1s, CPU-only). Middle tier: Assembly (mnemonics, architecture-specific). Top tier: High-Level Languages (C, Python, Java, human-readable). Arrows pointing upward labeled 'increasing abstraction'. Clean labeled diagram.",
+            "Compilation pipeline flowchart: Source Code (.c) → [Preprocessor] → Expanded Code → [Compiler] → Assembly (.s) → [Assembler] → Object Code (.o) → [Linker] → Executable (.exe). Linear left-to-right with labeled boxes and arrows showing file extensions at each stage.",
+            "Interpreter execution diagram: Source Code → [Interpreter] → line1 → Execute → line2 → Execute → ... → Result. Show line-by-line nature with loop arrow. Contrast with compiler one-shot translation above it."
+          ],
+          "required_tables": [
+            "Comparison: Translator Type | Input | Output | Example || Assembler | Assembly code | Machine code | NASM || Compiler | HLL source | Executable | GCC || Interpreter | HLL source | Direct output | Python"
+          ],
+          "no_code": true,
+          "common_mistakes": [
+            "Thinking Java compiler produces native machine code (it produces bytecode)",
+            "Confusing assembler with compiler"
+          ],
+          "one_slide_per_subtopic": true,
+          "slide_scripts": {
+            "Classification of Programming Languages — MLL (Machine Level), ALL (Assembly Level), HLL (High Level)": {
+              "title": "Classification of Programming Languages — MLL, ALL, HLL",
+              "structure": "classification",
+              "opening": "Why does a classification of languages exist? Because as software complexity grew, writing in raw binary became impossible. Each generation of language traded hardware control for human productivity.",
+              "content_flow": [
+                "MLL (1st Gen): Raw binary/hex. CPU executes directly. No translation needed. Example: 00111100 on 8085 = increment accumulator. Non-portable — Intel code won't run on ARM.",
+                "ALL (2nd Gen): Mnemonics replace binary opcodes. MOV instead of 10110000. 1-to-1 mapping with machine code. Needs Assembler to convert. Still architecture-specific.",
+                "HLL (3rd Gen): English-like syntax. sum = a + b. Machine-independent. Needs Compiler or Interpreter. Examples: C, Python, Java, C++.",
+                "Comparison: Language Level | Readability | Portability | Needs | Example || MLL | None | Zero | Nothing | 00111100 || ALL | Low | None | Assembler | MOV AX,BX || HLL | High | Full | Compiler/Interpreter | sum = a + b"
+              ],
+              "key_insight": "As abstraction increases, programmer productivity increases but hardware control decreases. C sits at the sweet spot — HLL syntax with near-assembly performance.",
+              "no_labels": [
+                "Definition:",
+                "Tip:",
+                "Use Case:"
+              ]
+            },
+            "Translators — Assembler: converts assembly to machine code (NASM example)": {
+              "title": "Translators — Assembler: Assembly → Machine Code",
+              "structure": "process_flow",
+              "opening": "The CPU only understands 0s and 1s. Assembly is human-readable but not machine-readable. The Assembler is the bridge.",
+              "content_flow": [
+                "What it does: Scans each assembly instruction and replaces it with its binary equivalent. Resolves symbolic labels like 'LOOP:' into actual memory addresses.",
+                "1-to-1 mapping: ONE assembly instruction → ONE machine instruction. This is what distinguishes it from a Compiler (which is 1-to-Many).",
+                "Input → Output: Assembly source (.asm) → Object file (.obj/.o) → then Linker produces executable.",
+                "Real assemblers: NASM (Netwide Assembler) and GAS (GNU Assembler) are used in OS development, device drivers, embedded firmware.",
+                "Common Mistake: Assembler ≠ Compiler. Assembler is for LOW-LEVEL (1:1). Compiler is for HIGH-LEVEL (1:Many)."
+              ],
+              "no_labels": [
+                "Definition:",
+                "Example:",
+                "Tip:"
+              ]
+            },
+            "Translators — Compiler: translates entire HLL source to executable (GCC, batch process)": {
+              "title": "Translators — Compiler: The Batch Translation Engine",
+              "structure": "process_flow",
+              "opening": "You write C code. The CPU can't read it. The Compiler translates the ENTIRE program before a single line executes.",
+              "content_flow": [
+                "How it works: Reads ALL source code → Lexical Analysis → Syntax Analysis → Semantic Analysis → Code Generation → Optimized Executable (.exe or .out).",
+                "Key characteristic: Batch processing — ALL errors are reported together after scanning the full file. No partial execution.",
+                "Output is permanent: The compiled .exe can be run repeatedly without the source code or compiler being present.",
+                "GCC pipeline: gcc hello.c → preprocessor (.i) → compiler (.s) → assembler (.o) → linker → a.out",
+                "Speed advantage: Since translation happened once at compile time, execution is extremely fast. That's why C/C++ power OS kernels and game engines."
+              ],
+              "no_labels": [
+                "Definition:",
+                "Example:",
+                "Tip:"
+              ]
+            },
+            "Translators — Interpreter: translates and executes HLL line-by-line (Python, runtime)": {
+              "title": "Translators — Interpreter: Line-by-Line Execution",
+              "structure": "process_flow",
+              "opening": "No compilation step. No executable file produced. The Interpreter reads your code and runs it immediately, one line at a time.",
+              "content_flow": [
+                "How it works: Read line 1 → Check syntax → Translate to machine instruction → Execute → Move to line 2. Repeat.",
+                "Error behaviour: Stops IMMEDIATELY at the first error. The lines before it have already executed. The lines after it have not.",
+                "No output file: Translation is discarded after execution. Every run translates the code again — this is why interpreted programs are slower.",
+                "Where it's used: Python, JavaScript (in browsers), PHP, Ruby. Preferred for scripting, data science, and web backends where development speed matters more than runtime speed.",
+                "Interactive mode: Python's REPL is a live interpreter — type a line, see the result instantly. Ideal for learning and prototyping."
+              ],
+              "no_labels": [
+                "Definition:",
+                "Example:",
+                "Tip:"
+              ]
+            },
+            "Compiler vs Interpreter — key differences in speed, error detection, portability": {
+              "title": "Compiler vs Interpreter — When to Use Which",
+              "structure": "comparison",
+              "opening": "Both translate HLL to machine instructions. The difference is WHEN they do it and WHAT they produce. This decision shapes the entire character of a language.",
+              "content_flow": [
+                "Comparison: Feature | Compiler | Interpreter || Translation timing | Before execution (once) | During execution (every run) || Error detection | All errors together | Stops at first error || Output | Executable file (.exe) | No permanent file || Execution speed | Fast (pre-translated) | Slower (translates at runtime) || Memory usage | Higher (stores object code) | Lower || Debugging ease | Harder (all errors at once) | Easier (see errors line by line) || Examples | C, C++, Rust, Go | Python, Ruby, JavaScript",
+                "The hybrid: Java compiles to bytecode (.class) — not machine code. The JVM (Java Virtual Machine) interprets the bytecode at runtime. This gives portability (any JVM runs it) with decent speed.",
+                "Industry reality: High-frequency trading, OS kernels, game engines → Compiled C/C++. Data science, web scripting, automation → Interpreted Python."
+              ],
+              "key_insight": "Neither is universally better. Compiled = production performance. Interpreted = development flexibility.",
+              "no_labels": [
+                "Definition:",
+                "Tip:"
+              ]
+            },
+            "Programming Paradigms — Unstructured (GOTO-based, spaghetti code)": {
+              "title": "Programming Paradigms — Unstructured: The GOTO Era",
+              "structure": "concept_story",
+              "opening": "Before structured programming existed, ALL programs were a single block of code. Repetition meant jumping back to earlier line numbers using GOTO. The result was chaos.",
+              "content_flow": [
+                "How programs worked: 10 PRINT 'Hello' → 20 GOTO 10. Loops were implemented as backward jumps. Conditionals were IF x GOTO 50.",
+                "What goes wrong at scale: Imagine 2000 lines where any line can jump to any other line. Tracing execution becomes impossible. Changing one GOTO breaks ten others. This is called Spaghetti Code.",
+                "Real languages: Early BASIC and FORTRAN programs relied on line numbers and GOTO. Debugging them was a nightmare.",
+                "Why it still matters: GOTO still exists in C. Used correctly (error handling in system code) it's fine. Used carelessly, it recreates the spaghetti problem.",
+                "Common Mistake: Thinking 'unstructured' means random or incorrect logic. The program is logically valid — it's just unmaintainable as it grows."
+              ],
+              "no_labels": [
+                "Definition:",
+                "Example:",
+                "Use Case:",
+                "Tip:"
+              ]
+            },
+            "Programming Paradigms — Structured (top-down, functions, loops — C is the gold standard)": {
+              "title": "Programming Paradigms — Structured: Discipline Through Functions",
+              "structure": "concept_story",
+              "opening": "Edsger Dijkstra's 1968 letter 'Go To Statement Considered Harmful' triggered a revolution. Programs should be organized into functions. Each function does ONE thing and returns. C was built on this philosophy.",
+              "content_flow": [
+                "Core idea: Break the program into small, named, reusable functions. main() orchestrates — it calls printBill(), calculateTax(), sendEmail(). Each is independent and testable.",
+                "Three control structures replace GOTO: Sequence (execute in order), Selection (if-else, switch), Iteration (for, while, do-while). These three are sufficient for ANY program logic.",
+                "Top-down design: Start with the big problem. Decompose into sub-problems. Decompose further until each piece is simple enough to code in 10-20 lines.",
+                "C as the model: The Linux kernel (27 million lines) is pure structured C. main() calls thousands of functions. No class, no object — just functions calling functions.",
+                "What structured programming solved: Code becomes readable, testable, reusable. A function can be written by one developer and used by a hundred others."
+              ],
+              "no_labels": [
+                "Definition:",
+                "Example:",
+                "Use Case:",
+                "Tip:"
+              ]
+            },
+            "Programming Paradigms — Object-Oriented (objects, encapsulation, real-world modelling)": {
+              "title": "Programming Paradigms — OOP: When Structured Wasn't Enough",
+              "structure": "concept_story",
+              "opening": "Structured programming conquered complexity up to a point. But as systems grew to millions of lines and hundreds of developers, functions alone weren't enough. OOP was the answer.",
+              "content_flow": [
+                "The scaling problem: In a banking app, 50 functions all manipulate 'account data'. Any function can corrupt it. As the team grows, tracking who does what becomes impossible.",
+                "OOP's solution — Encapsulation: Bundle the data (balance, accountNo) and the functions that operate on it (deposit, withdraw) into a single unit called a Class. Only the class's own methods touch its data.",
+                "Key principles: Encapsulation (bundle + protect), Inheritance (reuse behaviour from parent class), Polymorphism (same method name, different behaviour per object).",
+                "C to C++: C++ was created by Bjarne Stroustrup in 1983 by adding 'Classes' to C. Structured C is the foundation — OOP is the extension for large-scale systems.",
+                "Where paradigms are used today: Linux kernel = Structured C. Chrome browser = OOP C++. Android apps = OOP Java/Kotlin. Data science scripts = Procedural Python."
+              ],
+              "no_labels": [
+                "Definition:",
+                "Tip:"
+              ]
+            }
+          },
+          "use_slide_scripts": true
+        },
+        {
+          "name": "Inception of C",
+          "keywords": [
+            "inception",
+            "history",
+            "c language",
+            "features of c",
+            "c++",
+            "dennis ritchie"
+          ],
+          "nature": "theoretical",
+          "subtopics": [
+            "Inception of C Language",
+            "History of Popular High-Level Languages — C, C++",
+            "Features of C Language"
+          ],
+          "required_content": [
+            "C was developed by Dennis Ritchie at Bell Labs (1972) to rewrite UNIX",
+            "Timeline: BCPL → B → C → C++",
+            "Features: structured, portable, efficient, mid-level, rich library, extensible"
+          ],
+          "required_diagrams": [
+            "Language evolution timeline: BCPL (1967) → B (1969) → C (1972) → C++ (1985) → C99 → C11 → C17. Horizontal timeline with key milestones labeled."
+          ],
+          "required_tables": [
+            "Comparison: Feature | C | C++ || Paradigm | Procedural | Multi-paradigm || OOP Support | No | Yes || Standard Library | stdio.h etc | STL || Memory Mgmt | Manual | Manual + RAII"
+          ],
+          "no_code": true,
+          "common_mistakes": [
+            "Thinking C is outdated — it powers OS kernels, embedded systems, databases today"
+          ]
+        },
+        {
+          "name": "Memory Organization of a Computer",
+          "keywords": [
+            "memory",
+            "primary",
+            "secondary",
+            "ram",
+            "rom",
+            "cache",
+            "register",
+            "ssd",
+            "hdd",
+            "dram",
+            "sram"
+          ],
+          "nature": "theoretical",
+          "subtopics": [
+            "Memory Organization of a Computer",
+            "Reason for 2 types of memory — Primary & Secondary",
+            "SDD, HDD, RAM, Cache Memory, Registers",
+            "Loading vs Saving",
+            "Storage Locations — File, Byte, Register",
+            "More insights into Primary Memory",
+            "DRAM vs SRAM & RAM vs ROM"
+          ],
+          "required_content": [
+            "Explain the memory hierarchy: Registers > Cache > RAM > SSD/HDD",
+            "Why two types: speed vs capacity tradeoff",
+            "DRAM uses capacitors (slow, cheap, volatile), SRAM uses flip-flops (fast, expensive)"
+          ],
+          "required_diagrams": [
+            "Memory hierarchy pyramid diagram: at top — Registers (fastest, smallest), then Cache (L1/L2/L3), then RAM, then SSD, then HDD at bottom (slowest, largest). Each level labeled with speed and size. Use triangle/pyramid shape."
+          ],
+          "required_tables": [
+            "Comparison: Memory Type | Speed | Capacity | Volatile | Cost || Registers | Fastest | Bytes | Yes | Highest || Cache | Very Fast | KBs-MBs | Yes | High || RAM | Fast | GBs | Yes | Medium || SSD | Medium | TBs | No | Low || HDD | Slow | TBs | No | Lowest"
+          ],
+          "no_code": true,
+          "common_mistakes": [
+            "Thinking RAM is permanent storage",
+            "Confusing cache memory with hard disk cache"
+          ]
+        },
+        {
+          "name": "Introduction to Variables",
+          "keywords": [
+            "variable",
+            "declaration",
+            "initialization",
+            "syntax",
+            "identifier"
+          ],
+          "nature": "mixed",
+          "subtopics": [
+            "Basics of Variables",
+            "What is a Variable?",
+            "Syntax of a Variable",
+            "Declaration vs Initialization of a Variable",
+            "Declaring multiple variables"
+          ],
+          "required_content": [
+            "A variable is a named memory location that stores a value of a specific type",
+            "Declaration reserves memory, initialization assigns first value",
+            "Syntax: data_type variable_name = value;"
+          ],
+          "required_code": "/* Variable Declaration and Initialization in C */\n#include <stdio.h>\nint main() {\n    int age;           // Declaration only\n    int marks = 95;    // Declaration + Initialization\n    float gpa = 8.7;   // float variable\n    char grade = 'A';  // char variable\n    int x = 10, y = 20, z = 30;  // Multiple declaration\n    \n    printf(\"Age: %d\\n\", age);    // Garbage value (uninitialized)\n    printf(\"Marks: %d\\n\", marks);\n    printf(\"GPA: %.1f\\n\", gpa);\n    printf(\"Grade: %c\\n\", grade);\n    return 0;\n}",
+          "required_diagrams": [
+            "Memory map diagram showing variable storage: box labeled 'marks' at memory address 1000 containing value 95, box 'gpa' at 1004 containing 8.7, box 'grade' at 1008 containing 'A'. Show address, name, value for each."
+          ],
+          "required_tables": [],
+          "common_mistakes": [
+            "Using a variable before initializing it (garbage value)",
+            "Naming variables with spaces or starting with a digit"
+          ]
+        },
+        {
+          "name": "Introduction to Functions",
+          "keywords": [
+            "function",
+            "syntax",
+            "prototype",
+            "declaration",
+            "invocation",
+            "call"
+          ],
+          "nature": "mixed",
+          "subtopics": [
+            "Basics of Functions",
+            "Need for Functions",
+            "What is a Function?",
+            "Syntax of Function Definition",
+            "Function Declaration/Prototype",
+            "Function Invocation/Call"
+          ],
+          "required_content": [
+            "Functions promote code reuse, modularity, and readability",
+            "A function has: return type, name, parameters, body",
+            "Prototype declares the function before use; definition provides the implementation"
+          ],
+          "required_code": "/* Function Syntax in C */\n#include <stdio.h>\n\n// Function Prototype (Declaration)\nint add(int a, int b);\n\n// Function Definition\nint add(int a, int b) {\n    return a + b;    // returns sum\n}\n\nint main() {\n    int result = add(10, 20);  // Function Call\n    printf(\"Sum = %d\\n\", result);\n    // Output: Sum = 30\n    return 0;\n}",
+          "required_diagrams": [
+            "Function call stack diagram: main() frame at bottom, add(10,20) frame on top showing parameters a=10, b=20, return value 30 flowing back to main(). Labeled stack boxes."
+          ],
+          "required_tables": [],
+          "common_mistakes": [
+            "Forgetting the function prototype before main() causing implicit declaration warning",
+            "Confusing function declaration (prototype) with function definition"
+          ]
+        },
+        {
+          "name": "main() Function in C",
+          "keywords": [
+            "main",
+            "hello world",
+            "first program",
+            "main function"
+          ],
+          "nature": "practical",
+          "subtopics": [
+            "Need of main() in our Programs",
+            "First C Program — Print Hello, World!"
+          ],
+          "required_content": [
+            "main() is the entry point of every C program — execution starts here",
+            "int return type signals success (0) or failure (non-zero) to the OS"
+          ],
+          "required_code": "/* First C Program */\n#include <stdio.h>   // Header for printf()\n\nint main() {\n    printf(\"Hello, World!\\n\");  // Print to console\n    return 0;  // 0 = successful execution\n}\n// Output: Hello, World!",
+          "required_tables": [],
+          "common_mistakes": [
+            "Using void main() instead of int main() — undefined behaviour in standard C",
+            "Forgetting #include <stdio.h> before using printf()"
+          ]
+        },
+        {
+          "name": "Life Cycle of a C Program",
+          "keywords": [
+            "life cycle",
+            "execution flow",
+            "stages",
+            "compilation",
+            "linking",
+            "loading"
+          ],
+          "nature": "theoretical",
+          "subtopics": [
+            "Execution Flow of a C Program",
+            "Different stages involved in the execution of a C Program"
+          ],
+          "required_content": [
+            "Stages: Source Code (.c) → Preprocessor → Compiler → Assembler → Linker → Executable",
+            "Each stage transforms the program into a closer-to-machine form"
+          ],
+          "required_diagrams": [
+            "C program lifecycle flowchart: Source Code (.c) → [Preprocessor] → Expanded Code → [Compiler] → Assembly Code (.s) → [Assembler] → Object Code (.o) → [Linker + Library Files] → Executable (.exe). Linear left-to-right flow with labeled boxes and arrows."
+          ],
+          "required_tables": [],
+          "no_code": true,
+          "common_mistakes": [
+            "Thinking compilation directly produces the executable — linker step is separate"
+          ]
+        },
+        {
+          "name": "Compilation vs Interpretation",
+          "keywords": [
+            "compilation",
+            "interpretation",
+            "header file",
+            "library",
+            "object file",
+            "executable"
+          ],
+          "nature": "theoretical",
+          "subtopics": [
+            "Header File vs Library File",
+            "Object File vs Executable File",
+            "Compilation vs Interpretation"
+          ],
+          "required_content": [
+            "Header files (.h) contain declarations; Library files (.lib/.a) contain compiled implementations",
+            "Object file is partially compiled code; Executable is fully linked runnable code"
+          ],
+          "required_tables": [
+            "Comparison: Aspect | Compilation | Interpretation || Translation | Entire program at once | Line by line || Speed | Faster execution | Slower execution || Error Detection | All at compile time | At runtime || Example | C, C++ | Python, JavaScript"
+          ],
+          "no_code": true,
+          "common_mistakes": [
+            "Thinking header files contain actual function code — they only have declarations"
+          ]
+        },
+        {
+          "name": "Tokens in C",
+          "keywords": [
+            "tokens",
+            "keywords",
+            "identifiers",
+            "literals",
+            "operators",
+            "comments",
+            "separators",
+            "preprocessor directives"
+          ],
+          "nature": "theoretical",
+          "subtopics": [
+            "Tokens in C — Keywords, Identifiers, Literals, Operators, Comments, Separators, Preprocessor Directives",
+            "Rules for defining Identifiers in C",
+            "Properties of Keywords",
+            "Types of Literals",
+            "Types of Operators",
+            "Types of Comments",
+            "List of Separators",
+            "7 Versions of C"
+          ],
+          "required_content": [
+            "A token is the smallest meaningful unit in a C program",
+            "C has 32 keywords (C89), all lowercase, reserved — cannot be used as identifiers",
+            "Identifiers: user-defined names, must start with letter/underscore, case-sensitive"
+          ],
+          "required_tables": [
+            "Table: Token Type | Definition | Examples || Keyword | Reserved word | int, if, while, return || Identifier | User-defined name | main, sum, count || Literal | Fixed value | 42, 3.14, 'A', \"hello\" || Operator | Operation symbol | +, -, *, /, == || Comment | Non-executable text | // single, /* multi */ || Separator | Delimits tokens | ; , () {} []"
+          ],
+          "required_code": "/* Tokens in C — Illustrated */\n#include <stdio.h>  // preprocessor directive\n\nint main() {        // keyword: int, identifier: main, separator: ()\n    int x = 10;     // keyword: int, identifier: x, literal: 10\n    int y = 20;\n    int sum = x + y; // identifier: sum, operator: +\n    // This is a single-line comment\n    /* This is a\n       multi-line comment */\n    printf(\"%d\\n\", sum); // Output: 30\n    return 0;\n}",
+          "common_mistakes": [
+            "Using a keyword as a variable name (e.g., int int = 5 — compile error)",
+            "Thinking identifiers are case-insensitive (sum ≠ Sum ≠ SUM in C)"
+          ]
+        },
+        {
+          "name": "I/O in C",
+          "keywords": [
+            "input",
+            "output",
+            "scanf",
+            "printf",
+            "escape sequences",
+            "format specifiers"
+          ],
+          "nature": "practical",
+          "subtopics": [
+            "Escape sequences in C",
+            "Input/Output in C",
+            "Format specifiers in printf()"
+          ],
+          "required_content": [
+            "printf() for output, scanf() for input — both use format specifiers",
+            "Format specifiers: %d (int), %f (float), %c (char), %s (string), %lf (double)",
+            "Escape sequences: \\n (newline), \\t (tab), \\\\ (backslash), \\\" (double quote)"
+          ],
+          "required_code": "/* I/O in C */\n#include <stdio.h>\n\nint main() {\n    int age;\n    float salary;\n    char name[50];\n    \n    printf(\"Enter name: \");\n    scanf(\"%s\", name);\n    printf(\"Enter age: \");\n    scanf(\"%d\", &age);     // & = address-of operator\n    printf(\"Enter salary: \");\n    scanf(\"%f\", &salary);\n    \n    printf(\"Name: %s\\n\", name);\n    printf(\"Age: %d\\tSalary: %.2f\\n\", age, salary);\n    return 0;\n}",
+          "required_tables": [
+            "Table: Format Specifier | Data Type | Example || %d | int | printf(\"%d\", 42) → 42 || %f | float | printf(\"%f\", 3.14) → 3.140000 || %lf | double | printf(\"%lf\", 3.14) || %c | char | printf(\"%c\", 'A') → A || %s | string | printf(\"%s\", \"Hi\") → Hi || %p | pointer | printf(\"%p\", &x)"
+          ],
+          "common_mistakes": [
+            "Forgetting & before variable name in scanf() for primitive types",
+            "Using %d for float — causes garbage output"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Data Types",
+      "topics": [
+        {
+          "name": "Data Types in C",
+          "keywords": [
+            "data types",
+            "primitive",
+            "non-primitive",
+            "need for data types"
+          ],
+          "nature": "theoretical",
+          "subtopics": [
+            "Need for Data Types in a Programming Language",
+            "Primitive vs Non-Primitive Data Types"
+          ],
+          "required_content": [
+            "Data types tell the compiler: how much memory to allocate and how to interpret the bits",
+            "Primitive: int, float, double, char, _Bool. Non-primitive: arrays, pointers, structs, unions"
+          ],
+          "required_diagrams": [
+            "Data types classification tree: root 'C Data Types' → branches 'Primitive' (int, float, double, char, _Bool) and 'Derived' (array, pointer, function) and 'User-defined' (struct, union, enum). Tree diagram with labeled nodes."
+          ],
+          "required_tables": [],
+          "no_code": true,
+          "common_mistakes": []
+        },
+        {
+          "name": "Integer Data Types",
+          "keywords": [
+            "integer",
+            "int",
+            "short",
+            "long",
+            "signed",
+            "unsigned",
+            "suffix",
+            "prefix",
+            "base-2",
+            "binary storage"
+          ],
+          "nature": "mixed",
+          "subtopics": [
+            "Integer Data Types",
+            "Size Qualifiers: short, int, long, long long",
+            "Sign Qualifiers: signed & unsigned",
+            "How integer data is stored in Memory using Base-2 format",
+            "Different Suffixes associated with Integer Literals",
+            "Prefixes associated with Integer Literals",
+            "Format specifiers for printing in different number systems"
+          ],
+          "required_content": [
+            "short (2 bytes), int (4 bytes), long (4/8 bytes), long long (8 bytes)",
+            "signed range: -2^(n-1) to 2^(n-1)-1. unsigned range: 0 to 2^n - 1",
+            "Binary storage: MSB is sign bit for signed types. Two's complement for negatives"
+          ],
+          "required_code": "/* Integer Data Types in C */\n#include <stdio.h>\n#include <limits.h>\n\nint main() {\n    short s = 32767;       // 2 bytes\n    int i = 2147483647;    // 4 bytes (INT_MAX)\n    long l = 2147483647L;  // suffix L\n    long long ll = 9223372036854775807LL; // suffix LL\n    unsigned int u = 4294967295U; // suffix U\n    \n    int hex = 0xFF;   // prefix 0x = hexadecimal (255)\n    int oct = 0777;   // prefix 0  = octal (511)\n    int bin = 0b1010; // prefix 0b = binary (C23, GCC ext)\n    \n    printf(\"short: %d\\nint: %d\\nlong: %ld\\n\", s, i, l);\n    printf(\"hex: %d, oct: %o, hex-print: %x\\n\", hex, oct, hex);\n    return 0;\n}",
+          "required_tables": [
+            "Table: Data Type | Size (bytes) | Signed Range | Unsigned Range || short | 2 | -32768 to 32767 | 0 to 65535 || int | 4 | -2^31 to 2^31-1 | 0 to 2^32-1 || long | 4/8 | platform-dependent | platform-dependent || long long | 8 | -2^63 to 2^63-1 | 0 to 2^64-1"
+          ],
+          "common_mistakes": [
+            "Assuming int is always 4 bytes — it's platform-dependent",
+            "Integer overflow wraps around silently — no exception in C"
+          ]
+        },
+        {
+          "name": "Floating-point Data Types",
+          "keywords": [
+            "float",
+            "double",
+            "long double",
+            "ieee-754",
+            "precision",
+            "range",
+            "real numbers"
+          ],
+          "nature": "mixed",
+          "subtopics": [
+            "Floating-Point Data Types — float & double",
+            "How real numbers are stored in Memory using IEEE-754 format",
+            "Precision & Range of floating-point data types",
+            "Need for long double Data Type",
+            "Different ways of expressing floating-point literals",
+            "Default nature of real numbers"
+          ],
+          "required_content": [
+            "float: 4 bytes, 6-7 decimal digits precision. double: 8 bytes, 15-16 digits precision",
+            "IEEE-754 format: 1 sign bit + 8 exponent bits + 23 mantissa bits (for float)",
+            "Default floating literal is double — use f suffix for float: 3.14f"
+          ],
+          "required_code": "/* Floating-Point Data Types */\n#include <stdio.h>\n\nint main() {\n    float  f  = 3.14f;         // f suffix = float literal\n    double d  = 3.14159265358979; // default is double\n    long double ld = 3.14159265358979323L; // L suffix\n    \n    printf(\"float:       %.7f\\n\", f);   // precision limit visible\n    printf(\"double:      %.15f\\n\", d);\n    printf(\"long double: %.19Lf\\n\", ld);\n    \n    // Scientific notation\n    double sci = 1.5e4;   // 1.5 x 10^4 = 15000\n    double neg = 2.5e-3;  // 2.5 x 10^-3 = 0.0025\n    printf(\"sci: %g, neg: %g\\n\", sci, neg);\n    return 0;\n}",
+          "required_tables": [
+            "Table: Type | Size | Precision (digits) | Range || float | 4 bytes | 6-7 | ±3.4e-38 to ±3.4e+38 || double | 8 bytes | 15-16 | ±1.7e-308 to ±1.7e+308 || long double | 12/16 bytes | 18-19 | ±3.4e-4932 to ±1.1e+4932"
+          ],
+          "common_mistakes": [
+            "Using == to compare floats — floating-point arithmetic is imprecise",
+            "Forgetting the f suffix: float x = 3.14 assigns a double to a float (implicit cast)"
+          ]
+        },
+        {
+          "name": "Character Data Type",
+          "keywords": [
+            "char",
+            "ascii",
+            "character",
+            "signed unsigned char",
+            "getchar",
+            "scanf char"
+          ],
+          "nature": "mixed",
+          "subtopics": [
+            "Character Data Type — char",
+            "ASCII Encoding Format",
+            "Different ways of initializing char variables",
+            "signed vs unsigned qualifiers with char data type",
+            "Different ways of scanning character input — scanf() vs getchar()"
+          ],
+          "required_content": [
+            "char is 1 byte. Stores ASCII code (0-127 standard, 0-255 extended)",
+            "ASCII: 'A'=65, 'a'=97, '0'=48. Arithmetic on chars is valid in C",
+            "signed char: -128 to 127. unsigned char: 0 to 255"
+          ],
+          "required_code": "/* Character Data Type in C */\n#include <stdio.h>\n\nint main() {\n    char c1 = 'A';       // character literal\n    char c2 = 65;        // same as 'A' (ASCII value)\n    char c3 = '\\n';      // escape sequence\n    \n    printf(\"%c = %d\\n\", c1, c1); // A = 65\n    printf(\"%c = %d\\n\", c2, c2); // A = 65\n    \n    // Arithmetic on chars\n    char lower = c1 + 32; // 'A' + 32 = 'a'\n    printf(\"%c\\n\", lower); // a\n    \n    // Input methods\n    char input;\n    scanf(\" %c\", &input);  // space before %c skips whitespace\n    char input2 = getchar(); // reads single character\n    return 0;\n}",
+          "required_tables": [
+            "Table: Character | ASCII Value | Category || '0'-'9' | 48-57 | Digits || 'A'-'Z' | 65-90 | Uppercase || 'a'-'z' | 97-122 | Lowercase || ' ' | 32 | Space || '\\n' | 10 | Newline || '\\0' | 0 | Null terminator"
+          ],
+          "common_mistakes": [
+            "Using scanf(\"%c\", &c) without leading space — reads leftover newline from previous input",
+            "Confusing '5' (char, ASCII 53) with 5 (integer)"
+          ]
+        },
+        {
+          "name": "Type Casting in C",
+          "keywords": [
+            "type casting",
+            "implicit",
+            "explicit",
+            "type conversion",
+            "truncation",
+            "wraparound",
+            "overflow"
+          ],
+          "nature": "practical",
+          "subtopics": [
+            "Type casting in C",
+            "2 ways — Implicit & Explicit type casting",
+            "Programs on Type Conversion: char & _Bool",
+            "Wraparound Behavior of Data Types (Overflow)",
+            "Truncation/Rounding towards Zero",
+            "Strongly-typed vs Weakly-typed | Statically-typed vs Dynamically-typed"
+          ],
+          "required_content": [
+            "Implicit: compiler automatically promotes lower type to higher (int → float)",
+            "Explicit: programmer uses (type) cast operator — (int)3.9 gives 3, not 4 (truncation)",
+            "Overflow wraps around: INT_MAX + 1 wraps to INT_MIN (undefined behaviour technically)"
+          ],
+          "required_code": "/* Type Casting in C */\n#include <stdio.h>\n\nint main() {\n    // Implicit casting (promotion)\n    int i = 10;\n    float f = i;       // int → float automatically\n    printf(\"%f\\n\", f); // 10.000000\n    \n    // Explicit casting (truncation NOT rounding)\n    float pi = 3.99;\n    int trunc = (int)pi;  // 3, NOT 4\n    printf(\"%d\\n\", trunc); // 3\n    \n    // Integer division vs float division\n    printf(\"%d\\n\", 7/2);         // 3 (integer division)\n    printf(\"%f\\n\", 7/(float)2);  // 3.500000\n    \n    // Overflow wraparound\n    unsigned char uc = 255;\n    uc = uc + 1;  // wraps to 0\n    printf(\"%d\\n\", uc); // 0\n    return 0;\n}",
+          "required_tables": [
+            "Comparison: Aspect | Implicit Casting | Explicit Casting || Triggered by | Compiler automatically | Programmer using (type) || Direction | Lower → Higher type | Any direction || Risk | None (safe widening) | Data loss possible || Example | int x=5; float f=x; | int i=(int)3.9;"
+          ],
+          "common_mistakes": [
+            "Expecting (int)3.9 to give 4 — C truncates towards zero, does NOT round",
+            "Integer division: 7/2 = 3, not 3.5 — both operands must be float for float result"
+          ]
+        },
+        {
+          "name": "Operators in C",
+          "keywords": [
+            "operators",
+            "increment",
+            "decrement",
+            "pre",
+            "post",
+            "bitwise",
+            "shift",
+            "precedence",
+            "associativity",
+            "assignment"
+          ],
+          "nature": "practical",
+          "subtopics": [
+            "Unary Operators: Incrementation/Decrementation",
+            "Pre vs Post Increment/Decrement",
+            "Behavior of Pre & Post in C",
+            "Mathematical Assignment Operators",
+            "Bitwise Operators — AND, OR, XOR, NOT",
+            "Bitwise Shift Operators — Left Shift (<<), Right Shift (>>)",
+            "Problems on Bitwise Operators: Set/Unset/Flip/Check ith bit",
+            "Associativity and Precedence of Operators"
+          ],
+          "required_content": [
+            "Pre-increment (++i): increment first, then use. Post-increment (i++): use first, then increment",
+            "Bitwise AND (&), OR (|), XOR (^), NOT (~) operate on individual bits",
+            "Left shift (<<n) = multiply by 2^n. Right shift (>>n) = divide by 2^n"
+          ],
+          "required_code": "/* Operators in C */\n#include <stdio.h>\n\nint main() {\n    // Pre vs Post increment\n    int a = 5;\n    printf(\"%d\\n\", ++a); // 6 (increment then print)\n    printf(\"%d\\n\", a++); // 6 (print then increment)\n    printf(\"%d\\n\", a);   // 7\n    \n    // Bitwise operators\n    int x = 0b1010; // 10\n    int y = 0b1100; // 12\n    printf(\"AND: %d\\n\", x & y);  // 0b1000 = 8\n    printf(\"OR:  %d\\n\", x | y);  // 0b1110 = 14\n    printf(\"XOR: %d\\n\", x ^ y);  // 0b0110 = 6\n    printf(\"NOT: %d\\n\", ~x);     // -11 (two's complement)\n    \n    // Bit manipulation\n    int n = 5;          // 0b0101\n    int i = 1;\n    n = n | (1 << i);   // Set bit i:   0b0111 = 7\n    n = n & ~(1 << i);  // Unset bit i: 0b0101 = 5\n    n = n ^ (1 << i);   // Flip bit i:  0b0111 = 7\n    int check = (n >> i) & 1; // Check bit i: 1 or 0\n    printf(\"check: %d\\n\", check);\n    return 0;\n}",
+          "required_tables": [
+            "Table: Operator | Type | Example | Result || ++ (pre) | Unary | ++a (a=5) | a becomes 6, returns 6 || ++ (post) | Unary | a++ (a=5) | returns 5, a becomes 6 || & | Bitwise AND | 5 & 3 | 1 (0101 & 0011) || | | Bitwise OR | 5 | 3 | 7 (0101 | 0011) || ^ | Bitwise XOR | 5 ^ 3 | 6 (0101 ^ 0011) || << | Left Shift | 2 << 3 | 16 (multiply by 8)"
+          ],
+          "common_mistakes": [
+            "Confusing & (bitwise AND) with && (logical AND)",
+            "Post-increment in expressions: int b = a++ + a++ is undefined behaviour in C"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Control Constructs",
+      "topics": [
+        {
+          "name": "Control Constructs in C",
+          "keywords": [
+            "control constructs",
+            "if",
+            "else",
+            "if-else",
+            "ternary",
+            "switch",
+            "conditional",
+            "relational operators",
+            "logical operators"
+          ],
+          "nature": "practical",
+          "subtopics": [
+            "3 Categories of Control Constructs",
+            "if statement — 3 examples",
+            "Relational Operators",
+            "if-else statement — 3 examples",
+            "Ternary Operator in C",
+            "Comma Operator in C",
+            "if-else-if statement — 3 examples",
+            "Nested-if statement — 3 examples",
+            "Logical Operators — &&, ||, !",
+            "Short-circuit Operators — && vs & and || vs |",
+            "switch-statement — 3 examples",
+            "Important conclusions on conditional statements"
+          ],
+          "required_content": [
+            "3 categories: Conditional (if/switch), Iterative (for/while/do-while), Jump (break/continue/goto/return)",
+            "Ternary: condition ? expr_if_true : expr_if_false — compact if-else",
+            "Short-circuit: && stops at first false, || stops at first true"
+          ],
+          "required_code": "/* Control Constructs in C */\n#include <stdio.h>\n\nint main() {\n    int marks = 75;\n    \n    // if-else-if ladder\n    if (marks >= 90)       printf(\"Grade: A+\\n\");\n    else if (marks >= 75)  printf(\"Grade: A\\n\");   // prints this\n    else if (marks >= 60)  printf(\"Grade: B\\n\");\n    else                   printf(\"Grade: F\\n\");\n    \n    // Ternary operator\n    char *result = (marks >= 40) ? \"Pass\" : \"Fail\";\n    printf(\"%s\\n\", result); // Pass\n    \n    // Switch statement\n    int day = 3;\n    switch(day) {\n        case 1: printf(\"Monday\\n\");    break;\n        case 2: printf(\"Tuesday\\n\");   break;\n        case 3: printf(\"Wednesday\\n\"); break; // prints this\n        default: printf(\"Weekend\\n\");\n    }\n    return 0;\n}",
+          "required_tables": [
+            "Comparison: Feature | if-else | switch || Expression type | Any boolean | Integer/char/enum || Multiple conditions | if-else-if chain | Multiple case labels || Range check | ✓ Possible | ✗ Not directly || Fall-through | ✗ N/A | ✓ Without break || Readability | Better for ranges | Better for discrete values"
+          ],
+          "common_mistakes": [
+            "Forgetting break in switch — causes fall-through to next case",
+            "Using = instead of == in conditions: if(x = 5) always true (assigns 5)"
+          ]
+        },
+        {
+          "name": "Loops in C",
+          "keywords": [
+            "loops",
+            "for",
+            "while",
+            "do-while",
+            "pattern printing",
+            "infinite loop",
+            "loop variable",
+            "iteration"
+          ],
+          "nature": "practical",
+          "subtopics": [
+            "Loops in C — for, while, do-while",
+            "Common example to demonstrate all 3 loops",
+            "Simple programs on Loops",
+            "Pattern Printing — Star, Number, Character Patterns",
+            "Important conclusions on Looping statements"
+          ],
+          "required_content": [
+            "for: when iteration count is known. while: when condition-driven. do-while: executes at least once",
+            "Loop components: initialization, condition, update",
+            "Nested loops for pattern printing — outer loop = rows, inner loop = columns"
+          ],
+          "required_code": "/* Loops in C — All 3 types */\n#include <stdio.h>\n\nint main() {\n    // for loop — print 1 to 5\n    for (int i = 1; i <= 5; i++)\n        printf(\"%d \", i);   // 1 2 3 4 5\n    printf(\"\\n\");\n    \n    // while loop — same output\n    int i = 1;\n    while (i <= 5) {\n        printf(\"%d \", i++);\n    }\n    printf(\"\\n\");\n    \n    // do-while — executes at least once\n    int j = 10;\n    do {\n        printf(\"%d\\n\", j); // prints 10 even though condition false after\n    } while (j < 5);\n    \n    // Star pattern (right triangle)\n    for (int r = 1; r <= 4; r++) {\n        for (int c = 1; c <= r; c++)\n            printf(\"* \");\n        printf(\"\\n\");\n    }\n    return 0;\n}",
+          "required_tables": [
+            "Comparison: Feature | for | while | do-while || Use case | Known iterations | Unknown, condition-based | Execute at least once || Entry/Exit | Entry-controlled | Entry-controlled | Exit-controlled || Syntax | for(init;cond;update) | while(cond) | do{...}while(cond) || Min executions | 0 | 0 | 1"
+          ],
+          "common_mistakes": [
+            "Off-by-one error: using < vs <= in loop condition",
+            "Infinite loop: forgetting to update loop variable inside while body"
+          ]
+        },
+        {
+          "name": "Jump Statements in C",
+          "keywords": [
+            "jump",
+            "break",
+            "continue",
+            "goto",
+            "return"
+          ],
+          "nature": "practical",
+          "subtopics": [
+            "break statement",
+            "continue statement",
+            "goto statement",
+            "return statement"
+          ],
+          "required_content": [
+            "break: exits the innermost loop or switch immediately",
+            "continue: skips current iteration, moves to next",
+            "goto: unconditional jump to a label — generally avoided in structured programming"
+          ],
+          "required_code": "/* Jump Statements in C */\n#include <stdio.h>\n\nint main() {\n    // break — exit loop early\n    for (int i = 1; i <= 10; i++) {\n        if (i == 5) break;\n        printf(\"%d \", i);   // 1 2 3 4\n    }\n    printf(\"\\n\");\n    \n    // continue — skip iteration\n    for (int i = 1; i <= 10; i++) {\n        if (i % 2 == 0) continue; // skip even numbers\n        printf(\"%d \", i);  // 1 3 5 7 9\n    }\n    printf(\"\\n\");\n    \n    // goto (use sparingly)\n    int x = 0;\n    loop:\n        printf(\"%d \", x++);\n        if (x < 5) goto loop;   // 0 1 2 3 4\n    printf(\"\\n\");\n    \n    return 0; // exits main(), returns 0 to OS\n}",
+          "required_tables": [],
+          "common_mistakes": [
+            "Using break inside nested loops — only exits the innermost loop, not all loops",
+            "Goto creates spaghetti code — use structured alternatives"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Functions",
+      "topics": [
+        {
+          "name": "Memory Management in C",
+          "keywords": [
+            "memory segments",
+            "stack",
+            "heap",
+            "code segment",
+            "data segment",
+            "bss"
+          ],
+          "nature": "theoretical",
+          "subtopics": [
+            "Memory Management in C",
+            "Different memory segments allocated for C program"
+          ],
+          "required_content": [
+            "A C program's memory is divided into: Code/Text, Data (initialized globals), BSS (uninitialized globals), Heap (dynamic), Stack (local vars + function calls)",
+            "Stack grows downward (LIFO), Heap grows upward (manual management)"
+          ],
+          "required_diagrams": [
+            "C program memory layout diagram (vertical rectangle representing RAM): Stack (top, grows downward) | ↕ Free Memory ↕ | Heap (grows upward) | BSS (uninitialized globals) | Data Segment (initialized globals) | Text/Code Segment (bottom). Clearly labeled sections with arrows showing growth direction."
+          ],
+          "required_tables": [],
+          "no_code": true,
+          "common_mistakes": [
+            "Confusing stack overflow (too deep recursion) with buffer overflow",
+            "Thinking global variables go on the stack — they go in Data/BSS segment"
+          ]
+        },
+        {
+          "name": "Functions in C",
+          "keywords": [
+            "functions",
+            "pass by value",
+            "pass by address",
+            "recursion",
+            "local",
+            "global",
+            "static",
+            "extern",
+            "register"
+          ],
+          "nature": "practical",
+          "subtopics": [
+            "Need for Functions",
+            "Syntax of Functions",
+            "4 Types of Functions",
+            "Pass-by-value",
+            "Pass-by-address",
+            "Recursion in C",
+            "Types of Variables — Local, Global, Static, Extern, Register"
+          ],
+          "required_content": [
+            "4 types: void→void (no param, no return), void→return, param→void, param→return",
+            "Pass-by-value: copy of variable passed — changes don't affect original",
+            "Pass-by-address: address passed via pointer — changes affect original"
+          ],
+          "required_code": "/* Functions in C — Pass by Value vs Address */\n#include <stdio.h>\n\n// Pass by VALUE — original unchanged\nvoid doubleByValue(int x) {\n    x = x * 2;  // only local copy changes\n}\n\n// Pass by ADDRESS — original changes\nvoid doubleByAddress(int *x) {\n    *x = *x * 2;  // dereference and modify original\n}\n\n// Recursion — factorial\nint factorial(int n) {\n    if (n == 0) return 1;         // base case\n    return n * factorial(n - 1);  // recursive case\n}\n\nint main() {\n    int a = 5;\n    doubleByValue(a);\n    printf(\"%d\\n\", a);   // 5 (unchanged)\n    \n    doubleByAddress(&a);\n    printf(\"%d\\n\", a);   // 10 (changed!)\n    \n    printf(\"%d\\n\", factorial(5)); // 120\n    return 0;\n}",
+          "required_tables": [
+            "Comparison: Variable Type | Scope | Lifetime | Storage || Local | Inside function | Function execution | Stack || Global | Entire program | Program lifetime | Data segment || Static (local) | Inside function | Program lifetime | Data segment || Extern | Across files | Program lifetime | Data segment || Register | Inside function | Function execution | CPU register (hint)"
+          ],
+          "common_mistakes": [
+            "Expecting pass-by-value to modify the original variable",
+            "Forgetting base case in recursion — causes stack overflow"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Arrays",
+      "topics": [
+        {
+          "name": "Arrays in C",
+          "keywords": [
+            "array",
+            "1d",
+            "2d",
+            "3d",
+            "4d",
+            "jagged",
+            "memory map",
+            "syntax"
+          ],
+          "nature": "practical",
+          "subtopics": [
+            "Need for Arrays in Programming",
+            "Syntax of Arrays",
+            "Types of Arrays — 1D, 2D, 3D, 4D",
+            "Memory Map for 1D, 2D, 3D, 4D Arrays",
+            "Jagged Arrays in C",
+            "Programming with Arrays (3 sessions)",
+            "Disadvantages of Arrays"
+          ],
+          "required_content": [
+            "Array: contiguous block of memory storing same-type elements, accessed by index (0-based)",
+            "2D array stored row-major in memory: a[0][0], a[0][1], a[1][0], a[1][1]...",
+            "Jagged arrays: array of pointers, each pointing to arrays of different lengths"
+          ],
+          "required_code": "/* Arrays in C */\n#include <stdio.h>\n\nint main() {\n    // 1D array\n    int arr[5] = {10, 20, 30, 40, 50};\n    printf(\"%d\\n\", arr[2]);  // 30\n    \n    // 2D array (3x3 matrix)\n    int mat[3][3] = {\n        {1, 2, 3},\n        {4, 5, 6},\n        {7, 8, 9}\n    };\n    // Print matrix\n    for (int r = 0; r < 3; r++) {\n        for (int c = 0; c < 3; c++)\n            printf(\"%d \", mat[r][c]);\n        printf(\"\\n\");\n    }\n    \n    // Jagged array (array of pointers)\n    int a[] = {1, 2};\n    int b[] = {3, 4, 5};\n    int *jagged[] = {a, b};  // rows of different lengths\n    printf(\"%d\\n\", jagged[1][2]);  // 5\n    return 0;\n}",
+          "required_diagrams": [
+            "Memory map diagram for 2D array int a[2][3]: Show 6 contiguous memory boxes labeled a[0][0], a[0][1], a[0][2], a[1][0], a[1][1], a[1][2] with sequential addresses (e.g. 1000, 1004, 1008...). Show logical 2D grid on left and linear memory layout on right."
+          ],
+          "required_tables": [],
+          "common_mistakes": [
+            "Array index out of bounds — C does not check bounds, causes undefined behaviour",
+            "Confusing array name (pointer to first element) with the array itself"
+          ]
+        },
+        {
+          "name": "Pointers in C",
+          "keywords": [
+            "pointer",
+            "address",
+            "dereference",
+            "pointer arithmetic",
+            "dynamic memory",
+            "malloc",
+            "calloc",
+            "realloc",
+            "free"
+          ],
+          "nature": "practical",
+          "subtopics": [
+            "Pointers in C",
+            "Pointer Arithmetic",
+            "Dynamic Memory Allocation — malloc(), calloc(), realloc(), free()"
+          ],
+          "required_content": [
+            "Pointer stores the memory address of another variable. Declared as: type *ptr;",
+            "& = address-of operator. * = dereference operator (get value at address)",
+            "malloc(n*sizeof(type)) allocates n bytes on heap — returns void*, must cast"
+          ],
+          "required_code": "/* Pointers and Dynamic Memory */\n#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    int x = 42;\n    int *ptr = &x;       // ptr stores address of x\n    \n    printf(\"Value: %d\\n\", *ptr);    // 42 (dereference)\n    printf(\"Address: %p\\n\", ptr);   // memory address\n    \n    *ptr = 100;          // changes x through pointer\n    printf(\"%d\\n\", x);  // 100\n    \n    // Pointer arithmetic\n    int arr[] = {10, 20, 30};\n    int *p = arr;        // points to arr[0]\n    printf(\"%d\\n\", *(p+1)); // 20 (arr[1])\n    printf(\"%d\\n\", *(p+2)); // 30 (arr[2])\n    \n    // Dynamic Memory Allocation\n    int n = 5;\n    int *dyn = (int*)malloc(n * sizeof(int));\n    if (dyn == NULL) { printf(\"Alloc failed\\n\"); return 1; }\n    for (int i = 0; i < n; i++) dyn[i] = i * 10;\n    for (int i = 0; i < n; i++) printf(\"%d \", dyn[i]);\n    // Output: 0 10 20 30 40\n    free(dyn);  // ALWAYS free heap memory\n    return 0;\n}",
+          "required_diagrams": [
+            "Pointer diagram: Two memory boxes — box labeled 'x' at address 1000 containing value 42, and box labeled 'ptr' at address 2000 containing value 1000 (the address of x). Arrow from ptr box pointing to x box. Label the arrow 'points to'."
+          ],
+          "required_tables": [
+            "Table: Function | Purpose | Returns || malloc(size) | Allocates size bytes, uninitialized | void* or NULL || calloc(n, size) | Allocates n*size bytes, zero-initialized | void* or NULL || realloc(ptr, size) | Resize previously allocated block | void* or NULL || free(ptr) | Releases allocated memory | void"
+          ],
+          "common_mistakes": [
+            "Forgetting to free() heap memory — causes memory leak",
+            "Dereferencing NULL pointer — causes segmentation fault (program crash)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Strings",
+      "topics": [
+        {
+          "name": "Strings in C",
+          "keywords": [
+            "string",
+            "char array",
+            "string.h",
+            "null terminator",
+            "gets",
+            "puts",
+            "strlen",
+            "strcpy",
+            "strcmp",
+            "strcat"
+          ],
+          "nature": "practical",
+          "subtopics": [
+            "Strings in C — Different ways of handling strings",
+            "Application of string.h header",
+            "Programming with Strings (3 sessions)"
+          ],
+          "required_content": [
+            "C has no built-in string type — strings are char arrays terminated by null character '\\0'",
+            "String literal \"hello\" stored as {'h','e','l','l','o','\\0'} — 6 bytes, not 5",
+            "string.h provides: strlen(), strcpy(), strcmp(), strcat(), strstr(), strtok()"
+          ],
+          "required_code": "/* Strings in C */\n#include <stdio.h>\n#include <string.h>\n\nint main() {\n    // 3 ways to declare strings\n    char s1[] = \"Hello\";          // array (modifiable)\n    char *s2 = \"World\";           // string literal (read-only)\n    char s3[10];\n    \n    // String functions\n    printf(\"%lu\\n\", strlen(s1));     // 5 (not counting \\0)\n    strcpy(s3, s1);                  // copy s1 into s3\n    strcat(s3, \" World\");            // s3 = \"Hello World\"\n    printf(\"%s\\n\", s3);             // Hello World\n    printf(\"%d\\n\", strcmp(s1,\"Hello\")); // 0 (equal)\n    \n    // Manual string traversal\n    for (int i = 0; s1[i] != '\\0'; i++)\n        printf(\"%c\", s1[i]);\n    printf(\"\\n\");\n    return 0;\n}",
+          "required_tables": [
+            "Table: Function | Header | Purpose | Example || strlen(s) | string.h | Length (excl \\0) | strlen(\"Hi\")=2 || strcpy(d,s) | string.h | Copy s into d | strcpy(dest, src) || strcat(d,s) | string.h | Append s to d | strcat(s1, s2) || strcmp(a,b) | string.h | Compare: 0 if equal | strcmp(\"a\",\"a\")=0 || strstr(s,sub) | string.h | Find substring | strstr(\"hello\",\"ell\")"
+          ],
+          "common_mistakes": [
+            "Using == to compare strings — compares pointers, not content. Use strcmp()",
+            "Buffer overflow: strcpy() does not check destination size — use strncpy() instead"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Preprocessor Directives",
+      "topics": [
+        {
+          "name": "Preprocessor Directives in C",
+          "keywords": [
+            "preprocessor",
+            "#include",
+            "#define",
+            "#ifdef",
+            "#ifndef",
+            "macro",
+            "conditional compilation",
+            "typedef",
+            "const",
+            "volatile"
+          ],
+          "nature": "mixed",
+          "subtopics": [
+            "Header File Inclusion (#include)",
+            "Macro definition (#define)",
+            "Conditional compilation (#ifdef, #ifndef, #endif)",
+            "typedef keyword",
+            "const & volatile keyword"
+          ],
+          "required_content": [
+            "#define creates macros — text substitution before compilation, not a variable",
+            "Conditional compilation: #ifdef allows platform-specific or debug code blocks",
+            "typedef creates aliases: typedef unsigned long int ULONG; — improves readability"
+          ],
+          "required_code": "/* Preprocessor Directives in C */\n#include <stdio.h>\n\n#define PI 3.14159    // macro constant\n#define SQUARE(x) ((x)*(x))  // function-like macro\n#define DEBUG 1       // flag for conditional compilation\n\ntypedef unsigned long int ULONG;  // type alias\n\nint main() {\n    float area = PI * SQUARE(5);  // expands before compile\n    printf(\"Area: %.2f\\n\", area);  // 78.54\n    \n    ULONG big = 1000000UL;\n    printf(\"%lu\\n\", big);\n    \n    // Conditional compilation\n    #ifdef DEBUG\n        printf(\"[DEBUG] area = %f\\n\", area);\n    #endif\n    \n    const int MAX = 100;  // const: value cannot change\n    // MAX = 200;  // ERROR: assignment of read-only variable\n    return 0;\n}",
+          "required_tables": [
+            "Table: Directive | Purpose | Example || #include <file> | Include system header | #include <stdio.h> || #include \"file\" | Include local header | #include \"mylib.h\" || #define NAME val | Define macro constant | #define MAX 100 || #define F(x) expr | Function-like macro | #define SQ(x) (x*x) || #ifdef / #endif | Conditional compilation | #ifdef DEBUG...#endif || #undef | Remove macro definition | #undef MAX"
+          ],
+          "common_mistakes": [
+            "Adding semicolon after #define: #define PI 3.14; — expands to 3.14; causing syntax error",
+            "Missing parentheses in function-like macros: #define SQ(x) x*x → SQ(2+3) = 2+3*2+3 = 11, not 25"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "User-defined Data Types",
+      "topics": [
+        {
+          "name": "Structures in C",
+          "keywords": [
+            "struct",
+            "structure",
+            "member",
+            "dot operator",
+            "arrow operator",
+            "nested struct"
+          ],
+          "nature": "practical",
+          "subtopics": [
+            "Structures in C — definition, syntax, members",
+            "Accessing members with dot operator",
+            "Pointer to struct and arrow operator (->)"
+          ],
+          "required_content": [
+            "struct groups variables of different types under one name",
+            "Access members: struct_var.member. Via pointer: ptr->member (same as (*ptr).member)",
+            "Size of struct may include padding bytes for alignment"
+          ],
+          "required_code": "/* Structures in C */\n#include <stdio.h>\n#include <string.h>\n\n// Structure definition\nstruct Student {\n    int rollNo;\n    char name[50];\n    float gpa;\n};\n\nvoid printStudent(struct Student *s) {\n    printf(\"Roll: %d, Name: %s, GPA: %.2f\\n\",\n           s->rollNo, s->name, s->gpa);\n}\n\nint main() {\n    struct Student s1;\n    s1.rollNo = 101;\n    strcpy(s1.name, \"Alice\");\n    s1.gpa = 9.2;\n    \n    printStudent(&s1);  // Roll: 101, Name: Alice, GPA: 9.20\n    \n    printf(\"Size: %lu bytes\\n\", sizeof(struct Student)); // may include padding\n    return 0;\n}",
+          "required_tables": [
+            "Comparison: Feature | struct | union || Memory | Sum of all members | Size of largest member || Members active | All simultaneously | Only one at a time || Use case | Group related data | Memory-efficient variant storage || Example | Student {int,char,float} | Data {int i; float f;}"
+          ],
+          "common_mistakes": [
+            "Forgetting the semicolon after closing brace of struct definition",
+            "Using . operator with a struct pointer — must use -> or (*ptr).member"
+          ]
+        },
+        {
+          "name": "Unions and Enums in C",
+          "keywords": [
+            "union",
+            "enum",
+            "enumeration"
+          ],
+          "nature": "mixed",
+          "subtopics": [
+            "Unions in C — definition, memory sharing",
+            "enums in C — named integer constants"
+          ],
+          "required_content": [
+            "Union: all members share the same memory location — only one member valid at a time",
+            "enum assigns names to integer constants, starting from 0 by default",
+            "enum improves code readability: enum Direction {NORTH, SOUTH, EAST, WEST};"
+          ],
+          "required_code": "/* Unions and Enums in C */\n#include <stdio.h>\n\n// Union — shared memory\nunion Data {\n    int i;\n    float f;\n    char c;\n};\n\n// Enum — named constants\nenum Day { MON=1, TUE, WED, THU, FRI, SAT, SUN };\n\nint main() {\n    union Data d;\n    d.i = 65;\n    printf(\"int: %d\\n\", d.i);    // 65\n    printf(\"char: %c\\n\", d.c);   // A (same memory!)\n    \n    d.f = 3.14;  // now float is valid, i and c have garbage\n    printf(\"float: %.2f\\n\", d.f); // 3.14\n    \n    enum Day today = WED;\n    if (today == WED)\n        printf(\"Midweek!\\n\"); // prints this\n    printf(\"Day number: %d\\n\", today); // 3\n    return 0;\n}",
+          "required_tables": [],
+          "common_mistakes": [
+            "Reading a union member other than the last one written — undefined behaviour",
+            "Thinking enum values are strings — they are integers with names"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "I/O",
+      "topics": [
+        {
+          "name": "File Handling in C",
+          "keywords": [
+            "file",
+            "fopen",
+            "fclose",
+            "fread",
+            "fwrite",
+            "fprintf",
+            "fscanf",
+            "fgets",
+            "fputs",
+            "fseek",
+            "ftell"
+          ],
+          "nature": "practical",
+          "subtopics": [
+            "File Handling in C — opening, reading, writing, closing",
+            "File modes: r, w, a, rb, wb",
+            "Sequential and random file access"
+          ],
+          "required_content": [
+            "FILE *fp = fopen(\"file.txt\", \"r\") — returns NULL on failure",
+            "Always close files with fclose() to flush buffers and release resources",
+            "fseek(fp, offset, SEEK_SET/SEEK_CUR/SEEK_END) for random access"
+          ],
+          "required_code": "/* File Handling in C */\n#include <stdio.h>\n\nint main() {\n    // Writing to a file\n    FILE *fp = fopen(\"data.txt\", \"w\");\n    if (fp == NULL) {\n        printf(\"Error opening file\\n\");\n        return 1;\n    }\n    fprintf(fp, \"Name: Alice\\nMarks: 95\\n\");\n    fclose(fp);  // MUST close\n    \n    // Reading from a file\n    fp = fopen(\"data.txt\", \"r\");\n    char line[100];\n    while (fgets(line, sizeof(line), fp) != NULL)\n        printf(\"%s\", line);  // prints file contents\n    fclose(fp);\n    \n    return 0;\n}",
+          "required_tables": [
+            "Table: Mode | Meaning | File exists | File absent || r | Read only | Opens it | Returns NULL || w | Write only | Overwrites | Creates new || a | Append | Adds to end | Creates new || r+ | Read+Write | Opens it | Returns NULL || w+ | Read+Write | Overwrites | Creates new"
+          ],
+          "common_mistakes": [
+            "Not checking if fopen() returned NULL before using the file pointer",
+            "Forgetting fclose() — data may not be written (buffered I/O)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "C++",
+      "topics": [
+        {
+          "name": "C++ Fundamentals",
+          "keywords": [
+            "c++",
+            "namespace",
+            "cin",
+            "cout",
+            "endl",
+            "setw",
+            "setprecision",
+            "manipulators",
+            "stl",
+            "vector",
+            "stack",
+            "queue",
+            "map"
+          ],
+          "nature": "practical",
+          "subtopics": [
+            "C Header files vs C++ Header files",
+            "Input/Output in C++ — cin, cout",
+            "namespace in C++",
+            "Manipulators — endl, setw, setprecision",
+            "STL — Vector, List, Stack, Queue, Map"
+          ],
+          "required_content": [
+            "C++ uses <iostream> instead of <stdio.h>. cout << and cin >> replace printf/scanf",
+            "namespace std:: prevents name collisions. using namespace std; imports all std names",
+            "STL containers: vector (dynamic array), stack (LIFO), queue (FIFO), map (key-value)"
+          ],
+          "required_code": "/* C++ Fundamentals */\n#include <iostream>\n#include <iomanip>\n#include <vector>\n#include <stack>\n#include <map>\nusing namespace std;\n\nint main() {\n    // C++ I/O\n    int age;\n    cout << \"Enter age: \";\n    cin >> age;\n    cout << \"Age: \" << age << endl;\n    \n    // Manipulators\n    double pi = 3.14159;\n    cout << fixed << setprecision(2) << pi << endl; // 3.14\n    cout << setw(10) << \"Hello\" << endl;            //      Hello\n    \n    // STL Vector\n    vector<int> v = {10, 20, 30};\n    v.push_back(40);\n    for (int x : v) cout << x << \" \";  // 10 20 30 40\n    cout << endl;\n    \n    // STL Map\n    map<string, int> marks;\n    marks[\"Alice\"] = 95;\n    marks[\"Bob\"]   = 88;\n    cout << marks[\"Alice\"] << endl;  // 95\n    \n    return 0;\n}",
+          "required_tables": [
+            "Comparison: Feature | C | C++ || I/O | printf/scanf | cout/cin || Header | stdio.h | iostream || Namespace | N/A | std:: || OOP | No | Yes || String type | char array | std::string || Dynamic array | malloc/realloc | std::vector"
+          ],
+          "common_mistakes": [
+            "Forgetting using namespace std; and then getting 'cout was not declared' error",
+            "Mixing C-style printf with C++ cout — not wrong but inconsistent style"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1431 @@
+{
+  "subject": "python for data science",
+  "modules": [
+    {
+      "module": "Introduction to Python",
+      "topics": [
+        {
+          "name": "Why Python?",
+          "keywords": ["why python", "need for python", "advantages", "disadvantages", "python features"],
+          "nature": "theoretical",
+          "no_code": false,
+          "subtopics": [
+            "Need for Python",
+            "Advantages and Disadvantages"
+          ],
+          "subtopic_content": {
+            "Need for Python": [
+              "Python was created in 1991 by Guido van Rossum. The goal was simple: write code that reads like plain English, so programmers spend less time debugging syntax and more time solving problems.",
+              "Today Python powers data science (Pandas, NumPy), web development (Django, Flask), automation, AI, and machine learning. It is the #1 most popular language worldwide (TIOBE Index 2024).",
+              "Real-world use: Instagram backend runs on Python/Django. NASA uses Python for mission analysis. Google, YouTube, Netflix all use Python heavily."
+            ],
+            "Advantages and Disadvantages": [
+              "Advantages: easy to read and write (English-like syntax), huge library ecosystem (pip install anything), cross-platform (same code runs on Windows/Mac/Linux), large community support.",
+              "Disadvantages: slower than C/C++ (interpreted language), high memory usage (not ideal for embedded systems), Global Interpreter Lock (GIL) limits true multi-threading.",
+              "When to choose Python: data analysis, automation, rapid prototyping, machine learning. When NOT to choose: game engines needing raw speed, mobile apps, systems programming."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Feature | Python | C++ || Syntax | Simple, English-like | Complex, verbose || Speed | Slower (interpreted) | Faster (compiled) || Use case | Data science, AI, web | Systems, games, embedded || Learning curve | Easy | Steep || Community | Huge | Large"
+          ],
+          "common_mistakes": [
+            "Thinking Python is too slow for everything — Python is fast enough for 90% of applications. Speed matters only for compute-intensive tasks like game engines"
+          ]
+        },
+        {
+          "name": "Setting Up Python",
+          "keywords": ["install python", "compilation", "interpretation", "script mode", "interactive mode", "command line arguments", "ide", "idle", "vscode", "jupyter"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Downloading and Installing Python",
+            "Compilation vs Interpretation",
+            "Script Mode vs Interactive Mode",
+            "Command Line Arguments",
+            "Important IDEs for Python"
+          ],
+          "subtopic_content": {
+            "Downloading and Installing Python": [
+              "Download from python.org → choose latest stable version (3.x) → install with 'Add Python to PATH' checkbox ticked.",
+              "Verify installation: open terminal → type python --version → should show Python 3.x.x. pip comes bundled — use pip install package_name to add libraries."
+            ],
+            "Compilation vs Interpretation": [
+              "Compiled languages (C, C++): source code → compiler → machine code (exe) → runs directly on CPU. Fast execution but platform-specific.",
+              "Python is interpreted: source code (.py) → Python interpreter reads and executes line by line. Internally creates bytecode (.pyc) for efficiency. Slower but more flexible.",
+              "Python actually does both: source → bytecode (.pyc, stored in __pycache__) → Python Virtual Machine (PVM) executes bytecode. This is why Python is sometimes called 'interpreted'."
+            ],
+            "Script Mode vs Interactive Mode": [
+              "Interactive mode: type python in terminal → Python prompt (>>>) appears → type code and see result immediately. Great for testing small ideas.",
+              "Script mode: write code in .py file → run with python filename.py → entire file executes. Used for real programs. Jupyter Notebook combines both — cells run interactively."
+            ],
+            "Command Line Arguments": [
+              "Pass values to script when running it: python script.py Alice 25. Inside script, access via sys.argv — sys.argv[0] is script name, sys.argv[1] is 'Alice', sys.argv[2] is '25'.",
+              "import sys then use sys.argv list. Useful for automation scripts where you don't want to hardcode values."
+            ],
+            "Important IDEs for Python": [
+              "IDLE: comes bundled with Python, simple, good for beginners. VS Code: free, powerful, best for professional development (install Python extension).",
+              "PyCharm: dedicated Python IDE, excellent debugging and autocomplete. Jupyter Notebook: best for data science and learning — write code in cells, see output immediately."
+            ]
+          },
+          "required_code": "# Interactive mode — type in terminal\n# >>> 2 + 3\n# 5\n# >>> print('Hello')\n# Hello\n\n# Script mode — save as hello.py and run with: python hello.py\nprint('Hello, World!')\n\n# Command line arguments\nimport sys\nprint('Script name:', sys.argv[0])\nprint('First argument:', sys.argv[1])  # python script.py Alice\n# Output: First argument: Alice",
+          "common_mistakes": [
+            "Forgetting to tick 'Add Python to PATH' during installation — python command won't work in terminal without it",
+            "Confusing Python 2 and Python 3 — always use Python 3. Python 2 is dead (end of life 2020)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Python Basics",
+      "topics": [
+        {
+          "name": "Python Syntax and Tokens",
+          "keywords": ["keywords", "identifiers", "literals", "punctuators", "tokens", "syntax"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Keywords",
+            "Identifiers",
+            "Literals",
+            "Punctuators"
+          ],
+          "subtopic_content": {
+            "Keywords": [
+              "Keywords: reserved words with special meaning in Python. Cannot use as variable names. Examples: if, else, for, while, def, class, return, import, True, False, None, and, or, not.",
+              "Python has 35 keywords. Check all with: import keyword; print(keyword.kwlist). Case-sensitive — 'True' is a keyword, 'true' is not."
+            ],
+            "Identifiers": [
+              "Identifiers: names you give to variables, functions, classes. Rules: start with letter or underscore, can contain letters/digits/underscore, case-sensitive, cannot be a keyword.",
+              "Good naming: student_name (snake_case for variables), calculateArea (camelCase), MAX_SIZE (UPPER_CASE for constants). Bad: 1name (starts with digit), my-var (hyphen not allowed)."
+            ],
+            "Literals": [
+              "Literals: fixed values written directly in code. Types: Integer (42), Float (3.14), String ('hello'), Boolean (True/False), None (represents absence of value).",
+              "String literals: single quotes ('hello'), double quotes (\"hello\"), triple quotes ('''multi-line'''). All are valid. f-strings: f'Hello {name}' — embed expressions inside strings."
+            ],
+            "Punctuators": [
+              "Punctuators: special symbols with meaning. Colon (:) after if/for/def/class. Comma (,) separates items. Parentheses () for function calls/tuples. Square brackets [] for lists/indexing. Curly braces {} for dicts/sets.",
+              "Indentation is Python's block separator — NOT curly braces like C/Java. 4 spaces (or 1 tab) per level. Inconsistent indentation causes IndentationError."
+            ]
+          },
+          "required_code": "# Keywords example\nimport keyword\nprint(keyword.kwlist)  # shows all 35 keywords\n\n# Valid identifiers\nstudent_name = 'Alice'   # good\n_private_var = 10        # valid (leading underscore = convention for private)\nage2 = 25                # valid (digit not at start)\n\n# Literals\nx = 42           # integer literal\ny = 3.14         # float literal\nname = 'Python'  # string literal\nis_valid = True  # boolean literal\nresult = None    # None literal\n\n# f-string (most modern way)\nprint(f'Hello {name}, version {x}')  # Hello Python, version 42",
+          "common_mistakes": [
+            "Using keywords as variable names — if = 5 gives SyntaxError. Use descriptive names like condition or flag instead",
+            "Mixing tabs and spaces for indentation — Python 3 raises TabError. Always use spaces (4 per level)"
+          ]
+        },
+        {
+          "name": "Variables and Data Types",
+          "keywords": ["variables", "constants", "input", "output", "operators", "print", "input function"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Variables and Constants",
+            "Input and Output Operations",
+            "Operators in Python"
+          ],
+          "subtopic_content": {
+            "Variables and Constants": [
+              "Variable: a name that points to a value in memory. Python is dynamically typed — no need to declare type. x = 5 makes x point to integer 5.",
+              "Multiple assignment: x, y, z = 1, 2, 3. Swap without temp: x, y = y, x. Python has no true constants — convention is UPPER_CASE for values that shouldn't change: PI = 3.14159.",
+              "type() function tells you what a variable holds: type(42) → int, type(3.14) → float, type('hi') → str."
+            ],
+            "Input and Output Operations": [
+              "print(): outputs to screen. print('Hello') → Hello. print('a', 'b', sep='-') → a-b. print('Hello', end='') removes newline.",
+              "input(): reads user input as STRING always. age = input('Enter age: '). To use as number: age = int(input('Enter age: ')). Forgetting int() conversion is most common beginner error."
+            ],
+            "Operators in Python": [
+              "Arithmetic: + - * / // % **. Important: / always returns float (7/2 = 3.5). // is floor division (7//2 = 3). % is modulo/remainder (7%2 = 1). ** is power (2**8 = 256).",
+              "Comparison: == != > < >= <=. Returns True or False. Logical: and, or, not. Assignment: = += -= *= /=.",
+              "Walrus operator := (Python 3.8+): assigns and returns value in one step. if (n := len(data)) > 10: print(n). Useful in while loops."
+            ]
+          },
+          "required_code": "# Variables\nname = 'Alice'\nage = 20\ngpa = 8.5\nprint(type(name), type(age), type(gpa))  # str int float\n\n# Multiple assignment\nx, y = 10, 20\nx, y = y, x  # swap\nprint(x, y)  # 20 10\n\n# Input/Output\nname = input('Enter your name: ')      # always string\nage  = int(input('Enter your age: '))  # convert to int\nprint(f'Hello {name}, you are {age} years old')\n\n# Operators\nprint(7 / 2)   # 3.5  (true division)\nprint(7 // 2)  # 3    (floor division)\nprint(7 % 2)   # 1    (remainder)\nprint(2 ** 8)  # 256  (power)",
+          "common_mistakes": [
+            "Using = instead of == for comparison — if x = 5 is SyntaxError in Python (assignment not allowed in condition without walrus operator)",
+            "Forgetting to convert input() — age = input() + 1 gives TypeError because input returns string"
+          ]
+        },
+        {
+          "name": "Data Types",
+          "keywords": ["integer", "float", "complex", "string", "boolean", "list", "tuple", "set", "dictionary", "mutable", "immutable", "type casting"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Basic Data Types (Integer, Float, Complex, String, Boolean)",
+            "Advanced Data Types (List, Tuple, Set, Dictionary)",
+            "Mutable vs Immutable Types",
+            "Type Casting (Implicit and Explicit)"
+          ],
+          "subtopic_content": {
+            "Basic Data Types (Integer, Float, Complex, String, Boolean)": [
+              "int: whole numbers of any size — 42, -7, 0. Python integers have unlimited precision (no overflow).",
+              "float: decimal numbers — 3.14, -0.5. Stored as 64-bit floating point. Careful: 0.1 + 0.2 = 0.30000000000000004 (floating point imprecision).",
+              "complex: numbers with real and imaginary parts — 3+4j. bool: subclass of int — True=1, False=0. True+True = 2."
+            ],
+            "Advanced Data Types (List, Tuple, Set, Dictionary)": [
+              "List []: ordered, mutable, allows duplicates. fruits = ['apple', 'banana', 'apple']. Can change elements.",
+              "Tuple (): ordered, immutable, allows duplicates. point = (3, 4). Cannot change after creation — use for fixed data like coordinates.",
+              "Set {}: unordered, no duplicates, mutable. {1, 2, 3, 2} → {1, 2, 3}. Perfect for removing duplicates. Dict {key:value}: unordered (Python 3.7+ maintains insertion order), keys unique."
+            ],
+            "Mutable vs Immutable Types": [
+              "Immutable: once created, value cannot change. int, float, str, tuple, bool. When you do x = 5; x = 6, you're not changing 5, you're making x point to 6.",
+              "Mutable: can be modified in place. list, dict, set. If a = [1,2,3] and b = a, then b[0] = 99 also changes a — they point to same object. Use copy() to avoid this."
+            ],
+            "Type Casting (Implicit and Explicit)": [
+              "Implicit conversion: Python automatically converts when safe. int + float → float. 3 + 3.0 = 6.0. No data loss.",
+              "Explicit conversion: you manually convert using int(), float(), str(), list(), tuple(), set(). int('42') → 42. int(3.9) → 3 (truncates, not rounds). str(42) → '42'."
+            ]
+          },
+          "required_code": "# Basic types\nx = 42          # int\ny = 3.14        # float\nz = 3+4j        # complex\ns = 'hello'     # str\nb = True        # bool\n\n# Advanced types\nfruits = ['apple', 'banana', 'cherry']  # list — mutable\npoint  = (10, 20)                        # tuple — immutable\nunique = {1, 2, 3, 2, 1}                # set — no duplicates → {1,2,3}\nstudent = {'name': 'Alice', 'age': 20}  # dict\n\n# Mutability\nfruits[0] = 'mango'  # OK — list is mutable\n# point[0] = 5       # TypeError — tuple is immutable\n\n# Type casting\nprint(int('42'))     # 42\nprint(float('3.14')) # 3.14\nprint(str(100))      # '100'\nprint(int(3.9))      # 3 (not 4 — truncates!)",
+          "required_tables": [
+            "Comparison: Type | Example | Ordered | Mutable | Duplicates || List | [1,2,3] | Yes | Yes | Yes || Tuple | (1,2,3) | Yes | No | Yes || Set | {1,2,3} | No | Yes | No || Dict | {'a':1} | Yes(3.7+) | Yes | Keys: No"
+          ],
+          "common_mistakes": [
+            "int(3.9) gives 3, not 4 — int() truncates towards zero, it does NOT round. Use round() for rounding",
+            "Thinking a = b creates a copy for lists — both variables point to same list. Use b = a.copy() for independent copy"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Control Flow",
+      "topics": [
+        {
+          "name": "Understanding Flow Control",
+          "keywords": ["flowchart", "pseudocode", "algorithm", "flow control"],
+          "nature": "theoretical",
+          "no_code": false,
+          "subtopics": [
+            "Flowcharts",
+            "Pseudocode"
+          ],
+          "subtopic_content": {
+            "Flowcharts": [
+              "Flowchart: visual diagram showing step-by-step flow of a program. Symbols: oval (start/end), rectangle (process/action), diamond (decision/condition), arrow (flow direction).",
+              "Use flowcharts before coding to plan your logic. A flowchart for login: Start → Input username/password → Correct? → Yes: Go to dashboard / No: Show error → End."
+            ],
+            "Pseudocode": [
+              "Pseudocode: writing program logic in plain English, not actual code. No strict syntax — just describe what the program should do step by step.",
+              "Example pseudocode for finding max: START. Input num1, num2. IF num1 > num2 THEN print num1 ELSE print num2. END. Pseudocode helps think through logic before worrying about syntax."
+            ]
+          },
+          "required_diagrams": [
+            "Simple flowchart diagram: show a grade-checking flowchart. Start oval → Rectangle (Input marks) → Diamond (marks >= 60?) → Yes arrow to Rectangle (Print Pass) → No arrow to Rectangle (Print Fail) → both connect to End oval. Standard flowchart symbols, clean white background."
+          ],
+          "common_mistakes": [
+            "Skipping planning and directly writing code — always plan with flowchart/pseudocode for complex problems to avoid logical errors"
+          ]
+        },
+        {
+          "name": "Conditional Statements",
+          "keywords": ["if", "else", "elif", "conditional", "if else", "nested if"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "If, Else, Elif"
+          ],
+          "subtopic_content": {
+            "If, Else, Elif": [
+              "if: executes block only if condition is True. else: executes when if condition is False. elif: check another condition if previous ones were False.",
+              "Important: indentation defines the block — all lines indented under if belong to that if block. Colon (:) is mandatory after condition.",
+              "Ternary (one-line if-else): result = 'Pass' if marks >= 60 else 'Fail'. Useful for simple conditions — avoid for complex logic."
+            ]
+          },
+          "required_code": "marks = int(input('Enter marks: '))\n\n# if-elif-else\nif marks >= 90:\n    grade = 'A'\nelif marks >= 80:\n    grade = 'B'\nelif marks >= 60:\n    grade = 'C'\nelse:\n    grade = 'F'\n\nprint(f'Grade: {grade}')\n\n# Ternary (short if-else)\nstatus = 'Pass' if marks >= 60 else 'Fail'\nprint(status)\n\n# Nested if\nage = 20\nhas_id = True\nif age >= 18:\n    if has_id:\n        print('Entry allowed')\n    else:\n        print('Show ID')\nelse:\n    print('Too young')",
+          "common_mistakes": [
+            "Using = instead of == in condition — if x = 5 is SyntaxError. Always use == for comparison",
+            "Forgetting colon (:) after if/elif/else — causes SyntaxError"
+          ]
+        },
+        {
+          "name": "Loops in Python",
+          "keywords": ["for loop", "while loop", "nested loop", "range", "iteration"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "For Loop",
+            "While Loop",
+            "Nested Loops",
+            "Range Function"
+          ],
+          "subtopic_content": {
+            "For Loop": [
+              "for loop: iterates over a sequence (list, string, range, tuple). Loop variable takes each value one by one. Most used loop in Python.",
+              "for item in collection: body. Loop variable name is your choice. Loop runs once per item — automatically stops when sequence ends."
+            ],
+            "While Loop": [
+              "while loop: runs as long as condition is True. You control when it stops. Used when you don't know in advance how many times to loop.",
+              "Always make sure the condition eventually becomes False — otherwise infinite loop. while True: with break inside is a common pattern for menu-driven programs."
+            ],
+            "Nested Loops": [
+              "Nested loop: loop inside another loop. Outer loop runs N times; for each iteration, inner loop runs M times. Total iterations = N × M.",
+              "Common use: printing patterns, working with 2D data (matrices/tables). For 3 rows and 4 columns: outer for row in range(3), inner for col in range(4)."
+            ],
+            "Range Function": [
+              "range(stop): generates 0 to stop-1. range(5) → 0,1,2,3,4. range(start, stop): start to stop-1. range(2,6) → 2,3,4,5.",
+              "range(start, stop, step): range(0,10,2) → 0,2,4,6,8. Negative step for countdown: range(5,0,-1) → 5,4,3,2,1. range doesn't create a list — it generates numbers one by one (memory efficient)."
+            ]
+          },
+          "required_code": "# For loop with list\nfruits = ['apple', 'banana', 'cherry']\nfor fruit in fruits:\n    print(fruit)\n\n# For loop with range\nfor i in range(5):        # 0,1,2,3,4\n    print(i, end=' ')     # 0 1 2 3 4\n\n# While loop\ncount = 1\nwhile count <= 5:\n    print(count, end=' ')  # 1 2 3 4 5\n    count += 1             # MUST increment or infinite loop!\n\n# Nested loop — multiplication table\nfor i in range(1, 4):\n    for j in range(1, 4):\n        print(i * j, end='\\t')\n    print()  # new line after each row\n# 1  2  3\n# 2  4  6\n# 3  6  9",
+          "common_mistakes": [
+            "Forgetting to increment in while loop — while count <= 5: print(count) without count += 1 runs forever",
+            "range(5) gives 0-4, NOT 1-5 — common off-by-one error. Use range(1,6) for 1 to 5"
+          ]
+        },
+        {
+          "name": "Jump Statements",
+          "keywords": ["break", "continue", "pass", "jump statements"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Break",
+            "Continue",
+            "Pass"
+          ],
+          "subtopic_content": {
+            "Break": [
+              "break: immediately exits the loop, skipping remaining iterations. Used when you found what you were looking for.",
+              "Example: searching a list — once found, no need to check remaining items. break only exits the innermost loop it's in."
+            ],
+            "Continue": [
+              "continue: skips the rest of current iteration and jumps to next. Does NOT exit loop — continues with next item.",
+              "Example: skip even numbers, print only odd. or skip empty values in data processing."
+            ],
+            "Pass": [
+              "pass: does nothing — it's a placeholder. Used when Python syntax requires a statement but you have nothing to write yet.",
+              "Common uses: empty function body (def func(): pass), empty class (class MyClass: pass), empty if block during development. Without pass, empty blocks cause SyntaxError."
+            ]
+          },
+          "required_code": "# break — stop when found\nnumbers = [2, 4, 7, 8, 10]\nfor num in numbers:\n    if num % 2 != 0:  # odd number found\n        print(f'First odd number: {num}')  # 7\n        break\n\n# continue — skip specific items\nfor i in range(1, 11):\n    if i % 2 == 0:    # skip even numbers\n        continue\n    print(i, end=' ')  # 1 3 5 7 9\n\n# pass — placeholder\ndef future_feature():\n    pass  # will implement later\n\nfor i in range(5):\n    if i == 3:\n        pass  # TODO: handle this case\n    else:\n        print(i, end=' ')  # 0 1 2 4",
+          "common_mistakes": [
+            "Confusing break and continue — break EXITS loop, continue SKIPS current iteration and continues loop",
+            "Using pass thinking it's like a comment — pass is a statement that does nothing but satisfies Python's syntax requirement"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Functions",
+      "topics": [
+        {
+          "name": "Introduction to Functions",
+          "keywords": ["function", "what is function", "need for functions", "def", "return"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "What is a function?",
+            "Need for functions"
+          ],
+          "subtopic_content": {
+            "What is a function?": [
+              "Function: a named block of code that performs a specific task. Define once, call many times. Syntax: def function_name(parameters): body.",
+              "Two steps: define (write the function using def) and call (use the function by its name). Calling a function runs its code."
+            ],
+            "Need for functions": [
+              "Without functions: same code written 10 places = 10 places to fix when bug found. With functions: fix once, fixed everywhere.",
+              "Functions enable: code reuse (DRY — Don't Repeat Yourself), modularity (break big problem into small pieces), readability (function name explains what it does), easier testing."
+            ]
+          },
+          "required_code": "# Without function — repetitive\nprint('Welcome, Alice!')\nprint('Welcome, Bob!')\nprint('Welcome, Charlie!')\n\n# With function — reusable\ndef greet(name):\n    print(f'Welcome, {name}!')\n\ngreet('Alice')    # Welcome, Alice!\ngreet('Bob')      # Welcome, Bob!\ngreet('Charlie')  # Welcome, Charlie!\n\n# Function with return value\ndef square(n):\n    return n * n\n\nresult = square(5)\nprint(result)  # 25",
+          "common_mistakes": [
+            "Defining function but forgetting to call it — the def block only defines, you must write greet('Alice') to actually run it",
+            "Printing inside function instead of returning — prefer return so the caller can use the result however they want"
+          ]
+        },
+        {
+          "name": "Types of Functions",
+          "keywords": ["user defined function", "built in function", "lambda", "filter", "map", "reduce", "recursive function"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "User-Defined Functions",
+            "Built-in Functions",
+            "Lambda Functions (Filter, Reduce, Map)",
+            "Recursive Functions"
+          ],
+          "subtopic_content": {
+            "User-Defined Functions": [
+              "User-defined: functions you write yourself using def. Can have parameters (inputs) and return values (outputs). return exits function and sends value back.",
+              "If no return statement, function returns None automatically. Multiple return values: def min_max(lst): return min(lst), max(lst) → returns a tuple."
+            ],
+            "Built-in Functions": [
+              "Python has 68+ built-in functions — ready to use without importing anything. Common: print(), input(), len(), range(), type(), int(), str(), float(), list(), sum(), min(), max(), abs(), round(), sorted(), enumerate(), zip().",
+              "dir(__builtins__) shows all built-in names. help(function_name) shows documentation. These are optimized in C — faster than equivalent Python code."
+            ],
+            "Lambda Functions (Filter, Reduce, Map)": [
+              "Lambda: anonymous one-line function. Syntax: lambda parameters: expression. square = lambda x: x*x. Use when function is simple and used only once.",
+              "map(function, iterable): applies function to every item. list(map(lambda x: x*2, [1,2,3])) → [2,4,6].",
+              "filter(function, iterable): keeps items where function returns True. list(filter(lambda x: x>3, [1,2,3,4,5])) → [4,5].",
+              "reduce(function, iterable): combines all items into single value. from functools import reduce. reduce(lambda x,y: x+y, [1,2,3,4]) → 10 (1+2+3+4)."
+            ],
+            "Recursive Functions": [
+              "Recursive function: calls itself to solve a smaller version of the same problem. Must have: base case (stops recursion) and recursive case (calls itself with simpler input).",
+              "Factorial example: factorial(5) = 5 × factorial(4) = 5 × 4 × factorial(3) = ... = 5×4×3×2×1 = 120. Base case: factorial(0) = 1.",
+              "Python's default recursion limit is 1000 calls (sys.setrecursionlimit() to change). For large problems, iteration (loop) is usually better than recursion."
+            ]
+          },
+          "required_code": "# User-defined function\ndef calculate_area(length, width):\n    area = length * width\n    return area\n\nprint(calculate_area(5, 3))  # 15\n\n# Built-in functions\nnumbers = [3, 1, 4, 1, 5, 9]\nprint(len(numbers))    # 6\nprint(sum(numbers))    # 23\nprint(max(numbers))    # 9\nprint(sorted(numbers)) # [1,1,3,4,5,9]\n\n# Lambda with map, filter, reduce\nfrom functools import reduce\nnums = [1, 2, 3, 4, 5]\ndoubled  = list(map(lambda x: x*2, nums))      # [2,4,6,8,10]\nevens    = list(filter(lambda x: x%2==0, nums)) # [2,4]\ntotal    = reduce(lambda x,y: x+y, nums)         # 15\n\n# Recursive factorial\ndef factorial(n):\n    if n == 0:                  # base case\n        return 1\n    return n * factorial(n-1)   # recursive case\n\nprint(factorial(5))  # 120",
+          "common_mistakes": [
+            "Forgetting base case in recursion — without it, function calls itself forever until Python raises RecursionError",
+            "Lambda for complex logic — lambda is for simple one-liners. Use regular def for multi-line functions"
+          ]
+        },
+        {
+          "name": "Function Arguments",
+          "keywords": ["positional arguments", "default arguments", "keyword arguments", "variable length arguments", "args", "kwargs"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Positional Arguments",
+            "Default Arguments",
+            "Keyword Arguments",
+            "Variable-Length Arguments",
+            "Variable-Length Keyword Arguments"
+          ],
+          "subtopic_content": {
+            "Positional Arguments": [
+              "Positional: values matched to parameters by position (order matters). greet('Alice', 20) → name='Alice', age=20. Most common type."
+            ],
+            "Default Arguments": [
+              "Default: parameter has a default value used when argument not provided. def greet(name, msg='Hello'): — if msg not passed, uses 'Hello'.",
+              "Rule: default arguments must come AFTER non-default arguments. def func(a, b=5): OK. def func(a=5, b): SyntaxError."
+            ],
+            "Keyword Arguments": [
+              "Keyword: pass arguments by name, so order doesn't matter. greet(age=20, name='Alice') — same as greet('Alice', 20).",
+              "Mixing: positional arguments must come before keyword arguments. greet('Alice', age=20) is OK. greet(name='Alice', 20) is SyntaxError."
+            ],
+            "Variable-Length Arguments": [
+              "*args: collects extra positional arguments into a tuple. def add(*nums): — can call with add(1,2,3) or add(1,2,3,4,5).",
+              "Inside function, args is a tuple. Iterate with for num in nums: sum += num. Use when you don't know how many arguments will be passed."
+            ],
+            "Variable-Length Keyword Arguments": [
+              "**kwargs: collects extra keyword arguments into a dictionary. def show(**info): — can call with show(name='Alice', age=20, city='Delhi').",
+              "Inside function, kwargs is a dict. Access with kwargs['name'] or iterate with for key, value in kwargs.items()."
+            ]
+          },
+          "required_code": "# Positional\ndef greet(name, age):\n    print(f'{name} is {age} years old')\ngreet('Alice', 20)  # Alice is 20 years old\n\n# Default\ndef power(base, exp=2):\n    return base ** exp\nprint(power(3))    # 9  (3^2 — default exp=2)\nprint(power(3, 3)) # 27 (3^3)\n\n# Keyword\ngreet(age=20, name='Alice')  # order doesn't matter\n\n# *args — variable positional\ndef total(*numbers):\n    return sum(numbers)\nprint(total(1, 2, 3))       # 6\nprint(total(1, 2, 3, 4, 5)) # 15\n\n# **kwargs — variable keyword\ndef show_info(**details):\n    for key, value in details.items():\n        print(f'{key}: {value}')\nshow_info(name='Alice', age=20, city='Delhi')",
+          "common_mistakes": [
+            "Default arguments after non-default — def func(a=5, b): gives SyntaxError. Always put defaults last",
+            "Mutable default argument — def func(lst=[]): is dangerous! Default list shared across calls. Use def func(lst=None): then lst = lst or [] inside"
+          ]
+        },
+        {
+          "name": "Function Documentation",
+          "keywords": ["docstring", "documentation", "help", "function documentation"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Docstrings"
+          ],
+          "subtopic_content": {
+            "Docstrings": [
+              "Docstring: string literal as first statement of function/class/module. Documents what the function does, its parameters, and return value.",
+              "Access with help(function_name) or function_name.__doc__. Good practice: always write docstrings for functions others will use.",
+              "Format: single-line for simple functions, multi-line for complex. Multi-line starts and ends with triple quotes. Describes: purpose, Args (parameters), Returns."
+            ]
+          },
+          "required_code": "def calculate_bmi(weight, height):\n    \"\"\"\n    Calculate Body Mass Index (BMI).\n    \n    Args:\n        weight (float): Weight in kilograms\n        height (float): Height in meters\n    \n    Returns:\n        float: BMI value rounded to 2 decimal places\n    \n    Example:\n        >>> calculate_bmi(70, 1.75)\n        22.86\n    \"\"\"\n    bmi = weight / (height ** 2)\n    return round(bmi, 2)\n\n# Access documentation\nhelp(calculate_bmi)         # shows full docstring\nprint(calculate_bmi.__doc__) # prints docstring directly\nprint(calculate_bmi(70, 1.75))  # 22.86",
+          "common_mistakes": [
+            "Skipping docstrings thinking code is self-explanatory — 6 months later even you won't remember what the function does without documentation"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Lists",
+      "topics": [
+        {
+          "name": "Creating and Accessing Lists",
+          "keywords": ["list", "creating list", "accessing list", "list slicing", "traversing list", "list replication", "indexing"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Creating lists",
+            "Accessing list elements",
+            "Traversing a list",
+            "List slicing",
+            "List replication"
+          ],
+          "subtopic_content": {
+            "Creating lists": [
+              "List: ordered, mutable collection. Created with square brackets []. Can hold mixed types. Empty list: []. list() constructor: list((1,2,3)) converts tuple to list.",
+              "Nested list: [[1,2],[3,4],[5,6]] — list of lists. Used for 2D data like matrices or tables."
+            ],
+            "Accessing list elements": [
+              "Positive indexing: starts from 0. fruits[0] = first item, fruits[1] = second. Negative indexing: fruits[-1] = last item, fruits[-2] = second from last.",
+              "Index out of range: accessing fruits[10] when list has 5 items gives IndexError. Check length with len(fruits) before accessing."
+            ],
+            "Traversing a list": [
+              "Method 1 — for item in list: print(item). Simple, Pythonic. Method 2 — for i in range(len(list)): use when you need the index.",
+              "enumerate() gives both index and value: for i, item in enumerate(fruits): print(i, item). Best of both worlds."
+            ],
+            "List slicing": [
+              "Slicing: extract a portion of list. list[start:stop:step]. Stop index is exclusive (not included).",
+              "fruits[1:3] → items at index 1 and 2. fruits[:3] → first 3 items. fruits[2:] → from index 2 to end. fruits[::-1] → reversed list. fruits[::2] → every second item."
+            ],
+            "List replication": [
+              "* operator repeats list. [0] * 5 → [0,0,0,0,0]. Useful to create list with default values.",
+              "Caution: [[]]*3 creates [[],[],[]] where all three inner lists are the SAME object. Modifying one modifies all. Use [[] for _ in range(3)] instead for independent lists."
+            ]
+          },
+          "required_code": "fruits = ['apple', 'banana', 'cherry', 'date']\n\n# Accessing\nprint(fruits[0])   # apple (first)\nprint(fruits[-1])  # date (last)\n\n# Traversing with enumerate\nfor i, fruit in enumerate(fruits):\n    print(i, fruit)  # 0 apple, 1 banana...\n\n# Slicing\nprint(fruits[1:3])   # ['banana', 'cherry']\nprint(fruits[:2])    # ['apple', 'banana']\nprint(fruits[::2])   # ['apple', 'cherry'] (every 2nd)\nprint(fruits[::-1])  # ['date','cherry','banana','apple'] (reversed)\n\n# Replication\nzeros = [0] * 5\nprint(zeros)  # [0, 0, 0, 0, 0]",
+          "common_mistakes": [
+            "IndexError from off-by-one — list has 4 items, valid indices are 0-3. fruits[4] gives IndexError",
+            "Slicing fruits[1:3] gives items at index 1 and 2 only — stop index (3) is NOT included"
+          ]
+        },
+        {
+          "name": "Modifying Lists",
+          "keywords": ["append", "extend", "insert", "pop", "delete", "remove", "modifying list"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Appending Two Lists (Append, Extend, + operator)",
+            "Removing an Element (Pop, Delete)"
+          ],
+          "subtopic_content": {
+            "Appending Two Lists (Append, Extend, + operator)": [
+              "append(item): adds ONE item to end of list. fruits.append('mango') adds mango as single element.",
+              "extend(iterable): adds ALL items of another list to end. fruits.extend(['kiwi','grape']) adds both. + operator creates NEW list: fruits + ['kiwi'] doesn't modify fruits.",
+              "insert(index, item): inserts at specific position. fruits.insert(1, 'mango') puts mango at index 1, shifts others right."
+            ],
+            "Removing an Element (Pop, Delete)": [
+              "pop(): removes and returns last item. pop(index): removes and returns item at index. Useful when you need the removed value.",
+              "del list[index]: deletes item at index. del list[1:3]: deletes a slice. remove(value): finds and deletes first occurrence of value (not index).",
+              "clear(): removes all items, list becomes empty []. Difference: del list removes the variable itself, list.clear() keeps the variable but empties it."
+            ]
+          },
+          "required_code": "nums = [1, 2, 3]\n\n# Adding\nnums.append(4)          # [1,2,3,4]\nnums.extend([5, 6])     # [1,2,3,4,5,6]\nnums.insert(0, 0)       # [0,1,2,3,4,5,6]\nnew = nums + [7, 8]     # creates new list, nums unchanged\n\n# Removing\nprint(nums.pop())    # removes & returns 6 (last)\nprint(nums.pop(0))   # removes & returns 0 (first)\ndel nums[1]          # removes item at index 1\nnums.remove(3)       # removes first occurrence of value 3\nprint(nums)          # [1, 2, 4, 5]",
+          "common_mistakes": [
+            "append([1,2]) adds the LIST as one item — list becomes [[1,2]]. Use extend([1,2]) to add items individually",
+            "remove() raises ValueError if value not in list. Check with if value in list: before removing"
+          ]
+        },
+        {
+          "name": "List Copying",
+          "keywords": ["shallow copy", "deep copy", "reference", "copy", "list copy"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Reference Type Assignment",
+            "Copy Operations:",
+            "Shallow Copy",
+            "Deep Copy"
+          ],
+          "subtopic_content": {
+            "Reference Type Assignment": [
+              "b = a does NOT copy the list — both variables point to same list in memory. Changing b changes a too.",
+              "To verify: a = [1,2,3]; b = a; print(a is b) → True (same object). This surprises most beginners."
+            ],
+            "Shallow Copy": [
+              "Shallow copy: creates new list with same elements. Methods: b = a.copy(), b = a[:], b = list(a).",
+              "For simple (non-nested) lists, shallow copy works perfectly. Problem: for nested lists [[1,2],[3,4]], inner lists are still shared references."
+            ],
+            "Deep Copy": [
+              "Deep copy: completely independent copy — new list AND new copies of all nested objects. Use copy.deepcopy().",
+              "import copy; b = copy.deepcopy(a). Now modifying b at any level does NOT affect a. Use whenever list contains other lists (or dicts/objects)."
+            ]
+          },
+          "required_code": "import copy\n\n# Reference — same object\na = [1, 2, 3]\nb = a           # b points to same list\nb[0] = 99\nprint(a)        # [99, 2, 3] — a changed too!\n\n# Shallow copy — works for simple lists\na = [1, 2, 3]\nb = a.copy()    # or b = a[:]\nb[0] = 99\nprint(a)        # [1, 2, 3] — a unchanged\n\n# Shallow copy problem with nested list\na = [[1, 2], [3, 4]]\nb = a.copy()\nb[0][0] = 99\nprint(a)        # [[99, 2], [3, 4]] — inner list still shared!\n\n# Deep copy — fully independent\na = [[1, 2], [3, 4]]\nb = copy.deepcopy(a)\nb[0][0] = 99\nprint(a)        # [[1, 2], [3, 4]] — unchanged",
+          "common_mistakes": [
+            "Using = to 'copy' a list — this creates a reference, not a copy. Always use .copy() or copy.deepcopy()",
+            "Thinking shallow copy is always enough — it fails for nested lists. Use deepcopy when list contains other lists"
+          ]
+        },
+        {
+          "name": "List Comprehensions",
+          "keywords": ["list comprehension", "comprehension", "for loop comprehension"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Using For Loop",
+            "Single If Condition",
+            "Multiple If Conditions",
+            "If-Else Condition"
+          ],
+          "subtopic_content": {
+            "Using For Loop": [
+              "List comprehension: create list in one line using [expression for item in iterable]. Shorter and faster than equivalent for loop.",
+              "squares = [x**2 for x in range(1,6)] → [1,4,9,16,25]. Readable once you get used to the pattern: think 'give me x**2 for each x in range(1,6)'."
+            ],
+            "Single If Condition": [
+              "Filter with condition: [expression for item in iterable if condition]. Only includes items where condition is True.",
+              "evens = [x for x in range(10) if x%2==0] → [0,2,4,6,8]."
+            ],
+            "Multiple If Conditions": [
+              "Multiple conditions: [x for x in range(50) if x%2==0 if x%3==0] → numbers divisible by both 2 and 3.",
+              "Equivalent to: if x%2==0 and x%3==0. Multiple if conditions act like AND."
+            ],
+            "If-Else Condition": [
+              "If-else in comprehension: [expression_if_true if condition else expression_if_false for item in iterable].",
+              "labels = ['even' if x%2==0 else 'odd' for x in range(5)] → ['even','odd','even','odd','even']."
+            ]
+          },
+          "required_code": "# Basic comprehension\nsquares = [x**2 for x in range(1, 6)]\nprint(squares)  # [1, 4, 9, 16, 25]\n\n# With single condition (filter)\nevens = [x for x in range(10) if x % 2 == 0]\nprint(evens)    # [0, 2, 4, 6, 8]\n\n# Multiple conditions\ndivisible = [x for x in range(50) if x%2==0 if x%3==0]\nprint(divisible)  # [0, 6, 12, 18, 24, 30, 36, 42, 48]\n\n# If-else (ternary in comprehension)\nlabels = ['even' if x%2==0 else 'odd' for x in range(6)]\nprint(labels)   # ['even', 'odd', 'even', 'odd', 'even', 'odd']\n\n# Nested comprehension (flatten 2D list)\nmatrix = [[1,2,3],[4,5,6],[7,8,9]]\nflat = [num for row in matrix for num in row]\nprint(flat)     # [1,2,3,4,5,6,7,8,9]",
+          "common_mistakes": [
+            "Confusing if-else position — [x if cond else y for x in lst] (if-else before for). [x for x in lst if cond] (filter after for). Different positions, different meanings"
+          ]
+        },
+        {
+          "name": "List Operations",
+          "keywords": ["reverse list", "sort list", "list comparison", "membership", "in operator", "sort", "sorted"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Reversing a List",
+            "List Comparison",
+            "Sorting (Ascending, Descending)",
+            "Membership Check in Lists"
+          ],
+          "subtopic_content": {
+            "Reversing a List": [
+              "list.reverse(): reverses IN PLACE — modifies original list. Returns None. reversed(list): returns iterator, doesn't modify original.",
+              "list[::-1]: creates new reversed list (slicing). Most commonly used when you need reversed copy without modifying original."
+            ],
+            "List Comparison": [
+              "Lists compared element by element. [1,2,3] == [1,2,3] → True. [1,2,3] == [1,2,4] → False.",
+              "[1,2] < [1,3] → True (compare element by element, first difference decides). [1,2,3] < [1,2,3,4] → True (shorter list is 'less')."
+            ],
+            "Sorting (Ascending, Descending)": [
+              "list.sort(): sorts IN PLACE — modifies original. sorted(list): returns new sorted list, original unchanged.",
+              "Descending: list.sort(reverse=True) or sorted(list, reverse=True). Custom sort: list.sort(key=len) — sort strings by length."
+            ],
+            "Membership Check in Lists": [
+              "in operator: 'apple' in fruits → True/False. not in: 'mango' not in fruits → True/False.",
+              "O(n) time — checks every element. For frequent membership checks on large data, use set instead (O(1) lookup)."
+            ]
+          },
+          "required_code": "nums = [3, 1, 4, 1, 5, 9, 2, 6]\n\n# Reverse\nnums.reverse()            # modifies in place\nprint(nums)               # [6, 2, 9, 5, 1, 4, 1, 3]\nreversed_copy = nums[::-1]  # new list, original unchanged\n\n# Sort\nnums.sort()               # ascending, in place\nprint(nums)               # [1, 1, 2, 3, 4, 5, 6, 9]\nnums.sort(reverse=True)   # descending\nprint(nums)               # [9, 6, 5, 4, 3, 2, 1, 1]\n\n# sorted() — original unchanged\noriginal = [3, 1, 4]\nnew_sorted = sorted(original)\nprint(original)   # [3, 1, 4] — unchanged\nprint(new_sorted) # [1, 3, 4]\n\n# Membership\nfruits = ['apple', 'banana', 'cherry']\nprint('apple' in fruits)    # True\nprint('mango' in fruits)    # False\nprint('mango' not in fruits) # True",
+          "common_mistakes": [
+            "result = list.sort() — sort() returns None, not the sorted list. Use sorted(list) if you need the return value",
+            "sorted() vs sort() — sorted() creates new list (original safe), sort() modifies original (original changed)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Tuples",
+      "topics": [
+        {
+          "name": "Creating and Accessing Tuples",
+          "keywords": ["tuple", "creating tuple", "singleton tuple", "packing", "unpacking", "tuple access"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Creating tuples",
+            "Singleton Tuples",
+            "Accessing elements",
+            "Packing and Unpacking"
+          ],
+          "subtopic_content": {
+            "Creating tuples": [
+              "Tuple: ordered, immutable sequence. Created with parentheses () or just commas. t = (1, 2, 3) or t = 1, 2, 3 — both create tuple.",
+              "Empty tuple: () or tuple(). tuple() converts other iterables: tuple([1,2,3]) → (1,2,3). Mixed types allowed: (1, 'hello', 3.14, True)."
+            ],
+            "Singleton Tuples": [
+              "Single-element tuple: MUST have trailing comma. t = (5,) is a tuple. t = (5) is just the integer 5 in parentheses — NOT a tuple.",
+              "Verify: type((5,)) → tuple. type((5)) → int. The comma is what makes it a tuple, not the parentheses."
+            ],
+            "Accessing elements": [
+              "Same as lists: indexing (t[0]), negative indexing (t[-1]), slicing (t[1:3]). Since tuples are immutable, you can read but NOT modify.",
+              "t[0] = 10 raises TypeError: 'tuple' object does not support item assignment."
+            ],
+            "Packing and Unpacking": [
+              "Packing: combining values into tuple. t = 1, 2, 3 — packs three values.",
+              "Unpacking: assigning tuple elements to variables. a, b, c = (1, 2, 3). Number of variables must match number of elements (or use * for rest).",
+              "Extended unpacking: first, *rest = (1,2,3,4,5) → first=1, rest=[2,3,4,5]. *middle, last = (1,2,3,4,5) → middle=[1,2,3,4], last=5."
+            ]
+          },
+          "required_code": "# Creating tuples\nt1 = (1, 2, 3)\nt2 = 1, 2, 3           # no parentheses — still a tuple\nt3 = ()                 # empty tuple\nt4 = (5,)               # singleton — comma required!\nprint(type((5)))  # int\nprint(type((5,))) # tuple\n\n# Accessing\ncoords = (10, 20, 30)\nprint(coords[0])    # 10\nprint(coords[-1])   # 30\nprint(coords[1:3])  # (20, 30)\n\n# Packing and Unpacking\npoint = 3, 4          # packing\nx, y = point          # unpacking\nprint(x, y)           # 3 4\n\n# Extended unpacking\nfirst, *rest = (1, 2, 3, 4, 5)\nprint(first)  # 1\nprint(rest)   # [2, 3, 4, 5]",
+          "common_mistakes": [
+            "t = (5) is not a tuple — it's just integer 5 in parentheses. Must write t = (5,) with trailing comma",
+            "Trying to modify tuple — t[0] = 10 raises TypeError. Tuples are immutable by design"
+          ]
+        },
+        {
+          "name": "Tuple Operations and Comparison",
+          "keywords": ["tuple slicing", "tuple copy", "list vs tuple", "tuple operations"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Unpacking with Disposable Variable",
+            "Tuple Slicing",
+            "Copy Operations in Tuples",
+            "List vs Tuple"
+          ],
+          "subtopic_content": {
+            "Unpacking with Disposable Variable": [
+              "Use _ (underscore) for values you want to ignore during unpacking. Convention: _ means 'I don't care about this value'.",
+              "first, _, third = (1, 2, 3) — ignores middle value. first, *_ = (1,2,3,4,5) — only care about first."
+            ],
+            "Tuple Slicing": [
+              "Slicing creates a new tuple. t[1:3] returns tuple of items at index 1 and 2. t[::-1] returns reversed tuple.",
+              "Slicing a tuple is safe — no mutation possible."
+            ],
+            "Copy Operations in Tuples": [
+              "Since tuples are immutable, 'copying' is simpler — b = a gives same tuple, but since tuples can't be modified, no accidental mutation.",
+              "tuple(a) creates new tuple object from existing. For tuples containing mutable objects (like lists), deepcopy still applies."
+            ],
+            "List vs Tuple": [
+              "Use tuple when: data should not change (coordinates, RGB colors, database records), function returning multiple values, dictionary keys (lists can't be dict keys).",
+              "Use list when: data will be modified (adding/removing items), need list-specific methods (sort, append, pop).",
+              "Tuples are faster than lists and use less memory — for fixed data, prefer tuple."
+            ]
+          },
+          "required_code": "# Disposable variable\nfirst, _, last = (1, 99, 3)  # ignore middle\nprint(first, last)             # 1 3\n\n# Tuple slicing\nt = (10, 20, 30, 40, 50)\nprint(t[1:4])   # (20, 30, 40)\nprint(t[::-1])  # (50, 40, 30, 20, 10)\n\n# Tuples as dict keys (lists can't)\ncoord_map = {(0,0): 'origin', (1,0): 'east'}\nprint(coord_map[(0,0)])  # origin\n\n# list_key = {[0,0]: 'x'}  # TypeError — list unhashable",
+          "required_tables": [
+            "Comparison: Feature | List | Tuple || Syntax | [] | () || Mutable | Yes | No || Speed | Slower | Faster || Memory | More | Less || Dict key | No | Yes || Use case | Dynamic data | Fixed data, return values"
+          ],
+          "common_mistakes": [
+            "Using list when tuple is appropriate — returning multiple values from function should use tuple, not list"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Sets",
+      "topics": [
+        {
+          "name": "Creating and Set Operations",
+          "keywords": ["set", "creating set", "union", "intersection", "difference", "symmetric difference", "subset", "superset", "add", "discard", "remove"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Creating Sets",
+            "Accessing Elements",
+            "Union",
+            "Intersection",
+            "Difference",
+            "Symmetric Difference",
+            "Subset and Superset",
+            "Add, Discard, Remove"
+          ],
+          "subtopic_content": {
+            "Creating Sets": [
+              "Set: unordered collection of unique elements. Created with curly braces {} or set(). No duplicates — {1,2,2,3} → {1,2,3} automatically.",
+              "CAUTION: empty set must be set(), NOT {} — {} creates empty dictionary. set() creates empty set."
+            ],
+            "Accessing Elements": [
+              "Sets are unordered — no indexing, no slicing. Cannot do s[0]. Iterate with for x in my_set.",
+              "Check membership with in: 3 in my_set → True/False. This is O(1) — much faster than list membership check."
+            ],
+            "Union": [
+              "Union: all elements from both sets (no duplicates). A | B or A.union(B). Like 'OR' in logic.",
+              "{1,2,3} | {3,4,5} → {1,2,3,4,5}"
+            ],
+            "Intersection": [
+              "Intersection: only elements present in BOTH sets. A & B or A.intersection(B). Like 'AND' in logic.",
+              "{1,2,3} & {2,3,4} → {2,3}"
+            ],
+            "Difference": [
+              "Difference: elements in A but NOT in B. A - B or A.difference(B). Order matters — A-B ≠ B-A.",
+              "{1,2,3} - {2,3,4} → {1}"
+            ],
+            "Symmetric Difference": [
+              "Symmetric difference: elements in either A or B but NOT in both. A ^ B or A.symmetric_difference(B).",
+              "{1,2,3} ^ {2,3,4} → {1,4}"
+            ],
+            "Subset and Superset": [
+              "Subset: A is subset of B if all elements of A are in B. A <= B or A.issubset(B). {1,2} <= {1,2,3} → True.",
+              "Superset: A is superset of B if A contains all elements of B. A >= B or A.issuperset(B). {1,2,3} >= {1,2} → True."
+            ],
+            "Add, Discard, Remove": [
+              "add(x): adds element. If already present, no change. No error.",
+              "remove(x): removes element. Raises KeyError if not present. discard(x): removes if present, NO error if not present. Prefer discard() for safety."
+            ]
+          },
+          "required_code": "# Creating sets\ns1 = {1, 2, 3, 2, 1}    # duplicates removed\nprint(s1)                # {1, 2, 3}\ns2 = set([3, 4, 5])      # from list\nempty = set()            # NOT {} — that's empty dict!\n\n# Set operations\nA = {1, 2, 3, 4}\nB = {3, 4, 5, 6}\nprint(A | B)  # Union:      {1,2,3,4,5,6}\nprint(A & B)  # Intersection: {3,4}\nprint(A - B)  # Difference:  {1,2}\nprint(A ^ B)  # Sym diff:    {1,2,5,6}\n\n# Subset/Superset\nprint({1,2} <= {1,2,3})   # True (subset)\nprint({1,2,3} >= {1,2})   # True (superset)\n\n# Add/Remove\nA.add(10)       # {1,2,3,4,10}\nA.discard(99)   # no error even though 99 not in A\nA.remove(1)     # removes 1, KeyError if not present",
+          "common_mistakes": [
+            "Using {} for empty set — {} creates empty dict. Must use set() for empty set",
+            "Using remove() when element might not exist — use discard() to avoid KeyError"
+          ]
+        },
+        {
+          "name": "Set Comprehension and Advanced Concepts",
+          "keywords": ["set comprehension", "frozen set", "performance", "list vs set", "tuple vs set"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Using For Loop",
+            "Single If Condition",
+            "Multiple If Conditions",
+            "If-Else Condition",
+            "Frozen Sets",
+            "Performance Analysis of Sets",
+            "List vs Set",
+            "Tuple vs Set"
+          ],
+          "subtopic_content": {
+            "Using For Loop": [
+              "Set comprehension: {expression for item in iterable}. Like list comprehension but with {} and produces a set (unique elements).",
+              "squares = {x**2 for x in range(-3,4)} → {0,1,4,9} (no duplicates even though -3 and 3 both give 9)."
+            ],
+            "Single If Condition": [
+              "evens = {x for x in range(10) if x%2==0} → {0,2,4,6,8}."
+            ],
+            "Multiple If Conditions": [
+              "{x for x in range(100) if x%2==0 if x%5==0} → {0,10,20,30,40,50,60,70,80,90}."
+            ],
+            "If-Else Condition": [
+              "{x if x>0 else -x for x in [-3,-1,0,1,3]} → {0,1,3} — absolute values (as set, no duplicates)."
+            ],
+            "Frozen Sets": [
+              "frozenset: immutable version of set. Can be used as dictionary key or as set element (regular sets can't).",
+              "fs = frozenset([1,2,3]). All set operations work on frozenset. Cannot add/remove elements. Useful when you need an immutable set."
+            ],
+            "Performance Analysis of Sets": [
+              "Set membership check is O(1) average using hash table. List membership check is O(n) — checks every element.",
+              "For 1 million items: set in check takes ~0.0001ms. List in check takes ~50ms. Use set when you do frequent membership testing."
+            ],
+            "List vs Set": [
+              "Use list when: order matters, duplicates needed, indexing required, small data. Use set when: unique elements needed, fast membership testing, mathematical set operations."
+            ],
+            "Tuple vs Set": [
+              "Tuple: ordered, immutable, allows duplicates, indexable. Set: unordered, mutable, no duplicates, not indexable.",
+              "Use tuple for ordered fixed data (coordinates, records). Use set for unique collections and fast lookups."
+            ]
+          },
+          "required_code": "# Set comprehension\nsquares = {x**2 for x in range(-3, 4)}\nprint(squares)  # {0, 1, 4, 9} — no duplicate 9\n\nevens = {x for x in range(10) if x % 2 == 0}\nprint(evens)    # {0, 2, 4, 6, 8}\n\n# Frozenset\nfs = frozenset([1, 2, 3])\nprint(fs)  # frozenset({1, 2, 3})\n# fs.add(4)  # AttributeError — immutable!\n\n# Use as dict key (regular set can't)\nmy_dict = {frozenset([1,2]): 'pair'}\nprint(my_dict[frozenset([1,2])])  # pair\n\n# Performance demo\nimport time\ndata = list(range(1_000_000))\ndata_set = set(data)\ntarget = 999_999\n# set lookup is instant, list lookup scans all elements",
+          "required_tables": [
+            "Comparison: Feature | List | Set | Tuple || Order | Maintained | Not maintained | Maintained || Duplicates | Yes | No | Yes || Mutable | Yes | Yes | No || Indexing | Yes | No | Yes || Lookup speed | O(n) | O(1) | O(n) || Use case | Ordered data | Unique+fast lookup | Fixed data"
+          ],
+          "common_mistakes": [
+            "Using list when set is better for membership testing — if item in large_list is O(n), same with set is O(1)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Dictionaries",
+      "topics": [
+        {
+          "name": "Creating and Accessing Dictionaries",
+          "keywords": ["dictionary", "creating dictionary", "adding elements", "get method", "dict", "key value"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Creating Dictionaries",
+            "Adding Elements",
+            "Accessing Values (get() method)"
+          ],
+          "subtopic_content": {
+            "Creating Dictionaries": [
+              "Dictionary: key-value pairs. Keys must be unique and immutable (strings, numbers, tuples). Values can be anything.",
+              "Create: d = {'name':'Alice', 'age':20} or dict(name='Alice', age=20) or {}. Keys maintain insertion order (Python 3.7+)."
+            ],
+            "Adding Elements": [
+              "Add new key: d['city'] = 'Delhi'. If key exists, value is updated. No separate update method needed.",
+              "setdefault(key, default): adds key with default value ONLY if key doesn't exist. Won't overwrite existing values."
+            ],
+            "Accessing Values (get() method)": [
+              "d['name']: direct access. Raises KeyError if key doesn't exist.",
+              "d.get('name'): returns value or None (no error). d.get('salary', 0): returns 0 if key missing. Safer than [] for unknown keys."
+            ]
+          },
+          "required_code": "# Creating\nstudent = {'name': 'Alice', 'age': 20, 'grade': 'A'}\nempty = {}\nalso_dict = dict(name='Bob', age=25)\n\n# Adding/Updating\nstudent['city'] = 'Delhi'    # add new key\nstudent['age'] = 21          # update existing key\n\n# Accessing\nprint(student['name'])          # Alice\n# print(student['salary'])      # KeyError!\nprint(student.get('salary'))    # None (safe)\nprint(student.get('salary', 0)) # 0 (default value)\n\n# setdefault\nstudent.setdefault('grade', 'B')  # won't change 'A'\nprint(student['grade'])            # A (unchanged)",
+          "common_mistakes": [
+            "Using [] to access missing key — KeyError. Always use .get() when key might not exist",
+            "Assuming dictionary is unordered — Python 3.7+ dicts maintain insertion order"
+          ]
+        },
+        {
+          "name": "Modifying and Iterating Dictionaries",
+          "keywords": ["pop", "popitem", "del", "clear", "keys", "values", "items", "update", "dictionary comprehension", "merge dict"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Pop, Popitem, del keyword, Clear",
+            "Keys, Values, Items",
+            "Using update()",
+            "Using ** operator",
+            "Using For Loop",
+            "Single If Condition",
+            "Multiple If Conditions",
+            "If-Else Condition"
+          ],
+          "subtopic_content": {
+            "Pop, Popitem, del keyword, Clear": [
+              "pop(key): removes key and returns its value. pop(key, default): returns default if key missing (no error).",
+              "popitem(): removes and returns last inserted (key, value) pair. del d['key']: removes key (KeyError if missing). d.clear(): removes everything."
+            ],
+            "Keys, Values, Items": [
+              "d.keys(): returns all keys as dict_keys view. d.values(): returns all values. d.items(): returns (key,value) pairs.",
+              "These are view objects — reflect changes to dict. Convert to list: list(d.keys()). Iterate: for key in d.keys() or simply for key in d."
+            ],
+            "Using update()": [
+              "d.update({'key': value}): adds/updates multiple key-value pairs at once. Existing keys overwritten, new keys added.",
+              "d.update(d2): merges d2 into d. d2's values win for duplicate keys."
+            ],
+            "Using ** operator": [
+              "merged = {**d1, **d2}: creates new merged dictionary. d2 values override d1 for duplicate keys.",
+              "Python 3.9+: merged = d1 | d2 (pipe operator). merged = d1.copy(); merged.update(d2) also works."
+            ],
+            "Using For Loop": [
+              "Dict comprehension: {key_expr: value_expr for item in iterable}. Squares: {x: x**2 for x in range(1,6)} → {1:1, 2:4, 3:9, 4:16, 5:25}."
+            ],
+            "Single If Condition": [
+              "{k: v for k, v in d.items() if v > 10} — keep only entries where value > 10."
+            ],
+            "Multiple If Conditions": [
+              "{k: v for k, v in d.items() if v > 10 if v < 50} — value between 10 and 50."
+            ],
+            "If-Else Condition": [
+              "{k: 'high' if v > 50 else 'low' for k, v in scores.items()} — categorize values."
+            ]
+          },
+          "required_code": "d = {'a': 1, 'b': 2, 'c': 3}\n\n# Removing\nval = d.pop('a')        # removes 'a', returns 1\nprint(val, d)           # 1 {'b':2,'c':3}\nprint(d.pop('z', 0))    # 0 (default, no error)\n\n# Iterating\nfor key in d:                    # iterate keys\n    print(key, d[key])\nfor k, v in d.items():           # key-value pairs (best way)\n    print(f'{k}: {v}')\n\n# Merging\nd1 = {'x': 1, 'y': 2}\nd2 = {'y': 99, 'z': 3}\nmerged = {**d1, **d2}            # d2 overrides d1 for 'y'\nprint(merged)  # {'x':1,'y':99,'z':3}\n\n# Dict comprehension\nscores = {'Alice': 85, 'Bob': 45, 'Carol': 92}\npassed = {name: score for name, score in scores.items() if score >= 60}\nprint(passed)  # {'Alice': 85, 'Carol': 92}",
+          "common_mistakes": [
+            "Iterating dict while modifying it — causes RuntimeError. Create a copy first: for k in list(d.keys())",
+            "Expecting d.keys() to return a list — it returns dict_keys view. Use list(d.keys()) if you need a list"
+          ]
+        },
+        {
+          "name": "Comparing Data Structures",
+          "keywords": ["list vs tuple vs set vs dictionary", "data structure comparison", "when to use which"],
+          "nature": "theoretical",
+          "no_code": false,
+          "subtopics": [
+            "List vs Tuple vs Set vs Dictionary"
+          ],
+          "subtopic_content": {
+            "List vs Tuple vs Set vs Dictionary": [
+              "List: use when you need ordered data that changes — shopping cart, student scores in order, sequence of steps.",
+              "Tuple: use when data is fixed and shouldn't change — coordinates (x,y), RGB colors (255,0,0), function return values, database records.",
+              "Set: use when you need unique items or fast membership testing — unique usernames, removing duplicates from data, finding common items between two groups.",
+              "Dictionary: use when you need to map keys to values — student records (roll_no → marks), word frequency count, configuration settings."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Feature | List | Tuple | Set | Dictionary || Ordered | Yes | Yes | No | Yes(3.7+) || Mutable | Yes | No | Yes | Yes || Duplicates | Yes | Yes | No | Keys:No,Values:Yes || Indexing | Yes | Yes | No | By key || Syntax | [] | () | {} | {k:v} || Use case | Ordered sequence | Fixed data | Unique items | Key-value mapping"
+          ],
+          "common_mistakes": [
+            "Using list when dictionary is appropriate — looking up student by roll number in list is O(n), in dict is O(1)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Strings",
+      "topics": [
+        {
+          "name": "String Basics and Operations",
+          "keywords": ["string", "string methods", "string formatting", "string indexing", "string slicing", "concatenation", "internal implementation"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Creating and Accessing Strings",
+            "Internal Implementation",
+            "String Formatting (%, format(), join())",
+            "Built-in String Methods",
+            "String Indexing and Slicing",
+            "String Concatenation"
+          ],
+          "subtopic_content": {
+            "Creating and Accessing Strings": [
+              "String: sequence of characters. Single quotes, double quotes, triple quotes — all valid. Triple quotes for multi-line.",
+              "Strings are immutable — s[0] = 'X' gives TypeError. To 'change' a string, create a new one."
+            ],
+            "Internal Implementation": [
+              "Python strings are Unicode by default — support all languages including Hindi, Arabic, emoji. Each character is a Unicode code point.",
+              "String interning: Python caches small strings — 'hello' is 'hello' may be True (same object). Implementation detail, not something to rely on."
+            ],
+            "String Formatting (%, format(), join())": [
+              "% formatting (old): 'Hello %s, you are %d years old' % ('Alice', 20). .format() (modern): 'Hello {}, you are {} old'.format('Alice', 20).",
+              "f-strings (best, Python 3.6+): f'Hello {name}, you are {age} old'. Fastest and most readable. Can include expressions: f'{2**8}'.",
+              "join(): 'separator'.join(list). ', '.join(['Alice','Bob','Carol']) → 'Alice, Bob, Carol'. Much faster than concatenation with + in a loop."
+            ],
+            "Built-in String Methods": [
+              "Case: upper(), lower(), title(), capitalize(), swapcase(). Check: startswith(), endswith(), isdigit(), isalpha(), isalnum().",
+              "Clean: strip(), lstrip(), rstrip() — remove whitespace. find(sub): first index of substring (-1 if not found). count(sub): count occurrences.",
+              "Transform: replace(old, new), split(sep): string to list. join(list): list to string. center(width), ljust(), rjust()."
+            ],
+            "String Indexing and Slicing": [
+              "Same as list: s[0] = first char, s[-1] = last char. Slicing: s[start:stop:step]. s[::-1] reverses string.",
+              "Strings are immutable — slicing creates new string."
+            ],
+            "String Concatenation": [
+              "+ operator: 'Hello' + ' ' + 'World'. Creates new string each time — slow in loops.",
+              "For building strings in loop, use list then join: parts = []; for item in data: parts.append(str(item)); result = ', '.join(parts). Much faster."
+            ]
+          },
+          "required_code": "# String basics\nname = 'Alice'\nprint(name[0])     # A\nprint(name[-1])    # e\nprint(name[1:4])   # lic\nprint(name[::-1])  # ecilA (reversed)\n\n# Methods\ns = '  Hello, World!  '\nprint(s.strip())          # 'Hello, World!'\nprint(s.lower())          # '  hello, world!  '\nprint(s.replace('o','0')) # '  Hell0, W0rld!  '\nprint(s.split(','))       # ['  Hello', ' World!  ']\nprint(s.find('World'))    # 9\n\n# Formatting\nname, age = 'Alice', 20\nprint(f'Name: {name}, Age: {age}')       # f-string (best)\nprint('{} is {} years old'.format(name, age))\n\n# Join (faster than + in loop)\nwords = ['Python', 'is', 'awesome']\nsentence = ' '.join(words)\nprint(sentence)  # Python is awesome",
+          "common_mistakes": [
+            "Concatenating strings with + in a loop — very slow for large data. Use list + join() pattern instead",
+            "find() returns -1 when not found, not None or False — if s.find('xyz') returns -1, not None"
+          ]
+        },
+        {
+          "name": "Regular Expressions",
+          "keywords": ["regex", "regular expression", "re module", "match", "search", "findall", "sub", "split", "compile", "quantifier"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Match, Search, Findall",
+            "Sub, Split, Compile",
+            "Quantifiers and Character Classes",
+            "Flags"
+          ],
+          "subtopic_content": {
+            "Match, Search, Findall": [
+              "re.match(pattern, string): matches only at START of string. Returns match object or None.",
+              "re.search(pattern, string): searches ANYWHERE in string. Returns first match or None. More commonly used than match().",
+              "re.findall(pattern, string): returns LIST of all matches. Empty list if none found. Most commonly used function."
+            ],
+            "Sub, Split, Compile": [
+              "re.sub(pattern, replacement, string): replaces all matches with replacement. re.sub(r'\\s+', ' ', text) collapses multiple spaces.",
+              "re.split(pattern, string): splits string at each match. re.split(r'[,;]', 'a,b;c') → ['a','b','c'].",
+              "re.compile(pattern): pre-compiles pattern — use when same pattern used many times. Faster in loops."
+            ],
+            "Quantifiers and Character Classes": [
+              "Character classes: \\d (digit 0-9), \\w (word char: letter/digit/underscore), \\s (whitespace), . (any char). Uppercase inverts: \\D (non-digit), \\W (non-word).",
+              "Quantifiers: * (0 or more), + (1 or more), ? (0 or 1), {n} (exactly n), {n,m} (between n and m). \\d+ matches one or more digits."
+            ],
+            "Flags": [
+              "re.IGNORECASE (re.I): case-insensitive matching. re.search('hello', 'HELLO', re.I) matches.",
+              "re.MULTILINE (re.M): ^ and $ match start/end of each line, not just whole string. re.DOTALL (re.S): dot . matches newline too."
+            ]
+          },
+          "required_code": "import re\n\ntext = 'My phone is 9876543210 and email is alice@gmail.com'\n\n# findall — most common\nphones = re.findall(r'\\d{10}', text)\nprint(phones)  # ['9876543210']\n\n# search — anywhere in string\nemail_match = re.search(r'[\\w.]+@[\\w.]+', text)\nif email_match:\n    print(email_match.group())  # alice@gmail.com\n\n# sub — replace\nclean = re.sub(r'\\s+', ' ', 'Hello   World  Python')\nprint(clean)  # Hello World Python\n\n# Character classes and quantifiers\npassword = 'Hello@123'\nstrong = bool(re.search(r'(?=.*[A-Z])(?=.*\\d)(?=.*[@#$])', password))\nprint('Strong:', strong)  # True\n\n# Flags\nre.findall('hello', 'Hello HELLO hello', re.I)  # ['Hello','HELLO','hello']",
+          "common_mistakes": [
+            "Using re.match() expecting it to search anywhere — match() only checks beginning. Use re.search() to find pattern anywhere in string",
+            "Forgetting r prefix for raw strings — r'\\d+' is correct. '\\d+' treats \\d as escape sequence (may cause issues)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Exception Handling",
+      "topics": [
+        {
+          "name": "Exception Handling",
+          "keywords": ["exception", "try except", "raise", "custom exception", "exception hierarchy", "finally", "else"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Exception Hierarchy",
+            "Try-Except Blocks",
+            "Grouping Multiple Exceptions",
+            "Using raise Keyword",
+            "Re-throwing Exceptions",
+            "Custom Exception Handling"
+          ],
+          "subtopic_content": {
+            "Exception Hierarchy": [
+              "All exceptions inherit from BaseException. Most inherit from Exception. Common built-ins: ValueError (wrong value), TypeError (wrong type), IndexError (bad index), KeyError (missing dict key), ZeroDivisionError, FileNotFoundError.",
+              "Hierarchy matters: catching Exception catches most exceptions. Catching ValueError only catches value errors. More specific except clauses should come first."
+            ],
+            "Try-Except Blocks": [
+              "try: code that might fail. except: what to do when it fails. finally: always runs (cleanup). else: runs only if no exception occurred.",
+              "Without exception handling: one error crashes entire program. With it: program can recover gracefully and show helpful error messages to user."
+            ],
+            "Grouping Multiple Exceptions": [
+              "Catch multiple exceptions with tuple: except (TypeError, ValueError) as e:. Or separate except blocks for different handling.",
+              "Order matters: specific exceptions first, general (Exception) last. Except Exception catches almost everything — use as last resort."
+            ],
+            "Using raise Keyword": [
+              "raise ExceptionType('message'): manually raise an exception. Use when input is logically invalid even if no Python error would occur.",
+              "Example: def set_age(age): if age < 0: raise ValueError('Age cannot be negative')"
+            ],
+            "Re-throwing Exceptions": [
+              "In except block, bare raise (without arguments) re-raises the current exception. Use when you want to log the error but still propagate it.",
+              "or raise after some handling to pass exception to the caller."
+            ],
+            "Custom Exception Handling": [
+              "Create custom exception by inheriting from Exception. class InvalidAgeError(Exception): pass.",
+              "Add custom message and attributes for more informative errors. Useful in larger applications to distinguish your errors from Python's built-in ones."
+            ]
+          },
+          "required_code": "# Basic try-except\ntry:\n    num = int(input('Enter number: '))\n    result = 100 / num\n    print(f'Result: {result}')\nexcept ValueError:\n    print('Please enter a valid integer')\nexcept ZeroDivisionError:\n    print('Cannot divide by zero')\nexcept Exception as e:\n    print(f'Unexpected error: {e}')\nelse:\n    print('No errors occurred!')   # runs if no exception\nfinally:\n    print('This always runs')       # cleanup code\n\n# Raise keyword\ndef withdraw(amount, balance):\n    if amount > balance:\n        raise ValueError(f'Insufficient funds. Balance: {balance}')\n    return balance - amount\n\n# Custom exception\nclass InvalidAgeError(Exception):\n    def __init__(self, age):\n        super().__init__(f'Age {age} is invalid. Must be 0-150.')\n        self.age = age\n\ndef set_age(age):\n    if not (0 <= age <= 150):\n        raise InvalidAgeError(age)\n    return age\n\ntry:\n    set_age(-5)\nexcept InvalidAgeError as e:\n    print(e)  # Age -5 is invalid. Must be 0-150.",
+          "common_mistakes": [
+            "Bare except: without exception type — catches even KeyboardInterrupt (Ctrl+C) and SystemExit. Always specify exception type",
+            "Putting too much code in try block — only put the risky part in try. Easier to know which line caused the exception"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "File Handling",
+      "topics": [
+        {
+          "name": "File Operations",
+          "keywords": ["file", "read file", "write file", "file modes", "open", "close", "with statement", "readline", "readlines", "tell", "seek"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Reading and Writing Files",
+            "File Modes (Read, Write, Append, Create, Erase)",
+            "Context Managers (with Statement)",
+            "Reading Techniques (read(), readline(), readlines())",
+            "Cursor Position (tell(), seek())",
+            "File-to-File Transfer"
+          ],
+          "subtopic_content": {
+            "Reading and Writing Files": [
+              "open(filename, mode): opens file, returns file object. Always close() after use — or Python keeps file locked.",
+              "Basic pattern: f = open('file.txt', 'r'); content = f.read(); f.close(). Better pattern: use with statement (auto-closes)."
+            ],
+            "File Modes (Read, Write, Append, Create, Erase)": [
+              "'r': read only (default). 'w': write — creates file if not exists, ERASES content if exists. 'a': append — adds to end, doesn't erase.",
+              "'x': create new file — error if already exists. 'r+': read and write. 'rb'/'wb': binary mode (for images, PDFs, etc.)."
+            ],
+            "Context Managers (with Statement)": [
+              "with open('file.txt', 'r') as f: — automatically closes file when block ends, even if exception occurs.",
+              "Best practice: always use with statement. Prevents file leaks and data corruption from unclosed files."
+            ],
+            "Reading Techniques (read(), readline(), readlines())": [
+              "read(): reads entire file as one string. read(n): reads n characters. For small files only — large files use too much memory.",
+              "readline(): reads one line at a time — efficient for large files. readlines(): reads all lines, returns list of strings (each with \\n at end).",
+              "Iteration (best for large files): for line in f: process line. Reads one line at a time without loading whole file."
+            ],
+            "Cursor Position (tell(), seek())": [
+              "tell(): returns current cursor position (byte offset from start). After reading 5 chars, tell() = 5.",
+              "seek(offset, from): moves cursor. seek(0) goes to start. seek(0, 2) goes to end. Useful to re-read file without closing/reopening."
+            ],
+            "File-to-File Transfer": [
+              "Read from one file, write to another. with open('source.txt') as src, open('dest.txt', 'w') as dst: dst.write(src.read()).",
+              "For large files, read/write in chunks: while chunk := src.read(4096): dst.write(chunk)."
+            ]
+          },
+          "required_code": "# Write to file\nwith open('students.txt', 'w') as f:\n    f.write('Alice 85\\n')\n    f.write('Bob 72\\n')\n    f.write('Carol 91\\n')\n\n# Read entire file\nwith open('students.txt', 'r') as f:\n    content = f.read()\n    print(content)\n\n# Read line by line (memory efficient)\nwith open('students.txt', 'r') as f:\n    for line in f:\n        print(line.strip())  # strip removes \\n\n\n# Read all lines as list\nwith open('students.txt', 'r') as f:\n    lines = f.readlines()  # ['Alice 85\\n', 'Bob 72\\n', ...]\n\n# Append to file\nwith open('students.txt', 'a') as f:\n    f.write('Dave 78\\n')  # adds to end, existing data safe\n\n# tell and seek\nwith open('students.txt', 'r') as f:\n    print(f.read(5))   # reads 5 chars\n    print(f.tell())    # 5 (cursor position)\n    f.seek(0)          # go back to start\n    print(f.read(5))   # reads same 5 chars again",
+          "common_mistakes": [
+            "Opening with 'w' thinking it appends — 'w' ERASES existing content. Use 'a' for appending",
+            "Forgetting to close file — causes data corruption/file locks. Always use with statement"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Object-Oriented Programming (OOP)",
+      "topics": [
+        {
+          "name": "Introduction to OOP",
+          "keywords": ["class", "object", "oop", "instance", "__init__", "self", "classes and objects"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Classes and Objects"
+          ],
+          "subtopic_content": {
+            "Classes and Objects": [
+              "Class: blueprint/template for creating objects. Object: instance created from class — real thing that exists in memory.",
+              "class Dog: defines what a dog has (attributes: name, breed) and can do (methods: bark, fetch). Fido = Dog('Fido', 'Lab') creates a Dog object.",
+              "__init__(self, ...): constructor — automatically called when object is created. self: reference to the current object — must be first parameter of every method.",
+              "Accessing: object.attribute and object.method(). Each object has its own copy of attributes but shares methods with all instances."
+            ]
+          },
+          "required_code": "class Student:\n    def __init__(self, name, age, grade):\n        self.name  = name   # instance attributes\n        self.age   = age\n        self.grade = grade\n    \n    def introduce(self):\n        return f'I am {self.name}, age {self.age}, grade {self.grade}'\n    \n    def study(self, subject):\n        return f'{self.name} is studying {subject}'\n\n# Creating objects\nalice = Student('Alice', 20, 'A')\nbob   = Student('Bob', 22, 'B')\n\n# Accessing\nprint(alice.name)           # Alice\nprint(alice.introduce())    # I am Alice, age 20, grade A\nprint(bob.study('Python'))  # Bob is studying Python\n\n# Each object has own attributes\nalice.age = 21  # only changes alice's age, not bob's\nprint(alice.age)  # 21\nprint(bob.age)    # 22",
+          "common_mistakes": [
+            "Forgetting self as first parameter — def introduce(): gives TypeError when called. Always include self",
+            "Confusing class and object — class is the blueprint, object is the actual instance. Student is class, alice is object"
+          ]
+        },
+        {
+          "name": "OOP Principles",
+          "keywords": ["encapsulation", "polymorphism", "inheritance", "abstraction", "oop principles"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Encapsulation",
+            "Polymorphism",
+            "Inheritance",
+            "Abstraction"
+          ],
+          "subtopic_content": {
+            "Encapsulation": [
+              "Encapsulation: bundling data and methods together, hiding internal details. Use _ (protected) or __ (private) prefix to indicate restricted access.",
+              "Private attribute: self.__balance — name mangled to _ClassName__balance, prevents accidental modification. Provide getter/setter methods for controlled access."
+            ],
+            "Polymorphism": [
+              "Polymorphism: same method name, different behavior in different classes. area() in Circle calculates πr², area() in Rectangle calculates length×width — same name, different logic.",
+              "Python supports polymorphism naturally — no interface or abstract class required. If object has the method, it works (duck typing: 'if it walks like a duck...')."
+            ],
+            "Inheritance": [
+              "Inheritance: child class inherits attributes and methods from parent class. Use class Child(Parent):. Avoids code duplication.",
+              "super().__init__() calls parent's constructor. Child can override (redefine) parent methods. isinstance(obj, Parent) returns True for child objects too."
+            ],
+            "Abstraction": [
+              "Abstraction: hide complex implementation, show only essential features. User calls calculate_tax() without knowing the formula inside.",
+              "Abstract classes (abc module): define methods that MUST be implemented by subclasses. Prevents instantiation of incomplete classes."
+            ]
+          },
+          "required_code": "# Encapsulation\nclass BankAccount:\n    def __init__(self, owner, balance):\n        self.owner = owner\n        self.__balance = balance  # private\n    \n    def deposit(self, amount):\n        if amount > 0:\n            self.__balance += amount\n    \n    def get_balance(self):\n        return self.__balance\n\nacc = BankAccount('Alice', 1000)\nacc.deposit(500)\nprint(acc.get_balance())   # 1500\n# print(acc.__balance)     # AttributeError — private!\n\n# Inheritance\nclass Animal:\n    def __init__(self, name):\n        self.name = name\n    \n    def speak(self):\n        return 'Some sound'\n\nclass Dog(Animal):        # inherits from Animal\n    def speak(self):      # overrides parent method\n        return f'{self.name} says Woof!'\n\nclass Cat(Animal):\n    def speak(self):\n        return f'{self.name} says Meow!'\n\n# Polymorphism — same method, different behavior\nanimals = [Dog('Rex'), Cat('Whiskers'), Dog('Buddy')]\nfor animal in animals:\n    print(animal.speak())  # calls appropriate speak()",
+          "common_mistakes": [
+            "Thinking __ makes attribute truly private — Python uses name mangling but it's accessible as _ClassName__attr. It's a convention, not enforced security",
+            "Forgetting super().__init__() in child class — parent's attributes won't be initialized, causing AttributeError"
+          ]
+        },
+        {
+          "name": "Advanced OOP Concepts",
+          "keywords": ["instance variable", "static variable", "class variable", "__init__", "__new__", "special methods", "dunder"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Instance and Static Variables",
+            "Special Methods (__init__(), __new__())"
+          ],
+          "subtopic_content": {
+            "Instance and Static Variables": [
+              "Instance variable: defined with self.variable — each object has its own copy. self.name = name in __init__.",
+              "Class variable: defined directly in class body (not in method) — shared by ALL instances. Use for data that should be same for all objects (school_name, species, count).",
+              "Static method: @staticmethod decorator — doesn't take self or cls. Like a regular function inside class. Use for utility functions related to class."
+            ],
+            "Special Methods (__init__(), __new__())": [
+              "__init__(self): initializer — runs AFTER object is created. Sets up instance attributes. Most commonly used special method.",
+              "__new__(cls): constructor — creates the actual object, runs BEFORE __init__. Rarely overridden except for singletons or immutable types.",
+              "Other useful special methods: __str__ (string representation, used by print), __len__ (len() function), __add__ (+ operator), __eq__ (== comparison)."
+            ]
+          },
+          "required_code": "class Student:\n    school = 'ABC College'   # class variable — shared\n    count = 0               # counts all students\n    \n    def __init__(self, name, grade):\n        self.name = name     # instance variable — unique\n        self.grade = grade\n        Student.count += 1  # update class variable\n    \n    def __str__(self):       # used by print()\n        return f'Student({self.name}, {self.grade})'\n    \n    def __eq__(self, other):  # used by ==\n        return self.name == other.name\n    \n    @staticmethod\n    def is_passing(grade):    # utility — no self needed\n        return grade >= 60\n\ns1 = Student('Alice', 85)\ns2 = Student('Bob', 72)\n\nprint(s1)                    # Student(Alice, 85) — __str__\nprint(s1 == s2)              # False — __eq__\nprint(Student.count)         # 2\nprint(Student.school)        # ABC College (shared)\nprint(Student.is_passing(75)) # True (static method)",
+          "common_mistakes": [
+            "Modifying class variable through instance — s1.school = 'XYZ' creates INSTANCE variable, doesn't change class variable. Use Student.school = 'XYZ'",
+            "Using __new__ when __init__ is sufficient — override __new__ only for special cases like singletons"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Iterators and Generators",
+      "topics": [
+        {
+          "name": "Iterators",
+          "keywords": ["iterator", "iterable", "iter", "next", "__iter__", "__next__", "itertools", "islice", "cycle", "containers"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Difference Between Containers and Non-Containers",
+            "__iter__() and __next__()",
+            "Itertools Module (islice(), cycle())"
+          ],
+          "subtopic_content": {
+            "Difference Between Containers and Non-Containers": [
+              "Container: stores elements in memory — list, tuple, dict, set. You can check length, access by index, iterate multiple times.",
+              "Non-container/Generator: produces values one at a time, on demand — doesn't store all values in memory. range(), file objects, generators. Can only iterate once."
+            ],
+            "__iter__() and __next__()": [
+              "Iterable: object with __iter__() method that returns an iterator. list, str, range are iterables.",
+              "Iterator: object with __next__() method that returns next value. Raises StopIteration when exhausted. iter(list) converts iterable to iterator.",
+              "for loop automatically calls iter() then repeatedly calls next() — that's how iteration works internally."
+            ],
+            "Itertools Module (islice(), cycle())": [
+              "itertools: standard library module with efficient iterator functions. No memory waste — computes values lazily.",
+              "islice(iterable, stop): take first n items without loading all. cycle(iterable): repeats iterable infinitely. chain(a, b): combines iterables."
+            ]
+          },
+          "required_code": "# How for loop works internally\nfruits = ['apple', 'banana', 'cherry']\nit = iter(fruits)           # get iterator\nprint(next(it))  # apple\nprint(next(it))  # banana\nprint(next(it))  # cherry\n# next(it)       # StopIteration!\n\n# Custom iterator\nclass CountDown:\n    def __init__(self, start):\n        self.current = start\n    \n    def __iter__(self):\n        return self\n    \n    def __next__(self):\n        if self.current <= 0:\n            raise StopIteration\n        val = self.current\n        self.current -= 1\n        return val\n\nfor num in CountDown(5):\n    print(num, end=' ')  # 5 4 3 2 1\n\n# itertools\nfrom itertools import islice, cycle\nnumbers = range(1_000_000)\nfirst5 = list(islice(numbers, 5))  # [1,2,3,4,5] — no memory waste\n\ncycle_iter = cycle(['A', 'B', 'C'])\nfor i, val in enumerate(cycle_iter):\n    if i >= 7: break\n    print(val, end=' ')  # A B C A B C A",
+          "common_mistakes": [
+            "Iterating an exhausted iterator — after going through all items, calling next() only gives StopIteration. Create new iterator to iterate again",
+            "Confusing iterable and iterator — list is iterable (has __iter__), iter(list) returns an iterator (has __next__)"
+          ]
+        },
+        {
+          "name": "Generators",
+          "keywords": ["generator", "yield", "generator function", "generator expression"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "yield Keyword",
+            "Control Flow in Iterators and Generators"
+          ],
+          "subtopic_content": {
+            "yield Keyword": [
+              "Generator function: uses yield instead of return. When called, returns a generator object — doesn't execute function body immediately.",
+              "Each call to next() runs until next yield, pauses, and resumes from same point next time. Function 'remembers' its state between calls.",
+              "Memory efficient: a generator that yields 1 million numbers uses almost no memory — computes one at a time. Equivalent list would need hundreds of MB."
+            ],
+            "Control Flow in Iterators and Generators": [
+              "Generator expression: (expression for item in iterable) — like list comprehension but with () and lazy evaluation.",
+              "sum(x**2 for x in range(1000000)) — computes sum without creating list. send() method: sends value INTO generator. throw() method: sends exception into generator."
+            ]
+          },
+          "required_code": "# Generator function\ndef count_up(start, end):\n    current = start\n    while current <= end:\n        yield current        # pauses here, returns value\n        current += 1         # resumes from here next call\n\ngen = count_up(1, 5)\nprint(next(gen))  # 1\nprint(next(gen))  # 2\nfor num in count_up(1, 5):  # can iterate\n    print(num, end=' ')     # 1 2 3 4 5\n\n# Memory comparison\nimport sys\nnormal_list = [x**2 for x in range(10000)]   # list\ngenerator   = (x**2 for x in range(10000))    # generator\nprint(sys.getsizeof(normal_list))  # ~87624 bytes\nprint(sys.getsizeof(generator))    # 200 bytes!\n\n# Practical: read large file efficiently\ndef read_large_file(filename):\n    with open(filename) as f:\n        for line in f:\n            yield line.strip()  # one line at a time\n# No matter how large the file, memory usage stays constant",
+          "common_mistakes": [
+            "Confusing generator and list comprehension — (x for x in lst) is generator (lazy), [x for x in lst] is list (eager). Use generator for large data",
+            "Trying to access generator by index — gen[0] gives TypeError. Generators are forward-only iterators"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Python For Data Analysis",
+      "topics": [
+        {
+          "name": "Numpy Library",
+          "keywords": ["numpy", "array", "vectorized", "broadcasting", "ndarray", "numpy indexing", "aggregation", "linear algebra"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Understanding arrays and vectorized operations",
+            "Creating and manipulating NumPy arrays",
+            "Broadcasting and universal functions",
+            "Indexing, slicing, and iterating",
+            "Aggregation functions and statistics",
+            "Linear algebra with NumPy"
+          ],
+          "subtopic_content": {
+            "Understanding arrays and vectorized operations": [
+              "NumPy array (ndarray): like Python list but much faster for math. All elements same type (homogeneous). Stored contiguously in memory.",
+              "Vectorized operation: apply operation to all elements without a loop. np.array([1,2,3]) * 2 → [2,4,6]. 100x faster than Python loop for large arrays."
+            ],
+            "Creating and manipulating NumPy arrays": [
+              "np.array([1,2,3]): from list. np.zeros((3,4)): 3×4 array of zeros. np.ones((2,3)): ones. np.arange(0,10,2): like range() but returns array.",
+              "np.linspace(0,1,5): 5 evenly spaced values from 0 to 1. np.random.rand(3,3): random values. array.shape, array.dtype, array.ndim, array.size."
+            ],
+            "Broadcasting and universal functions": [
+              "Broadcasting: NumPy can do operations on arrays of different shapes when dimensions are compatible. a + b where a is (3,1) and b is (1,3) → result is (3,3).",
+              "Universal functions (ufunc): np.sqrt(), np.exp(), np.sin(), np.log() — apply to each element. Much faster than Python loops."
+            ],
+            "Indexing, slicing, and iterating": [
+              "1D: arr[2], arr[1:4], arr[::2]. 2D: arr[row, col], arr[0:2, 1:3]. Boolean indexing: arr[arr > 5] — selects elements where condition is True.",
+              "Fancy indexing: arr[[0,2,4]] selects rows 0,2,4. Iterating 2D: for row in arr2d: or iterate elements with np.nditer(arr)."
+            ],
+            "Aggregation functions and statistics": [
+              "arr.sum(), arr.mean(), arr.std(), arr.min(), arr.max(), arr.median(). Axis parameter: arr.sum(axis=0) sums each column, axis=1 sums each row.",
+              "np.percentile(arr, 75), np.corrcoef(x,y) — correlation. These are foundation of data analysis."
+            ],
+            "Linear algebra with NumPy": [
+              "np.dot(A, B) or A @ B: matrix multiplication. np.linalg.inv(A): inverse. np.linalg.det(A): determinant. np.linalg.eig(A): eigenvalues and eigenvectors.",
+              "Essential for machine learning — neural networks are matrix multiplications at their core."
+            ]
+          },
+          "required_code": "import numpy as np\n\n# Creating arrays\narr = np.array([1, 2, 3, 4, 5])\nmatrix = np.array([[1,2,3],[4,5,6]])\nzeros = np.zeros((3, 3))\nprint(arr.shape)    # (5,)\nprint(matrix.shape) # (2, 3)\n\n# Vectorized operations — no loop needed!\nprint(arr * 2)         # [2 4 6 8 10]\nprint(arr ** 2)        # [1 4 9 16 25]\nprint(np.sqrt(arr))    # [1.  1.41 1.73 2.  2.24]\n\n# Indexing\nprint(matrix[0, 2])    # 3 (row 0, col 2)\nprint(matrix[:, 1])    # [2, 5] (all rows, col 1)\nprint(arr[arr > 3])    # [4, 5] (boolean indexing)\n\n# Statistics\ndata = np.array([23, 45, 12, 67, 34, 56, 78])\nprint(f'Mean: {data.mean():.1f}')  # Mean: 45.0\nprint(f'Std:  {data.std():.1f}')   # Std: 21.6\nprint(f'Max:  {data.max()}')       # Max: 78",
+          "common_mistakes": [
+            "Using Python list operations on NumPy arrays — [1,2,3] + [4,5,6] concatenates, np.array([1,2,3]) + np.array([4,5,6]) adds element-wise",
+            "Forgetting that NumPy slices are VIEWS not copies — modifying arr[1:3] modifies original. Use .copy() for independent copy"
+          ]
+        },
+        {
+          "name": "Pandas Library",
+          "keywords": ["pandas", "dataframe", "series", "data cleaning", "missing data", "filtering", "sorting", "merge", "groupby", "csv", "excel"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Series and DataFrames: creation, indexing, and selection",
+            "Data cleaning (handling missing data, duplicates)",
+            "Filtering and sorting datasets",
+            "Merging, joining, and concatenating datasets",
+            "GroupBy operations and aggregations",
+            "Data import/export (CSV, Excel, SQL, etc.)"
+          ],
+          "subtopic_content": {
+            "Series and DataFrames: creation, indexing, and selection": [
+              "Series: 1D labeled array. Like a column in Excel. DataFrame: 2D table with rows and columns — this is what you work with for data analysis.",
+              "Select column: df['name'] or df.name. Select row: df.loc['label'] (by label) or df.iloc[0] (by position). Select cell: df.loc['row','col'].",
+              "Multiple columns: df[['name','age']]. Slice rows: df.iloc[0:5]. Conditional select: df[df['age'] > 20]."
+            ],
+            "Data cleaning (handling missing data, duplicates)": [
+              "Check missing: df.isnull().sum() — count NaN per column. df.isnull() → boolean DataFrame.",
+              "Handle missing: df.dropna() removes rows with any NaN. df.fillna(0) fills NaN with 0. df['col'].fillna(df['col'].mean()) fills with mean — common for numeric data.",
+              "Duplicates: df.duplicated() checks. df.drop_duplicates() removes. df.drop_duplicates(subset=['name']) checks only name column."
+            ],
+            "Filtering and sorting datasets": [
+              "Filter rows: df[df['score'] >= 60]. Multiple conditions: df[(df['age'] > 20) & (df['score'] >= 60)] — use & not 'and'.",
+              "Sort: df.sort_values('score') ascending. df.sort_values('score', ascending=False) descending. df.sort_values(['dept','score']) multi-column sort."
+            ],
+            "Merging, joining, and concatenating datasets": [
+              "pd.concat([df1, df2]): stack DataFrames vertically (same columns). pd.concat([df1, df2], axis=1): stack horizontally (same rows).",
+              "pd.merge(df1, df2, on='id'): like SQL JOIN. how='inner' (default), 'left', 'right', 'outer'. df1.join(df2): join on index."
+            ],
+            "GroupBy operations and aggregations": [
+              "df.groupby('department'): splits data by department. Then apply aggregation: .mean(), .sum(), .count(), .max(), .min().",
+              "df.groupby('dept')['salary'].mean() — average salary per department. .agg({'salary':'mean','age':'max'}) — different aggregation per column."
+            ],
+            "Data import/export (CSV, Excel, SQL, etc.)": [
+              "Read: pd.read_csv('file.csv'), pd.read_excel('file.xlsx', sheet_name='Sheet1'), pd.read_sql(query, connection).",
+              "Write: df.to_csv('output.csv', index=False), df.to_excel('output.xlsx'), df.to_json('output.json')."
+            ]
+          },
+          "required_code": "import pandas as pd\nimport numpy as np\n\n# Create DataFrame\ndata = {\n    'name':  ['Alice', 'Bob', 'Carol', 'Dave', 'Eve'],\n    'age':   [25, 30, 28, 35, np.nan],\n    'score': [85, 72, 91, 68, 88]\n}\ndf = pd.DataFrame(data)\n\n# Basic info\nprint(df.shape)         # (5, 3)\nprint(df.dtypes)\nprint(df.describe())    # statistics summary\n\n# Handling missing data\nprint(df.isnull().sum())          # age has 1 NaN\ndf['age'].fillna(df['age'].mean(), inplace=True)  # fill with mean\n\n# Filtering\npassed = df[df['score'] >= 75]\nprint(passed)\n\n# GroupBy\n# If we had a 'dept' column:\n# avg_score = df.groupby('dept')['score'].mean()\n\n# Read/Write CSV\n# df.to_csv('students.csv', index=False)\n# df_loaded = pd.read_csv('students.csv')",
+          "common_mistakes": [
+            "Using 'and' instead of & for multiple conditions — df[df.age > 20 and df.score > 60] gives ValueError. Must use & with parentheses",
+            "df[col] = value on a slice gives SettingWithCopyWarning. Use df.loc[condition, col] = value for assignment"
+          ]
+        },
+        {
+          "name": "Matplotlib Library",
+          "keywords": ["matplotlib", "plot", "line graph", "bar chart", "histogram", "scatter plot", "subplot", "customize plot", "savefig"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Plotting line graphs, bar charts, histograms, and scatter plots",
+            "Customizing plots (legends, labels, ticks)",
+            "Subplots and multiple plots",
+            "Saving plots to files",
+            "Plot styling and aesthetics",
+            "Visualizing distributions (histograms, KDE plots)"
+          ],
+          "subtopic_content": {
+            "Plotting line graphs, bar charts, histograms, and scatter plots": [
+              "plt.plot(x, y): line graph — for trends over time. plt.bar(x, height): bar chart — for comparing categories. plt.scatter(x, y): scatter plot — for relationship between two variables.",
+              "plt.hist(data, bins=10): histogram — for distribution of single variable. plt.pie(values, labels=labels): pie chart — for proportions."
+            ],
+            "Customizing plots (legends, labels, ticks)": [
+              "plt.title('My Chart'), plt.xlabel('X axis'), plt.ylabel('Y axis'): axis labels are essential — always add them.",
+              "plt.legend(): shows legend when multiple data series. plt.grid(True): adds gridlines. plt.xticks(rotation=45): rotate tick labels."
+            ],
+            "Subplots and multiple plots": [
+              "fig, axes = plt.subplots(rows, cols): creates grid of subplots. axes[0,0].plot(x,y) — plot in first subplot.",
+              "plt.figure(figsize=(10,6)): set figure size in inches. figsize=(width, height). Bigger figure for more detail."
+            ],
+            "Saving plots to files": [
+              "plt.savefig('chart.png', dpi=300, bbox_inches='tight'): save as PNG. dpi=300 for high quality (print). bbox_inches='tight' prevents labels from being cut off.",
+              "Formats: PNG (web), PDF (publication), SVG (vector, scalable). plt.show() displays interactively (in Jupyter/IDE)."
+            ],
+            "Plot styling and aesthetics": [
+              "plt.style.use('seaborn') or 'ggplot', 'dark_background': apply complete style. color='red', linewidth=2, linestyle='--', marker='o': customize individual elements.",
+              "Color: named ('red'), hex ('#FF0000'), RGB tuple ((1,0,0)). Always use colorblind-friendly palettes for professional work."
+            ],
+            "Visualizing distributions (histograms, KDE plots)": [
+              "Histogram: plt.hist(data, bins=20, edgecolor='black'). bins controls granularity — too few hides detail, too many is noisy.",
+              "KDE (Kernel Density Estimation): smooth version of histogram. Use seaborn: sns.kdeplot(data). Or plt.hist(data, density=True) + KDE overlay."
+            ]
+          },
+          "required_code": "import matplotlib.pyplot as plt\nimport numpy as np\n\n# Line plot\nx = np.linspace(0, 10, 100)\ny = np.sin(x)\nplt.figure(figsize=(8, 4))\nplt.plot(x, y, color='blue', linewidth=2, label='sin(x)')\nplt.title('Sine Wave')\nplt.xlabel('x')\nplt.ylabel('y')\nplt.legend()\nplt.grid(True)\nplt.savefig('sine.png', dpi=150)\nplt.show()\n\n# Bar chart\ncategories = ['Math', 'Science', 'English', 'History']\nscores = [85, 92, 78, 88]\nplt.figure(figsize=(8, 5))\nplt.bar(categories, scores, color=['blue','green','orange','red'])\nplt.title('Student Scores by Subject')\nplt.ylabel('Score')\nfor i, v in enumerate(scores):  # add value labels\n    plt.text(i, v+1, str(v), ha='center')\nplt.show()\n\n# Histogram\ndata = np.random.normal(50, 15, 1000)\nplt.hist(data, bins=30, edgecolor='black', color='steelblue')\nplt.title('Score Distribution')\nplt.xlabel('Score')\nplt.ylabel('Frequency')\nplt.show()\n\n# Subplots\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))\nax1.plot(x, np.sin(x))\nax1.set_title('Sine')\nax2.plot(x, np.cos(x), color='red')\nax2.set_title('Cosine')\nplt.tight_layout()\nplt.show()",
+          "common_mistakes": [
+            "Forgetting plt.show() — plot created but nothing appears on screen. In Jupyter Notebook it auto-shows, in scripts you need plt.show()",
+            "Not calling plt.figure() before new plot — previous plot's elements may bleed into new one"
+          ]
+        },
+        {
+          "name": "Seaborn Library",
+          "keywords": ["seaborn", "boxplot", "violin plot", "heatmap", "correlation", "scatter seaborn", "pairplot", "themes", "color palette"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Categorical plots (boxplot, violin plot, swarmplot)",
+            "Heatmaps and correlation matrices",
+            "Relational plots (scatter, line with regression)",
+            "Themes and color palettes for enhanced readability",
+            "Pair plots and multi-variable visualizations"
+          ],
+          "subtopic_content": {
+            "Categorical plots (boxplot, violin plot, swarmplot)": [
+              "Seaborn is built on Matplotlib — higher-level API for statistical visualizations. Works beautifully with Pandas DataFrames.",
+              "sns.boxplot(x='category', y='value', data=df): shows median, quartiles, outliers per category. sns.violinplot(): shows full distribution shape. sns.swarmplot(): shows individual data points."
+            ],
+            "Heatmaps and correlation matrices": [
+              "sns.heatmap(data, annot=True): visualizes 2D matrix as colored grid. Perfect for correlation matrices.",
+              "Correlation matrix: df.corr() → shows how strongly each pair of columns correlates (-1 to +1). Heatmap makes it easy to spot strong correlations visually."
+            ],
+            "Relational plots (scatter, line with regression)": [
+              "sns.scatterplot(x='height', y='weight', data=df, hue='gender'): scatter with color grouping by category.",
+              "sns.regplot(x='x', y='y', data=df): scatter + regression line in one. sns.lmplot(): like regplot but supports facets (subplots per category)."
+            ],
+            "Themes and color palettes for enhanced readability": [
+              "sns.set_theme(style='whitegrid'): clean white background with gridlines — professional look. Styles: darkgrid, whitegrid, dark, white, ticks.",
+              "Color palettes: sns.set_palette('husl'), 'Set2', 'coolwarm', 'viridis'. Use colorblind-friendly: 'colorblind' or 'tab10'."
+            ],
+            "Pair plots and multi-variable visualizations": [
+              "sns.pairplot(df): creates grid of scatter plots for every pair of numeric columns + histograms on diagonal. Best for quick exploration of multi-variable relationships.",
+              "sns.pairplot(df, hue='species'): color-codes by category. Essential first step in exploratory data analysis (EDA)."
+            ]
+          },
+          "required_code": "import seaborn as sns\nimport matplotlib.pyplot as plt\nimport pandas as pd\n\n# Load built-in dataset for examples\ntips = sns.load_dataset('tips')\niris = sns.load_dataset('iris')\n\n# Set theme\nsns.set_theme(style='whitegrid')\n\n# Boxplot\nplt.figure(figsize=(8, 5))\nsns.boxplot(x='day', y='total_bill', data=tips)\nplt.title('Bill Amount by Day')\nplt.show()\n\n# Heatmap — correlation matrix\nplt.figure(figsize=(8, 6))\ncorr = iris.drop('species', axis=1).corr()\nsns.heatmap(corr, annot=True, cmap='coolwarm', fmt='.2f')\nplt.title('Feature Correlation Matrix')\nplt.show()\n\n# Scatter with regression\nsns.regplot(x='total_bill', y='tip', data=tips)\nplt.title('Tip vs Bill Amount')\nplt.show()\n\n# Pairplot — explore all relationships\nsns.pairplot(iris, hue='species')\nplt.show()",
+          "common_mistakes": [
+            "Using Seaborn without setting theme — default Matplotlib look is plain. Always sns.set_theme() at start for professional appearance",
+            "Passing list to Seaborn instead of DataFrame — Seaborn functions expect DataFrame with column names. Convert data to DataFrame first"
+          ]
+        }
+      ]
+    }
+  ]
+}

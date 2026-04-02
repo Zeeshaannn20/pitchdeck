@@ -1,0 +1,622 @@
+{
+  "subject": "database management system",
+  "modules": [
+    {
+      "module": "DBMS Design",
+      "topics": [
+        {
+          "name": "Introduction to DBMS",
+          "keywords": [
+            "database",
+            "dbms",
+            "file system",
+            "dbms vs file system",
+            "types of dbms",
+            "characteristics",
+            "evolution"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "What is a Database — data vs information, why databases exist",
+            "Evolution of DBMS — from file systems to modern RDBMS",
+            "DBMS vs File System — problems with file system approach",
+            "Types of DBMS — Hierarchical, Network, Relational, Object-Oriented, Graph",
+            "Characteristics of DBMS — self-describing, data abstraction, multiple views"
+          ],
+          "required_content": [
+            "Database = organized collection of structured data stored electronically. DBMS = software to create, manage, and query databases (MySQL, Oracle, PostgreSQL, MongoDB)",
+            "File system problems: data redundancy (same data in multiple files), inconsistency, no concurrent access control, no security, difficult querying",
+            "DBMS solves: centralized data, eliminates redundancy, enforces integrity constraints, provides concurrent access, handles security and backup",
+            "Relational DBMS (MySQL, PostgreSQL, Oracle): data in tables with relationships. Most widely used. NoSQL (MongoDB, Redis, Cassandra): for unstructured/semi-structured data",
+            "Three levels of abstraction: Physical level (how data stored), Logical level (what data stored, relationships), View level (what user sees)"
+          ],
+          "required_diagrams": [
+            "DBMS three-level architecture diagram: three horizontal layers labeled Physical Level (bottom - disk blocks, files), Logical Level (middle - tables, schemas, relationships), View Level (top - User View 1, User View 2, User View 3). Arrows showing abstraction layers between them."
+          ],
+          "required_tables": [
+            "Comparison: Feature | File System | DBMS || Data Redundancy | High (data duplicated) | Controlled (normalized) || Data Inconsistency | Common | Prevented by constraints || Data Access | Sequential, manual | SQL queries, indexed || Concurrent Access | Not supported | Handled by DBMS || Security | OS-level only | Role-based access control || Backup & Recovery | Manual | Automated || Data Independence | No | Yes (logical/physical) || Example | CSV files, text files | MySQL, PostgreSQL, Oracle"
+          ],
+          "common_mistakes": [
+            "Confusing DBMS and database — database is the data, DBMS is the software managing it",
+            "Thinking all databases are relational — NoSQL databases (MongoDB, Redis) are non-relational and are databases too"
+          ]
+        },
+        {
+          "name": "DBMS Architecture and ER Models",
+          "keywords": [
+            "er model",
+            "entity",
+            "attribute",
+            "relationship",
+            "er diagram",
+            "dbms architecture",
+            "1-tier",
+            "2-tier",
+            "3-tier",
+            "keys"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "DBMS Architecture — 1-tier, 2-tier, 3-tier explained",
+            "ER Model — Entity, Entity Set, Attributes types",
+            "Keys in ER Model — Super, Candidate, Primary key",
+            "Relationships — cardinality (1:1, 1:N, M:N), participation",
+            "Creating ER Diagrams — symbols and notation"
+          ],
+          "required_content": [
+            "1-tier: client and database on same machine (standalone apps). 2-tier: client talks directly to database server. 3-tier: client → application server → database (web applications — most common today)",
+            "Entity: real-world object (Student, Course). Weak Entity: depends on strong entity for existence (OrderItem depends on Order). Entity Set: collection of similar entities",
+            "Attribute types: Simple (atomic — name, age), Composite (address → street + city + zip), Multi-valued (phone numbers), Derived (age derived from birthdate), Key attribute (underlined in ER diagram)",
+            "Cardinality: 1:1 (Person-Passport), 1:N (Department-Employees), M:N (Student-Course). Total participation (double line) = every entity must participate. Partial participation (single line) = optional",
+            "ER Diagram symbols: Rectangle = Entity. Ellipse = Attribute. Diamond = Relationship. Double rectangle = Weak entity. Double ellipse = Multi-valued attribute. Dashed ellipse = Derived attribute"
+          ],
+          "required_diagrams": [
+            "ER Diagram symbols reference: show each ER notation symbol with its meaning. Rectangle (Entity), Double Rectangle (Weak Entity), Ellipse (Attribute), Dashed Ellipse (Derived Attribute), Double Ellipse (Multi-valued), Diamond (Relationship), Double Diamond (Identifying Relationship), Lines (participation), Numbers/letters on lines (cardinality 1, N, M).",
+            "Sample ER Diagram: University database. Show Student entity (StudentID underlined, Name, Email, DOB-dashed), Course entity (CourseID, CourseName, Credits), ENROLLS relationship between them (M:N cardinality, EnrollDate attribute on relationship), Department entity (DeptID, DeptName), BELONGS_TO relationship (1:N with Student)."
+          ],
+          "common_mistakes": [
+            "Drawing attributes as rectangles — attributes must be ellipses, rectangles are for entities",
+            "Confusing entity and attribute — if something has its own attributes, it's an entity. Phone number alone = attribute. Phone (with brand, model, price) = entity"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "DBMS Components",
+      "topics": [
+        {
+          "name": "Steps in Database Design",
+          "keywords": [
+            "requirements analysis",
+            "conceptual design",
+            "logical design",
+            "physical design",
+            "database design",
+            "design lifecycle",
+            "er diagram",
+            "normalization",
+            "indexing"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Requirements Analysis — gathering data needs from stakeholders",
+            "Conceptual Design — ER diagram, DBMS-independent model",
+            "Logical Design — converting ER to relational schema, normalization",
+            "Physical Design — indexes, partitioning, storage decisions"
+          ],
+          "required_content": [
+            "Design steps: 1) Requirements Analysis (what data needed, who uses it, interviews with stakeholders). 2) Conceptual Design (ER diagram — entities, attributes, relationships, DBMS-independent). 3) Logical Design (convert ER to relational schema, apply normalization, define primary/foreign keys). 4) Physical Design (indexes, partitioning, storage format, query optimization)",
+            "Requirements Analysis: outcome is a Functional Requirements Document listing data elements, security needs, expected transaction volumes. Most critical phase — mistakes here propagate to all subsequent stages",
+            "Conceptual Design is DBMS-independent — same ER diagram whether you choose MySQL, Oracle, or MongoDB later",
+            "Logical Design is DBMS-specific but hardware-independent — you decide relational model but don't care about disk speed",
+            "Physical Design is hardware-specific — B-tree index on SSN column speeds searches. Partitioning Sales table by year improves query performance"
+          ],
+          "required_diagrams": [
+            "Database design lifecycle flowchart: four boxes connected by downward arrows with a feedback loop on the right side. Box 1 (top): REQUIREMENTS ANALYSIS — 'What data is needed? Who uses it?'. Box 2: CONCEPTUAL DESIGN — 'ER Diagram (DBMS-independent)'. Box 3: LOGICAL DESIGN — 'Relational Schema + Normalization'. Box 4 (bottom): PHYSICAL DESIGN — 'Indexes, Partitions, Storage'. Dashed arrow on right side showing feedback loop going back up when errors found. Blue boxes, black arrows, clean white background."
+          ],
+          "required_tables": [
+            "Design phases: Phase | Output | DBMS Dependency | Hardware Dependency || Requirements Analysis | Functional Requirements Document | None | None || Conceptual Design | ER Diagram | None (DBMS-independent) | None || Logical Design | Table schemas, keys, normal forms | Yes (relational model) | No || Physical Design | Indexes, file organization | Yes | Yes (specific to hardware)"
+          ],
+          "common_mistakes": [
+            "Thinking Conceptual Design is DBMS-specific — ER diagram is the same regardless of which database you choose later",
+            "Skipping Requirements Analysis to save time — mistakes here propagate through all stages and result in a failed system",
+            "Confusing Logical and Physical design — Logical = table structure. Physical = how/where data is stored on disk"
+          ]
+        },
+        {
+          "name": "DBMS Components — Schema, Data Independence and Languages",
+          "keywords": [
+            "schema",
+            "instance",
+            "data independence",
+            "logical independence",
+            "physical independence",
+            "ddl",
+            "dml",
+            "dcl",
+            "tcl",
+            "codd rules",
+            "three schema architecture"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Schemas vs Instances — blueprint vs actual data",
+            "Data Independence — logical and physical",
+            "Three-Schema Architecture — external, conceptual, internal levels",
+            "DBMS Languages — DDL, DML, DCL, TCL",
+            "Codd's 12 Rules for Relational DBMS"
+          ],
+          "required_content": [
+            "Schema = structure/blueprint of database (table names, columns, data types, constraints) — changes rarely. Instance = actual data in database at a point in time — changes constantly with every INSERT/UPDATE/DELETE",
+            "Logical Data Independence: change logical schema (add a column) without affecting application programs. Physical Data Independence: change physical storage (add index, move to SSD) without changing logical schema",
+            "Three-Schema Architecture: External Level (user views — each user sees only their relevant data). Conceptual Level (logical schema — tables, relationships). Internal Level (physical storage — how data is stored on disk)",
+            "DDL (Data Definition Language): CREATE, ALTER, DROP, TRUNCATE — defines structure, usually auto-commits (irreversible). DML (Data Manipulation Language): INSERT, UPDATE, DELETE, SELECT — manipulates data, can rollback. DCL (Data Control Language): GRANT, REVOKE — permissions. TCL (Transaction Control Language): COMMIT, ROLLBACK, SAVEPOINT",
+            "Codd's 12 Rules (0-12): Rule 0 (Foundation) — manage database entirely through relational capabilities. Rule 1 (Information) — all data represented as table values. Rule 3 (Null handling) — consistent NULL treatment. Most commercial RDBMS satisfy 8-10 rules, none satisfies all 12 perfectly"
+          ],
+          "required_diagrams": [
+            "Three-Schema Architecture pyramid diagram (ANSI-SPARC): three horizontal layers. Top (External Level) = multiple user views (View 1, View 2, View N) with stick figures. Middle (Conceptual Level) = logical schema showing tables and relationships. Bottom (Internal Level) = physical storage showing disk, files, data blocks. Arrows between layers labeled 'Logical Data Independence' (between top two) and 'Physical Data Independence' (between bottom two)."
+          ],
+          "required_tables": [
+            "DBMS Languages: Category | Commands | Purpose | Reversible || DDL | CREATE, ALTER, DROP, TRUNCATE | Define structure | No (auto-commit) || DML | INSERT, UPDATE, DELETE, SELECT | Manipulate data | Yes (before COMMIT) || DCL | GRANT, REVOKE | Control access | Yes || TCL | COMMIT, ROLLBACK, SAVEPOINT | Manage transactions | N/A"
+          ],
+          "common_mistakes": [
+            "Confusing schema and instance — schema is the empty table structure, instance is the table filled with rows",
+            "Thinking DDL changes can be rolled back — DDL commands auto-commit in most RDBMS, DROP TABLE cannot be undone"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Keys and Normalization",
+      "topics": [
+        {
+          "name": "Keys in Relational Database",
+          "keywords": [
+            "key",
+            "super key",
+            "candidate key",
+            "primary key",
+            "foreign key",
+            "composite key",
+            "unique key",
+            "alternate key"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Super Key — any set of attributes uniquely identifying a row",
+            "Candidate Key — minimal super key",
+            "Primary Key — chosen candidate key, NOT NULL, unique",
+            "Composite Key — primary key with multiple attributes",
+            "Foreign Key — references primary key of another table"
+          ],
+          "required_content": [
+            "Super key: any combination that uniquely identifies a row. {StudentID}, {Email}, {StudentID, Name}, {StudentID, Email} — all are super keys. Many super keys exist for a table",
+            "Candidate key: minimal super key — removing any attribute would lose uniqueness. If StudentID alone is unique, {StudentID, Name} is NOT a candidate key (not minimal). A table can have multiple candidate keys",
+            "Primary key: one candidate key chosen as the main identifier. Cannot be NULL. Cannot have duplicates. Typically the shortest candidate key. Creates clustered index automatically in most DBMS",
+            "Foreign key: attribute in one table that references primary key of another table. Enforces referential integrity — cannot insert FK value that doesn't exist in parent table. ON DELETE CASCADE/SET NULL/RESTRICT options"
+          ],
+          "required_diagrams": [
+            "Keys hierarchy diagram: show Venn diagram style. Outermost circle = All Attributes. Next inner = Super Keys (all unique combinations). Inside that = Candidate Keys (minimal super keys). One highlighted candidate key = Primary Key. Others = Alternate Keys. Separate table showing Foreign Key pointing to Primary Key of another table."
+          ],
+          "required_tables": [
+            "Keys summary: Key Type | Definition | NULL allowed | Duplicates | Count per table || Super Key | Any unique attribute set | Depends | No | Many || Candidate Key | Minimal super key | No | No | One or more || Primary Key | Chosen candidate key | No | No | Exactly one || Alternate Key | Candidate key not chosen | No | No | Zero or more || Foreign Key | References PK of another table | Yes | Yes | Zero or more || Composite Key | PK with 2+ attributes | No | No | At most one"
+          ],
+          "common_mistakes": [
+            "Thinking super key and candidate key are the same — candidate key is a minimal super key (no redundant attributes)",
+            "Assuming every table needs a single-column primary key — composite primary keys are valid and common (e.g., enrollment: StudentID + CourseID)"
+          ]
+        },
+        {
+          "name": "Database Normalization — 1NF to BCNF",
+          "keywords": [
+            "normalization",
+            "1nf",
+            "2nf",
+            "3nf",
+            "bcnf",
+            "functional dependency",
+            "partial dependency",
+            "transitive dependency",
+            "anomaly"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Why normalization — update, insert, delete anomalies",
+            "Functional Dependencies — definition and identification",
+            "1NF — atomic values, no repeating groups",
+            "2NF — no partial dependency on composite primary key",
+            "3NF — no transitive dependency",
+            "BCNF — stronger version of 3NF",
+            "When to AVOID normalization — denormalization for performance"
+          ],
+          "required_content": [
+            "Anomalies without normalization: Insert anomaly (cannot add data without unrelated data), Update anomaly (change data in one place, inconsistency elsewhere), Delete anomaly (deleting one record loses other useful information)",
+            "Functional Dependency: A → B means knowing A, you can determine B. StudentID → StudentName (knowing ID determines name). {StudentID, CourseID} → Grade (need both to determine grade)",
+            "1NF: each cell has atomic (single) value, no repeating groups, each column has unique name, order doesn't matter. Example violation: Phone column with '9876543210, 8765432109'",
+            "2NF: must be 1NF + no partial dependency. Partial dependency: non-key attribute depends on PART of composite PK. If PK is {StudentID, CourseID}, StudentName depends only on StudentID — partial dependency, violates 2NF",
+            "3NF: must be 2NF + no transitive dependency. Transitive: A→B→C where A is PK. StudentID → DeptID → DeptName — DeptName transitively depends on StudentID through DeptID. Move DeptName to separate table",
+            "BCNF: for every functional dependency X→Y, X must be a super key. Stronger than 3NF. Some 3NF tables are not in BCNF. BCNF may lose some functional dependencies"
+          ],
+          "required_diagrams": [
+            "Normalization progression diagram: show the same table going through each normal form. Start with unnormalized table with violations highlighted. Arrow to 1NF with fix. Arrow to 2NF with partial dependency removed. Arrow to 3NF with transitive dependency removed. Each step labeled with what was fixed.",
+            "Functional dependency diagram: show a table with attributes. Draw arrows from determinant attributes to dependent attributes. Show partial dependency (arrow from part of PK to non-key attr). Show transitive dependency chain."
+          ],
+          "required_tables": [
+            "Normal Forms: Normal Form | Requirement | Violation Example | Fix || 1NF | Atomic values, no repeating groups | phone: '9876, 8765' | Separate row per phone || 2NF | No partial dependency | StudentName depends only on StudentID (part of PK) | Move to separate Student table || 3NF | No transitive dependency | StudentID→DeptID→DeptName | Move DeptName to Department table || BCNF | Every determinant is super key | Non-key determines part of key | Decompose table further"
+          ],
+          "common_mistakes": [
+            "Thinking normalization always improves performance — highly normalized schema requires more JOINs which can slow read queries. Denormalize deliberately for reporting/analytics",
+            "Confusing partial and transitive dependency — partial is about part of composite PK, transitive is about non-key → non-key chain"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Transactions and Concurrency",
+      "topics": [
+        {
+          "name": "Transactions, ACID Properties and Concurrency Control",
+          "keywords": [
+            "transaction",
+            "acid",
+            "atomicity",
+            "consistency",
+            "isolation",
+            "durability",
+            "concurrency",
+            "deadlock",
+            "lock",
+            "isolation level",
+            "2pc"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Transactions — what they are, transaction states",
+            "ACID Properties — Atomicity, Consistency, Isolation, Durability",
+            "Locks — shared lock, exclusive lock, deadlocks",
+            "Isolation Levels — READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE",
+            "Optimistic vs Pessimistic Locking",
+            "Recovery Techniques — undo, redo, checkpointing"
+          ],
+          "required_content": [
+            "Transaction: a sequence of operations treated as a single logical unit. Either ALL operations succeed (COMMIT) or ALL are undone (ROLLBACK). Bank transfer: debit account A AND credit account B — must be atomic",
+            "ACID: Atomicity (all or nothing), Consistency (DB goes from valid state to valid state), Isolation (concurrent transactions appear serial to each other), Durability (committed data survives system failure — written to disk)",
+            "Transaction states: Active → Partially Committed → Committed (success path). Active → Failed → Aborted → Rolled Back (failure path)",
+            "Isolation levels trade-off: READ UNCOMMITTED (dirty reads allowed — fastest). READ COMMITTED (no dirty reads). REPEATABLE READ (no non-repeatable reads). SERIALIZABLE (no phantom reads — slowest, most safe)",
+            "Deadlock: T1 holds lock on A, wants B. T2 holds lock on B, wants A. Solution: deadlock detection (wait-for graph) and victim selection, or timeout"
+          ],
+          "required_diagrams": [
+            "Transaction state diagram: show states as circles: Active → (success) Partially Committed → Committed. Active → (failure) Failed → Aborted. Aborted → Restarted or Terminated. Label each transition with what causes it."
+          ],
+          "required_tables": [
+            "Isolation levels: Level | Dirty Read | Non-Repeatable Read | Phantom Read | Performance || READ UNCOMMITTED | Yes | Yes | Yes | Fastest || READ COMMITTED | No | Yes | Yes | Fast (default in PostgreSQL) || REPEATABLE READ | No | No | Yes | Medium (default in MySQL) || SERIALIZABLE | No | No | No | Slowest but safest",
+            "ACID properties: Property | Meaning | Example || Atomicity | All or nothing | Bank transfer: both debit+credit happen or neither || Consistency | DB rules always satisfied | Balance can't go negative || Isolation | Transactions don't interfere | Two users booking last seat see consistent state || Durability | Committed data persists | Power failure doesn't lose committed transactions"
+          ],
+          "common_mistakes": [
+            "Thinking ACID is guaranteed by all databases — NoSQL databases often sacrifice some ACID properties for performance (BASE: Basically Available, Soft state, Eventual consistency)",
+            "Confusing COMMIT and SAVEPOINT — COMMIT permanently saves all changes since last COMMIT. SAVEPOINT is a temporary checkpoint within a transaction to partially rollback to"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Structured Query Language",
+      "topics": [
+        {
+          "name": "SQL DDL — Creating and Managing Tables",
+          "keywords": [
+            "create table",
+            "alter table",
+            "drop",
+            "truncate",
+            "rename",
+            "ddl",
+            "constraints",
+            "primary key",
+            "foreign key",
+            "not null",
+            "unique",
+            "check"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "CREATE TABLE — data types, constraints inline",
+            "ALTER TABLE — add/modify/drop columns and constraints",
+            "DROP vs TRUNCATE vs DELETE differences",
+            "Constraints — NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, CHECK",
+            "Foreign Key ON DELETE behavior — CASCADE, SET NULL, RESTRICT"
+          ],
+          "required_content": [
+            "CREATE TABLE defines structure: column names, data types (INT, VARCHAR(n), DATE, DECIMAL(p,s), BOOLEAN), and constraints",
+            "ALTER TABLE: ADD COLUMN, DROP COLUMN, MODIFY COLUMN (change type/size), ADD CONSTRAINT, DROP CONSTRAINT",
+            "DROP TABLE: removes table structure AND all data permanently (irreversible). TRUNCATE TABLE: removes all rows but keeps structure (faster than DELETE, auto-commits). DELETE: removes rows conditionally, can rollback",
+            "FOREIGN KEY ON DELETE: CASCADE (delete child when parent deleted), SET NULL (set FK to NULL), RESTRICT/NO ACTION (prevent parent deletion if children exist)"
+          ],
+          "required_code": "-- Create tables with all constraint types\nCREATE TABLE Department (\n    dept_id    INT          PRIMARY KEY,\n    dept_name  VARCHAR(100) NOT NULL UNIQUE,\n    location   VARCHAR(100),\n    budget     DECIMAL(12,2) CHECK (budget > 0)\n);\n\nCREATE TABLE Employee (\n    emp_id     INT          PRIMARY KEY,\n    first_name VARCHAR(50)  NOT NULL,\n    last_name  VARCHAR(50)  NOT NULL,\n    email      VARCHAR(100) UNIQUE,\n    salary     DECIMAL(10,2) CHECK (salary >= 0),\n    hire_date  DATE         DEFAULT CURRENT_DATE,\n    dept_id    INT,\n    FOREIGN KEY (dept_id) REFERENCES Department(dept_id)\n        ON DELETE SET NULL   -- if dept deleted, set emp.dept_id = NULL\n        ON UPDATE CASCADE    -- if dept_id changes, update all employees\n);\n\n-- ALTER TABLE examples\nALTER TABLE Employee ADD COLUMN phone VARCHAR(15);\nALTER TABLE Employee MODIFY COLUMN salary DECIMAL(12,2);\nALTER TABLE Employee DROP COLUMN phone;\n\n-- DROP vs TRUNCATE vs DELETE\nDELETE FROM Employee WHERE dept_id = 5;  -- conditional, rollback possible\nTRUNCATE TABLE Employee;                  -- all rows gone, faster, auto-commit\nDROP TABLE Employee;                      -- table gone entirely",
+          "required_tables": [
+            "DROP vs TRUNCATE vs DELETE: Feature | DELETE | TRUNCATE | DROP || Removes | Specific rows | All rows | Entire table || WHERE clause | Yes | No | No || Rollback possible | Yes | No (auto-commit) | No || Triggers fired | Yes | No | No || Speed | Slower | Faster | Fastest || Resets auto-increment | No | Yes | N/A || Structure kept | Yes | Yes | No"
+          ],
+          "common_mistakes": [
+            "Using DROP when TRUNCATE is needed — DROP removes the table itself, TRUNCATE just empties it",
+            "Forgetting ON DELETE behavior — by default it's RESTRICT, meaning you cannot delete a parent row if children exist"
+          ]
+        },
+        {
+          "name": "SQL DML — INSERT, UPDATE, DELETE and SELECT",
+          "keywords": [
+            "insert",
+            "update",
+            "delete",
+            "select",
+            "where",
+            "like",
+            "order by",
+            "distinct",
+            "dml",
+            "filter"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "INSERT — single row, multiple rows, INSERT from SELECT",
+            "UPDATE — with WHERE clause, updating multiple columns",
+            "DELETE — with WHERE, safe delete practices",
+            "SELECT — column selection, WHERE filters, LIKE patterns",
+            "ORDER BY, DISTINCT, LIMIT/TOP"
+          ],
+          "required_content": [
+            "INSERT INTO table (col1, col2) VALUES (v1, v2). Omit column list only if providing all columns in order. INSERT multiple rows: VALUES (v1,v2), (v3,v4), (v5,v6) — more efficient than separate inserts",
+            "UPDATE without WHERE updates ALL rows — extremely dangerous. Always verify with SELECT using same WHERE before running UPDATE",
+            "LIKE patterns: % = zero or more characters. _ = exactly one character. 'A%' starts with A. '%son' ends with son. '%a_' second last char is a",
+            "SELECT DISTINCT removes duplicate rows in result. ORDER BY col ASC/DESC — ASC is default. LIMIT 10 returns first 10 rows (MySQL/PostgreSQL). TOP 10 in SQL Server"
+          ],
+          "required_code": "-- INSERT examples\nINSERT INTO Department (dept_id, dept_name, location, budget)\nVALUES (1, 'Engineering', 'Bangalore', 5000000.00);\n\n-- Multiple rows at once (efficient)\nINSERT INTO Employee (emp_id, first_name, last_name, email, salary, dept_id)\nVALUES\n    (1, 'Alice',   'Smith',  'alice@co.com',  95000, 1),\n    (2, 'Bob',     'Jones',  'bob@co.com',    78000, 1),\n    (3, 'Carol',   'White',  'carol@co.com',  85000, 2);\n\n-- UPDATE with WHERE (always use WHERE!)\nUPDATE Employee SET salary = salary * 1.10  -- 10% raise\nWHERE dept_id = 1;\n\n-- DELETE with WHERE\nDELETE FROM Employee WHERE hire_date < '2020-01-01';\n\n-- SELECT with filters\nSELECT DISTINCT dept_id FROM Employee;  -- unique dept IDs\n\nSELECT first_name, last_name, salary\nFROM Employee\nWHERE salary > 80000\n  AND email LIKE '%@co.com'       -- ends with @co.com\n  AND last_name LIKE 'S%'         -- starts with S\nORDER BY salary DESC\nLIMIT 5;                           -- top 5 earners",
+          "common_mistakes": [
+            "Running UPDATE or DELETE without WHERE — modifies/deletes ALL rows. Always test with SELECT first",
+            "Using = for NULL comparison — WHERE dept_id = NULL returns nothing. Must use WHERE dept_id IS NULL"
+          ]
+        },
+        {
+          "name": "SQL Aggregation, GROUP BY and HAVING",
+          "keywords": [
+            "group by",
+            "having",
+            "aggregate",
+            "count",
+            "sum",
+            "avg",
+            "max",
+            "min",
+            "aggregate function"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Aggregate functions — COUNT, SUM, AVG, MAX, MIN",
+            "GROUP BY — grouping rows and applying aggregates",
+            "HAVING — filtering groups (not rows)",
+            "WHERE vs HAVING distinction",
+            "Aggregate functions with NULL handling"
+          ],
+          "required_content": [
+            "COUNT(*) counts all rows including NULLs. COUNT(column) counts only non-NULL values. SUM/AVG/MAX/MIN ignore NULL values automatically",
+            "GROUP BY groups rows with same values together. MUST include in SELECT only: aggregate functions or columns in GROUP BY clause",
+            "WHERE filters ROWS before grouping. HAVING filters GROUPS after grouping. Cannot use aggregate functions in WHERE — use HAVING",
+            "Order of SQL clause execution: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT"
+          ],
+          "required_code": "-- Basic aggregates\nSELECT\n    COUNT(*)                    AS total_employees,\n    COUNT(dept_id)              AS assigned_employees,  -- excludes NULL\n    AVG(salary)                 AS avg_salary,\n    MAX(salary)                 AS highest_salary,\n    MIN(salary)                 AS lowest_salary,\n    SUM(salary)                 AS total_payroll\nFROM Employee;\n\n-- GROUP BY: per-department stats\nSELECT\n    d.dept_name,\n    COUNT(e.emp_id)             AS headcount,\n    ROUND(AVG(e.salary), 2)    AS avg_salary,\n    SUM(e.salary)               AS total_salary\nFROM Employee e\nJOIN Department d ON e.dept_id = d.dept_id\nGROUP BY d.dept_name\nORDER BY avg_salary DESC;\n\n-- HAVING: filter groups (not rows)\nSELECT dept_id, COUNT(*) AS emp_count, AVG(salary) AS avg_sal\nFROM Employee\nWHERE hire_date >= '2020-01-01'  -- filter ROWS first\nGROUP BY dept_id\nHAVING COUNT(*) > 3              -- filter GROUPS (after grouping)\n   AND AVG(salary) > 70000\nORDER BY emp_count DESC;",
+          "required_tables": [
+            "WHERE vs HAVING: Feature | WHERE | HAVING || Filters | Individual rows | Groups of rows || Executes | Before GROUP BY | After GROUP BY || Can use aggregates | No | Yes || Can use regular columns | Yes | Yes (if in GROUP BY) || Example | WHERE salary > 50000 | HAVING AVG(salary) > 50000"
+          ],
+          "common_mistakes": [
+            "Using WHERE with aggregate functions — WHERE COUNT(*) > 5 is a syntax error. Must use HAVING COUNT(*) > 5",
+            "Including non-aggregated columns in SELECT that aren't in GROUP BY — causes error or unpredictable results"
+          ]
+        },
+        {
+          "name": "SQL Joins — INNER, OUTER, CROSS",
+          "keywords": [
+            "join",
+            "inner join",
+            "left join",
+            "right join",
+            "full outer join",
+            "cross join",
+            "self join",
+            "natural join"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "INNER JOIN — only matching rows from both tables",
+            "LEFT JOIN — all rows from left, matching from right (NULL if no match)",
+            "RIGHT JOIN — all rows from right, matching from left",
+            "FULL OUTER JOIN — all rows from both tables",
+            "CROSS JOIN — cartesian product",
+            "Self Join — joining table with itself"
+          ],
+          "required_content": [
+            "INNER JOIN: returns rows where join condition matches in BOTH tables. Most common join. Employees without a department are excluded",
+            "LEFT JOIN: ALL rows from left table + matching rows from right. Right side shows NULL where no match. Use when you want all from one table regardless of relationship",
+            "FULL OUTER JOIN: ALL rows from both tables. NULLs on both sides where no match. Not supported in MySQL (use UNION of LEFT and RIGHT JOINs)",
+            "CROSS JOIN: every row of table1 paired with every row of table2. Result rows = table1_rows × table2_rows. Useful for generating combinations, rarely used in business queries"
+          ],
+          "required_code": "-- Setup: Employee has dept_id, some employees have no dept (NULL)\n\n-- INNER JOIN: only employees WITH a department\nSELECT e.first_name, e.last_name, d.dept_name\nFROM Employee e\nINNER JOIN Department d ON e.dept_id = d.dept_id;\n\n-- LEFT JOIN: ALL employees, dept_name is NULL for unassigned\nSELECT e.first_name, e.last_name,\n       COALESCE(d.dept_name, 'Unassigned') AS dept_name\nFROM Employee e\nLEFT JOIN Department d ON e.dept_id = d.dept_id;\n\n-- RIGHT JOIN: all departments, even empty ones\nSELECT e.first_name, d.dept_name\nFROM Employee e\nRIGHT JOIN Department d ON e.dept_id = d.dept_id;\n\n-- FULL OUTER JOIN: all employees + all departments\nSELECT e.first_name, d.dept_name\nFROM Employee e\nFULL OUTER JOIN Department d ON e.dept_id = d.dept_id;\n-- MySQL alternative:\n-- SELECT ... FROM e LEFT JOIN d ... UNION SELECT ... FROM e RIGHT JOIN d ...\n\n-- Self Join: employees and their managers\nSELECT e.first_name AS employee,\n       m.first_name AS manager\nFROM Employee e\nLEFT JOIN Employee m ON e.manager_id = m.emp_id;",
+          "required_diagrams": [
+            "SQL Joins Venn diagram: show 5 diagrams side by side. INNER JOIN = overlapping center only highlighted. LEFT JOIN = entire left circle + overlap highlighted. RIGHT JOIN = entire right circle + overlap highlighted. FULL OUTER JOIN = both circles entirely highlighted. CROSS JOIN = show two small tables producing all combinations."
+          ],
+          "common_mistakes": [
+            "Confusing LEFT JOIN and INNER JOIN — if you need employees without departments, use LEFT JOIN. INNER JOIN would exclude them",
+            "MySQL doesn't support FULL OUTER JOIN — must simulate with LEFT JOIN UNION RIGHT JOIN"
+          ]
+        },
+        {
+          "name": "Subqueries, Indexes, Views and Optimization",
+          "keywords": [
+            "subquery",
+            "correlated subquery",
+            "index",
+            "view",
+            "query optimization",
+            "execution plan",
+            "exists",
+            "in",
+            "sequences"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Subqueries — non-correlated and correlated",
+            "IN, EXISTS, ANY, ALL operators with subqueries",
+            "Indexes — creating, types, when to use",
+            "Views — creating, querying, updatable views",
+            "Query Execution Plans and optimization basics"
+          ],
+          "required_content": [
+            "Non-correlated subquery: inner query runs once, result used by outer query. Correlated subquery: inner query runs for EACH row of outer query — slower but more powerful",
+            "EXISTS: checks if subquery returns any row (stops at first match — efficient). IN: compares value against set of values. EXISTS is generally faster than IN for large datasets",
+            "Index: data structure (B-tree by default) that speeds up retrieval. Automatically created for PRIMARY KEY. Manually create for frequently searched columns. Slows INSERT/UPDATE/DELETE",
+            "View: stored SQL query that acts like a virtual table. Benefits: simplify complex queries, hide sensitive columns, provide security layer. A view does NOT store data (usually)"
+          ],
+          "required_code": "-- Non-correlated subquery\nSELECT first_name, salary\nFROM Employee\nWHERE dept_id IN (\n    SELECT dept_id FROM Department\n    WHERE location = 'Bangalore'\n);\n\n-- Correlated subquery: employees earning above their dept average\nSELECT e1.first_name, e1.salary, e1.dept_id\nFROM Employee e1\nWHERE e1.salary > (\n    SELECT AVG(e2.salary)\n    FROM Employee e2\n    WHERE e2.dept_id = e1.dept_id  -- references outer query\n);\n\n-- EXISTS (efficient — stops at first match)\nSELECT dept_name\nFROM Department d\nWHERE EXISTS (\n    SELECT 1 FROM Employee e WHERE e.dept_id = d.dept_id\n);\n\n-- Create index on frequently searched column\nCREATE INDEX idx_emp_email ON Employee(email);\nCREATE INDEX idx_emp_dept_salary ON Employee(dept_id, salary); -- composite\n\n-- Create a view\nCREATE VIEW HighEarners AS\n    SELECT emp_id, first_name, last_name, salary, dept_name\n    FROM Employee e\n    JOIN Department d ON e.dept_id = d.dept_id\n    WHERE e.salary > 90000;\n\n-- Use view like a table\nSELECT * FROM HighEarners ORDER BY salary DESC;\n\n-- Check query execution plan\nEXPLAIN SELECT * FROM Employee WHERE email = 'alice@co.com';",
+          "required_tables": [
+            "Index types: Type | Structure | Best for | Drawback || B-tree Index | Balanced tree | Range queries, equality, ORDER BY | Overhead on writes || Hash Index | Hash table | Exact equality only | No range queries, no sorting || Full-text Index | Inverted index | Text search (LIKE, MATCH) | Large storage || Composite Index | B-tree on multiple cols | Multi-column WHERE | Order of columns matters || Unique Index | B-tree + uniqueness | Enforcing uniqueness | Same as B-tree"
+          ],
+          "common_mistakes": [
+            "Over-indexing — every index slows down INSERT/UPDATE/DELETE. Only index columns used in WHERE, JOIN, and ORDER BY",
+            "Correlated subquery in SELECT with millions of rows — runs once per row, extremely slow. Rewrite as JOIN"
+          ]
+        },
+        {
+          "name": "SQL Functions and TCL Commands",
+          "keywords": [
+            "string functions",
+            "numeric functions",
+            "date functions",
+            "aggregate functions",
+            "commit",
+            "rollback",
+            "savepoint",
+            "tcl"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "String functions — UPPER, LOWER, LENGTH, SUBSTRING, CONCAT, TRIM, REPLACE",
+            "Numeric functions — ROUND, CEIL, FLOOR, ABS, MOD",
+            "Date functions — NOW, CURDATE, DATEDIFF, DATE_FORMAT, EXTRACT",
+            "TCL Commands — COMMIT, ROLLBACK, SAVEPOINT"
+          ],
+          "required_content": [
+            "String functions are essential for data cleaning and formatting. CONCAT() joins strings. SUBSTRING(str, start, length). TRIM removes whitespace. REPLACE(str, from, to)",
+            "ROUND(3.567, 2) = 3.57. CEIL(3.1) = 4. FLOOR(3.9) = 3. ABS(-5) = 5. MOD(10, 3) = 1",
+            "Date: NOW() = current datetime. CURDATE() = current date. DATEDIFF(date1, date2) = days between. DATE_FORMAT(date, '%d-%m-%Y') = formatted string",
+            "TCL manages transaction boundaries. SAVEPOINT creates named checkpoint within transaction. ROLLBACK TO SAVEPOINT sp1 undoes changes only back to that savepoint, not entire transaction"
+          ],
+          "required_code": "-- String functions\nSELECT\n    UPPER(first_name)                    AS upper_name,\n    LOWER(email)                         AS lower_email,\n    LENGTH(last_name)                    AS name_length,\n    CONCAT(first_name, ' ', last_name)   AS full_name,\n    SUBSTRING(email, 1, 5)               AS email_prefix,\n    TRIM('  Alice  ')                    AS trimmed,    -- 'Alice'\n    REPLACE(email, '@co.com', '@company.com') AS new_email\nFROM Employee;\n\n-- Numeric and Date functions\nSELECT\n    ROUND(salary / 12, 2)               AS monthly_salary,\n    ABS(salary - 80000)                 AS salary_diff,\n    DATEDIFF(CURDATE(), hire_date)      AS days_employed,\n    YEAR(hire_date)                     AS hire_year,\n    DATE_FORMAT(hire_date, '%d %M %Y')  AS formatted_date\nFROM Employee;\n\n-- TCL: transaction with savepoint\nSTART TRANSACTION;\n\nINSERT INTO Employee VALUES (10, 'Dave', 'Green', 'dave@co.com', 75000, CURDATE(), 1);\nSAVEPOINT after_insert;  -- checkpoint\n\nUPDATE Department SET budget = budget - 75000 WHERE dept_id = 1;\n-- Oops, wrong amount!\n\nROLLBACK TO SAVEPOINT after_insert;  -- undo UPDATE, keep INSERT\n\nUPDATE Department SET budget = budget - 7500 WHERE dept_id = 1;  -- correct\nCOMMIT;  -- permanently save both INSERT and correct UPDATE",
+          "common_mistakes": [
+            "Thinking ROLLBACK undoes committed transactions — once COMMITTED, data is permanent. ROLLBACK only works before COMMIT",
+            "Using SAVEPOINT without START TRANSACTION — savepoints only work inside active transactions"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "No SQL Database",
+      "topics": [
+        {
+          "name": "Introduction to NoSQL and Types",
+          "keywords": [
+            "nosql",
+            "cap theorem",
+            "document database",
+            "key value",
+            "column family",
+            "graph database",
+            "mongodb",
+            "redis",
+            "cassandra",
+            "neo4j"
+          ],
+          "nature": "theoretical",
+          "no_code": false,
+          "subtopics": [
+            "What is NoSQL — characteristics, SQL vs NoSQL",
+            "CAP Theorem — Consistency, Availability, Partition Tolerance",
+            "Document Databases — MongoDB overview",
+            "Key-Value Stores — Redis, DynamoDB",
+            "Column-Family Stores — Cassandra",
+            "Graph Databases — Neo4j",
+            "When to choose NoSQL vs SQL"
+          ],
+          "required_content": [
+            "NoSQL = 'Not Only SQL'. Characteristics: schema-flexible, horizontally scalable, eventual consistency (often), designed for specific data models. Good for unstructured/semi-structured data, high volume, rapid development",
+            "CAP Theorem: any distributed system can only guarantee 2 of 3 — Consistency (all nodes see same data), Availability (every request gets response), Partition Tolerance (system works despite network splits). Network partitions always happen, so choose CP (MongoDB) or AP (Cassandra, CouchDB)",
+            "Document DB (MongoDB): stores JSON-like documents. Flexible schema. One document can contain related data (embedding). Best for: catalogs, user profiles, content management",
+            "Key-Value (Redis): key maps to value (string, list, hash, set). Ultra-fast (in-memory). Best for: caching, sessions, leaderboards, pub/sub. DynamoDB: managed AWS key-value + document",
+            "Column-Family (Cassandra): data stored in column families. Optimized for write-heavy workloads. Best for: time-series data, IoT, logs, messaging. Graph DB (Neo4j): nodes and edges. Best for: social networks, recommendation engines, fraud detection"
+          ],
+          "required_diagrams": [
+            "CAP Theorem triangle diagram: equilateral triangle with vertices labeled Consistency (C), Availability (A), Partition Tolerance (P). Show where different databases fall: CP corner = MongoDB, HBase. AP corner = Cassandra, CouchDB, DynamoDB. CA corner = Traditional RDBMS (MySQL, PostgreSQL) — theoretically, but P always happens in distributed systems."
+          ],
+          "required_tables": [
+            "NoSQL types: Type | Data Model | Examples | Best Use Case || Document | JSON documents | MongoDB, CouchDB | Content, catalogs, user data || Key-Value | Key → Value | Redis, DynamoDB | Caching, sessions, leaderboards || Column-Family | Column families | Cassandra, HBase | Time-series, logs, IoT || Graph | Nodes + Edges | Neo4j, Amazon Neptune | Social networks, fraud detection, recommendations",
+            "SQL vs NoSQL: Feature | SQL (RDBMS) | NoSQL || Schema | Fixed, predefined | Flexible, dynamic || Scaling | Vertical (bigger server) | Horizontal (more servers) || Consistency | Strong (ACID) | Eventual (BASE often) || Joins | Yes, complex joins | Avoided (denormalized) || Query Language | SQL (standardized) | Varies by database || Best for | Structured data, complex queries | Unstructured, high-volume, rapid changes"
+          ],
+          "common_mistakes": [
+            "Thinking NoSQL replaces SQL — they solve different problems. Most production systems use both (polyglot persistence)",
+            "Assuming NoSQL is always faster — for structured data with complex queries, RDBMS can be faster due to query optimization"
+          ]
+        },
+        {
+          "name": "MongoDB — Complete Guide",
+          "keywords": [
+            "mongodb",
+            "collection",
+            "document",
+            "bson",
+            "crud",
+            "embedded",
+            "reference",
+            "schema",
+            "atlas",
+            "compass",
+            "objectid"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "MongoDB data model — databases, collections, documents, BSON",
+            "Embedded vs Reference document design",
+            "One-to-One, One-to-Many, Many-to-Many in MongoDB",
+            "CRUD operations — insertOne/Many, find, updateOne/Many, deleteOne/Many",
+            "Query operators — comparison, logical, element",
+            "Is MongoDB really schemaless?"
+          ],
+          "required_content": [
+            "MongoDB hierarchy: Database → Collections (like tables) → Documents (like rows, but JSON/BSON). Each document can have different fields. _id field auto-created (ObjectId) if not provided",
+            "Embedded documents: store related data in same document. Fast reads (single query). Good for data accessed together. Bad for frequently updated sub-documents or large arrays. Reference documents: store _id reference to another document. Like foreign key. Good for many-to-many or when sub-document accessed independently",
+            "CRUD: insertOne({name:'Alice'}), insertMany([...]). find({age:{$gt:25}}). updateOne({_id:id}, {$set:{name:'Bob'}}). deleteOne({_id:id}). findOne() returns first match",
+            "MongoDB is 'schemaless' meaning no schema enforced by default — different documents in same collection can have different fields. But best practice is to use Mongoose (Node.js) or schema validation for consistency"
+          ],
+          "required_code": "// MongoDB CRUD operations\n\n// INSERT\ndb.employees.insertOne({\n    name: \"Alice Smith\",\n    email: \"alice@company.com\",\n    salary: 95000,\n    skills: [\"JavaScript\", \"Python\", \"SQL\"],  // array\n    address: {                                  // embedded document\n        street: \"123 Main St\",\n        city: \"Bangalore\",\n        pincode: \"560001\"\n    },\n    hireDate: new Date(\"2022-03-15\")\n});\n\n// Multiple documents\ndb.employees.insertMany([\n    { name: \"Bob\",   salary: 78000, dept: \"Engineering\" },\n    { name: \"Carol\", salary: 85000, dept: \"Marketing\"   }\n]);\n\n// FIND / READ\ndb.employees.find({ salary: { $gt: 80000 } });           // salary > 80000\ndb.employees.find({ dept: \"Engineering\", salary: { $gte: 90000 } }); // AND\ndb.employees.find({ $or: [{ dept: \"Engineering\" }, { salary: { $gt: 90000 } }] });\ndb.employees.find({ skills: \"Python\" });                  // array contains\ndb.employees.find({}, { name: 1, salary: 1, _id: 0 });   // projection\ndb.employees.find().sort({ salary: -1 }).limit(5);        // top 5 earners\n\n// UPDATE\ndb.employees.updateOne(\n    { name: \"Alice Smith\" },              // filter\n    { $set: { salary: 105000 },           // update operators\n      $push: { skills: \"MongoDB\" } }      // add to array\n);\ndb.employees.updateMany(\n    { dept: \"Engineering\" },\n    { $inc: { salary: 5000 } }            // increment all Engineering salaries\n);\n\n// DELETE\ndb.employees.deleteOne({ name: \"Bob\" });\ndb.employees.deleteMany({ salary: { $lt: 50000 } });\n\n// Reference design (like Foreign Key)\n// Department collection\ndb.departments.insertOne({ _id: ObjectId(\"...\"), name: \"Engineering\" });\n// Employee references department\ndb.employees.insertOne({ name: \"Dave\", dept_id: ObjectId(\"...\") }); // reference",
+          "required_tables": [
+            "MongoDB vs SQL terminology: SQL | MongoDB || Database | Database || Table | Collection || Row | Document || Column | Field || Primary Key | _id (ObjectId) || JOIN | $lookup (aggregation) || WHERE | find() query filter || GROUP BY | $group (aggregation) || INDEX | createIndex()"
+          ],
+          "common_mistakes": [
+            "Embedding too deeply — deeply nested documents become hard to query and update. Max 2-3 levels of embedding recommended",
+            "Using string _id instead of ObjectId — ObjectId contains timestamp, making it sortable by creation time. String _id loses this benefit"
+          ]
+        }
+      ]
+    }
+  ]
+}

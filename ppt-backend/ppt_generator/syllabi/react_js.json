@@ -1,0 +1,1596 @@
+{
+  "subject": "react js",
+  "modules": [
+    {
+      "module": "JavaScript Essentials for React",
+      "topics": [
+        {
+          "name": "JavaScript Fundamentals",
+          "keywords": [
+            "var let const",
+            "scope",
+            "data types",
+            "type coercion",
+            "truthy falsy",
+            "operators",
+            "control flow",
+            "if else",
+            "loops"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "var, let, const and scope",
+            "Data types and type coercion",
+            "Truthy and Falsy values",
+            "Operators and expressions",
+            "Control flow: if-else, switch, loops"
+          ],
+          "subtopic_content": {
+            "var, let, const and scope": [
+              "var: function-scoped, hoisted to top of function, can be re-declared. let: block-scoped, not hoisted usably, cannot be re-declared in same scope. const: block-scoped, must be initialised immediately, cannot be reassigned.",
+              "Block scope means the variable only exists inside the nearest { }. This prevents accidental overwrites — the #1 reason to prefer let/const over var in React code."
+            ],
+            "Data types and type coercion": [
+              "Primitive types: string, number, boolean, null, undefined, symbol, bigint. Reference types: object, array, function.",
+              "Type coercion: JS silently converts types when operators are used. '5' + 3 = '53' (string concat). '5' - 3 = 2 (numeric). Always use === (strict equality) in React to avoid coercion bugs."
+            ],
+            "Truthy and Falsy values": [
+              "Falsy values (6 only): false, 0, '' (empty string), null, undefined, NaN. Everything else is truthy — including '0', [], {}.",
+              "Critical for React: conditional rendering uses truthy/falsy. {count && <Badge />} renders nothing when count = 0 (falsy) but renders when count = 1+. Use {count > 0 && <Badge />} to be explicit."
+            ],
+            "Operators and expressions": [
+              "Ternary operator: condition ? valueIfTrue : valueIfFalse — most used in React JSX for conditional rendering.",
+              "Optional chaining (?.) : user?.address?.city — safely accesses nested properties without crashing if any level is null/undefined. Nullish coalescing (??) : value ?? 'default' — uses default only if value is null or undefined (not for 0 or '')."
+            ],
+            "Control flow: if-else, switch, loops": [
+              "if/else works normally in JS logic but CANNOT be used directly inside JSX return. Use ternary or logical && inside JSX instead.",
+              "Array methods like .map(), .filter(), .reduce() are preferred over for loops in React because they return new arrays (immutable pattern) and work directly inside JSX."
+            ]
+          },
+          "required_code": "// var vs let vs const\nvar x = 10;\nif (true) {\n  var x = 20;    // overwrites outer x — var ignores block scope\n  let y = 30;    // only exists inside this block\n  const z = 40;  // only exists inside this block\n}\nconsole.log(x); // 20 — var leaked out!\n// console.log(y); // ReferenceError — let is block-scoped\n\n// Type coercion traps\nconsole.log('5' + 3);   // '53' — string concat\nconsole.log('5' - 3);   // 2    — numeric subtraction\nconsole.log(5 == '5');  // true — loose equality (avoid!)\nconsole.log(5 === '5'); // false — strict equality (use this)\n\n// Truthy/Falsy in React conditional rendering\nconst count = 0;\n// BAD: renders '0' on screen because 0 is falsy but React still renders the number\nconst bad = count && <Badge />;  // renders '0' — bug!\n// GOOD:\nconst good = count > 0 && <Badge />;  // renders nothing cleanly\n\n// Optional chaining and nullish coalescing\nconst user = { profile: { name: 'Alice' } };\nconsole.log(user?.profile?.name);   // 'Alice'\nconsole.log(user?.address?.city);   // undefined (no crash)\nconsole.log(user?.address?.city ?? 'Unknown'); // 'Unknown'",
+          "common_mistakes": [
+            "Using var inside React components — always use const by default, let when reassignment needed, never var",
+            "Using == instead of === — always use strict equality in React to avoid type coercion bugs"
+          ]
+        },
+        {
+          "name": "Functions and Arrow Functions",
+          "keywords": [
+            "function declaration",
+            "function expression",
+            "arrow function",
+            "this context",
+            "default parameters",
+            "callback functions"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Function declarations vs expressions",
+            "Arrow functions and this context",
+            "Default parameters",
+            "Callback functions"
+          ],
+          "subtopic_content": {
+            "Function declarations vs expressions": [
+              "Function declaration: function greet() {} — hoisted, available before definition in code. Function expression: const greet = function() {} — not hoisted, only available after definition.",
+              "In React, components are almost always written as function expressions (const MyComponent = () => {}) or arrow functions for consistency."
+            ],
+            "Arrow functions and this context": [
+              "Arrow functions do NOT have their own 'this' — they inherit 'this' from the surrounding scope. Regular functions have their own 'this' which changes based on how they are called.",
+              "In React class components, event handlers lose 'this' context. Fix: use arrow functions as class properties OR bind in constructor. In functional components (hooks), 'this' is never needed — arrow functions preferred throughout."
+            ],
+            "Default parameters": [
+              "Default parameter: function greet(name = 'Guest') {} — if name is not passed or is undefined, 'Guest' is used. Used heavily in React component prop defaults before defaultProps."
+            ],
+            "Callback functions": [
+              "Callback: a function passed as argument to another function, called later. Foundation of React event handling: onClick={handleClick}. Also core to array methods: .map(item => <Li key={item.id} />)."
+            ]
+          },
+          "required_code": "// Function declaration vs expression vs arrow\nfunction declaredFn() { return 'hoisted'; }      // declaration\nconst expressionFn = function() { return 'not hoisted'; };  // expression\nconst arrowFn = () => 'concise';                 // arrow (implicit return)\n\n// Arrow function — implicit return (no braces needed for single expression)\nconst double = x => x * 2;\nconst add = (a, b) => a + b;\nconst getUser = id => ({ id, name: 'Alice' });   // wrap object in ()\n\n// 'this' context difference\nclass Timer {\n  constructor() {\n    this.count = 0;\n  }\n\n  // Regular function — loses 'this' when used as callback\n  startBad() {\n    setInterval(function() {\n      this.count++; // 'this' is undefined here in strict mode!\n    }, 1000);\n  }\n\n  // Arrow function — inherits 'this' from Timer instance\n  startGood() {\n    setInterval(() => {\n      this.count++; // 'this' correctly refers to Timer instance\n    }, 1000);\n  }\n}\n\n// Default parameters\nfunction greet(name = 'Guest', role = 'User') {\n  return `Hello ${name}, you are a ${role}`;\n}\nconsole.log(greet());            // Hello Guest, you are a User\nconsole.log(greet('Alice'));     // Hello Alice, you are a User\nconsole.log(greet('Bob', 'Admin')); // Hello Bob, you are a Admin\n\n// Callbacks — foundation of React event handling\nconst numbers = [1, 2, 3, 4, 5];\nconst doubled = numbers.map(n => n * 2);         // [2, 4, 6, 8, 10]\nconst evens = numbers.filter(n => n % 2 === 0);  // [2, 4]\nconst sum = numbers.reduce((acc, n) => acc + n, 0); // 15",
+          "common_mistakes": [
+            "Using regular functions as React event handlers in class components — they lose 'this'. Use arrow function class properties instead",
+            "Arrow function returning an object: () => {id: 1} is WRONG (treats {} as function body). Write () => ({id: 1}) with parentheses"
+          ]
+        },
+        {
+          "name": "Arrays and Objects (ES6+)",
+          "keywords": [
+            "map filter reduce",
+            "destructuring",
+            "spread operator",
+            "object shorthand",
+            "rest operator",
+            "array methods"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "map, filter, reduce",
+            "Object shorthand",
+            "Destructuring",
+            "Spread operator"
+          ],
+          "subtopic_content": {
+            "map, filter, reduce": [
+              "map: transforms every element, returns NEW array of same length. filter: keeps elements matching condition, returns NEW array. reduce: combines all elements into single value.",
+              "These are the core tools for rendering lists in React (.map()), filtering data (.filter()), and computing derived state (.reduce()). All return new arrays — never mutate original (immutability rule in React)."
+            ],
+            "Object shorthand": [
+              "If property name equals variable name: {name: name, age: age} can be written as {name, age}. Used everywhere in React: setState({loading, data, error}) is much cleaner.",
+              "Computed property names: {[dynamicKey]: value} — useful for updating specific fields in state dynamically."
+            ],
+            "Destructuring": [
+              "Array destructuring: const [first, second] = array. The [state, setState] = useState() pattern IS array destructuring.",
+              "Object destructuring: const {name, age} = user. In React: const {title, onClick, children} = props — extract exactly what you need. Rename: const {name: userName} = user."
+            ],
+            "Spread operator": [
+              "Spread array: [...arr1, ...arr2] creates new merged array. Spread object: {...obj1, ...obj2} creates new merged object. Later properties override earlier ones.",
+              "Immutable state updates in React: setUser({...user, name: 'Bob'}) — creates new object with all old fields plus updated name. NEVER mutate state directly: user.name = 'Bob' breaks React."
+            ]
+          },
+          "required_code": "// ===== map, filter, reduce =====\nconst products = [\n  { id: 1, name: 'Laptop', price: 50000, inStock: true },\n  { id: 2, name: 'Phone', price: 20000, inStock: false },\n  { id: 3, name: 'Tablet', price: 30000, inStock: true },\n];\n\n// map: transform each item\nconst names = products.map(p => p.name);          // ['Laptop', 'Phone', 'Tablet']\nconst withDiscount = products.map(p => ({         // new array with 10% discount\n  ...p,\n  price: p.price * 0.9\n}));\n\n// filter: keep matching items\nconst available = products.filter(p => p.inStock); // only inStock items\n\n// reduce: combine into one value\nconst totalValue = products.reduce((sum, p) => sum + p.price, 0); // 100000\n\n// ===== Destructuring =====\n// Array destructuring (useState uses this!)\nconst [count, setCount] = [0, () => {}]; // exactly how useState works\nconst [first, ...rest] = [1, 2, 3, 4];   // first=1, rest=[2,3,4]\n\n// Object destructuring with rename and default\nconst user = { name: 'Alice', age: 25 };\nconst { name: userName, age, role = 'User' } = user;\n// userName='Alice', age=25, role='User' (default)\n\n// Nested destructuring (common in React props)\nconst { profile: { avatar, bio = 'No bio' } } = {\n  profile: { avatar: 'pic.jpg' }\n};\n\n// ===== Spread operator =====\n// Immutable array updates (React state)\nconst items = [1, 2, 3];\nconst addedItem = [...items, 4];          // [1, 2, 3, 4] — new array\nconst removedItem = items.filter(i => i !== 2); // [1, 3]\n\n// Immutable object updates (React state)\nconst userState = { name: 'Alice', age: 25, city: 'Delhi' };\nconst updatedUser = { ...userState, age: 26 };  // { name:'Alice', age:26, city:'Delhi' }\n\n// Object shorthand\nconst name = 'Alice', age2 = 25;\nconst userObj = { name, age: age2 };  // { name: 'Alice', age: 25 }",
+          "common_mistakes": [
+            "Mutating state directly: state.items.push(newItem) — React won't detect this change. Use setItems([...items, newItem]) instead",
+            "Using index as key in .map() — causes bugs with reordering. Always use a unique id: products.map(p => <div key={p.id}>)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Walkthrough With React",
+      "topics": [
+        {
+          "name": "Introduction to React",
+          "keywords": [
+            "what is react",
+            "reactjs features",
+            "why react",
+            "spa",
+            "single page application",
+            "webpack",
+            "babel",
+            "virtual dom"
+          ],
+          "nature": "theoretical",
+          "no_code": false,
+          "subtopics": [
+            "What is ReactJS & its features?",
+            "Why react came into picture?",
+            "Single Page Application (SPA)",
+            "Understanding Webpack and Babel",
+            "Understanding the config file of webpack and babel"
+          ],
+          "subtopic_content": {
+            "What is ReactJS & its features?": [
+              "React is a JavaScript library (not framework) built by Facebook/Meta in 2013 for building user interfaces. It handles ONLY the View layer — not routing or state management (those need separate libraries).",
+              "Key features: Component-based (UI split into reusable pieces), Virtual DOM (fast updates), Declarative (describe WHAT to render, React figures out HOW), Unidirectional data flow (data flows one way: parent to child via props)."
+            ],
+            "Why react came into picture?": [
+              "Before React: directly manipulating the real DOM was slow and complex. jQuery helped but large apps became spaghetti code — no structure, no reuse.",
+              "React solved: performance (Virtual DOM diffs only what changed), structure (component tree), reusability (same component used anywhere), developer experience (JSX makes UI code readable)."
+            ],
+            "Single Page Application (SPA)": [
+              "Traditional (MPA): every click loads a new HTML page from server — slow, full page refresh. SPA: one HTML file loaded once, JS dynamically updates only the changed part — fast, no reload.",
+              "React SPAs: React Router handles navigation by swapping components, not pages. URL changes but browser never makes a new request to server for the page."
+            ],
+            "Understanding Webpack and Babel": [
+              "Babel: transpiler that converts modern JS (ES6+, JSX) to older JS that all browsers understand. Without Babel, browsers can't read JSX (<div>) or arrow functions in older environments.",
+              "Webpack: module bundler. Takes hundreds of JS files, CSS, images → bundles into few optimised files (bundle.js). Also handles hot reload during development."
+            ],
+            "Understanding the config file of webpack and babel": [
+              "babel.config.json: lists presets (@babel/preset-env for modern JS, @babel/preset-react for JSX). Create React App (CRA) and Vite configure this automatically — you rarely touch it directly.",
+              "webpack.config.js: entry point, output path, loaders (rules for which files Babel processes), plugins (HtmlWebpackPlugin, MiniCssExtractPlugin). CRA hides this — use 'npm run eject' to expose it (irreversible)."
+            ]
+          },
+          "required_code": "// JSX gets compiled by Babel into this:\n// What you write:\nconst element = <h1 className=\"title\">Hello React</h1>;\n\n// What Babel compiles it to (React 17+ automatic runtime):\n// import { jsx as _jsx } from 'react/jsx-runtime';\n// const element = _jsx('h1', { className: 'title', children: 'Hello React' });\n\n// Before React 17, Babel compiled to React.createElement:\n// const element = React.createElement('h1', { className: 'title' }, 'Hello React');",
+          "common_mistakes": [
+            "Thinking React is a full framework like Angular — React is only the View layer. You need React Router for routing and Redux/Zustand for state management separately"
+          ]
+        },
+        {
+          "name": "Client and Server Side Applications",
+          "keywords": [
+            "client side",
+            "server side",
+            "ssr",
+            "csr",
+            "client server comparison",
+            "react client side"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Introduction to client side application",
+            "Technologies used in client side application & example",
+            "Introduction to server side application",
+            "Technologies used in server side application & example",
+            "Client side vs server side",
+            "Using react in client side"
+          ],
+          "subtopic_content": {
+            "Introduction to client side application": [
+              "Client-side rendering (CSR): browser downloads minimal HTML, then JavaScript runs in browser to build the full UI. The server only sends data (via API), not rendered HTML."
+            ],
+            "Technologies used in client side application & example": [
+              "Technologies: React, Vue, Angular, Svelte. Example: Gmail — loads once, then fetches emails via API and updates UI without page reload. Fast after initial load."
+            ],
+            "Introduction to server side application": [
+              "Server-side rendering (SSR): server builds complete HTML for each request and sends to browser. Browser displays HTML immediately, then JS takes over (hydration)."
+            ],
+            "Technologies used in server side application & example": [
+              "Technologies: Next.js (React-based SSR), Nuxt (Vue), traditional PHP/Laravel, Ruby on Rails. Example: news websites — each article page generated on server for SEO."
+            ],
+            "Client side vs server side": [
+              "CSR: faster after load, better interactivity, poor SEO (search bots see empty HTML), slower first load. SSR: great SEO (full HTML for bots), faster first paint, more server load.",
+              "Hybrid: Next.js gives best of both — static pages (SSG) for speed, SSR for SEO, CSR for dynamic parts."
+            ],
+            "Using react in client side": [
+              "React is primarily CSR. index.html has one <div id='root'> — React's createRoot() mounts the entire app there. All routing, pages, components live in JS — never leaves the single HTML file."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Feature | Client-Side (CSR) | Server-Side (SSR) || First load speed | Slower (downloads all JS) | Faster (gets ready HTML) || SEO | Poor (empty HTML initially) | Excellent (full HTML) || Interactivity | Excellent after load | Good (needs hydration) || Server load | Low (only data APIs) | High (renders each page) || Example | Gmail, Figma | News sites, E-commerce || React support | Native (CRA, Vite) | Next.js"
+          ],
+          "common_mistakes": [
+            "React alone is not good for SEO — if SEO matters, use Next.js which adds SSR/SSG on top of React"
+          ]
+        },
+        {
+          "name": "Setting up React Project",
+          "keywords": [
+            "setup react",
+            "create react app",
+            "vite",
+            "npm",
+            "yarn",
+            "file structure",
+            "node_modules",
+            "package.json",
+            "cdn"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Setting up development environment for react",
+            "Starter project with CDN",
+            "Understanding npm and yarn",
+            "Create React App",
+            "Understanding the File Structure",
+            "Knowing more about node_modules, package.json, package.lock.json"
+          ],
+          "subtopic_content": {
+            "Setting up development environment for react": [
+              "Prerequisites: Node.js (LTS version) installed from nodejs.org. Node includes npm. Verify: node -v and npm -v in terminal.",
+              "Two modern options: Create React App (CRA) — beginner-friendly, zero config. Vite — faster, modern, recommended for new projects in 2024+."
+            ],
+            "Starter project with CDN": [
+              "CDN approach: no installation needed. Add React and ReactDOM via <script> tags in HTML. Good for learning but NOT for production — no bundling, no JSX support without Babel CDN too.",
+              "Used for quick experiments or adding React to existing HTML pages. For real projects, always use CRA or Vite."
+            ],
+            "Understanding npm and yarn": [
+              "npm (Node Package Manager): comes with Node. yarn: Facebook's alternative, faster (parallel installs). Both manage packages from npmjs.com registry.",
+              "Key commands: npm install / yarn add, npm run start / yarn start, npm run build / yarn build. package.json is the source of truth for which packages are used."
+            ],
+            "Create React App": [
+              "CRA: npx create-react-app my-app. Vite (modern, preferred): npm create vite@latest my-app -- --template react.",
+              "CRA vs Vite: CRA uses webpack (slower), Vite uses ESBuild (10-100x faster). For 2024+ projects, Vite is the community recommendation. CRA is no longer actively maintained."
+            ],
+            "Understanding the File Structure": [
+              "src/: all your source code — components, pages, styles, hooks. public/: static files served as-is (favicon, index.html). node_modules/: all installed packages. src/index.js (or main.jsx): entry point — mounts React app."
+            ],
+            "Knowing more about node_modules, package.json, package.lock.json": [
+              "node_modules/: contains source code of every installed package. NEVER commit to git (.gitignore it). Regenerated via npm install from package.json.",
+              "package.json: your project config — name, version, scripts (start, build, test), dependencies (production) and devDependencies (development only). package-lock.json (or yarn.lock): exact version tree locked for reproducible installs across machines. ALWAYS commit this."
+            ]
+          },
+          "required_code": "# ===== Setup Commands =====\n# Install Node.js first from nodejs.org\n\n# Option 1: Create React App (traditional)\nnpx create-react-app my-react-app\ncd my-react-app\nnpm start       # starts dev server at localhost:3000\n\n# Option 2: Vite (recommended for 2024+)\nnpm create vite@latest my-react-app -- --template react\ncd my-react-app\nnpm install\nnpm run dev     # starts dev server at localhost:5173\n\n# ===== File Structure (Vite React App) =====\n# my-react-app/\n# ├── node_modules/        (never commit — auto-generated)\n# ├── public/              (static files)\n# │   └── vite.svg\n# ├── src/                 (your code lives here)\n# │   ├── assets/\n# │   ├── App.jsx          (root component)\n# │   ├── App.css\n# │   ├── main.jsx         (entry point — mounts React)\n# │   └── index.css\n# ├── index.html           (single HTML file)\n# ├── package.json         (project config — commit this)\n# ├── package-lock.json    (exact versions — commit this)\n# └── vite.config.js       (Vite config)\n\n# ===== package.json example =====\n# {\n#   \"name\": \"my-react-app\",\n#   \"scripts\": {\n#     \"dev\": \"vite\",\n#     \"build\": \"vite build\",\n#     \"preview\": \"vite preview\"\n#   },\n#   \"dependencies\": {\n#     \"react\": \"^18.2.0\",\n#     \"react-dom\": \"^18.2.0\"\n#   },\n#   \"devDependencies\": {\n#     \"vite\": \"^5.0.0\",\n#     \"@vitejs/plugin-react\": \"^4.0.0\"\n#   }\n# }",
+          "common_mistakes": [
+            "Committing node_modules to git — it can be 300MB+. Always add it to .gitignore",
+            "Deleting package-lock.json — this breaks reproducible installs. Never delete it"
+          ]
+        },
+        {
+          "name": "How React Works?",
+          "keywords": [
+            "virtual dom",
+            "real dom",
+            "createRoot",
+            "render",
+            "diffing",
+            "reconciliation",
+            "react fiber",
+            "rendering"
+          ],
+          "nature": "theoretical",
+          "no_code": false,
+          "subtopics": [
+            "Virtual DOM and Real DOM",
+            "Rendering (createRoot() and render())",
+            "Walkthrough of diffing and reconciliation algorithm"
+          ],
+          "subtopic_content": {
+            "Virtual DOM and Real DOM": [
+              "Real DOM: the actual HTML tree in browser. Direct DOM manipulation is slow — changing one element can force the browser to repaint/reflow the entire page.",
+              "Virtual DOM: a lightweight JavaScript object copy of the real DOM, kept in memory. React makes all changes to the Virtual DOM first — which is just a JS operation (very fast).",
+              "Then React compares old Virtual DOM vs new Virtual DOM (diffing), finds what actually changed, and updates ONLY those specific parts of the Real DOM. This is called reconciliation."
+            ],
+            "Rendering (createRoot() and render())": [
+              "React 18 API: ReactDOM.createRoot(document.getElementById('root')) creates a root. Then root.render(<App />) mounts the component tree into the DOM.",
+              "This replaces React 17's ReactDOM.render() which is now deprecated. createRoot() enables React 18's concurrent features (transitions, Suspense improvements)."
+            ],
+            "Walkthrough of diffing and reconciliation algorithm": [
+              "React's diffing rules: (1) Elements of different types → destroy old tree, build new one from scratch. (2) Same type → update only changed attributes. (3) Lists → use key prop to identify which items changed/moved/added.",
+              "Why key matters: without keys, React assumes list order never changes — adding item at top re-renders everything. With keys, React knows exactly which items are new/moved."
+            ]
+          },
+          "required_code": "// ===== main.jsx — React 18 Entry Point =====\nimport React from 'react';\nimport ReactDOM from 'react-dom/client';\nimport App from './App';\nimport './index.css';\n\n// createRoot replaces old ReactDOM.render (React 17)\nconst root = ReactDOM.createRoot(document.getElementById('root'));\nroot.render(\n  <React.StrictMode>\n    <App />\n  </React.StrictMode>\n);\n\n// React.StrictMode: development helper that:\n// - Renders components twice to detect side effects\n// - Warns about deprecated APIs\n// - Helps find bugs early (no effect in production build)\n\n// ===== How Virtual DOM diffing uses keys =====\n// Without keys — React re-renders ALL items when list changes\nconst BadList = ({ items }) => (\n  <ul>\n    {items.map((item, index) => (\n      <li key={index}>{item.name}</li>  // BAD: index as key\n    ))}\n  </ul>\n);\n\n// With proper keys — React only updates changed items\nconst GoodList = ({ items }) => (\n  <ul>\n    {items.map(item => (\n      <li key={item.id}>{item.name}</li>  // GOOD: stable unique id\n    ))}\n  </ul>\n);",
+          "required_diagrams": [
+            "Virtual DOM reconciliation diagram: clean diagram on white background. Three columns: 1) Old Virtual DOM tree (rectangles showing App > Header, Main, Footer). 2) New Virtual DOM (same tree but Main rectangle highlighted as changed). 3) Real DOM (only Main section has update arrow pointing to it). Arrow from column 1 to 2 labeled 'Diffing'. Arrow from column 2 to 3 labeled 'Reconciliation - only changed parts updated'. Plain black, white background."
+          ],
+          "common_mistakes": [
+            "Using array index as key — causes bugs when list items are added/removed/reordered. Use stable unique IDs (from database or crypto.randomUUID())"
+          ]
+        },
+        {
+          "name": "Understanding React Components and JSX",
+          "keywords": [
+            "component",
+            "jsx",
+            "what is jsx",
+            "component without jsx",
+            "component with jsx",
+            "react.createElement"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to component",
+            "How to define a component without JSX?",
+            "What is JSX?",
+            "How to define a component with JSX?"
+          ],
+          "subtopic_content": {
+            "Introduction to component": [
+              "Component: a reusable, independent piece of UI. Like a LEGO brick — build small pieces, combine them into the full app. Every React app is a tree of components.",
+              "Rules: component name MUST start with capital letter (MyComponent not myComponent — lowercase is treated as HTML tag). Must return JSX (or null). Each component is its own file by convention."
+            ],
+            "How to define a component without JSX?": [
+              "React.createElement(type, props, ...children): the underlying function JSX compiles to. Rarely written manually but important to understand — it shows JSX is just syntactic sugar.",
+              "Without JSX, nested component trees become deeply nested createElement calls — unreadable. This is exactly why JSX was invented."
+            ],
+            "What is JSX?": [
+              "JSX (JavaScript XML): syntax extension that lets you write HTML-like code inside JavaScript. NOT valid JS — Babel compiles it to React.createElement calls.",
+              "JSX rules: className instead of class (class is a reserved word in JS). htmlFor instead of for. All tags must be closed (<br /> not <br>). Only ONE root element per return (use Fragment <> </> to wrap without adding DOM node)."
+            ],
+            "How to define a component with JSX?": [
+              "Functional component: a JavaScript function that returns JSX. Component name in PascalCase. Props received as first argument. Must have one root element.",
+              "Embedding JS in JSX: use curly braces {}. {2 + 2} renders 4. {user.name} renders the name. {condition ? 'Yes' : 'No'} for conditionals. Cannot use if/else or for loops directly inside JSX return."
+            ]
+          },
+          "required_code": "// ===== Component WITHOUT JSX (what Babel compiles to) =====\nimport React from 'react';\n\nfunction WelcomeNoJSX(props) {\n  return React.createElement(\n    'div',\n    { className: 'welcome' },\n    React.createElement('h1', null, 'Hello, ' + props.name),\n    React.createElement('p', null, 'Welcome to React!')\n  );\n}\n// This is hard to read — JSX was created to solve this\n\n// ===== Component WITH JSX =====\nfunction Welcome({ name, age = 18 }) {\n  const isAdult = age >= 18;\n\n  return (\n    <div className=\"welcome\">\n      <h1>Hello, {name}</h1>\n      <p>Age: {age}</p>\n      {/* JSX comment syntax */}\n      {isAdult ? <span>Adult</span> : <span>Minor</span>}\n    </div>\n  );\n}\n\n// ===== JSX Rules demonstrated =====\nfunction JSXRules() {\n  const title = 'React Rules';\n  const style = { color: 'blue', fontSize: '24px' }; // camelCase for CSS\n\n  return (\n    <>   {/* Fragment — no extra DOM node */}\n      <h1 className=\"title\" style={style}>{title}</h1>\n      <input type=\"text\" />   {/* self-closing required */}\n      <label htmlFor=\"name\">Name:</label>  {/* htmlFor not 'for' */}\n      <input id=\"name\" type=\"text\" />\n    </>\n  );\n}\n\nexport default Welcome;",
+          "common_mistakes": [
+            "Using class instead of className in JSX — Babel will show a warning, and styling won't apply",
+            "Returning multiple root elements without Fragment: return <div/><p/> is a syntax error. Wrap in <> </> or <React.Fragment>"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Deep Dive into React Components",
+      "topics": [
+        {
+          "name": "Types of React Components",
+          "keywords": [
+            "class component",
+            "functional component",
+            "types of components",
+            "class vs functional"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Class Based Components",
+            "Functional Components"
+          ],
+          "subtopic_content": {
+            "Class Based Components": [
+              "Class components: the original way to write stateful React components (before hooks in 2018). Extends React.Component. Has render() method that returns JSX. Has lifecycle methods.",
+              "Still found in large existing codebases — important to understand for maintenance. New code should use functional components + hooks."
+            ],
+            "Functional Components": [
+              "Functional components: just a JavaScript function. No class, no render() method, just return JSX. With hooks (useState, useEffect), they can do everything class components do — and more cleanly.",
+              "Modern React (2019+) is entirely functional components + hooks. Simpler, less boilerplate, easier to test, better performance (no instance overhead)."
+            ]
+          },
+          "required_code": "// ===== Class Component =====\nimport React, { Component } from 'react';\n\nclass Counter extends Component {\n  constructor(props) {\n    super(props);           // MUST call super(props)\n    this.state = { count: 0 };\n    // Bind needed for regular methods to access 'this'\n    this.handleClick = this.handleClick.bind(this);\n  }\n\n  handleClick() {\n    this.setState({ count: this.state.count + 1 });\n  }\n\n  render() {\n    return (\n      <div>\n        <p>Count: {this.state.count}</p>\n        <button onClick={this.handleClick}>Increment</button>\n      </div>\n    );\n  }\n}\n\n// ===== Equivalent Functional Component (modern) =====\nimport React, { useState } from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n    </div>\n  );\n}\n\nexport default Counter;",
+          "required_tables": [
+            "Comparison: Feature | Class Component | Functional Component || Syntax | class X extends Component | function X() or const X = () => || State | this.state + setState() | useState() hook || Lifecycle | componentDidMount etc. | useEffect() hook || this keyword | Required everywhere | Never needed || Boilerplate | More (constructor, bind) | Minimal || Performance | Slight overhead | Faster (no instance) || Modern usage | Legacy codebases | All new React code"
+          ],
+          "common_mistakes": [
+            "Writing new React apps with class components — all new code should use functional components. Class components are only for maintaining legacy code"
+          ]
+        },
+        {
+          "name": "Class Based Component Deep Dive",
+          "keywords": [
+            "class component",
+            "constructor",
+            "props constructor",
+            "state setstate",
+            "class component state"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to class based component with example",
+            "Component constructor",
+            "Props and props in constructor",
+            "Using state and setState in class component"
+          ],
+          "subtopic_content": {
+            "Introduction to class based component with example": [
+              "Class component structure: extend React.Component, implement render() method which must return JSX. The class instance ('this') holds state and methods.",
+              "class MyComponent extends React.Component — gives access to React.Component's built-in methods: setState(), forceUpdate(), and lifecycle methods."
+            ],
+            "Component constructor": [
+              "constructor(props): called when component is created. Must call super(props) first — this initialises React.Component's internals and makes this.props available.",
+              "Initialise state here: this.state = { ... }. Bind event handlers here: this.handleClick = this.handleClick.bind(this). If you don't bind, 'this' inside handleClick will be undefined."
+            ],
+            "Props and props in constructor": [
+              "Props passed to constructor: super(props) makes props available as this.props throughout the class. If you skip super(props) and use this.props in constructor, it will be undefined (even though it works outside constructor).",
+              "Access props: this.props.name, this.props.onClick, etc. Props are read-only — never modify this.props."
+            ],
+            "Using state and setState in class component": [
+              "this.setState(newState): merges newState into current state (shallow merge — only updates specified keys). Triggers re-render. Never mutate this.state directly.",
+              "Async setState: multiple setState calls may be batched. For state that depends on previous state, use functional form: this.setState(prevState => ({ count: prevState.count + 1 }))."
+            ]
+          },
+          "required_code": "import React, { Component } from 'react';\n\nclass UserProfile extends Component {\n  constructor(props) {\n    super(props);  // REQUIRED: initializes this.props\n    // Initialize state\n    this.state = {\n      isExpanded: false,\n      likesCount: 0,\n    };\n    // Bind regular methods (arrow class properties avoid this)\n    this.handleToggle = this.handleToggle.bind(this);\n  }\n\n  handleToggle() {\n    // setState merges — only isExpanded changes, likesCount stays\n    this.setState({ isExpanded: !this.state.isExpanded });\n  }\n\n  // Arrow function as class property — auto-bound, no binding needed\n  handleLike = () => {\n    // Functional setState for state depending on previous value\n    this.setState(prevState => ({ likesCount: prevState.likesCount + 1 }));\n  }\n\n  render() {\n    const { name, bio, avatar } = this.props;  // destructure props\n    const { isExpanded, likesCount } = this.state;\n\n    return (\n      <div className=\"user-profile\">\n        <img src={avatar} alt={name} />\n        <h2>{name}</h2>\n        {isExpanded && <p>{bio}</p>}\n        <button onClick={this.handleToggle}>\n          {isExpanded ? 'Show Less' : 'Show More'}\n        </button>\n        <button onClick={this.handleLike}>❤️ {likesCount}</button>\n      </div>\n    );\n  }\n}\n\n// Usage:\n// <UserProfile name=\"Alice\" bio=\"React Developer\" avatar=\"pic.jpg\" />\n\nexport default UserProfile;",
+          "common_mistakes": [
+            "this.state.count++ (direct mutation) — React won't detect this change. Always use setState()",
+            "Not using functional setState when new state depends on old: this.setState({count: this.state.count + 1}) can be wrong in async batching. Use this.setState(prev => ({count: prev.count + 1}))"
+          ]
+        },
+        {
+          "name": "Props in React",
+          "keywords": [
+            "props",
+            "props vs state",
+            "passing data props",
+            "passing function props",
+            "default props",
+            "props validation",
+            "proptypes",
+            "custom validator"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to props",
+            "props vs state",
+            "Passing data via props",
+            "Passing function via props",
+            "Default prop",
+            "Props validation",
+            "Inbuilt validator",
+            "Custom validator"
+          ],
+          "subtopic_content": {
+            "Introduction to props": [
+              "Props (properties): how parent components send data to child components. Like function arguments — the parent passes, the child receives and uses.",
+              "Props are READ-ONLY — a component must never modify its own props. This enforces unidirectional data flow: data goes down (parent to child), events go up (child calls parent callback)."
+            ],
+            "props vs state": [
+              "Props: data coming FROM parent — external, read-only. State: data managed WITHIN the component — internal, can change via setState/setter.",
+              "Rule of thumb: if the data changes in the component itself → state. If the data comes from outside → props."
+            ],
+            "Passing data via props": [
+              "Any JavaScript value can be passed as props: string, number, boolean, object, array, function. JSX: <Card title='Hello' count={42} user={userObj} tags={['a','b']} />.",
+              "Boolean shorthand: <Button disabled /> is same as <Button disabled={true} />."
+            ],
+            "Passing function via props": [
+              "Parent passes a function as prop to child. Child calls it when something happens (event). This is how child communicates back to parent (lifting state up).",
+              "Pattern: parent defines handleDelete, passes as onDelete prop to child. Child calls props.onDelete(id) on button click. Parent's state updates, all children re-render with new data."
+            ],
+            "Default prop": [
+              "Two ways: (1) defaultProps: Button.defaultProps = { variant: 'primary' }. (2) Default params in destructuring (preferred modern way): function Button({ variant = 'primary', size = 'md' })."
+            ],
+            "Props validation": [
+              "PropTypes: runtime type checking in development. Shows warnings in console if wrong type passed. Install: npm install prop-types. Import: import PropTypes from 'prop-types'."
+            ],
+            "Inbuilt validator": [
+              "PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.func, PropTypes.array, PropTypes.object, PropTypes.node (anything renderable), PropTypes.element (React element), PropTypes.oneOf(['sm','md','lg']), PropTypes.arrayOf(PropTypes.number), PropTypes.shape({name: PropTypes.string}).",
+              "Add .isRequired to make prop mandatory: PropTypes.string.isRequired"
+            ],
+            "Custom validator": [
+              "Custom validator: a function that receives (props, propName, componentName) and returns an Error if invalid, or null if valid.",
+              "Example: validate email format, validate that a number is positive, validate that array has at least one item."
+            ]
+          },
+          "required_code": "import PropTypes from 'prop-types';\n\n// ===== Passing data and functions via props =====\n// Parent component\nfunction ProductPage() {\n  const [cart, setCart] = React.useState([]);\n\n  const handleAddToCart = (product) => {\n    setCart(prev => [...prev, product]); // immutable update\n  };\n\n  const products = [\n    { id: 1, name: 'Laptop', price: 50000, inStock: true },\n    { id: 2, name: 'Phone', price: 20000, inStock: false },\n  ];\n\n  return (\n    <div>\n      <h1>Products ({cart.length} in cart)</h1>\n      {products.map(product => (\n        <ProductCard\n          key={product.id}\n          product={product}            // object as prop\n          onAddToCart={handleAddToCart} // function as prop\n          maxDiscount={15}              // number as prop\n          showBadge                     // boolean shorthand = true\n        />\n      ))}\n    </div>\n  );\n}\n\n// Child component with destructured props + defaults\nfunction ProductCard({ product, onAddToCart, maxDiscount = 10, showBadge = false }) {\n  return (\n    <div className=\"card\">\n      {showBadge && <span className=\"badge\">Featured</span>}\n      <h3>{product.name}</h3>\n      <p>₹{product.price}</p>\n      <p>Max discount: {maxDiscount}%</p>\n      <button\n        onClick={() => onAddToCart(product)}  // call parent function\n        disabled={!product.inStock}\n      >\n        {product.inStock ? 'Add to Cart' : 'Out of Stock'}\n      </button>\n    </div>\n  );\n}\n\n// ===== PropTypes validation =====\nProductCard.propTypes = {\n  product: PropTypes.shape({\n    id: PropTypes.number.isRequired,\n    name: PropTypes.string.isRequired,\n    price: PropTypes.number.isRequired,\n    inStock: PropTypes.bool.isRequired,\n  }).isRequired,\n  onAddToCart: PropTypes.func.isRequired,\n  maxDiscount: PropTypes.number,\n  showBadge: PropTypes.bool,\n  // Custom validator — price must be positive\n  // price: (props, propName, componentName) => {\n  //   if (props[propName] <= 0) {\n  //     return new Error(`${propName} in ${componentName} must be positive`);\n  //   }\n  //   return null;\n  // },\n};\n\nProductCard.defaultProps = {\n  maxDiscount: 10,\n  showBadge: false,\n};\n\nexport { ProductPage, ProductCard };",
+          "common_mistakes": [
+            "Mutating props inside a child component — props are read-only. If you need to change data, call a callback function passed from parent",
+            "Using PropTypes in production bundle — PropTypes are for development only. TypeScript is preferred for production-grade type safety"
+          ]
+        },
+        {
+          "name": "Nesting Components",
+          "keywords": [
+            "nesting components",
+            "component composition",
+            "children prop",
+            "parent child",
+            "component tree"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Component composition pattern",
+            "The children prop",
+            "Building component trees"
+          ],
+          "subtopic_content": {
+            "Component composition pattern": [
+              "Composition: building complex UIs by combining simpler components. A Page uses Layout which uses Navbar, Sidebar, Main — each a separate component with one responsibility.",
+              "React favors composition over inheritance. Instead of extending a base component, wrap components and pass behaviour via props or children."
+            ],
+            "The children prop": [
+              "children: special React prop — whatever you put BETWEEN component's opening and closing tags becomes children. <Card><p>Hello</p></Card> — the <p> is Card's children prop.",
+              "Makes wrapper/layout components: Card, Modal, Button with icon — any component that wraps other content. Access via props.children or destructured { children }."
+            ],
+            "Building component trees": [
+              "Think top-down: App → Page → Section → Card → Button. Data flows down via props. Events bubble up via callback props. Keep each component focused on one thing."
+            ]
+          },
+          "required_code": "// ===== children prop — wrapper components =====\nfunction Card({ title, children, className = '' }) {\n  return (\n    <div className={`card ${className}`}>\n      {title && <div className=\"card-header\"><h3>{title}</h3></div>}\n      <div className=\"card-body\">\n        {children}  {/* renders whatever is placed between <Card>...</Card> */}\n      </div>\n    </div>\n  );\n}\n\nfunction Modal({ isOpen, onClose, title, children }) {\n  if (!isOpen) return null;\n  return (\n    <div className=\"modal-overlay\" onClick={onClose}>\n      <div className=\"modal\" onClick={e => e.stopPropagation()}>\n        <div className=\"modal-header\">\n          <h2>{title}</h2>\n          <button onClick={onClose}>✕</button>\n        </div>\n        <div className=\"modal-body\">{children}</div>\n      </div>\n    </div>\n  );\n}\n\n// ===== Usage — building a nested component tree =====\nfunction App() {\n  const [showModal, setShowModal] = React.useState(false);\n\n  return (\n    <div className=\"app\">\n      <Navbar />\n      <main>\n        {/* Card accepts any children */}\n        <Card title=\"User Info\" className=\"user-card\">\n          <p>Name: Alice</p>\n          <p>Role: Developer</p>\n          <button onClick={() => setShowModal(true)}>Edit Profile</button>\n        </Card>\n\n        <Card title=\"Recent Activity\">\n          <ul>\n            <li>Logged in</li>\n            <li>Updated profile</li>\n          </ul>\n        </Card>\n      </main>\n\n      {/* Modal wraps form as children */}\n      <Modal isOpen={showModal} onClose={() => setShowModal(false)} title=\"Edit Profile\">\n        <form>\n          <input type=\"text\" placeholder=\"Name\" />\n          <button type=\"submit\">Save</button>\n        </form>\n      </Modal>\n    </div>\n  );\n}\n\nfunction Navbar() {\n  return <nav><h1>MyApp</h1></nav>;\n}",
+          "common_mistakes": [
+            "Deep prop drilling — if data needs to pass through 5+ component levels, use Context API or state management instead of props"
+          ]
+        },
+        {
+          "name": "Component Life Cycle",
+          "keywords": [
+            "lifecycle",
+            "mounting",
+            "updating",
+            "unmounting",
+            "componentDidMount",
+            "componentDidUpdate",
+            "componentWillUnmount",
+            "lifecycle phases"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Lifecycle Phases",
+            "Mounting Phase",
+            "Updating phase",
+            "Unmounting Phase"
+          ],
+          "subtopic_content": {
+            "Lifecycle Phases": [
+              "Class component lifecycle has 3 phases: Mounting (component created and added to DOM), Updating (re-render triggered by state/prop change), Unmounting (component removed from DOM).",
+              "Functional component equivalent: useEffect() hook covers all three phases depending on its dependency array."
+            ],
+            "Mounting Phase": [
+              "constructor() → render() → (DOM updated) → componentDidMount(). componentDidMount(): runs ONCE after first render. Perfect for: API calls, event listener setup, third-party library init, setting timers."
+            ],
+            "Updating phase": [
+              "Triggered by: setState(), new props from parent, forceUpdate(). Sequence: render() → (DOM updated) → componentDidUpdate(prevProps, prevState). Use prevProps/prevState to compare and avoid infinite loops.",
+              "Always check what changed: if (prevProps.userId !== this.props.userId) { // fetch new user data }"
+            ],
+            "Unmounting Phase": [
+              "componentWillUnmount(): runs just before component is removed. Cleanup: clear timers (clearInterval), remove event listeners, cancel API requests, disconnect WebSocket. Forgetting cleanup causes memory leaks."
+            ]
+          },
+          "required_code": "import React, { Component } from 'react';\n\nclass DataFetcher extends Component {\n  constructor(props) {\n    super(props);\n    this.state = { data: null, loading: true, error: null };\n    this.intervalId = null;\n  }\n\n  // MOUNTING: runs once after first render — ideal for API calls\n  async componentDidMount() {\n    try {\n      const res = await fetch(`https://api.example.com/data/${this.props.id}`);\n      const data = await res.json();\n      this.setState({ data, loading: false });\n    } catch (error) {\n      this.setState({ error: error.message, loading: false });\n    }\n\n    // Set up a timer\n    this.intervalId = setInterval(() => {\n      console.log('Polling for updates...');\n    }, 5000);\n  }\n\n  // UPDATING: runs after every re-render (compare prevProps to avoid loops)\n  componentDidUpdate(prevProps, prevState) {\n    if (prevProps.id !== this.props.id) {\n      // id prop changed — fetch new data\n      this.setState({ loading: true });\n      this.fetchData(this.props.id);\n    }\n  }\n\n  // UNMOUNTING: cleanup before removal — prevents memory leaks!\n  componentWillUnmount() {\n    clearInterval(this.intervalId);  // clear timer\n    // cancel any pending API requests here\n    console.log('Component cleaned up');\n  }\n\n  fetchData = async (id) => {\n    const res = await fetch(`https://api.example.com/data/${id}`);\n    const data = await res.json();\n    this.setState({ data, loading: false });\n  }\n\n  render() {\n    const { data, loading, error } = this.state;\n    if (loading) return <div>Loading...</div>;\n    if (error) return <div>Error: {error}</div>;\n    return <div>{JSON.stringify(data)}</div>;\n  }\n}\n\nexport default DataFetcher;",
+          "required_diagrams": [
+            "React lifecycle diagram: clean vertical flow diagram on white background. Three sections side by side. MOUNTING column: boxes top-to-bottom: constructor → render → DOM update → componentDidMount (marked 'API calls, timers, subscriptions'). UPDATING column: setState/new props → render → DOM update → componentDidUpdate (marked 'compare prevProps, avoid loops'). UNMOUNTING column: single box componentWillUnmount (marked 'cleanup: clear timers, remove listeners'). Arrows connecting boxes within each column. Plain black, white background."
+          ],
+          "common_mistakes": [
+            "Not cleaning up in componentWillUnmount — timers, event listeners, and subscriptions continue running even after component is removed, causing memory leaks",
+            "Calling setState in componentDidUpdate without a condition — creates infinite render loop. Always check: if (prevProps.x !== this.props.x) before setState"
+          ]
+        },
+        {
+          "name": "Event Handling in React",
+          "keywords": [
+            "event handling",
+            "onclick",
+            "onchange",
+            "onsubmit",
+            "synthetic event",
+            "binding event handlers",
+            "user interactions"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to event handling in React",
+            "Handling user interactions (clicks, form submissions, input changes)",
+            "Binding event handlers to components"
+          ],
+          "subtopic_content": {
+            "Introduction to event handling in React": [
+              "React uses SyntheticEvent — a wrapper around the browser's native event. It normalises event behaviour across browsers. Works exactly like native events but cross-browser consistent.",
+              "Event names are camelCase in JSX: onClick (not onclick), onChange (not onchange), onSubmit (not onsubmit), onKeyDown, onMouseEnter, onFocus, onBlur."
+            ],
+            "Handling user interactions (clicks, form submissions, input changes)": [
+              "onClick: fire function on click. event.preventDefault(): stop default browser behaviour (like form submit reloading page). event.stopPropagation(): stop event from bubbling up to parent elements.",
+              "onChange on input: fires on every keystroke. Use for controlled inputs where React state tracks input value in real time."
+            ],
+            "Binding event handlers to components": [
+              "In functional components: no binding needed. Use arrow functions inline ({() => handler()}) or define handler in component body and reference ({handler}).",
+              "In class components: bind in constructor (this.handleClick = this.handleClick.bind(this)) OR use arrow function class property (handleClick = () => {}). Arrow class property is cleaner."
+            ]
+          },
+          "required_code": "import React, { useState } from 'react';\n\n// ===== Functional Component Event Handling (Modern) =====\nfunction EventDemo() {\n  const [inputValue, setInputValue] = useState('');\n  const [clicked, setClicked] = useState(0);\n  const [selected, setSelected] = useState('none');\n\n  // Handler defined in component body — no binding needed\n  const handleButtonClick = (event) => {\n    console.log('Event type:', event.type);   // 'click'\n    console.log('Target:', event.target);     // the button element\n    setClicked(prev => prev + 1);\n  };\n\n  const handleInputChange = (event) => {\n    setInputValue(event.target.value);  // event.target.value gets input text\n  };\n\n  const handleFormSubmit = (event) => {\n    event.preventDefault();  // CRITICAL: prevents page reload\n    alert(`Submitted: ${inputValue}`);\n  };\n\n  // Passing extra data to handler via arrow function wrapper\n  const handleItemClick = (itemId, itemName) => {\n    console.log(`Clicked item ${itemId}: ${itemName}`);\n  };\n\n  // Stopping propagation\n  const handleCardClick = () => console.log('Card clicked');\n  const handleButtonInsideCard = (e) => {\n    e.stopPropagation();  // prevents handleCardClick from also firing\n    console.log('Button inside card clicked');\n  };\n\n  return (\n    <div>\n      {/* Basic click */}\n      <button onClick={handleButtonClick}>Clicked {clicked} times</button>\n\n      {/* Inline arrow function — OK for simple cases */}\n      <button onClick={() => setClicked(0)}>Reset</button>\n\n      {/* Input change */}\n      <input\n        type=\"text\"\n        value={inputValue}       // controlled input\n        onChange={handleInputChange}\n        placeholder=\"Type here\"\n      />\n      <p>You typed: {inputValue}</p>\n\n      {/* Form submit */}\n      <form onSubmit={handleFormSubmit}>\n        <input type=\"text\" value={inputValue} onChange={handleInputChange} />\n        <button type=\"submit\">Submit</button>\n      </form>\n\n      {/* Passing arguments via arrow function wrapper */}\n      {['Laptop', 'Phone', 'Tablet'].map((item, idx) => (\n        <div key={idx} onClick={() => handleItemClick(idx, item)}>\n          {item}\n        </div>\n      ))}\n\n      {/* Select / dropdown */}\n      <select value={selected} onChange={e => setSelected(e.target.value)}>\n        <option value=\"none\">Select...</option>\n        <option value=\"react\">React</option>\n        <option value=\"vue\">Vue</option>\n      </select>\n      <p>Selected: {selected}</p>\n\n      {/* Stoppage propagation */}\n      <div onClick={handleCardClick} style={{ border: '1px solid', padding: 20 }}>\n        Card (click anywhere)\n        <button onClick={handleButtonInsideCard}>Button (no card click)</button>\n      </div>\n    </div>\n  );\n}\n\nexport default EventDemo;",
+          "common_mistakes": [
+            "onClick={handleClick()} — adding () calls the function immediately on render, not on click. Use onClick={handleClick} (no parentheses) to pass reference",
+            "Forgetting event.preventDefault() on form submit — page reloads and React state is lost"
+          ]
+        },
+        {
+          "name": "Higher Order Components (HOC)",
+          "keywords": [
+            "hoc",
+            "higher order component",
+            "composing components",
+            "sharing functionality",
+            "withAuth",
+            "withLoading"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Understanding the concept of Higher Order Components (HOCs)",
+            "Creating and implementing HOCs in React",
+            "Composing components using HOCs",
+            "Sharing common functionality and state with HOCs",
+            "Passing props and context to wrapped components"
+          ],
+          "subtopic_content": {
+            "Understanding the concept of Higher Order Components (HOCs)": [
+              "HOC: a function that takes a component and returns a NEW component with added behaviour. Pattern: const EnhancedComponent = withSomething(OriginalComponent).",
+              "HOC is pure — it doesn't modify the original component. It wraps it. Use for cross-cutting concerns: auth check, loading state, analytics tracking, theme injection.",
+              "HOCs are a class-era pattern. In modern React, custom hooks are usually preferred for the same purpose — simpler, more composable."
+            ],
+            "Creating and implementing HOCs in React": [
+              "Convention: HOC names start with 'with' — withAuth, withLoading, withLogger, withTheme.",
+              "HOC signature: function withSomething(WrappedComponent) { return function Enhanced(props) { /* add logic */ return <WrappedComponent {...props} extraProp={value} />; }; }"
+            ],
+            "Composing components using HOCs": [
+              "Multiple HOCs can be composed: const EnhancedPage = withAuth(withLoading(withLogger(PageComponent))). Applied right-to-left — Logger first, then Loading, then Auth.",
+              "compose() utility from Redux or lodash/fp flattens this: const EnhancedPage = compose(withAuth, withLoading, withLogger)(PageComponent)"
+            ],
+            "Sharing common functionality and state with HOCs": [
+              "HOC injects shared state or logic into wrapped component via props. Example: withFetch(url)(Component) — HOC manages fetching data and passes data, loading, error as props."
+            ],
+            "Passing props and context to wrapped components": [
+              "Always spread props to wrapped component: <WrappedComponent {...props} />. Forgetting this breaks the wrapped component — it won't receive its own props.",
+              "Forward refs: HOC breaks ref forwarding. Use React.forwardRef inside HOC if the wrapped component needs to expose a ref."
+            ]
+          },
+          "required_code": "import React, { useState, useEffect } from 'react';\n\n// ===== HOC 1: withAuth — redirect if not authenticated =====\nfunction withAuth(WrappedComponent) {\n  return function AuthenticatedComponent(props) {\n    const isAuthenticated = localStorage.getItem('token');\n\n    if (!isAuthenticated) {\n      return (\n        <div>\n          <p>Please log in to view this page.</p>\n          <a href=\"/login\">Login</a>\n        </div>\n      );\n    }\n\n    return <WrappedComponent {...props} />; // spread all props through\n  };\n}\n\n// ===== HOC 2: withLoading — show loader while data loads =====\nfunction withLoading(WrappedComponent) {\n  return function WithLoadingComponent({ isLoading, ...props }) {\n    if (isLoading) {\n      return (\n        <div className=\"loading-spinner\">\n          <div className=\"spinner\" />\n          <p>Loading...</p>\n        </div>\n      );\n    }\n    return <WrappedComponent {...props} />;\n  };\n}\n\n// ===== HOC 3: withDataFetch — manages API call for any component =====\nfunction withDataFetch(url) {\n  return function(WrappedComponent) {\n    return function DataFetchedComponent(props) {\n      const [data, setData] = useState(null);\n      const [loading, setLoading] = useState(true);\n      const [error, setError] = useState(null);\n\n      useEffect(() => {\n        fetch(url)\n          .then(res => res.json())\n          .then(data => { setData(data); setLoading(false); })\n          .catch(err => { setError(err.message); setLoading(false); });\n      }, []);\n\n      // Inject data, loading, error as props to wrapped component\n      return (\n        <WrappedComponent\n          {...props}\n          data={data}\n          loading={loading}\n          error={error}\n        />\n      );\n    };\n  };\n}\n\n// ===== Usage =====\nfunction UserList({ data, loading, error }) {\n  if (loading) return <p>Loading...</p>;\n  if (error) return <p>Error: {error}</p>;\n  return (\n    <ul>\n      {data?.map(user => <li key={user.id}>{user.name}</li>)}\n    </ul>\n  );\n}\n\n// Compose HOCs — applied right to left\nconst ProtectedUserList = withAuth(\n  withDataFetch('https://jsonplaceholder.typicode.com/users')(UserList)\n);\n\n// Use in app — all HOC props injected automatically\nfunction App() {\n  return <ProtectedUserList />;\n}",
+          "common_mistakes": [
+            "Forgetting {...props} spread — the wrapped component becomes isolated and receives no props from its parent",
+            "Defining HOC inside render method — creates a new component type on every render, causing unmount/mount cycles. Always define HOCs outside components"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Component Styling",
+      "topics": [
+        {
+          "name": "Styling Approaches in React",
+          "keywords": [
+            "vanilla css",
+            "inline styles",
+            "css modules",
+            "tailwind",
+            "bootstrap",
+            "styled components",
+            "styling react"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Using Vanilla CSS",
+            "Using Inline Styles",
+            "Using CSS Modules",
+            "Using Popular UI Libraries (Tailwind CSS, Bootstrap)",
+            "Styled Components"
+          ],
+          "subtopic_content": {
+            "Using Vanilla CSS": [
+              "Import CSS file directly: import './App.css'. Classes applied via className prop. Global scope — .button in any CSS file affects ALL .button elements in app.",
+              "Problem: naming conflicts. Solution: use BEM naming (Block__Element--Modifier) or switch to CSS Modules."
+            ],
+            "Using Inline Styles": [
+              "style prop takes a JavaScript OBJECT (not string). CSS property names are camelCase: backgroundColor not background-color. Values in strings: fontSize: '16px'.",
+              "Good for: dynamic styles that depend on JS variables, quick prototyping. Bad for: pseudo-classes (:hover), media queries, complex styles — use CSS Modules or styled-components instead."
+            ],
+            "Using CSS Modules": [
+              "File named Component.module.css. Import: import styles from './Button.module.css'. Use: className={styles.button}. CSS classes are scoped to this component only — no global conflicts.",
+              "Best of both worlds: regular CSS syntax + automatic scope. Most recommended approach for plain React projects without a UI library."
+            ],
+            "Using Popular UI Libraries (Tailwind CSS, Bootstrap)": [
+              "Tailwind CSS: utility-first. Apply pre-made classes directly in JSX: className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'. No CSS files needed. Install: npm install tailwindcss.",
+              "Bootstrap: pre-built component classes. className='btn btn-primary', className='container', className='row col-md-6'. Faster for standard UIs but less customisable. npm install bootstrap then import 'bootstrap/dist/css/bootstrap.min.css' in main.jsx."
+            ],
+            "Styled Components": [
+              "CSS-in-JS library. Write actual CSS inside tagged template literals in JS. Each styled component is a React component with styles attached. Props create dynamic styles. Perfect for component libraries.",
+              "Install: npm install styled-components. Supports: theming via ThemeProvider, global styles (createGlobalStyle), animations (keyframes), media queries, pseudo-classes."
+            ]
+          },
+          "required_code": "// ===== 1. CSS Modules (Recommended) =====\n// Button.module.css:\n// .button { padding: 8px 16px; border-radius: 4px; cursor: pointer; }\n// .primary { background: #007bff; color: white; }\n// .secondary { background: #6c757d; color: white; }\n\nimport styles from './Button.module.css';\n\nfunction Button({ variant = 'primary', children, onClick }) {\n  return (\n    <button\n      className={`${styles.button} ${styles[variant]}`}\n      onClick={onClick}\n    >\n      {children}\n    </button>\n  );\n}\n\n// ===== 2. Inline Styles (Dynamic) =====\nfunction ProgressBar({ percent, color = '#007bff' }) {\n  const barStyle = {\n    width: `${percent}%`,\n    backgroundColor: color,\n    height: '8px',\n    borderRadius: '4px',\n    transition: 'width 0.3s ease',\n  };\n\n  return (\n    <div style={{ backgroundColor: '#e9ecef', borderRadius: '4px' }}>\n      <div style={barStyle} />\n    </div>\n  );\n}\n\n// ===== 3. Styled Components =====\nimport styled, { keyframes, ThemeProvider } from 'styled-components';\n\nconst spin = keyframes`\n  from { transform: rotate(0deg); }\n  to { transform: rotate(360deg); }\n`;\n\n// Styled component — full CSS support including :hover, animations\nconst StyledButton = styled.button`\n  padding: 8px 16px;\n  border-radius: 4px;\n  cursor: pointer;\n  border: none;\n  font-size: 14px;\n  background: ${props => props.variant === 'primary' ? '#007bff' : '#6c757d'};\n  color: white;\n  opacity: ${props => props.disabled ? 0.6 : 1};\n\n  &:hover {\n    opacity: 0.85;\n    transform: translateY(-1px);\n  }\n\n  &:active {\n    transform: translateY(0);\n  }\n\n  @media (max-width: 768px) {\n    width: 100%;\n  }\n`;\n\nconst Spinner = styled.div`\n  width: 24px;\n  height: 24px;\n  border: 3px solid #f3f3f3;\n  border-top: 3px solid #007bff;\n  border-radius: 50%;\n  animation: ${spin} 1s linear infinite;\n`;\n\n// Extending styled components\nconst DangerButton = styled(StyledButton)`\n  background: #dc3545;\n  &:hover { background: #c82333; }\n`;\n\n// Theme provider for consistent design tokens\nconst theme = { primary: '#007bff', secondary: '#6c757d', spacing: '8px' };\n\nfunction App() {\n  return (\n    <ThemeProvider theme={theme}>\n      <StyledButton variant=\"primary\">Primary</StyledButton>\n      <StyledButton variant=\"secondary\">Secondary</StyledButton>\n      <DangerButton>Delete</DangerButton>\n      <Spinner />\n    </ThemeProvider>\n  );\n}",
+          "common_mistakes": [
+            "Using inline styles for everything — they can't handle :hover, media queries, or keyframes. Use CSS Modules or styled-components for these",
+            "Importing regular CSS in large apps — global scope causes naming conflicts. Switch to CSS Modules or styled-components for component-level scoping"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Understanding States and Hooks",
+      "topics": [
+        {
+          "name": "Functional Component and Introduction to Hooks",
+          "keywords": [
+            "functional component",
+            "hooks",
+            "what is hooks",
+            "usestate",
+            "useeffect",
+            "state",
+            "react fragment"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to functional component",
+            "Syntax and structure of functional component",
+            "Introduction to react fragment",
+            "What is state?",
+            "Introduction to Hooks",
+            "useState()",
+            "useEffect()"
+          ],
+          "subtopic_content": {
+            "Introduction to functional component": [
+              "Functional component: a plain JavaScript function that returns JSX. Since React 16.8 (2018) with hooks, functional components are the standard — they can manage state and side effects without being class components."
+            ],
+            "Syntax and structure of functional component": [
+              "Structure: import React (optional in React 17+), define function in PascalCase, return JSX. Use hooks at the top level of the function body — never inside loops, conditions, or nested functions (Rules of Hooks)."
+            ],
+            "Introduction to react fragment": [
+              "Fragment: <> </> or <React.Fragment> </React.Fragment>. Lets you return multiple elements without adding an extra DOM node. Useful when adding a wrapper div would break CSS (flex/grid layout)."
+            ],
+            "What is state?": [
+              "State: data that belongs to a component and can CHANGE over time. When state changes, React automatically re-renders the component with the new state value.",
+              "Think of state as the component's 'memory' — it remembers things between renders. Count of clicks, current tab selected, form input values, fetched API data — all are state."
+            ],
+            "Introduction to Hooks": [
+              "Hooks: functions starting with 'use' that let functional components 'hook into' React features (state, lifecycle, context, etc.).",
+              "Rules of Hooks: (1) Only call hooks at the TOP LEVEL — not inside if/for/while. (2) Only call hooks from React functions — not regular JS functions. ESLint plugin enforces these rules."
+            ],
+            "useState()": [
+              "useState(initialValue): returns [currentValue, setterFunction]. Re-renders component whenever setter is called with a new value.",
+              "Setter with function: setCount(prev => prev + 1) — use when new state depends on previous state. Avoids stale closure bugs in async code or batched updates."
+            ],
+            "useEffect()": [
+              "useEffect(callback, [dependencies]): runs side effects after render. Side effects: API calls, timers, DOM manipulation, subscriptions.",
+              "Dependency array controls WHEN it runs: [] → only after first render (like componentDidMount). [id] → after first render AND whenever id changes. No array → after EVERY render (usually wrong). Return a cleanup function from useEffect to run on unmount (like componentWillUnmount)."
+            ]
+          },
+          "required_code": "import React, { useState, useEffect, Fragment } from 'react';\n\n// ===== useState — complete examples =====\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  const [step, setStep] = useState(1);\n\n  // Object state — always spread to update\n  const [user, setUser] = useState({ name: 'Alice', age: 25, city: 'Delhi' });\n\n  // Array state — use spread for immutable updates\n  const [todos, setTodos] = useState([]);\n  const [newTodo, setNewTodo] = useState('');\n\n  const addTodo = () => {\n    if (!newTodo.trim()) return;\n    setTodos(prev => [...prev, { id: Date.now(), text: newTodo, done: false }]);\n    setNewTodo('');\n  };\n\n  const toggleTodo = (id) => {\n    setTodos(prev =>\n      prev.map(todo => todo.id === id ? { ...todo, done: !todo.done } : todo)\n    );\n  };\n\n  const deleteTodo = (id) => {\n    setTodos(prev => prev.filter(todo => todo.id !== id));\n  };\n\n  return (\n    <Fragment>  {/* No extra DOM node */}\n      <div>\n        <p>Count: {count}</p>\n        <button onClick={() => setCount(prev => prev + step)}>+{step}</button>\n        <button onClick={() => setCount(0)}>Reset</button>\n        <input type=\"number\" value={step} onChange={e => setStep(+e.target.value)} min=\"1\" />\n      </div>\n\n      <div>\n        <input value={newTodo} onChange={e => setNewTodo(e.target.value)} placeholder=\"Add todo\" />\n        <button onClick={addTodo}>Add</button>\n        <ul>\n          {todos.map(todo => (\n            <li key={todo.id}>\n              <span style={{ textDecoration: todo.done ? 'line-through' : 'none' }}>\n                {todo.text}\n              </span>\n              <button onClick={() => toggleTodo(todo.id)}>✓</button>\n              <button onClick={() => deleteTodo(todo.id)}>✕</button>\n            </li>\n          ))}\n        </ul>\n      </div>\n    </Fragment>\n  );\n}\n\n// ===== useEffect — all patterns =====\nfunction UserProfile({ userId }) {\n  const [user, setUser] = useState(null);\n  const [loading, setLoading] = useState(true);\n\n  // Pattern 1: Run once on mount (empty dependency array)\n  useEffect(() => {\n    document.title = 'User Profile';\n    return () => { document.title = 'App'; }; // cleanup on unmount\n  }, []);\n\n  // Pattern 2: Run when userId changes\n  useEffect(() => {\n    let cancelled = false;  // prevent state update on unmounted component\n    setLoading(true);\n\n    fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)\n      .then(res => res.json())\n      .then(data => {\n        if (!cancelled) {\n          setUser(data);\n          setLoading(false);\n        }\n      });\n\n    return () => { cancelled = true; };  // cleanup: cancel stale request\n  }, [userId]);  // re-runs whenever userId prop changes\n\n  // Pattern 3: Timer with cleanup\n  useEffect(() => {\n    const timer = setInterval(() => console.log('tick'), 1000);\n    return () => clearInterval(timer);  // cleanup: prevents memory leak\n  }, []);\n\n  if (loading) return <p>Loading...</p>;\n  return <div><h2>{user?.name}</h2><p>{user?.email}</p></div>;\n}",
+          "common_mistakes": [
+            "No dependency array in useEffect — runs after EVERY render, causing infinite loops if you setState inside it. Always provide dependency array",
+            "Missing cleanup in useEffect — memory leaks from timers, event listeners, subscriptions. Always return cleanup function"
+          ]
+        },
+        {
+          "name": "Understanding Other Hooks",
+          "keywords": [
+            "useref",
+            "usereducer",
+            "usememo",
+            "usecallback",
+            "custom hooks",
+            "performance hooks",
+            "memoization"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "useRef()",
+            "useReducer()",
+            "useMemo()",
+            "useCallback()",
+            "Custom Hooks"
+          ],
+          "subtopic_content": {
+            "useRef()": [
+              "useRef(initialValue): returns a mutable ref object {current: initialValue}. Two main uses: (1) Access DOM elements directly. (2) Store mutable value that persists across renders WITHOUT causing re-render.",
+              "Changing ref.current does NOT trigger re-render — unlike state. Use for: focus input, play/pause video, store previous value, store timer ID."
+            ],
+            "useReducer()": [
+              "useReducer(reducer, initialState): alternative to useState for complex state logic. Returns [state, dispatch]. dispatch(action) triggers reducer(currentState, action) → returns new state.",
+              "Use when: multiple state values update together, next state depends on complex logic, actions have named types (like Redux). Keeps state logic centralised and testable."
+            ],
+            "useMemo()": [
+              "useMemo(() => expensiveComputation(), [deps]): memoises the RESULT of a function. Only recomputes when dependencies change.",
+              "Use for: expensive computations (filtering/sorting large arrays), referential equality for objects passed as props. Don't overuse — memoisation itself has a cost."
+            ],
+            "useCallback()": [
+              "useCallback(fn, [deps]): memoises the FUNCTION itself. Returns same function reference between renders if dependencies unchanged.",
+              "Use when: passing callback props to child components wrapped in React.memo — prevents unnecessary re-renders of children when parent re-renders."
+            ],
+            "Custom Hooks": [
+              "Custom hook: a function starting with 'use' that calls other hooks. Extracts reusable stateful logic from components. NOT a component — returns data/functions, not JSX.",
+              "Pattern: useFetch, useLocalStorage, useDebounce, useForm, useWindowSize. Share logic between components without HOC or render props complexity."
+            ]
+          },
+          "required_code": "import { useRef, useReducer, useMemo, useCallback, useState, useEffect } from 'react';\n\n// ===== useRef =====\nfunction FocusInput() {\n  const inputRef = useRef(null);   // ref for DOM access\n  const renderCount = useRef(0);   // ref for counting renders (no re-render)\n  const timerRef = useRef(null);   // ref for timer ID\n\n  renderCount.current += 1;  // mutate ref directly — no re-render\n\n  useEffect(() => {\n    inputRef.current?.focus();  // focus input on mount\n    timerRef.current = setInterval(() => console.log('tick'), 1000);\n    return () => clearInterval(timerRef.current); // cleanup\n  }, []);\n\n  return (\n    <div>\n      <p>Renders: {renderCount.current}</p>\n      <input ref={inputRef} type=\"text\" placeholder=\"Auto-focused\" />\n      <button onClick={() => inputRef.current.focus()}>Focus Input</button>\n    </div>\n  );\n}\n\n// ===== useReducer — Shopping Cart =====\nconst cartReducer = (state, action) => {\n  switch (action.type) {\n    case 'ADD_ITEM':\n      const exists = state.items.find(i => i.id === action.payload.id);\n      if (exists) {\n        return { ...state, items: state.items.map(i =>\n          i.id === action.payload.id ? { ...i, qty: i.qty + 1 } : i\n        )};\n      }\n      return { ...state, items: [...state.items, { ...action.payload, qty: 1 }] };\n    case 'REMOVE_ITEM':\n      return { ...state, items: state.items.filter(i => i.id !== action.payload) };\n    case 'CLEAR_CART':\n      return { ...state, items: [] };\n    default:\n      return state;\n  }\n};\n\nfunction ShoppingCart() {\n  const [cart, dispatch] = useReducer(cartReducer, { items: [] });\n\n  const total = cart.items.reduce((sum, item) => sum + item.price * item.qty, 0);\n\n  return (\n    <div>\n      {cart.items.map(item => (\n        <div key={item.id}>\n          {item.name} x{item.qty} = ₹{item.price * item.qty}\n          <button onClick={() => dispatch({ type: 'REMOVE_ITEM', payload: item.id })}>Remove</button>\n        </div>\n      ))}\n      <p>Total: ₹{total}</p>\n      <button onClick={() => dispatch({ type: 'ADD_ITEM', payload: { id: 1, name: 'Laptop', price: 50000 } })}>\n        Add Laptop\n      </button>\n      <button onClick={() => dispatch({ type: 'CLEAR_CART' })}>Clear Cart</button>\n    </div>\n  );\n}\n\n// ===== useMemo — expensive computation =====\nfunction ProductList({ products, searchQuery, sortBy }) {\n  // Only recomputes when products, searchQuery, or sortBy changes\n  const filteredAndSorted = useMemo(() => {\n    console.log('Computing filtered list...');\n    return products\n      .filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()))\n      .sort((a, b) => sortBy === 'price' ? a.price - b.price : a.name.localeCompare(b.name));\n  }, [products, searchQuery, sortBy]);\n\n  return <ul>{filteredAndSorted.map(p => <li key={p.id}>{p.name} - ₹{p.price}</li>)}</ul>;\n}\n\n// ===== useCallback — stable function reference =====\nconst MemoizedChild = React.memo(function Child({ onClick }) {\n  console.log('Child rendered');  // only logs when props actually change\n  return <button onClick={onClick}>Click</button>;\n});\n\nfunction Parent() {\n  const [count, setCount] = useState(0);\n  const [other, setOther] = useState(0);\n\n  // Without useCallback: new function created on every render → Child re-renders\n  // With useCallback: same function reference → Child does NOT re-render when 'other' changes\n  const handleClick = useCallback(() => {\n    setCount(prev => prev + 1);\n  }, []);  // empty deps: function never changes\n\n  return (\n    <div>\n      <p>Count: {count}, Other: {other}</p>\n      <button onClick={() => setOther(p => p + 1)}>Change Other</button>\n      <MemoizedChild onClick={handleClick} />\n    </div>\n  );\n}\n\n// ===== Custom Hook: useFetch =====\nfunction useFetch(url) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n\n  useEffect(() => {\n    let cancelled = false;\n    setLoading(true);\n    setError(null);\n\n    fetch(url)\n      .then(res => {\n        if (!res.ok) throw new Error(`HTTP ${res.status}`);\n        return res.json();\n      })\n      .then(data => { if (!cancelled) { setData(data); setLoading(false); } })\n      .catch(err => { if (!cancelled) { setError(err.message); setLoading(false); } });\n\n    return () => { cancelled = true; };\n  }, [url]);\n\n  return { data, loading, error };\n}\n\n// Custom Hook: useLocalStorage\nfunction useLocalStorage(key, initialValue) {\n  const [value, setValue] = useState(() => {\n    try {\n      const stored = localStorage.getItem(key);\n      return stored ? JSON.parse(stored) : initialValue;\n    } catch { return initialValue; }\n  });\n\n  const setStoredValue = (newValue) => {\n    setValue(newValue);\n    localStorage.setItem(key, JSON.stringify(newValue));\n  };\n\n  return [value, setStoredValue];\n}\n\n// Usage of custom hooks\nfunction UserDashboard() {\n  const { data: users, loading, error } = useFetch('https://jsonplaceholder.typicode.com/users');\n  const [theme, setTheme] = useLocalStorage('theme', 'light');\n\n  if (loading) return <p>Loading...</p>;\n  if (error) return <p>Error: {error}</p>;\n\n  return (\n    <div className={`app theme-${theme}`}>\n      <button onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')}>\n        Toggle Theme (persisted: {theme})\n      </button>\n      {users?.map(u => <p key={u.id}>{u.name}</p>)}\n    </div>\n  );\n}",
+          "common_mistakes": [
+            "Using useMemo/useCallback everywhere — they add overhead. Only use when you have a measured performance problem or stable references for React.memo children",
+            "Forgetting dependencies in useMemo/useCallback — stale closures. ESLint exhaustive-deps rule catches these"
+          ]
+        },
+        {
+          "name": "Implementing Global State (useContext)",
+          "keywords": [
+            "usecontext",
+            "context api",
+            "prop drilling",
+            "createcontext",
+            "context provider",
+            "global state context"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "What is need of global state (Prop Drilling)?",
+            "useContext() hook"
+          ],
+          "subtopic_content": {
+            "What is need of global state (Prop Drilling)?": [
+              "Prop drilling: passing props through many intermediate components that don't use them, just to reach a deeply nested child. Example: User data from App → Layout → Sidebar → ProfileWidget — Layout and Sidebar don't use it, just pass it down.",
+              "Solution: React Context — store data at a high level, any component in the tree can access it directly without passing through every level."
+            ],
+            "useContext() hook": [
+              "Three steps: (1) createContext() — create the context object. (2) Context.Provider value={...} — wrap component tree, provide the value. (3) useContext(Context) — consume value in any descendant component.",
+              "Context re-renders ALL consumers when value changes — be careful with frequently changing data. Split contexts by concern: AuthContext, ThemeContext, CartContext separately."
+            ]
+          },
+          "required_code": "import React, { createContext, useContext, useState, useCallback } from 'react';\n\n// ===== Step 1: Create contexts =====\nconst AuthContext = createContext(null);\nconst ThemeContext = createContext('light');\n\n// ===== Step 2: Create Provider components =====\nfunction AuthProvider({ children }) {\n  const [user, setUser] = useState(null);\n  const [loading, setLoading] = useState(false);\n\n  const login = useCallback(async (email, password) => {\n    setLoading(true);\n    try {\n      // Simulate API call\n      const userData = { id: 1, name: 'Alice', email, role: 'admin' };\n      setUser(userData);\n      localStorage.setItem('user', JSON.stringify(userData));\n    } finally {\n      setLoading(false);\n    }\n  }, []);\n\n  const logout = useCallback(() => {\n    setUser(null);\n    localStorage.removeItem('user');\n  }, []);\n\n  return (\n    <AuthContext.Provider value={{ user, loading, login, logout }}>\n      {children}\n    </AuthContext.Provider>\n  );\n}\n\nfunction ThemeProvider({ children }) {\n  const [theme, setTheme] = useState('light');\n  const toggleTheme = () => setTheme(t => t === 'light' ? 'dark' : 'light');\n\n  return (\n    <ThemeContext.Provider value={{ theme, toggleTheme }}>\n      {children}\n    </ThemeContext.Provider>\n  );\n}\n\n// ===== Custom hooks for consuming context (best practice) =====\nfunction useAuth() {\n  const context = useContext(AuthContext);\n  if (!context) throw new Error('useAuth must be used within AuthProvider');\n  return context;\n}\n\nfunction useTheme() {\n  return useContext(ThemeContext);\n}\n\n// ===== Step 3: Consume in any nested component =====\nfunction Navbar() {\n  const { user, logout } = useAuth();     // no prop drilling!\n  const { theme, toggleTheme } = useTheme();\n\n  return (\n    <nav className={`nav-${theme}`}>\n      <span>Theme: {theme}</span>\n      <button onClick={toggleTheme}>Toggle Theme</button>\n      {user ? (\n        <>\n          <span>Welcome, {user.name}</span>\n          <button onClick={logout}>Logout</button>\n        </>\n      ) : (\n        <a href=\"/login\">Login</a>\n      )}\n    </nav>\n  );\n}\n\nfunction ProfilePage() {\n  const { user } = useAuth();  // directly access — no props needed\n  if (!user) return <p>Not logged in</p>;\n  return <div><h1>{user.name}</h1><p>Role: {user.role}</p></div>;\n}\n\n// ===== Root — wrap with providers =====\nfunction App() {\n  return (\n    <AuthProvider>\n      <ThemeProvider>\n        <Navbar />     {/* accesses both contexts */}\n        <ProfilePage /> {/* accesses auth context */}\n      </ThemeProvider>\n    </AuthProvider>\n  );\n}",
+          "common_mistakes": [
+            "Putting everything in one context — causes all consumers to re-render on any change. Split into AuthContext, CartContext, ThemeContext etc.",
+            "Using Context for all state — Context is for truly global state (auth, theme, language). Local state stays in components, server state in React Query"
+          ]
+        },
+        {
+          "name": "Conditional Rendering and Lists",
+          "keywords": [
+            "conditional rendering",
+            "ternary",
+            "logical and",
+            "rendering lists",
+            "key prop",
+            "map jsx",
+            "enum pattern"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Conditional Rendering using ternary operator, Logical and operator, switch statement, enum",
+            "Rendering list through loops"
+          ],
+          "subtopic_content": {
+            "Conditional Rendering using ternary operator, Logical and operator, switch statement, enum": [
+              "Four patterns: (1) Ternary: {isLoading ? <Spinner /> : <Content />}. (2) Logical &&: {error && <ErrorMsg />} — renders right side only if left is truthy. (3) Early return: if (!data) return <Loader />. (4) Enum/object map: STATUS_COMPONENTS[status] for multiple states.",
+              "Enum pattern avoids nested ternaries. Create an object mapping each status to its component, look up by key."
+            ],
+            "Rendering list through loops": [
+              "Use .map() to render arrays. Every rendered element in a list MUST have a unique key prop. Key must be stable (from database ID), unique among siblings, and consistent between renders.",
+              "Rendering empty state: {items.length === 0 ? <EmptyState /> : items.map(...)}. Rendering loading skeleton: Array.from({length: 5}).map((_, i) => <Skeleton key={i} />)."
+            ]
+          },
+          "required_code": "import React, { useState } from 'react';\n\n// ===== All conditional rendering patterns =====\nfunction StatusDisplay({ status, user, items, error }) {\n\n  // Pattern 1: Early return (cleanest for loading/error states)\n  if (status === 'loading') return <div className=\"spinner\">Loading...</div>;\n  if (error) return <div className=\"error\">Error: {error}</div>;\n  if (!user) return null;  // render nothing\n\n  // Pattern 2: Enum pattern — avoids nested ternaries\n  const ROLE_BADGE = {\n    admin:  <span className=\"badge badge-red\">Admin</span>,\n    editor: <span className=\"badge badge-blue\">Editor</span>,\n    viewer: <span className=\"badge badge-grey\">Viewer</span>,\n  };\n\n  return (\n    <div>\n      {/* Pattern 3: Ternary */}\n      <h1>{user.isPremium ? '⭐ Premium Member' : 'Free Member'}</h1>\n\n      {/* Pattern 4: Logical && — be careful with 0! */}\n      {user.unreadCount > 0 && <span>🔔 {user.unreadCount} unread</span>}\n\n      {/* Enum lookup */}\n      {ROLE_BADGE[user.role] ?? <span>Unknown role</span>}\n\n      {/* Multiple conditions with IIFE */}\n      {(() => {\n        if (user.age < 18) return <p>Minor account</p>;\n        if (user.age < 60) return <p>Adult account</p>;\n        return <p>Senior account</p>;\n      })()}\n    </div>\n  );\n}\n\n// ===== List rendering — complete example =====\nfunction TodoList() {\n  const [todos, setTodos] = useState([\n    { id: 1, text: 'Learn React', done: true, priority: 'high' },\n    { id: 2, text: 'Build project', done: false, priority: 'high' },\n    { id: 3, text: 'Deploy app', done: false, priority: 'medium' },\n  ]);\n  const [filter, setFilter] = useState('all'); // 'all' | 'done' | 'pending'\n\n  const filteredTodos = todos.filter(todo => {\n    if (filter === 'done') return todo.done;\n    if (filter === 'pending') return !todo.done;\n    return true;\n  });\n\n  const PRIORITY_COLOR = { high: '#ff4444', medium: '#ff8c00', low: '#22cc22' };\n\n  return (\n    <div>\n      <div>\n        {['all', 'done', 'pending'].map(f => (\n          <button\n            key={f}\n            onClick={() => setFilter(f)}\n            style={{ fontWeight: filter === f ? 'bold' : 'normal' }}\n          >\n            {f}\n          </button>\n        ))}\n      </div>\n\n      {/* Empty state */}\n      {filteredTodos.length === 0 ? (\n        <p>No {filter} todos found.</p>\n      ) : (\n        <ul>\n          {filteredTodos.map(todo => (\n            <li\n              key={todo.id}  // REQUIRED: stable unique id\n              style={{ color: PRIORITY_COLOR[todo.priority] }}\n            >\n              <input\n                type=\"checkbox\"\n                checked={todo.done}\n                onChange={() => setTodos(prev =>\n                  prev.map(t => t.id === todo.id ? { ...t, done: !t.done } : t)\n                )}\n              />\n              <span style={{ textDecoration: todo.done ? 'line-through' : 'none' }}>\n                {todo.text}\n              </span>\n            </li>\n          ))}\n        </ul>\n      )}\n\n      {/* Loading skeleton pattern */}\n      {/* {isLoading && Array.from({ length: 3 }).map((_, i) => <SkeletonRow key={i} />)} */}\n    </div>\n  );\n}",
+          "common_mistakes": [
+            "Using 0 && <Component /> — renders the number 0 on screen. Use 0 > 0 && or Boolean(0) && to be safe",
+            "Using Math.random() as key — generates new random key every render, forcing React to unmount/remount every list item"
+          ]
+        },
+        {
+          "name": "Converting Class to Functional Component",
+          "keywords": [
+            "class to functional",
+            "convert component",
+            "class vs functional comparison",
+            "migration"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "How to convert class based component to functional component?",
+            "Functional component vs Class based component"
+          ],
+          "subtopic_content": {
+            "How to convert class based component to functional component?": [
+              "Mapping: this.state / setState → useState(). componentDidMount → useEffect(() => {}, []). componentDidUpdate → useEffect(() => {}, [deps]). componentWillUnmount → return () => {} inside useEffect. this.props → function parameter { ...props }.",
+              "Binding event handlers → not needed in functional components. Arrow function class properties → regular functions or arrow functions in component body."
+            ],
+            "Functional component vs Class based component": [
+              "Functional + hooks is the clear winner for new code: less boilerplate, no this confusion, logic reuse via custom hooks, better tree shaking, easier testing.",
+              "Class components aren't going away — React team has no plans to remove them. But no new features are being added only to class components."
+            ]
+          },
+          "required_code": "// ===== BEFORE: Class Component =====\nclass SearchBox extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = { query: '', results: [], loading: false };\n    this.handleSearch = this.handleSearch.bind(this);\n    this.debounceTimer = null;\n  }\n\n  componentDidMount() {\n    document.title = 'Search';\n  }\n\n  componentDidUpdate(prevProps, prevState) {\n    if (prevState.query !== this.state.query) {\n      clearTimeout(this.debounceTimer);\n      this.debounceTimer = setTimeout(() => this.fetchResults(), 500);\n    }\n  }\n\n  componentWillUnmount() {\n    clearTimeout(this.debounceTimer);\n    document.title = 'App';\n  }\n\n  async fetchResults() {\n    this.setState({ loading: true });\n    const res = await fetch(`/api/search?q=${this.state.query}`);\n    const results = await res.json();\n    this.setState({ results, loading: false });\n  }\n\n  handleSearch(e) { this.setState({ query: e.target.value }); }\n\n  render() {\n    const { query, results, loading } = this.state;\n    return (\n      <div>\n        <input value={query} onChange={this.handleSearch} />\n        {loading ? <p>Searching...</p> : results.map(r => <p key={r.id}>{r.title}</p>)}\n      </div>\n    );\n  }\n}\n\n// ===== AFTER: Functional Component (equivalent) =====\nimport { useState, useEffect, useRef } from 'react';\n\nfunction SearchBox() {\n  const [query, setQuery] = useState('');\n  const [results, setResults] = useState([]);\n  const [loading, setLoading] = useState(false);\n  const debounceTimer = useRef(null);  // ref replaces instance variable\n\n  // componentDidMount equivalent\n  useEffect(() => {\n    document.title = 'Search';\n    return () => { document.title = 'App'; };  // componentWillUnmount\n  }, []);\n\n  // componentDidUpdate equivalent — watch query changes\n  useEffect(() => {\n    if (!query) { setResults([]); return; }\n\n    clearTimeout(debounceTimer.current);\n    debounceTimer.current = setTimeout(async () => {\n      setLoading(true);\n      try {\n        const res = await fetch(`/api/search?q=${query}`);\n        const data = await res.json();\n        setResults(data);\n      } finally {\n        setLoading(false);\n      }\n    }, 500);\n\n    return () => clearTimeout(debounceTimer.current);  // cleanup\n  }, [query]);\n\n  return (\n    <div>\n      <input value={query} onChange={e => setQuery(e.target.value)} placeholder=\"Search...\" />\n      {loading ? <p>Searching...</p> : results.map(r => <p key={r.id}>{r.title}</p>)}\n    </div>\n  );\n}",
+          "common_mistakes": [
+            "Forgetting to handle cleanup when converting componentWillUnmount — the return function inside useEffect is the equivalent and is often missed"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Routing in React",
+      "topics": [
+        {
+          "name": "React Router v7",
+          "keywords": [
+            "react router",
+            "routing",
+            "link",
+            "anchor tag vs link",
+            "createbrowserrouter",
+            "routerprovider",
+            "nested routes",
+            "outlet"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Why we need routing",
+            "<a> vs <Link>",
+            "createBrowserRouter & RouterProvider",
+            "Basic and nested routes"
+          ],
+          "subtopic_content": {
+            "Why we need routing": [
+              "SPA has one HTML page. Without routing, URL never changes — no bookmarking, no back button, no sharing links to specific pages. React Router makes URL changes without page reload.",
+              "React Router v7 (also called Remix v3 — they merged) is the modern standard. Install: npm install react-router-dom."
+            ],
+            "<a> vs <Link>": [
+              "<a href='/about'>: full page reload — browser makes new request to server. Loses React state. Bad for SPA.",
+              "<Link to='/about'>: React Router's component. Updates URL and swaps component WITHOUT page reload. State preserved. Always use Link for internal navigation. <a> only for external URLs."
+            ],
+            "createBrowserRouter & RouterProvider": [
+              "v7 data router API: createBrowserRouter() defines routes as config objects. RouterProvider renders the router. Replaces old <BrowserRouter><Routes><Route> pattern.",
+              "Data router enables: loaders (fetch data before rendering), actions (handle form submissions), error boundaries per route — all built in."
+            ],
+            "Basic and nested routes": [
+              "Nested routes: child routes render inside parent's <Outlet />. Layout routes: parent provides shared UI (Navbar, Sidebar) via Outlet. Child routes only need to define their unique content.",
+              "Index route: default child when parent path matches exactly. errorElement: component shown when route throws error."
+            ]
+          },
+          "required_code": "// ===== main.jsx — Setup React Router v7 =====\nimport { createBrowserRouter, RouterProvider } from 'react-router-dom';\nimport RootLayout from './layouts/RootLayout';\nimport Home from './pages/Home';\nimport Products from './pages/Products';\nimport ProductDetail from './pages/ProductDetail';\nimport Profile from './pages/Profile';\nimport NotFound from './pages/NotFound';\nimport ErrorPage from './pages/ErrorPage';\n\nconst router = createBrowserRouter([\n  {\n    path: '/',\n    element: <RootLayout />,   // Layout with Navbar — renders for all routes\n    errorElement: <ErrorPage />,\n    children: [\n      { index: true, element: <Home /> },           // renders at '/'\n      {\n        path: 'products',\n        children: [\n          { index: true, element: <Products /> },           // '/products'\n          { path: ':productId', element: <ProductDetail /> }, // '/products/123'\n        ]\n      },\n      { path: 'profile', element: <Profile /> },\n      { path: '*', element: <NotFound /> },         // catch-all 404\n    ],\n  },\n]);\n\nReactDOM.createRoot(document.getElementById('root')).render(\n  <React.StrictMode>\n    <RouterProvider router={router} />\n  </React.StrictMode>\n);\n\n// ===== RootLayout.jsx — Layout with Outlet =====\nimport { Outlet, Link, NavLink } from 'react-router-dom';\n\nfunction RootLayout() {\n  return (\n    <div>\n      <nav>\n        <Link to=\"/\">Home</Link>\n        {/* NavLink adds 'active' class automatically */}\n        <NavLink to=\"/products\" className={({ isActive }) => isActive ? 'active' : ''}>\n          Products\n        </NavLink>\n        <NavLink to=\"/profile\">Profile</NavLink>\n      </nav>\n      <main>\n        <Outlet />  {/* Child route components render here */}\n      </main>\n    </div>\n  );\n}",
+          "common_mistakes": [
+            "Using <a> for internal navigation — causes full page reload and loses all React state. Always use <Link> or <NavLink>",
+            "Forgetting <Outlet /> in layout component — child routes render nowhere, page appears blank"
+          ]
+        },
+        {
+          "name": "Navigation, Route Data and Advanced Routing",
+          "keywords": [
+            "useparams",
+            "usenavigate",
+            "query strings",
+            "searchparams",
+            "userouteerror",
+            "layout routes",
+            "protected routes",
+            "auth routes",
+            "redirect"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Route params (useParams)",
+            "Query strings",
+            "useRouteError handling",
+            "Layout routes",
+            "Protected routes (auth)",
+            "Redirection & fallback UI"
+          ],
+          "subtopic_content": {
+            "Route params (useParams)": [
+              "Dynamic segments: path: ':productId' in route config. useParams() hook: const { productId } = useParams() — extracts the actual value from current URL.",
+              "Multiple params: path: ':category/:productId' → const { category, productId } = useParams()."
+            ],
+            "Query strings": [
+              "Query strings: ?sort=price&order=asc. useSearchParams() hook returns [searchParams, setSearchParams]. Read: searchParams.get('sort'). Write: setSearchParams({ sort: 'name' }).",
+              "Prefer query strings over state for: filters, sort order, search query, page number — makes URL shareable and bookmarkable."
+            ],
+            "useRouteError handling": [
+              "errorElement at route level shows custom error UI when that route's loader/action/component throws. useRouteError() hook gets the error object inside errorElement."
+            ],
+            "Layout routes": [
+              "Layout route: path-less route with element={<Layout />} and children. Layout renders persistent UI (Navbar, Sidebar) and <Outlet /> for child content.",
+              "Multiple layouts: public layout (minimal, for login/signup) and app layout (full nav, for authenticated pages)."
+            ],
+            "Protected routes (auth)": [
+              "Wrap private routes with an auth-check component. If not authenticated, redirect to login using <Navigate to='/login' replace />. If authenticated, render <Outlet /> for child routes.",
+              "The replace prop replaces current history entry so back button goes to page before login, not back to the failed protected route."
+            ],
+            "Redirection & fallback UI": [
+              "Programmatic navigation: const navigate = useNavigate(). navigate('/dashboard') to redirect. navigate(-1) to go back. navigate('/login', { replace: true }) to replace history.",
+              "Fallback: path: '*' catches all unmatched routes → show 404 page."
+            ]
+          },
+          "required_code": "import { useParams, useSearchParams, useNavigate, useRouteError, Navigate, Outlet } from 'react-router-dom';\nimport { useAuth } from './contexts/AuthContext';\n\n// ===== useParams — dynamic route =====\nfunction ProductDetail() {\n  const { productId, category } = useParams();\n  const { data: product, loading } = useFetch(`/api/products/${productId}`);\n\n  if (loading) return <p>Loading product {productId}...</p>;\n  return <div><h1>{product?.name}</h1><p>Category: {category}</p></div>;\n}\n\n// ===== useSearchParams — query strings =====\nfunction ProductList() {\n  const [searchParams, setSearchParams] = useSearchParams();\n  const sort = searchParams.get('sort') || 'name';\n  const page = parseInt(searchParams.get('page') || '1');\n\n  return (\n    <div>\n      <select value={sort} onChange={e => setSearchParams({ sort: e.target.value, page: '1' })}>\n        <option value=\"name\">Sort by Name</option>\n        <option value=\"price\">Sort by Price</option>\n      </select>\n      <p>Showing page {page}</p>\n      <button onClick={() => setSearchParams({ sort, page: String(page + 1) })}>Next Page</button>\n    </div>\n  );\n}\n\n// ===== Error boundary for routes =====\nfunction ErrorPage() {\n  const error = useRouteError();\n  return (\n    <div>\n      <h1>Oops! Something went wrong</h1>\n      <p>{error?.message || 'Unknown error'}</p>\n      <a href=\"/\">Go Home</a>\n    </div>\n  );\n}\n\n// ===== Protected Route component =====\nfunction ProtectedRoute({ redirectTo = '/login' }) {\n  const { user, loading } = useAuth();\n\n  if (loading) return <div>Checking auth...</div>;\n  if (!user) return <Navigate to={redirectTo} replace />; // redirect if not logged in\n\n  return <Outlet />; // render child routes if authenticated\n}\n\n// ===== useNavigate — programmatic navigation =====\nfunction LoginForm() {\n  const navigate = useNavigate();\n  const { login } = useAuth();\n\n  const handleSubmit = async (e) => {\n    e.preventDefault();\n    await login(email, password);\n    navigate('/dashboard', { replace: true }); // replace: back button skips login\n  };\n\n  return <form onSubmit={handleSubmit}>...</form>;\n}\n\n// ===== Router config with protected routes =====\nconst router = createBrowserRouter([\n  {\n    path: '/',\n    element: <PublicLayout />,\n    children: [\n      { path: 'login', element: <LoginPage /> },\n      { path: 'signup', element: <SignupPage /> },\n    ]\n  },\n  {\n    path: '/app',\n    element: <ProtectedRoute />,  // auth check\n    children: [\n      { element: <AppLayout />,  // layout with nav\n        children: [\n          { index: true, element: <Dashboard /> },\n          { path: 'products', element: <Products /> },\n          { path: 'products/:productId', element: <ProductDetail /> },\n          { path: 'profile', element: <Profile /> },\n        ]\n      }\n    ]\n  },\n  { path: '*', element: <NotFound /> },\n]);",
+          "common_mistakes": [
+            "Not using replace on post-login redirect — user can click back to get to login page while logged in. Always use navigate('/dashboard', { replace: true })",
+            "Putting auth logic in every protected page — use a ProtectedRoute wrapper component that handles auth for all child routes at once"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Form Handling",
+      "topics": [
+        {
+          "name": "Form Handling in React",
+          "keywords": [
+            "forms",
+            "controlled component",
+            "uncontrolled component",
+            "useref form",
+            "react hook form",
+            "validation",
+            "form submission"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction",
+            "Building a Form",
+            "Handling Form Submission",
+            "Accessing Input Fields",
+            "Controlled Components",
+            "Uncontrolled components",
+            "Managing Forms With React Hook Form",
+            "Applying Validation"
+          ],
+          "subtopic_content": {
+            "Introduction": [
+              "React handles forms differently from HTML. HTML forms maintain their own state in the DOM. React recommends controlled components — React state is the single source of truth for input values."
+            ],
+            "Building a Form": [
+              "Form elements: <input>, <textarea>, <select>, <checkbox>, <radio>. Each needs value (or checked for checkbox) and onChange handler for controlled pattern."
+            ],
+            "Handling Form Submission": [
+              "onSubmit on <form> element. Always call e.preventDefault() to stop browser's default form submission (page reload). Collect values from state and send to API."
+            ],
+            "Accessing Input Fields": [
+              "Controlled: values in React state — access via state variable. Uncontrolled: values in DOM — access via useRef(). ref.current.value gives current input value."
+            ],
+            "Controlled Components": [
+              "value={state} + onChange={setter} on every input. React state is the single truth. Good for: real-time validation, disabling submit until valid, formatting input as user types."
+            ],
+            "Uncontrolled components": [
+              "No value/onChange — input manages its own value in DOM. Access via useRef(). Good for: simple forms where you only need values on submit, file inputs (always uncontrolled), integrating with non-React libraries."
+            ],
+            "Managing Forms With React Hook Form": [
+              "React Hook Form (RHF): performance-focused form library. Minimal re-renders (only changed fields re-render, not whole form). register() connects inputs. handleSubmit() wraps submit handler. formState.errors for validation errors.",
+              "Install: npm install react-hook-form. Works with native inputs and UI libraries (MUI, Chakra, etc.)."
+            ],
+            "Applying Validation": [
+              "RHF validation options in register(): required, minLength, maxLength, pattern (regex), min, max, validate (custom function). Schema validation: use Zod or Yup with @hookform/resolvers for complex rules."
+            ]
+          },
+          "required_code": "import React, { useState, useRef } from 'react';\nimport { useForm } from 'react-hook-form';\nimport { z } from 'zod';\nimport { zodResolver } from '@hookform/resolvers/zod';\n\n// ===== Controlled Form =====\nfunction ControlledForm() {\n  const [form, setForm] = useState({ name: '', email: '', password: '', role: 'user', agree: false });\n  const [errors, setErrors] = useState({});\n\n  const handleChange = (e) => {\n    const { name, value, type, checked } = e.target;\n    setForm(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));\n    // Clear error when user starts typing\n    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));\n  };\n\n  const validate = () => {\n    const newErrors = {};\n    if (!form.name.trim()) newErrors.name = 'Name is required';\n    if (!/\\S+@\\S+\\.\\S+/.test(form.email)) newErrors.email = 'Valid email required';\n    if (form.password.length < 8) newErrors.password = 'Min 8 characters';\n    if (!form.agree) newErrors.agree = 'Must accept terms';\n    return newErrors;\n  };\n\n  const handleSubmit = (e) => {\n    e.preventDefault();\n    const validationErrors = validate();\n    if (Object.keys(validationErrors).length > 0) {\n      setErrors(validationErrors);\n      return;\n    }\n    console.log('Submit:', form);\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <div>\n        <input name=\"name\" value={form.name} onChange={handleChange} placeholder=\"Name\" />\n        {errors.name && <span className=\"error\">{errors.name}</span>}\n      </div>\n      <div>\n        <input name=\"email\" type=\"email\" value={form.email} onChange={handleChange} placeholder=\"Email\" />\n        {errors.email && <span className=\"error\">{errors.email}</span>}\n      </div>\n      <div>\n        <input name=\"password\" type=\"password\" value={form.password} onChange={handleChange} placeholder=\"Password\" />\n        {errors.password && <span className=\"error\">{errors.password}</span>}\n      </div>\n      <div>\n        <select name=\"role\" value={form.role} onChange={handleChange}>\n          <option value=\"user\">User</option>\n          <option value=\"admin\">Admin</option>\n        </select>\n      </div>\n      <div>\n        <input name=\"agree\" type=\"checkbox\" checked={form.agree} onChange={handleChange} />\n        <label>I agree to terms</label>\n        {errors.agree && <span className=\"error\">{errors.agree}</span>}\n      </div>\n      <button type=\"submit\">Register</button>\n    </form>\n  );\n}\n\n// ===== React Hook Form + Zod validation =====\nconst registerSchema = z.object({\n  name: z.string().min(2, 'Name must be at least 2 characters'),\n  email: z.string().email('Invalid email address'),\n  password: z.string()\n    .min(8, 'Password must be at least 8 characters')\n    .regex(/[A-Z]/, 'Must contain at least one uppercase letter')\n    .regex(/[0-9]/, 'Must contain at least one number'),\n  role: z.enum(['user', 'admin', 'editor']),\n  agree: z.literal(true, { errorMap: () => ({ message: 'Must accept terms' }) }),\n});\n\nfunction RegisterForm() {\n  const {\n    register,\n    handleSubmit,\n    watch,\n    reset,\n    formState: { errors, isSubmitting, isDirty, isValid }\n  } = useForm({\n    resolver: zodResolver(registerSchema),\n    defaultValues: { name: '', email: '', password: '', role: 'user', agree: false },\n    mode: 'onChange',  // validate on every change\n  });\n\n  const onSubmit = async (data) => {\n    console.log('Valid data:', data);\n    await new Promise(r => setTimeout(r, 1000)); // simulate API\n    reset();  // clear form after success\n  };\n\n  return (\n    <form onSubmit={handleSubmit(onSubmit)}>\n      <div>\n        <input {...register('name')} placeholder=\"Full Name\" />\n        {errors.name && <p className=\"error\">{errors.name.message}</p>}\n      </div>\n      <div>\n        <input {...register('email')} type=\"email\" placeholder=\"Email\" />\n        {errors.email && <p className=\"error\">{errors.email.message}</p>}\n      </div>\n      <div>\n        <input {...register('password')} type=\"password\" placeholder=\"Password\" />\n        {errors.password && <p className=\"error\">{errors.password.message}</p>}\n      </div>\n      <div>\n        <select {...register('role')}>\n          <option value=\"user\">User</option>\n          <option value=\"admin\">Admin</option>\n          <option value=\"editor\">Editor</option>\n        </select>\n      </div>\n      <div>\n        <input {...register('agree')} type=\"checkbox\" />\n        <label>Accept terms & conditions</label>\n        {errors.agree && <p className=\"error\">{errors.agree.message}</p>}\n      </div>\n      <button type=\"submit\" disabled={!isValid || isSubmitting}>\n        {isSubmitting ? 'Registering...' : 'Register'}\n      </button>\n    </form>\n  );\n}",
+          "common_mistakes": [
+            "Forgetting e.preventDefault() on form submit — page reloads, React state lost",
+            "Controlled input without onChange handler — React warns 'You provided a value prop without an onChange handler'. Either add onChange or use defaultValue for uncontrolled"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "API Calls",
+      "topics": [
+        {
+          "name": "Making API Calls in React",
+          "keywords": [
+            "api calls",
+            "fetch",
+            "axios",
+            "react query",
+            "tanstack query",
+            "swr",
+            "rtk query",
+            "loading state",
+            "error handling"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Axios",
+            "React Query (TanStack Query)",
+            "SWR (stale-while-revalidate)",
+            "RTK Query",
+            "React toastify (notifications)"
+          ],
+          "subtopic_content": {
+            "Axios": [
+              "Axios: HTTP client library. Benefits over fetch: automatic JSON parsing, request/response interceptors, better error handling (throws on 4xx/5xx), request cancellation, timeout support.",
+              "Install: npm install axios. Create an instance with base URL and headers for reuse across the app."
+            ],
+            "React Query (TanStack Query)": [
+              "React Query (now TanStack Query): server state management library. Handles caching, background refetching, loading/error states, pagination, infinite scroll — automatically.",
+              "Install: npm install @tanstack/react-query. Wrap app with QueryClientProvider. Use useQuery for fetching, useMutation for POST/PUT/DELETE."
+            ],
+            "SWR (stale-while-revalidate)": [
+              "SWR by Vercel: lightweight data fetching. Shows stale (cached) data immediately while revalidating (fetching fresh data) in background. useSWR(key, fetcher) — simple API.",
+              "Install: npm install swr. Best for: simple data fetching where you want instant cached response + background sync."
+            ],
+            "RTK Query": [
+              "RTK Query: built into Redux Toolkit. If you're already using Redux, use RTK Query instead of React Query. Generates hooks from API endpoints definition.",
+              "Install: included in @reduxjs/toolkit. Define API with createApi(), generates useGetUsersQuery, useCreateUserMutation etc. automatically."
+            ],
+            "React toastify (notifications)": [
+              "React Toastify: toast notification library. Show success/error/info/warning toasts for API response feedback. Install: npm install react-toastify.",
+              "Add <ToastContainer /> once at root. Call toast.success(), toast.error(), toast.info() from anywhere in the app."
+            ]
+          },
+          "required_code": "// ===== 1. Axios — setup and usage =====\nimport axios from 'axios';\n\n// Create configured instance\nconst api = axios.create({\n  baseURL: 'https://jsonplaceholder.typicode.com',\n  timeout: 10000,\n  headers: { 'Content-Type': 'application/json' },\n});\n\n// Request interceptor — add auth token\napi.interceptors.request.use(config => {\n  const token = localStorage.getItem('token');\n  if (token) config.headers.Authorization = `Bearer ${token}`;\n  return config;\n});\n\n// Response interceptor — handle 401\napi.interceptors.response.use(\n  response => response,\n  error => {\n    if (error.response?.status === 401) {\n      localStorage.removeItem('token');\n      window.location.href = '/login';\n    }\n    return Promise.reject(error);\n  }\n);\n\n// API service functions\nexport const userApi = {\n  getAll: () => api.get('/users').then(res => res.data),\n  getById: (id) => api.get(`/users/${id}`).then(res => res.data),\n  create: (data) => api.post('/users', data).then(res => res.data),\n  update: (id, data) => api.put(`/users/${id}`, data).then(res => res.data),\n  delete: (id) => api.delete(`/users/${id}`),\n};\n\n// ===== 2. React Query (TanStack Query) =====\nimport { QueryClient, QueryClientProvider, useQuery, useMutation, useQueryClient } from '@tanstack/react-query';\nimport { toast } from 'react-toastify';\nimport 'react-toastify/dist/ReactToastify.css';\n\nconst queryClient = new QueryClient({\n  defaultOptions: {\n    queries: { staleTime: 5 * 60 * 1000, retry: 2 }, // cache 5 min, retry twice\n  },\n});\n\nfunction App() {\n  return (\n    <QueryClientProvider client={queryClient}>\n      <ToastContainer position=\"top-right\" autoClose={3000} />\n      <UserManager />\n    </QueryClientProvider>\n  );\n}\n\nfunction UserManager() {\n  const qc = useQueryClient();\n\n  // Fetch users — handles loading, error, caching automatically\n  const { data: users, isLoading, error, refetch } = useQuery({\n    queryKey: ['users'],                 // cache key\n    queryFn: userApi.getAll,             // fetch function\n    staleTime: 5 * 60 * 1000,           // consider fresh for 5 mins\n    select: (data) => data.sort((a, b) => a.name.localeCompare(b.name)), // transform\n  });\n\n  // Create user mutation\n  const createMutation = useMutation({\n    mutationFn: userApi.create,\n    onSuccess: (newUser) => {\n      // Optimistic update — add to cache immediately\n      qc.setQueryData(['users'], old => [...old, newUser]);\n      toast.success(`User ${newUser.name} created!`);\n    },\n    onError: (error) => {\n      toast.error(`Failed: ${error.message}`);\n    },\n  });\n\n  // Delete mutation\n  const deleteMutation = useMutation({\n    mutationFn: userApi.delete,\n    onSuccess: (_, userId) => {\n      qc.setQueryData(['users'], old => old.filter(u => u.id !== userId));\n      toast.success('User deleted');\n    },\n  });\n\n  if (isLoading) return <div className=\"spinner\">Loading users...</div>;\n  if (error) return <div>Error: {error.message} <button onClick={refetch}>Retry</button></div>;\n\n  return (\n    <div>\n      <button\n        onClick={() => createMutation.mutate({ name: 'New User', email: 'new@test.com' })}\n        disabled={createMutation.isPending}\n      >\n        {createMutation.isPending ? 'Creating...' : 'Add User'}\n      </button>\n      {users?.map(user => (\n        <div key={user.id}>\n          <span>{user.name} — {user.email}</span>\n          <button onClick={() => deleteMutation.mutate(user.id)} disabled={deleteMutation.isPending}>\n            Delete\n          </button>\n        </div>\n      ))}\n    </div>\n  );\n}\n\n// ===== 3. SWR =====\nimport useSWR from 'swr';\n\nconst fetcher = (url) => fetch(url).then(r => r.json());\n\nfunction UserList() {\n  const { data, error, isLoading, mutate } = useSWR(\n    'https://jsonplaceholder.typicode.com/users',\n    fetcher,\n    { refreshInterval: 60000 }  // auto-refresh every 60s\n  );\n\n  if (isLoading) return <p>Loading...</p>;\n  if (error) return <p>Error loading users</p>;\n  return (\n    <ul>\n      {data?.map(u => <li key={u.id}>{u.name}</li>)}\n      <button onClick={() => mutate()}>Refresh</button>\n    </ul>\n  );\n}",
+          "common_mistakes": [
+            "Making API calls directly inside components without React Query/SWR — you manually handle loading, error, caching, refetching. Use a data fetching library instead",
+            "Not cancelling API requests when component unmounts — causes 'setState on unmounted component' warning. React Query handles this automatically"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "State Management in React",
+      "topics": [
+        {
+          "name": "Flux Architecture",
+          "keywords": [
+            "flux",
+            "flux architecture",
+            "actions",
+            "dispatcher",
+            "stores",
+            "action creators",
+            "unidirectional"
+          ],
+          "nature": "theoretical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to flux",
+            "Flux architecture overview",
+            "Actions",
+            "Action creators",
+            "Dispatcher",
+            "Stores",
+            "Async actions"
+          ],
+          "subtopic_content": {
+            "Introduction to flux": [
+              "Flux: application architecture pattern created by Facebook alongside React. Solves state management in large apps where multiple components need same shared data. Not a library — a pattern."
+            ],
+            "Flux architecture overview": [
+              "Unidirectional data flow: Action → Dispatcher → Store → View → Action. Data flows in ONE direction only — predictable, debuggable.",
+              "Redux is the most popular implementation of Flux pattern. Redux Toolkit is the modern way to write Redux."
+            ],
+            "Actions": [
+              "Action: a plain JavaScript object describing what happened. Must have a type property. Example: { type: 'ADD_ITEM', payload: { id: 1, name: 'Laptop' } }."
+            ],
+            "Action creators": [
+              "Action creator: a function that creates and returns an action object. Keeps action creation consistent and testable.",
+              "Example: const addItem = (item) => ({ type: 'ADD_ITEM', payload: item })."
+            ],
+            "Dispatcher": [
+              "Dispatcher: central hub that receives actions and dispatches them to all registered stores. In Redux: the store's dispatch function serves this role."
+            ],
+            "Stores": [
+              "Store: holds application state. Only way to change state is to dispatch an action. State is read-only — reducer creates new state objects."
+            ],
+            "Async actions": [
+              "Async operations (API calls) can't be handled in plain actions (synchronous). Solutions: middleware. Redux Thunk (dispatch functions), Redux Saga (generator functions), RTK createAsyncThunk (built into Redux Toolkit)."
+            ]
+          },
+          "required_diagrams": [
+            "Flux architecture diagram: clean diagram on white background. Four rectangular boxes in a circular flow. 1) User View (component). 2) Action Creator (creates action object). 3) Dispatcher (central hub). 4) Store (holds state). Arrows connecting in order: View → Action Creator → Dispatcher → Store → View. Label each arrow with what flows: 'User interaction', 'action object', 'dispatch', 'state update triggers re-render'. Plain black, white background."
+          ],
+          "common_mistakes": [
+            "Choosing Redux for small apps — Context API + useReducer is often enough. Add Redux only when app genuinely needs it"
+          ]
+        },
+        {
+          "name": "Redux and Redux Toolkit",
+          "keywords": [
+            "redux",
+            "redux toolkit",
+            "rtk",
+            "useSelector",
+            "useDispatch",
+            "createSlice",
+            "configureStore",
+            "thunk",
+            "redux saga",
+            "context vs redux"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "What is Redux?",
+            "Why one need Redux?",
+            "Redux actions and action creators",
+            "Reducer functions",
+            "Context api vs redux",
+            "Need of redux toolkit",
+            "Redux vs Redux Toolkit",
+            "Redux Toolkit thunk",
+            "Redux hooks",
+            "Redux thunk",
+            "Introduction to redux saga"
+          ],
+          "subtopic_content": {
+            "What is Redux?": [
+              "Redux: predictable state container for JavaScript apps. Single store holds entire app state. State is read-only. Changes only via pure reducer functions. Excellent DevTools for time-travel debugging."
+            ],
+            "Why one need Redux?": [
+              "Need Redux when: multiple unrelated components share state, state updates are complex (many actions), you need time-travel debugging, team needs predictable state management at scale.",
+              "Don't need Redux for: small apps, state that's local to one component subtree, server state (use React Query instead)."
+            ],
+            "Redux actions and action creators": [
+              "Redux Toolkit's createSlice automatically generates action creators. No need to write them manually.",
+              "Dispatching: dispatch(counterSlice.actions.increment()) or with payload: dispatch(cartSlice.actions.addItem(product))."
+            ],
+            "Reducer functions": [
+              "Reducer: pure function (currentState, action) => newState. Must be pure — no side effects, no mutation, same input always gives same output.",
+              "Redux Toolkit uses Immer under the hood — allows 'mutating' syntax in reducers while actually creating new state objects. state.count++ is safe inside RTK reducers."
+            ],
+            "Context api vs redux": [
+              "Context API: built-in, simple, good for low-frequency updates (auth, theme). Redux: external library, more boilerplate, but DevTools, middleware, complex update patterns, better performance for frequent updates."
+            ],
+            "Need of redux toolkit": [
+              "RTK was created because vanilla Redux had too much boilerplate: create action types constants, action creators, reducers separately, configure store with compose(). RTK reduces this to one createSlice call."
+            ],
+            "Redux vs Redux Toolkit": [
+              "Vanilla Redux: many files, manual action types, switch-case reducers, complex store setup. RTK: createSlice (combines action types + creators + reducer), configureStore (includes Redux DevTools, Thunk middleware automatically)."
+            ],
+            "Redux Toolkit thunk": [
+              "createAsyncThunk: handles async operations. Automatically dispatches pending/fulfilled/rejected action types. Use extraReducers in slice to handle these states."
+            ],
+            "Redux hooks": [
+              "useSelector(selector): reads state from Redux store. Re-renders only when selected state changes. useDispatch(): returns dispatch function to send actions to store."
+            ],
+            "Redux thunk": [
+              "Redux Thunk middleware: allows action creators to return FUNCTIONS instead of plain objects. Function receives dispatch — can dispatch multiple actions asynchronously."
+            ],
+            "Introduction to redux saga": [
+              "Redux Saga: middleware using generator functions (function*) to handle side effects. More powerful than Thunk for complex async flows: race conditions, concurrent requests, retry logic, WebSocket handling.",
+              "Install: npm install redux-saga. Complex setup but very powerful for enterprise-level async orchestration."
+            ]
+          },
+          "required_code": "// ===== Redux Toolkit — Complete Setup =====\nimport { createSlice, createAsyncThunk, configureStore } from '@reduxjs/toolkit';\nimport { Provider, useSelector, useDispatch } from 'react-redux';\n\n// ===== 1. Async thunk for API call =====\nexport const fetchUsers = createAsyncThunk(\n  'users/fetchAll',  // action type prefix\n  async (_, { rejectWithValue }) => {\n    try {\n      const res = await fetch('https://jsonplaceholder.typicode.com/users');\n      if (!res.ok) throw new Error(`HTTP ${res.status}`);\n      return await res.json();  // becomes action.payload in fulfilled\n    } catch (error) {\n      return rejectWithValue(error.message); // becomes action.payload in rejected\n    }\n  }\n);\n\nexport const deleteUser = createAsyncThunk(\n  'users/delete',\n  async (userId, { rejectWithValue }) => {\n    try {\n      await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`, { method: 'DELETE' });\n      return userId;  // return id to remove from state\n    } catch (error) {\n      return rejectWithValue(error.message);\n    }\n  }\n);\n\n// ===== 2. Create Slice (replaces actions + reducer) =====\nconst usersSlice = createSlice({\n  name: 'users',\n  initialState: {\n    list: [],\n    loading: false,  // 'idle' | 'pending' | 'succeeded' | 'failed'\n    error: null,\n    selectedId: null,\n  },\n  reducers: {\n    // Synchronous actions\n    selectUser: (state, action) => {\n      state.selectedId = action.payload;  // RTK uses Immer — 'mutation' is safe\n    },\n    clearSelection: (state) => {\n      state.selectedId = null;\n    },\n  },\n  extraReducers: (builder) => {\n    builder\n      // fetchUsers lifecycle\n      .addCase(fetchUsers.pending, (state) => {\n        state.loading = true;\n        state.error = null;\n      })\n      .addCase(fetchUsers.fulfilled, (state, action) => {\n        state.loading = false;\n        state.list = action.payload;\n      })\n      .addCase(fetchUsers.rejected, (state, action) => {\n        state.loading = false;\n        state.error = action.payload;\n      })\n      // deleteUser lifecycle\n      .addCase(deleteUser.fulfilled, (state, action) => {\n        state.list = state.list.filter(u => u.id !== action.payload);\n      });\n  },\n});\n\nexport const { selectUser, clearSelection } = usersSlice.actions;\n\n// ===== 3. Configure Store =====\nconst store = configureStore({\n  reducer: {\n    users: usersSlice.reducer,\n    // add more slices here: cart: cartSlice.reducer\n  },\n  // Redux DevTools and Thunk middleware added automatically by RTK\n});\n\n// ===== 4. Selectors =====\nconst selectAllUsers = state => state.users.list;\nconst selectLoading = state => state.users.loading;\nconst selectError = state => state.users.error;\n\n// ===== 5. Components using Redux =====\nfunction UserList() {\n  const dispatch = useDispatch();\n  const users = useSelector(selectAllUsers);\n  const loading = useSelector(selectLoading);\n  const error = useSelector(selectError);\n\n  // Fetch on mount\n  React.useEffect(() => {\n    dispatch(fetchUsers());\n  }, [dispatch]);\n\n  if (loading) return <p>Loading users...</p>;\n  if (error) return (\n    <div>\n      <p>Error: {error}</p>\n      <button onClick={() => dispatch(fetchUsers())}>Retry</button>\n    </div>\n  );\n\n  return (\n    <ul>\n      {users.map(user => (\n        <li key={user.id}>\n          {user.name} — {user.email}\n          <button onClick={() => dispatch(selectUser(user.id))}>Select</button>\n          <button onClick={() => dispatch(deleteUser(user.id))}>Delete</button>\n        </li>\n      ))}\n    </ul>\n  );\n}\n\n// ===== 6. Root with Provider =====\nfunction App() {\n  return (\n    <Provider store={store}>\n      <UserList />\n    </Provider>\n  );\n}",
+          "common_mistakes": [
+            "Mutating state in vanilla Redux reducers (without RTK) — return {...state, count: state.count+1} NOT state.count++. RTK's Immer makes mutation syntax safe only inside createSlice",
+            "Over-fetching from Redux — not everything belongs in Redux store. Form state, UI state (modal open/close), server data (use React Query) should stay local"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Miscellaneous",
+      "topics": [
+        {
+          "name": "React Performance and Advanced Patterns",
+          "keywords": [
+            "suspense",
+            "lazy loading",
+            "code splitting",
+            "react portals",
+            "infinite scroll",
+            "react fiber",
+            "optimization",
+            "memoization",
+            "virtualization",
+            "error boundaries"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Suspense",
+            "Lazy loading",
+            "React Portals",
+            "Infinite scroll",
+            "React fibre",
+            "Introduction to code optimization (Minification, Tree shaking, Code splitting)",
+            "Introduction to component optimization (Virtualization, Memoization)",
+            "Image optimization",
+            "Introduction to error boundaries",
+            "Lifecycle methods to handle error boundaries"
+          ],
+          "subtopic_content": {
+            "Suspense": [
+              "Suspense: React component that shows fallback UI while waiting for something to load. Originally for lazy-loaded components, now extended to async data fetching (React 18).",
+              "<Suspense fallback={<Spinner />}><LazyComponent /></Suspense> — shows Spinner until LazyComponent's code is downloaded."
+            ],
+            "Lazy loading": [
+              "React.lazy(() => import('./HeavyComponent')): dynamically import component — its JS code is NOT included in main bundle. Only downloaded when component is first needed.",
+              "Reduces initial bundle size → faster first load. Combine with Suspense for fallback UI while component code downloads."
+            ],
+            "React Portals": [
+              "ReactDOM.createPortal(children, domNode): renders children into a different DOM node than parent. Children appear in DOM outside React root (e.g., document.body) but still behave as React children (events bubble correctly).",
+              "Use for: modals, tooltips, dropdowns — components that need to visually 'escape' CSS overflow:hidden or z-index of parent containers."
+            ],
+            "Infinite scroll": [
+              "IntersectionObserver API: watches when a 'sentinel' element enters viewport → triggers loading next page. More performant than scroll event listeners.",
+              "React Query provides useInfiniteQuery hook for infinite scroll with automatic page management."
+            ],
+            "React fibre": [
+              "React Fiber: complete rewrite of React's reconciliation algorithm (React 16+). Enables: incremental rendering (split work into chunks), prioritisation (user interactions > data updates), concurrency (React 18 concurrent mode).",
+              "Fiber makes React's 'concurrent features' possible: Suspense, transitions (startTransition), useDeferredValue — UI stays responsive during heavy computation."
+            ],
+            "Introduction to code optimization (Minification, Tree shaking, Code splitting)": [
+              "Minification: remove whitespace, shorten variable names in production build. Vite/webpack do this automatically with npm run build.",
+              "Tree shaking: dead code elimination. Bundler removes unused exports. Use named imports (import { useQuery } from) not default whole libraries.",
+              "Code splitting: split bundle into multiple chunks. Route-level splitting (most impactful) via React.lazy. Component-level for heavy components (charts, editors)."
+            ],
+            "Introduction to component optimization (Virtualization, Memoization)": [
+              "Virtualization: render only visible items in long lists. 10,000 items in DOM = slow. Virtualisation renders only ~20 visible items — huge performance gain. Libraries: react-virtual, react-window.",
+              "Memoization: React.memo wraps component — prevents re-render if props unchanged. useMemo memoises computed values. useCallback memoises functions. Profile FIRST, memoize only where needed."
+            ],
+            "Image optimization": [
+              "Lazy load images: loading='lazy' attribute on <img> — browser only downloads when near viewport. Use appropriate sizes — don't serve 4K images for 200px thumbnails.",
+              "Modern formats: WebP (30% smaller than JPEG). Use srcSet for responsive images. In Next.js: <Image /> component handles all of this automatically."
+            ],
+            "Introduction to error boundaries": [
+              "Error boundaries: class components that catch JavaScript errors in their child component tree and display fallback UI instead of crashing the whole app.",
+              "Two lifecycle methods: static getDerivedStateFromError() — updates state to show fallback UI. componentDidCatch() — logs error to error tracking service (Sentry)."
+            ],
+            "Lifecycle methods to handle error boundaries": [
+              "static getDerivedStateFromError(error): static method, returns state update to trigger fallback render. Called during rendering phase.",
+              "componentDidCatch(error, info): side effects allowed here (logging). info.componentStack shows which component threw the error. Use react-error-boundary library for a hook-friendly wrapper."
+            ]
+          },
+          "required_code": "import React, { lazy, Suspense, useState, useRef, useEffect } from 'react';\nimport ReactDOM from 'react-dom';\n\n// ===== React.lazy + Suspense =====\nconst HeavyChart = lazy(() => import('./HeavyChart'));    // code split\nconst AdminPanel = lazy(() => import('./AdminPanel'));    // code split\n\nfunction App() {\n  const [showAdmin, setShowAdmin] = useState(false);\n  return (\n    <div>\n      <Suspense fallback={<div className=\"spinner\">Loading chart...</div>}>\n        <HeavyChart data={chartData} />  {/* downloads chunk on first render */}\n      </Suspense>\n\n      <button onClick={() => setShowAdmin(true)}>Show Admin</button>\n      {showAdmin && (\n        <Suspense fallback={<p>Loading admin panel...</p>}>\n          <AdminPanel />  {/* downloads ONLY when button clicked */}\n        </Suspense>\n      )}\n    </div>\n  );\n}\n\n// ===== React Portal — Modal =====\nfunction Modal({ isOpen, onClose, title, children }) {\n  if (!isOpen) return null;\n\n  // Renders into document.body — escapes any overflow:hidden parents\n  return ReactDOM.createPortal(\n    <div className=\"modal-overlay\" onClick={onClose}>\n      <div className=\"modal-box\" onClick={e => e.stopPropagation()}>\n        <button className=\"modal-close\" onClick={onClose}>✕</button>\n        <h2>{title}</h2>\n        {children}\n      </div>\n    </div>,\n    document.body  // render target\n  );\n}\n\n// ===== Infinite Scroll with IntersectionObserver =====\nfunction InfiniteList() {\n  const [items, setItems] = useState(Array.from({ length: 20 }, (_, i) => i + 1));\n  const [loading, setLoading] = useState(false);\n  const [page, setPage] = useState(1);\n  const sentinelRef = useRef(null);\n\n  useEffect(() => {\n    const observer = new IntersectionObserver(\n      (entries) => {\n        if (entries[0].isIntersecting && !loading) {\n          loadMore();\n        }\n      },\n      { threshold: 0.1 }\n    );\n    if (sentinelRef.current) observer.observe(sentinelRef.current);\n    return () => observer.disconnect();\n  }, [loading]);\n\n  const loadMore = async () => {\n    setLoading(true);\n    await new Promise(r => setTimeout(r, 800)); // simulate API\n    const newItems = Array.from({ length: 20 }, (_, i) => (page * 20) + i + 1);\n    setItems(prev => [...prev, ...newItems]);\n    setPage(p => p + 1);\n    setLoading(false);\n  };\n\n  return (\n    <div style={{ height: '500px', overflow: 'auto' }}>\n      {items.map(item => <div key={item} style={{ padding: '20px', borderBottom: '1px solid #eee' }}>Item {item}</div>)}\n      <div ref={sentinelRef} style={{ height: '1px' }} />  {/* sentinel */}\n      {loading && <p>Loading more...</p>}\n    </div>\n  );\n}\n\n// ===== Error Boundary =====\nclass ErrorBoundary extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = { hasError: false, error: null };\n  }\n\n  static getDerivedStateFromError(error) {\n    return { hasError: true, error }; // show fallback UI\n  }\n\n  componentDidCatch(error, info) {\n    // Log to error tracking\n    console.error('Error caught:', error, info.componentStack);\n    // errorTrackingService.log(error, info);\n  }\n\n  render() {\n    if (this.state.hasError) {\n      return (\n        this.props.fallback || (\n          <div className=\"error-boundary\">\n            <h2>Something went wrong</h2>\n            <p>{this.state.error?.message}</p>\n            <button onClick={() => this.setState({ hasError: false, error: null })}>\n              Try Again\n            </button>\n          </div>\n        )\n      );\n    }\n    return this.props.children;\n  }\n}\n\n// Usage\nfunction App() {\n  return (\n    <ErrorBoundary fallback={<h1>App crashed. Please refresh.</h1>}>\n      <ErrorBoundary>  {/* per-section boundaries */}\n        <UserSection />\n      </ErrorBoundary>\n      <ErrorBoundary>\n        <ProductSection />\n      </ErrorBoundary>\n    </ErrorBoundary>\n  );\n}\n\n// ===== React.memo + memoization =====\nconst ExpensiveList = React.memo(function({ items, onDelete }) {\n  console.log('ExpensiveList rendered'); // only logs when items or onDelete changes\n  return <ul>{items.map(i => <li key={i.id}>{i.name} <button onClick={() => onDelete(i.id)}>x</button></li>)}</ul>;\n});\n\nfunction Parent() {\n  const [count, setCount] = useState(0);\n  const [items] = useState([{ id: 1, name: 'A' }, { id: 2, name: 'B' }]);\n\n  // useCallback: stable reference so ExpensiveList doesn't re-render on count change\n  const handleDelete = useCallback((id) => {\n    console.log('delete', id);\n  }, []);\n\n  return (\n    <div>\n      <button onClick={() => setCount(c => c + 1)}>Count: {count}</button>\n      <ExpensiveList items={items} onDelete={handleDelete} />\n    </div>\n  );\n}",
+          "common_mistakes": [
+            "Error boundaries don't catch: event handler errors, async errors, errors in SSR. For events, use try/catch inside the handler",
+            "Memoizing everything — React.memo has overhead. Only use when you've measured re-render performance issues"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Chrome Dev Tool",
+      "topics": [
+        {
+          "name": "Debugging React with Chrome DevTools",
+          "keywords": [
+            "chrome devtools",
+            "react devtools",
+            "debugging",
+            "profiler",
+            "component inspector",
+            "debugging react"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Introduction to chrome dev tools",
+            "Inspecting the react components in element panel",
+            "Viewing and modifying the components props and state",
+            "Debugging react component hierarchy",
+            "Analysing and modifying the component styles",
+            "Debugging react component rendering and performance",
+            "Utilizing the react dev tools extension",
+            "Debugging react events and event handlers",
+            "Inspecting react context and redux state",
+            "Working with react hooks in dev tool",
+            "Profiling react component and optimizing the performance",
+            "Analyzing the react component updates and re-render",
+            "Debugging react router and routing issue"
+          ],
+          "subtopic_content": {
+            "Introduction to chrome dev tools": [
+              "Open DevTools: F12 or right-click → Inspect. Key panels: Elements (DOM), Console (JS output/errors), Network (API requests), Sources (code + breakpoints), Performance (profiling), Application (localStorage, cookies)."
+            ],
+            "Inspecting the react components in element panel": [
+              "Elements panel shows real DOM — not React component tree. Install React DevTools Chrome extension for component-level inspection.",
+              "React DevTools adds Components and Profiler panels. Components panel shows React component tree with props and state."
+            ],
+            "Viewing and modifying the components props and state": [
+              "React DevTools Components panel: click any component → see its props and state on the right. Can EDIT values directly — changes reflected immediately in UI. Great for testing edge cases without changing code."
+            ],
+            "Debugging react component hierarchy": [
+              "Components panel shows parent-child relationships. Use search to find a specific component by name. 'Inspect component' button: click element in page → jumps to its component in React DevTools."
+            ],
+            "Analysing and modifying the component styles": [
+              "Elements panel → Styles pane: see all CSS applied to selected DOM element. Toggle properties on/off. Add new CSS rules. Computed tab: see final computed values. Changes are temporary (lost on refresh)."
+            ],
+            "Debugging react component rendering and performance": [
+              "React DevTools Profiler: Record → interact with app → Stop. See which components rendered, how long each took. Flame graph shows rendering hierarchy. Ranked chart shows slowest components."
+            ],
+            "Utilizing the react dev tools extension": [
+              "Install: Chrome Web Store → 'React Developer Tools'. Features: component tree, props/state inspection, hook values, context values, profiler, highlight updates (flashes when component re-renders)."
+            ],
+            "Debugging react events and event handlers": [
+              "Console: console.log inside event handlers. Network panel: see API requests triggered by events. Breakpoints: Sources panel → click line number → code pauses at that line when executed."
+            ],
+            "Inspecting react context and redux state": [
+              "React DevTools: Components panel → find Context.Provider → see context value. Redux DevTools extension: shows action history, state tree, time-travel debugging (jump back to any previous state)."
+            ],
+            "Working with react hooks in dev tool": [
+              "React DevTools Components panel: click functional component → see all hooks listed with current values. useState values, useRef current, custom hook return values — all visible and editable."
+            ],
+            "Profiling react component and optimizing the performance": [
+              "Profiler steps: Open React DevTools → Profiler tab → click Record (circle) → interact with app → click Stop → analyze. Look for: unexpected re-renders, slow renders (>16ms causes frame drop), waterfall patterns."
+            ],
+            "Analyzing the react component updates and re-render": [
+              "Enable 'Highlight updates' in React DevTools settings → blue flashes on every render. Too many flashes = too many re-renders. Add React.memo, useCallback, useMemo to reduce re-renders."
+            ],
+            "Debugging react router and routing issue": [
+              "Network tab: check if API requests are being made. Console: React Router logs warnings for misconfigurations. Check: route path matches URL exactly, nested routes have <Outlet />, protected routes redirect correctly."
+            ]
+          },
+          "common_mistakes": [
+            "Relying only on console.log for debugging — use breakpoints in Sources panel and React DevTools for component-level debugging",
+            "Not installing React DevTools extension — the default Chrome DevTools shows DOM, not React components. React DevTools is essential"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Testing in react app",
+      "topics": [
+        {
+          "name": "Testing React Applications",
+          "keywords": [
+            "testing",
+            "jest",
+            "react testing library",
+            "unit testing",
+            "integration testing",
+            "snapshot testing",
+            "mocking",
+            "test coverage",
+            "ci testing"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to testing",
+            "Types of testing (Unit, Integration, End-to-end)",
+            "Introduction to testing pyramid",
+            "Introduction to Jest",
+            "Introduction to react testing library",
+            "Testing component rendering",
+            "Simulating UI",
+            "Snapshot testing",
+            "Mocking",
+            "Testing actions",
+            "Testing reducers",
+            "Testing thunks",
+            "Testing component interaction",
+            "Mocking API calls",
+            "Testing custom hooks",
+            "Mocking react hooks",
+            "Setting up continuous integration",
+            "Test coverage"
+          ],
+          "subtopic_content": {
+            "Introduction to testing": [
+              "Testing: automated verification that code works as expected. Catches regressions (previously working features breaking after changes). Increases confidence to refactor and add features."
+            ],
+            "Types of testing (Unit, Integration, End-to-end)": [
+              "Unit: test one function/component in isolation. Fast, many. Integration: test multiple components/modules working together. E2E (End-to-End): test full user flows in real browser (Cypress, Playwright). Slow, few."
+            ],
+            "Introduction to testing pyramid": [
+              "Testing pyramid: many unit tests (fast, cheap) at base, fewer integration tests in middle, very few E2E tests at top (slow, expensive). Aim for most coverage from unit and integration tests."
+            ],
+            "Introduction to Jest": [
+              "Jest: JavaScript testing framework. Built into Create React App. Features: test runner, assertion library (expect), mocking, coverage reports. Vite: add Vitest (Jest-compatible, faster).",
+              "File naming: MyComponent.test.jsx or MyComponent.spec.jsx. Jest auto-discovers test files. Run: npm test."
+            ],
+            "Introduction to react testing library": [
+              "React Testing Library (RTL): renders components in real DOM (jsdom), queries by user-visible attributes. Philosophy: test how users USE the app, not implementation details.",
+              "Queries (prefer in order): getByRole (most accessible), getByLabelText, getByPlaceholderText, getByText, getByDisplayValue, getByTestId (last resort)."
+            ],
+            "Testing component rendering": [
+              "render(<Component />) from RTL. screen.getByText(), screen.getByRole(), screen.queryByText() (returns null if not found, doesn't throw). screen.debug() prints current DOM."
+            ],
+            "Simulating UI": [
+              "userEvent (preferred over fireEvent): simulates real user interactions. userEvent.click(), userEvent.type(), userEvent.selectOptions(). More realistic than fireEvent — triggers all intermediate events."
+            ],
+            "Snapshot testing": [
+              "Snapshot test: renders component, saves serialised output to .snap file. Future runs compare against snapshot — any change fails test. Use sparingly — can become maintenance burden. Good for: intentionally stable UI (design system components)."
+            ],
+            "Mocking": [
+              "jest.fn(): create mock function. jest.spyOn(object, 'method'): spy on existing method. jest.mock('./module'): replace entire module with mock. Mock external APIs in tests — never make real HTTP requests."
+            ],
+            "Testing actions": [
+              "RTK action creators are plain functions — test that they return correct action object. expect(counterSlice.actions.increment()).toEqual({ type: 'counter/increment' })."
+            ],
+            "Testing reducers": [
+              "Reducers are pure functions — easy to test. Call reducer with state and action, assert returned state. No need to render anything."
+            ],
+            "Testing thunks": [
+              "Use redux-mock-store or test with real store. For createAsyncThunk: mock fetch, dispatch thunk, assert dispatched actions."
+            ],
+            "Testing component interaction": [
+              "Integration test: render parent with children, interact with UI, assert both components responded correctly. Tests real component composition."
+            ],
+            "Mocking API calls": [
+              "msw (Mock Service Worker): intercept network requests at network level. Most realistic — your code makes real fetch calls, msw intercepts and returns mock data. Perfect for integration tests."
+            ],
+            "Testing custom hooks": [
+              "renderHook from RTL: const { result } = renderHook(() => useCounter()). Access return value via result.current. Wrap state updates in act()."
+            ],
+            "Mocking react hooks": [
+              "jest.mock the module exporting the hook. Or use mockReturnValue to control hook return. Better: test custom hooks directly instead of mocking them."
+            ],
+            "Setting up continuous integration": [
+              "CI runs tests automatically on every git push. GitHub Actions: create .github/workflows/test.yml. Runs npm test -- --ci --coverage on every PR. Blocks merge if tests fail."
+            ],
+            "Test coverage": [
+              "npm test -- --coverage: generates HTML coverage report. Shows which lines/branches are tested. Aim for 70-80% coverage on business logic. Don't chase 100% — UI snapshot tests add little value."
+            ]
+          },
+          "required_code": "// ===== Jest + React Testing Library — Complete Examples =====\nimport { render, screen, waitFor } from '@testing-library/react';\nimport userEvent from '@testing-library/user-event';\nimport { rest } from 'msw';\nimport { setupServer } from 'msw/node';\nimport '@testing-library/jest-dom';\n\n// ===== 1. Basic Component Test =====\nimport Counter from './Counter';\n\ndescribe('Counter component', () => {\n  test('renders initial count of 0', () => {\n    render(<Counter />);\n    expect(screen.getByText('Count: 0')).toBeInTheDocument();\n  });\n\n  test('increments count when button clicked', async () => {\n    const user = userEvent.setup();\n    render(<Counter />);\n\n    await user.click(screen.getByRole('button', { name: /increment/i }));\n    expect(screen.getByText('Count: 1')).toBeInTheDocument();\n\n    await user.click(screen.getByRole('button', { name: /increment/i }));\n    await user.click(screen.getByRole('button', { name: /increment/i }));\n    expect(screen.getByText('Count: 3')).toBeInTheDocument();\n  });\n\n  test('resets count when reset button clicked', async () => {\n    const user = userEvent.setup();\n    render(<Counter />);\n    await user.click(screen.getByRole('button', { name: /increment/i }));\n    await user.click(screen.getByRole('button', { name: /reset/i }));\n    expect(screen.getByText('Count: 0')).toBeInTheDocument();\n  });\n});\n\n// ===== 2. Testing with Props =====\nimport { ProductCard } from './ProductCard';\n\ndescribe('ProductCard', () => {\n  const mockProduct = { id: 1, name: 'Laptop', price: 50000, inStock: true };\n  const mockOnAdd = jest.fn(); // mock function\n\n  beforeEach(() => jest.clearAllMocks()); // reset between tests\n\n  test('renders product information', () => {\n    render(<ProductCard product={mockProduct} onAddToCart={mockOnAdd} />);\n    expect(screen.getByText('Laptop')).toBeInTheDocument();\n    expect(screen.getByText('₹50000')).toBeInTheDocument();\n  });\n\n  test('calls onAddToCart with product when Add button clicked', async () => {\n    const user = userEvent.setup();\n    render(<ProductCard product={mockProduct} onAddToCart={mockOnAdd} />);\n    await user.click(screen.getByRole('button', { name: /add to cart/i }));\n    expect(mockOnAdd).toHaveBeenCalledWith(mockProduct); // called with correct arg\n    expect(mockOnAdd).toHaveBeenCalledTimes(1);\n  });\n\n  test('disables button when out of stock', () => {\n    const outOfStock = { ...mockProduct, inStock: false };\n    render(<ProductCard product={outOfStock} onAddToCart={mockOnAdd} />);\n    expect(screen.getByRole('button', { name: /out of stock/i })).toBeDisabled();\n  });\n});\n\n// ===== 3. Testing Async (API calls) with msw =====\nconst server = setupServer(\n  rest.get('https://jsonplaceholder.typicode.com/users', (req, res, ctx) => {\n    return res(ctx.json([\n      { id: 1, name: 'Alice', email: 'alice@test.com' },\n      { id: 2, name: 'Bob', email: 'bob@test.com' },\n    ]));\n  })\n);\n\nbeforeAll(() => server.listen());\nafterEach(() => server.resetHandlers());\nafterAll(() => server.close());\n\nimport UserList from './UserList';\n\ndescribe('UserList', () => {\n  test('shows loading initially then displays users', async () => {\n    render(<UserList />);\n    expect(screen.getByText(/loading/i)).toBeInTheDocument();\n    await waitFor(() => {\n      expect(screen.getByText('Alice')).toBeInTheDocument();\n      expect(screen.getByText('Bob')).toBeInTheDocument();\n    });\n  });\n\n  test('shows error when API fails', async () => {\n    server.use(\n      rest.get('https://jsonplaceholder.typicode.com/users',\n        (req, res, ctx) => res(ctx.status(500))\n      )\n    );\n    render(<UserList />);\n    await waitFor(() => {\n      expect(screen.getByText(/error/i)).toBeInTheDocument();\n    });\n  });\n});\n\n// ===== 4. Testing Redux Reducer =====\nimport { cartReducer, addItem, removeItem } from './cartSlice';\n\ndescribe('cartReducer', () => {\n  const initialState = { items: [] };\n\n  test('adds item to empty cart', () => {\n    const item = { id: 1, name: 'Laptop', price: 50000 };\n    const newState = cartReducer(initialState, addItem(item));\n    expect(newState.items).toHaveLength(1);\n    expect(newState.items[0]).toEqual({ ...item, qty: 1 });\n  });\n\n  test('increments qty for existing item', () => {\n    const item = { id: 1, name: 'Laptop', price: 50000, qty: 1 };\n    const stateWithItem = { items: [item] };\n    const newState = cartReducer(stateWithItem, addItem({ id: 1, name: 'Laptop', price: 50000 }));\n    expect(newState.items[0].qty).toBe(2);\n  });\n});\n\n// ===== 5. Testing Custom Hook =====\nimport { renderHook, act } from '@testing-library/react';\nimport { useCounter } from './useCounter';\n\ndescribe('useCounter hook', () => {\n  test('initialises with given value', () => {\n    const { result } = renderHook(() => useCounter(5));\n    expect(result.current.count).toBe(5);\n  });\n\n  test('increments count', () => {\n    const { result } = renderHook(() => useCounter(0));\n    act(() => result.current.increment());\n    expect(result.current.count).toBe(1);\n  });\n});",
+          "common_mistakes": [
+            "Testing implementation details (internal state variable names, method calls) — tests break on refactoring. Test observable behavior: what the user sees and can interact with",
+            "Not wrapping async state updates in waitFor() — test passes before async operation completes. Always await async interactions"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "React Build & Deploy",
+      "topics": [
+        {
+          "name": "Building and Deploying React App",
+          "keywords": [
+            "build react",
+            "deploy react",
+            "vercel",
+            "netlify",
+            "github pages",
+            "production build",
+            "npm run build"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "How to build a react app",
+            "Using Vercel, Netlify & Github Pages"
+          ],
+          "subtopic_content": {
+            "How to build a react app": [
+              "npm run build (or yarn build): creates optimised production build in /dist (Vite) or /build (CRA). Minifies JS, removes dev code, splits bundles.",
+              "What changes in production: no React StrictMode double-renders, no PropTypes warnings, no source maps by default, smaller bundle size. Always test production build before deploying."
+            ],
+            "Using Vercel, Netlify & Github Pages": [
+              "Vercel (easiest for React): connect GitHub repo → auto-deploys on every push. Zero config for Vite/CRA. Custom domain free. Environment variables in dashboard. Best choice for React apps.",
+              "Netlify: similar to Vercel. Great for static sites. Drag-and-drop deploy: drag /dist folder to netlify.com. Or connect GitHub for auto-deploy.",
+              "GitHub Pages: free hosting from GitHub repo. For SPAs: need to handle client-side routing (copy index.html to 404.html trick or use HashRouter). npm install gh-pages. Add scripts in package.json."
+            ]
+          },
+          "required_code": "# ===== Production Build =====\nnpm run build\n# Creates /dist folder (Vite) or /build (CRA) with:\n# - index.html\n# - assets/index-[hash].js  (minified, hashed)\n# - assets/index-[hash].css\n\n# Preview production build locally before deploying:\nnpm run preview  # Vite\nnpx serve build  # CRA\n\n# ===== Deploy to Vercel =====\n# Option 1: Vercel CLI\nnpm install -g vercel\nvercel login\nvercel          # deploy from project root\nvercel --prod   # deploy to production URL\n\n# Option 2: Connect GitHub (recommended)\n# 1. Push code to GitHub\n# 2. Go to vercel.com → New Project → Import GitHub repo\n# 3. Vercel auto-detects Vite/CRA, sets build command\n# 4. Every push to main auto-deploys\n\n# ===== Deploy to Netlify =====\n# Option 1: CLI\nnpm install -g netlify-cli\nnetlify login\nnpm run build\nnetlify deploy --prod --dir=dist  # Vite\n\n# Option 2: Drag & drop\n# npm run build → drag /dist folder to netlify.com\n\n# ===== Deploy to GitHub Pages =====\n# Install gh-pages\nnpm install --save-dev gh-pages\n\n# Add to package.json:\n# \"homepage\": \"https://username.github.io/repo-name\",\n# \"scripts\": {\n#   \"predeploy\": \"npm run build\",\n#   \"deploy\": \"gh-pages -d dist\"\n# }\n\nnpm run deploy  # builds and pushes to gh-pages branch\n\n# ===== Environment Variables =====\n# .env file (never commit to git!)\n# Vite: prefix with VITE_\nVITE_API_URL=https://api.example.com\nVITE_APP_TITLE=My App\n\n# Access in code:\n# const apiUrl = import.meta.env.VITE_API_URL;  // Vite\n# const apiUrl = process.env.REACT_APP_API_URL; // CRA (prefix REACT_APP_)\n\n# On Vercel/Netlify: add env vars in dashboard Settings → Environment Variables",
+          "common_mistakes": [
+            "Committing .env file with secrets to GitHub — add .env to .gitignore. Use .env.example for documentation",
+            "Using HashRouter for GitHub Pages without understanding the tradeoff — URLs look like /#/about instead of /about. Vercel/Netlify support BrowserRouter natively"
+          ]
+        }
+      ]
+    }
+  ]
+}

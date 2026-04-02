@@ -1,0 +1,927 @@
+{
+  "subject": "computer organization and architecture",
+  "modules": [
+    {
+      "module": "Digital Logic and System Basics",
+      "topics": [
+        {
+          "name": "Logic Gates and Circuits",
+          "keywords": [
+            "logic gates",
+            "and gate",
+            "or gate",
+            "not gate",
+            "nand",
+            "nor",
+            "xor",
+            "xnor",
+            "universal gates",
+            "truth table",
+            "boolean"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "AND Gate — symbol, Boolean expression, truth table, real-world analogy",
+            "OR Gate — symbol, Boolean expression, truth table, real-world analogy",
+            "NOT Gate (Inverter) — symbol, Boolean expression, behavior",
+            "NAND Gate — NOT-AND behavior, truth table, universality concept",
+            "NOR Gate — NOT-OR behavior, truth table, universality concept",
+            "NAND Universality — building AND, OR, NOT from only NAND gates",
+            "XOR Gate — exclusive OR behavior, truth table, half adder connection",
+            "XNOR Gate — exclusive NOR, comparator application",
+            "Unified Truth Table — all 7 gates side by side",
+            "Boolean Algebra Laws — De Morgan's theorem and simplification"
+          ],
+          "one_slide_per_subtopic": true,
+          "required_content": [
+            "AND gate: output HIGH only when ALL inputs HIGH. Boolean: Y = A·B",
+            "OR gate: output HIGH when ANY input HIGH. Boolean: Y = A+B",
+            "NOT gate: inverts input. Boolean: Y = A'",
+            "NAND = AND followed by NOT. Universal because any circuit can be built using only NAND gates",
+            "NOR = OR followed by NOT. Also universal for the same reason",
+            "XOR: output HIGH when inputs DIFFER. Boolean: Y = A⊕B = AB' + A'B",
+            "XNOR: output HIGH when inputs are SAME. Complement of XOR"
+          ],
+          "required_diagrams": [
+            "Logic gate symbols diagram: show standard IEEE symbols for AND, OR, NOT, NAND, NOR, XOR, XNOR gates side by side. Each with input/output labels and Boolean expression below. Clean white background, black lines.",
+            "NAND universality diagram: show how AND, OR, NOT gates can each be built using only NAND gates. Three separate constructions on one diagram."
+          ],
+          "required_tables": [
+            "Truth table: A | B | AND | OR | NAND | NOR | XOR | XNOR || 0|0|0|0|1|1|0|1 || 0|1|0|1|1|0|1|0 || 1|0|0|1|1|0|1|0 || 1|1|1|1|0|0|0|1"
+          ],
+          "common_mistakes": [
+            "Thinking NAND is just 'not AND' without understanding its universality",
+            "Confusing XOR (different inputs = HIGH) with OR (any HIGH = HIGH)",
+            "Forgetting that XNOR output is HIGH when both inputs are SAME (not different)"
+          ],
+          "use_slide_scripts": true,
+          "slide_scripts": {
+            "AND Gate — symbol, Boolean expression, truth table, real-world analogy": {
+              "title": "AND Gate — Output HIGH Only When ALL Inputs Are HIGH",
+              "structure": "concept",
+              "items": [
+                "The AND gate is the digital equivalent of a series circuit. Electricity flows only when every switch in the series is closed. In logic: output is 1 ONLY when input A is 1 AND input B is 1 simultaneously.",
+                "Boolean expression: Y = A · B (the dot means AND). Symbol: D-shape with flat input side and curved output side. Two (or more) wires enter the flat side, one wire exits the curve.",
+                "Truth table: A | B | Y=A·B || 0 | 0 | 0 || 0 | 1 | 0 || 1 | 0 | 0 || 1 | 1 | 1. Only one row gives output 1 — when BOTH inputs are 1.",
+                "Real-world analogy: a bank vault that opens only when the manager's key AND the cashier's key are turned simultaneously. ONE key alone does nothing — both required.",
+                "Hardware reality: AND gate is built from two transistors in series. Current flows from supply to output only when BOTH transistors are ON (both inputs HIGH). This transistor-level understanding becomes important in CMOS design."
+              ]
+            },
+            "OR Gate — symbol, Boolean expression, truth table, real-world analogy": {
+              "title": "OR Gate — Output HIGH When ANY Input Is HIGH",
+              "structure": "concept",
+              "items": [
+                "The OR gate is the digital equivalent of a parallel circuit. Electricity flows if any one of the parallel switches is closed. In logic: output is 1 when input A is 1 OR input B is 1 OR both are 1.",
+                "Boolean expression: Y = A + B (the plus sign means OR — NOT arithmetic addition). Symbol: curved D-shape with a curved input side as well — both sides curve inward toward the output.",
+                "Truth table: A | B | Y=A+B || 0 | 0 | 0 || 0 | 1 | 1 || 1 | 0 | 1 || 1 | 1 | 1. Output is 0 ONLY when both inputs are 0 — all other combinations give 1.",
+                "Real-world analogy: a fire alarm system that triggers when smoke detector OR heat sensor OR pull station is activated. Any single trigger is enough — all three going off simultaneously also triggers it.",
+                "Key difference from AND: AND needs ALL inputs HIGH (strict). OR needs ANY input HIGH (lenient). In circuit design, use AND when you need ALL conditions met, OR when any one condition is sufficient."
+              ]
+            },
+            "NOT Gate (Inverter) — symbol, Boolean expression, behavior": {
+              "title": "NOT Gate — The Inverter: Flips Every Input",
+              "structure": "concept",
+              "items": [
+                "The NOT gate is the simplest gate: ONE input, ONE output. It does exactly one thing — it inverts. If input is 0, output is 1. If input is 1, output is 0. There is no other behavior.",
+                "Boolean expression: Y = A' (read as 'A complement' or 'NOT A'). Also written as Ā or ~A. Symbol: a triangle (buffer shape) with a small circle (bubble) at the output. The bubble represents inversion — this bubble concept applies to ALL gates.",
+                "Truth table: A | Y=A' || 0 | 1 || 1 | 0. Only two rows possible. Input flips, output is always opposite.",
+                "Real-world analogy: a normally-closed valve — when power is OFF (0), valve is OPEN (1). When power is ON (1), valve is CLOSED (0). Also think: an active-low enable signal in electronics where device works when pin is LOW.",
+                "Why NOT gate matters: NOT alone does nothing useful in a large circuit. But combined with AND to make NAND, and with OR to make NOR, it creates the universal gates that can build any circuit. The inversion bubble is the single most powerful concept in digital logic."
+              ]
+            },
+            "NAND Gate — NOT-AND behavior, truth table, universality concept": {
+              "title": "NAND Gate — AND Followed by NOT, and Why It Is Universal",
+              "structure": "concept",
+              "items": [
+                "NAND = NOT + AND. Take an AND gate output and feed it through a NOT gate. That combined circuit is a NAND gate. It can be built as a single integrated component — and it is, because NAND turns out to be fundamentally easier to manufacture than AND.",
+                "Boolean expression: Y = (A · B)' — read as 'NOT of A AND B'. Symbol: D-shape AND symbol with a bubble at the output — the bubble indicates the inversion.",
+                "Truth table: A | B | Y=(A·B)' || 0 | 0 | 1 || 0 | 1 | 1 || 1 | 0 | 1 || 1 | 1 | 0. Output is LOW only when BOTH inputs are HIGH — exact opposite of AND. Three 1s and one 0.",
+                "Universality introduction: here is a surprising fact — using only NAND gates, you can build a NOT gate, an AND gate, and an OR gate. If you can build those three, you can build ANY digital circuit. This is why NAND is called a universal gate.",
+                "Manufacturing insight: Intel, AMD, Samsung, and TSMC build chips primarily using NAND-based CMOS structures. A chip factory that can make one type of gate (NAND) can therefore build any processor, any memory, any digital circuit. This simplifies the manufacturing process enormously."
+              ]
+            },
+            "NOR Gate — NOT-OR behavior, truth table, universality concept": {
+              "title": "NOR Gate — OR Followed by NOT, Also Universal",
+              "structure": "concept",
+              "items": [
+                "NOR = NOT + OR. Take an OR gate output and invert it. The result is a NOR gate. Like NAND, NOR is also universal — any Boolean function can be built using only NOR gates.",
+                "Boolean expression: Y = (A + B)' — NOT of A OR B. Symbol: curved OR symbol with a bubble at the output.",
+                "Truth table: A | B | Y=(A+B)' || 0 | 0 | 1 || 0 | 1 | 0 || 1 | 0 | 0 || 1 | 1 | 0. Output is HIGH only when BOTH inputs are LOW — exact opposite of OR. One 1 and three 0s.",
+                "NOR universality: NOT from NOR: tie both inputs together — NOR(A,A) = (A+A)' = A'. AND from NOR: NOR(NOR(A,A), NOR(B,B)) = NOR(A', B') = (A'+B')' = AB by De Morgan's. NOR can build everything NAND can.",
+                "NAND vs NOR universality — which to use: NAND universality is preferred in practice because NAND-based CMOS circuits switch faster and consume less power for most logic functions. NOR universality is theoretically equivalent but less commonly used in modern IC design."
+              ]
+            },
+            "NAND Universality — building AND, OR, NOT from only NAND gates": {
+              "title": "NAND Universality — Proof: Build Every Gate from NAND Alone",
+              "structure": "process_flow",
+              "items": [
+                "If you can build NOT, AND, and OR using only NAND gates — and nothing else — then you can build any digital circuit using only NAND gates. Let's prove this step by step.",
+                "Step 1 — NOT from NAND: connect both inputs of a NAND gate together. Feed input A to both. Output = (A·A)' = A' = NOT A. One NAND gate makes a NOT gate.",
+                "Step 2 — AND from NAND: NAND gives (AB)'. To get AB, add a NOT (which is another NAND with tied inputs). So AND = NAND followed by NAND(tied). Two NAND gates make an AND gate.",
+                "Step 3 — OR from NAND: by De Morgan's, A+B = (A'·B')'. So: invert A using NAND, invert B using NAND, feed both inverted signals into a NAND. Three NAND gates make an OR gate.",
+                "Implication: since NOT, AND, OR can all be built from NAND, and since any Boolean function can be expressed using NOT, AND, OR — it follows that ANY digital circuit can be built from NAND gates alone. The entire CPU executing these words was designed using this principle."
+              ]
+            },
+            "XOR Gate — exclusive OR behavior, truth table, half adder connection": {
+              "title": "XOR Gate — Output HIGH Only When Inputs Are DIFFERENT",
+              "structure": "concept",
+              "items": [
+                "XOR (Exclusive OR) asks one question: are the two inputs different? If yes — output 1. If no (both same) — output 0. This behavior makes XOR the critical gate for arithmetic and error detection.",
+                "Boolean expression: Y = A ⊕ B = AB' + A'B (output is 1 when A=1,B=0 OR when A=0,B=1). Symbol: OR gate shape with an extra curved line at the input side.",
+                "Truth table: A | B | Y=A⊕B || 0 | 0 | 0 || 0 | 1 | 1 || 1 | 0 | 1 || 1 | 1 | 0. Output is 1 only for rows where A ≠ B. This is the opposite of XNOR.",
+                "Half adder connection — why XOR matters in arithmetic: when you add two 1-bit numbers: 0+0=0, 0+1=1, 1+0=1, 1+1=10 (binary). The SUM bit follows exactly XOR logic. The CARRY bit follows AND logic. So a half adder = one XOR gate + one AND gate. Binary addition is built on XOR.",
+                "Error detection: XOR is used in parity checking. XOR all bits of a data word — if result is 0, even number of 1s (even parity). If result is 1, odd number of 1s. One bit error flips the parity. Used in RAM error detection, CRC checksums, and RAID-5 storage redundancy."
+              ]
+            },
+            "XNOR Gate — exclusive NOR, comparator application": {
+              "title": "XNOR Gate — Output HIGH When Inputs Are the SAME",
+              "structure": "concept",
+              "items": [
+                "XNOR (Exclusive NOR) is the complement of XOR. Where XOR asks 'are inputs different?', XNOR asks 'are inputs the same?' Output is 1 when both inputs are equal.",
+                "Boolean expression: Y = (A ⊕ B)' = AB + A'B'. Symbol: XOR symbol with a bubble at the output — the bubble indicates inversion of XOR behavior.",
+                "Truth table: A | B | Y || 0 | 0 | 1 || 0 | 1 | 0 || 1 | 0 | 0 || 1 | 1 | 1. Output is 1 only when A = B. This is the exact complement of the XOR truth table.",
+                "Comparator application: a 1-bit equality comparator IS an XNOR gate. If A=B, XNOR outputs 1 (they are equal). If A≠B, output is 0. For multi-bit comparison (e.g. are two 4-bit numbers equal?), chain four XNOR gates — all four must output 1 simultaneously for the numbers to be equal. AND the four outputs to get a single equal/not-equal result.",
+                "Where XNOR appears: digital comparator ICs, equality detection in ALU condition codes, address decoding in memory systems (is this the address we're looking for?), and branch condition evaluation in CPU control units."
+              ]
+            },
+            "Unified Truth Table — all 7 gates side by side": {
+              "title": "All Logic Gates — One Truth Table to Compare All Behavior",
+              "structure": "classification",
+              "items": [
+                "Now that we have studied each gate individually, let's see all seven gates side by side. This table is the master reference — every gate's behavior is completely defined by its column.",
+                "Comparison: A | B | AND | OR | NAND | NOR | XOR | XNOR || 0|0|0|0|1|1|0|1 || 0|1|0|1|1|0|1|0 || 1|0|0|1|1|0|1|0 || 1|1|1|1|0|0|0|1",
+                "Pattern recognition: AND has exactly one 1 (at 1,1). NOR has exactly one 1 (at 0,0). AND and NAND are complements — every bit flipped. OR and NOR are complements. XOR and XNOR are complements. These complement relationships come directly from the NOT inversion.",
+                "Memory trick for exams: remember the 'unique row' for each gate. AND: only 1,1 gives 1. NOR: only 0,0 gives 1. XOR: mixed inputs give 1. If you remember these three, you can derive the rest by complementing.",
+                "This truth table is the foundation of all digital design verification. Every circuit you design gets verified by checking its truth table matches the expected behavior. In industry, this process is called functional verification and uses automated tools called simulators."
+              ]
+            },
+            "Boolean Algebra Laws — De Morgan's theorem and simplification": {
+              "title": "Boolean Algebra — Simplifying Circuits Using Mathematical Laws",
+              "structure": "concept",
+              "items": [
+                "Every gate costs money, space, and power on a chip. Boolean algebra gives us mathematical tools to reduce a complex expression to its simplest form — fewer terms = fewer gates = cheaper, faster circuit.",
+                "Essential laws: Identity (A+0=A, A·1=A) — adding 0 or multiplying by 1 changes nothing. Null (A+1=1, A·0=0) — OR with 1 always gives 1. Idempotent (A+A=A, A·A=A) — repeating same input does nothing. Complement (A+A'=1, A·A'=0).",
+                "De Morgan's Theorem — the most powerful law: (A·B)' = A' + B'. The complement of a product equals the sum of complements. Also: (A+B)' = A' · B'. This is how you convert between NAND and NOR implementations.",
+                "Worked simplification: Y = AB + AB'. Factor out A: Y = A(B + B'). Since B+B'=1 (complement law): Y = A·1 = A. A circuit that looked like it needed two AND gates and an OR gate is actually just a wire carrying signal A. This kind of simplification is the core skill in logic design.",
+                "In real chip design, Boolean simplification is done automatically by EDA tools (Synopsys Design Compiler, Cadence Genus). But you must understand it to write correct RTL (Register Transfer Level) code and to debug synthesis results — a daily activity for digital design engineers."
+              ]
+            }
+          }
+        },
+        {
+          "name": "Combinational Circuits",
+          "keywords": [
+            "half adder",
+            "full adder",
+            "subtractor",
+            "multiplexer",
+            "mux",
+            "demultiplexer",
+            "encoder",
+            "decoder",
+            "comparator",
+            "combinational"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Half Adder and Full Adder — building blocks of arithmetic",
+            "Subtractor circuits — half subtractor and full subtractor",
+            "Multiplexer (MUX) — data selector circuit",
+            "Demultiplexer (DEMUX), Encoder and Decoder",
+            "Comparator — magnitude comparison circuit"
+          ],
+          "one_slide_per_subtopic": true,
+          "required_content": [
+            "Half adder: adds two 1-bit numbers. SUM = A XOR B, CARRY = A AND B",
+            "Full adder: adds three 1-bit numbers (A, B, Cin). SUM = A XOR B XOR Cin, Cout = AB + Cin(A XOR B)",
+            "4-bit ripple carry adder: chain 4 full adders, carry ripples from LSB to MSB",
+            "Multiplexer 2:1 selects one of 2 inputs based on select line. 4:1 MUX has 2 select lines",
+            "Decoder: n inputs → 2^n outputs. 2:4 decoder activates exactly one output for each input combination",
+            "Encoder: opposite of decoder. 2^n inputs → n outputs"
+          ],
+          "required_diagrams": [
+            "Half adder circuit: XOR gate for SUM, AND gate for CARRY. Two inputs A,B. Show gate-level diagram.",
+            "Full adder circuit: two XOR gates for SUM, two AND gates and one OR gate for CARRY OUT. Three inputs A, B, Cin.",
+            "4:1 Multiplexer block diagram: 4 data inputs (D0-D3), 2 select lines (S0,S1), 1 output Y. Truth table showing which input is selected."
+          ],
+          "required_tables": [
+            "Full Adder truth table: A | B | Cin | Sum | Cout || 0|0|0|0|0 || 0|0|1|1|0 || 0|1|0|1|0 || 0|1|1|0|1 || 1|0|0|1|0 || 1|0|1|0|1 || 1|1|0|0|1 || 1|1|1|1|1",
+            "2:4 Decoder truth table: A | B | D0 | D1 | D2 | D3 || 0|0|1|0|0|0 || 0|1|0|1|0|0 || 1|0|0|0|1|0 || 1|1|0|0|0|1"
+          ],
+          "common_mistakes": [
+            "Confusing half adder (2 inputs, no Cin) with full adder (3 inputs, with Cin)",
+            "Thinking MUX selects based on data value — it selects based on SELECT LINE value",
+            "Confusing encoder and decoder directions"
+          ],
+          "use_slide_scripts": true,
+          "slide_scripts": {
+            "Half Adder and Full Adder — building blocks of arithmetic": {
+              "title": "Half Adder and Full Adder — How Computers Add Numbers",
+              "structure": "process_flow",
+              "items": [
+                "Every addition your CPU performs — whether adding two integers or calculating a memory address — ultimately reduces to adding individual bits. The half adder and full adder are the gate-level circuits that do this.",
+                "Half Adder: adds two 1-bit numbers A and B. Produces two outputs: SUM = A XOR B (the result bit) and CARRY = A AND B (the overflow into the next position). Circuit: one XOR gate + one AND gate. That's it.",
+                "Full Adder: adds three bits — A, B, and Carry-in (Cin) from the previous position. SUM = A XOR B XOR Cin. Carry-out = AB + Cin(A XOR B). Built from two half adders + one OR gate.",
+                "Truth table: A|B|Cin|Sum|Cout — 0|0|0|0|0 / 0|0|1|1|0 / 0|1|0|1|0 / 0|1|1|0|1 / 1|0|0|1|0 / 1|0|1|0|1 / 1|1|0|0|1 / 1|1|1|1|1",
+                "4-bit ripple carry adder: chain 4 full adders. FA0 gets Cin=0, its Cout becomes FA1's Cin, and so on. This is exactly how your CPU's ALU adds two 4-bit numbers — modern CPUs extend this to 64-bit with carry-lookahead optimization."
+              ]
+            },
+            "Multiplexer (MUX) — data selector circuit": {
+              "title": "Multiplexer — The Programmable Data Selector",
+              "structure": "concept",
+              "items": [
+                "A multiplexer (MUX) is a digital switch. It has multiple data inputs, select lines, and one output. The select lines choose WHICH input gets passed to the output. Think of it as a railway junction that can route any one of N tracks to a single destination.",
+                "2:1 MUX: 2 data inputs (D0, D1), 1 select line (S), 1 output Y. When S=0, Y=D0. When S=1, Y=D1. Boolean: Y = S'·D0 + S·D1.",
+                "4:1 MUX: 4 data inputs (D0-D3), 2 select lines (S1,S0), 1 output. S1S0=00→D0, 01→D1, 10→D2, 11→D3. General rule: n select lines → 2^n inputs can be selected.",
+                "MUX as a universal logic circuit: any Boolean function of n variables can be implemented with a 2^n:1 MUX. Feed the function's truth table values as inputs — the address lines serve as variable inputs. A 4:1 MUX can implement any 2-variable Boolean function.",
+                "Real-world use: MUX circuits are everywhere in CPUs. The ALU uses MUXes to select between different operation results. Memory buses use MUXes to route data from multiple memory banks to the processor."
+              ]
+            },
+            "Demultiplexer (DEMUX), Encoder and Decoder": {
+              "title": "DEMUX, Encoder, Decoder — Routing and Encoding Data",
+              "structure": "concept",
+              "items": [
+                "These three circuits handle data routing and code conversion — essential for memory addressing, data buses, and I/O systems.",
+                "DEMUX (1-to-N): exact opposite of MUX. One input, select lines, multiple outputs. Routes the single input to exactly ONE of the N outputs. 1:4 DEMUX has 1 input, 2 select lines, 4 outputs. Used in memory chip select logic.",
+                "Decoder (n-to-2^n): takes n binary inputs and activates EXACTLY ONE of 2^n output lines. A 2:4 decoder has 4 outputs D0-D3; only the output matching the binary input value goes HIGH. Used to select memory addresses — a 10-bit decoder can address 1024 memory locations.",
+                "Encoder (2^n-to-n): opposite of decoder. When one of 2^n input lines goes HIGH, outputs the n-bit binary code for that line. Priority encoder handles the case when multiple inputs are HIGH simultaneously by encoding the highest-priority active input.",
+                "Comparison: Comparison: Circuit | Input | Output | Use case || Decoder | n binary lines | 2^n, one active | Memory address select || Encoder | 2^n, one active | n binary lines | Keyboard input encoding || MUX | 2^n data + n select | 1 data | Bus routing || DEMUX | 1 data + n select | 2^n data | Memory bank routing"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Sequential Circuits",
+          "keywords": [
+            "flip flop",
+            "sr flip flop",
+            "jk flip flop",
+            "d flip flop",
+            "t flip flop",
+            "counter",
+            "register",
+            "shift register",
+            "sequential",
+            "asynchronous",
+            "synchronous"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Flip-Flops — SR, JK, D, T: memory elements of digital systems",
+            "Counters — Asynchronous (Ripple) and Synchronous",
+            "Registers and Shift Registers"
+          ],
+          "one_slide_per_subtopic": true,
+          "required_content": [
+            "SR flip-flop: Set-Reset. S=1,R=0→Q=1. S=0,R=1→Q=0. S=0,R=0→hold. S=1,R=1→invalid",
+            "JK flip-flop: fixes SR invalid state. J=1,K=1→toggles. Most versatile flip-flop",
+            "D flip-flop: Q follows D on clock edge. Used in registers and memory",
+            "T flip-flop: T=1→toggles, T=0→holds. Used in counters",
+            "Asynchronous counter: flip-flops triggered by previous FF output. Simple but slow (ripple delay)",
+            "Synchronous counter: all flip-flops triggered by same clock. Faster, no ripple delay",
+            "Register: group of flip-flops storing multi-bit data",
+            "Shift register: data shifts left or right on each clock pulse. Used in serial-to-parallel conversion"
+          ],
+          "required_diagrams": [
+            "JK Flip-flop circuit diagram with clock input, J, K inputs, Q and Q' outputs. Show truth table alongside.",
+            "4-bit asynchronous (ripple) counter: 4 T flip-flops in chain, each triggered by previous. Show ripple delay problem with waveform.",
+            "4-bit shift register: 4 D flip-flops in series. Serial input on left, parallel outputs Q0-Q3."
+          ],
+          "required_tables": [
+            "Flip-flop comparison: Type | Inputs | Behavior | Application || SR | S,R | Set/Reset/Hold/Invalid | Basic memory || JK | J,K | Set/Reset/Hold/Toggle | Counters || D | D | Follows D on clock | Registers || T | T | Hold/Toggle | Counters"
+          ],
+          "common_mistakes": [
+            "Thinking flip-flops change output immediately — they change only on clock edge (synchronous)",
+            "Confusing SR invalid state with JK toggle state",
+            "Thinking asynchronous means no clock — it means not all FFs share the same clock edge"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Computer Architecture Basics",
+      "topics": [
+        {
+          "name": "Computer Organization vs Architecture and Bus Structure",
+          "keywords": [
+            "computer organization",
+            "computer architecture",
+            "von neumann",
+            "harvard architecture",
+            "bus",
+            "data bus",
+            "address bus",
+            "control bus",
+            "memory transfer"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Computer Organization vs Architecture — the critical distinction",
+            "Von Neumann vs Harvard Architecture",
+            "Bus Organization — data bus, address bus, control bus",
+            "Memory Transfer Operations — read and write cycles"
+          ],
+          "one_slide_per_subtopic": true,
+          "required_content": [
+            "Architecture = WHAT the system does (ISA, instruction set, registers visible to programmer)",
+            "Organization = HOW it is implemented (hardware components, circuits, timing)",
+            "Example: x86 is an architecture. Intel Core i7 and AMD Ryzen both IMPLEMENT x86 with different organizations",
+            "Von Neumann: single memory for both instructions and data. Single bus. Simple but bottleneck (Von Neumann bottleneck)",
+            "Harvard: separate instruction memory and data memory. Parallel fetch possible. Used in microcontrollers (AVR, PIC)",
+            "Data bus: carries actual data. Width determines how many bits transferred at once (8, 16, 32, 64-bit)",
+            "Address bus: carries memory address. Width determines address space. 32-bit = 4GB addressable",
+            "Control bus: carries control signals (read/write, interrupt, clock)"
+          ],
+          "required_diagrams": [
+            "Von Neumann architecture: CPU (ALU + CU + Registers) connected via single bus to unified Memory (instructions + data) and I/O. Arrow showing bottleneck.",
+            "Harvard architecture: CPU connected to separate Instruction Memory and Data Memory via separate buses. Show parallel access advantage.",
+            "Bus structure: three parallel buses (Data Bus, Address Bus, Control Bus) connecting CPU, Memory, and I/O. Show direction arrows on each bus."
+          ],
+          "required_tables": [
+            "Comparison: Feature | Von Neumann | Harvard || Memory | Unified (code+data) | Separate for code and data || Bus | Single shared bus | Separate instruction and data buses || Speed | Slower (bottleneck) | Faster (parallel access) || Complexity | Simpler | More complex || Used in | General purpose CPUs | Microcontrollers, DSPs, GPUs"
+          ],
+          "common_mistakes": [
+            "Thinking organization and architecture are synonyms",
+            "Thinking Harvard architecture has no RAM — it has separate instruction ROM/RAM and data RAM",
+            "Confusing address bus width (determines addressable memory) with data bus width (determines transfer size)"
+          ],
+          "use_slide_scripts": true,
+          "slide_scripts": {
+            "Computer Organization vs Architecture — the critical distinction": {
+              "title": "Computer Organization vs Architecture — What vs How",
+              "structure": "comparison",
+              "items": [
+                "Architecture and Organization are the two levels at which you can describe a computer. They answer different questions: Architecture asks 'What can this computer do?' — Organization asks 'How does it physically do it?'",
+                "Architecture (ISA — Instruction Set Architecture): the contract between hardware and software. Defines what instructions exist, how many registers the programmer can see, how memory is addressed, what data types are supported. This is what assembly programmers and compiler writers work with.",
+                "Organization: the physical implementation of that contract. Clock speed, cache size, pipeline depth, bus width, how the ALU is built internally. Two computers can have identical architecture but completely different organizations.",
+                "Concrete example: x86-64 is an architecture. Intel Core i9-13900K and AMD Ryzen 9 7950X both implement x86-64 (same architecture) but have completely different internal organizations — different cache hierarchies, different pipeline designs, different power consumption. Same ISA, different hardware.",
+                "Why this matters: when you write C code and compile it with gcc -O2, the compiler targets the architecture (x86-64 instructions). The organization (cache size, pipeline) determines how fast those instructions actually execute. Performance tuning requires understanding both layers."
+              ]
+            },
+            "Von Neumann vs Harvard Architecture": {
+              "title": "Von Neumann vs Harvard — Two Philosophies of Memory",
+              "structure": "comparison",
+              "items": [
+                "In 1945, John von Neumann proposed storing program instructions and data in the SAME memory, accessed via the SAME bus. This elegant simplicity became the foundation of all general-purpose computers — and also their fundamental bottleneck.",
+                "Von Neumann: CPU, Memory (shared for code + data), and I/O connected by one bus. Advantage: simple, flexible — memory can be reallocated between code and data. Problem: CPU can't fetch the next instruction while reading/writing data — they share the same bus. This is the Von Neumann bottleneck.",
+                "Harvard: separate instruction memory and data memory, accessed via separate buses. CPU can fetch the next instruction from instruction memory SIMULTANEOUSLY while reading/writing data memory. No bottleneck — pipelining becomes much more efficient.",
+                "Comparison: Feature|Von Neumann|Harvard || Memory|Unified|Separate code + data || Bus|Single|Dual buses || Speed|Bottleneck|Parallel access || Used in|Desktops/Laptops (x86)|Microcontrollers (AVR, PIC), DSPs, GPUs",
+                "Modern CPUs use a hybrid: the L1 cache is split into instruction cache (I-cache) and data cache (D-cache) — Harvard architecture at the cache level. Main RAM follows Von Neumann. This gives you the speed of Harvard with the flexibility of Von Neumann."
+              ]
+            },
+            "Bus Organization — data bus, address bus, control bus": {
+              "title": "Bus Organization — The Communication Highway of a Computer",
+              "structure": "concept",
+              "items": [
+                "A bus is a shared communication pathway — a set of wires that multiple components use to transfer data. In a computer, three types of buses connect the CPU, memory, and I/O devices. Understanding buses is understanding how information physically moves inside a computer.",
+                "Data Bus: carries the actual data being transferred. Bidirectional — CPU can read data from memory or write data to memory. Width (8, 16, 32, 64 bits) determines how much data moves in one transfer. A 64-bit data bus transfers 8 bytes per clock cycle.",
+                "Address Bus: carries the memory address that the CPU wants to read from or write to. Unidirectional — only CPU sends addresses (memory never sends an address to the CPU). Width determines addressable memory space: 32-bit address bus = 2^32 = 4GB maximum. 64-bit = 16 exabytes.",
+                "Control Bus: carries command signals — READ or WRITE (direction of transfer), INTERRUPT REQUEST (device wants CPU attention), CLOCK (synchronization), RESET, BUS REQUEST. Bidirectional but each individual signal has a defined direction.",
+                "Practical example: when your CPU executes int x = arr[5] — (1) Address Bus: CPU puts address of arr[5] on address bus. (2) Control Bus: CPU asserts READ signal. (3) Memory responds by placing arr[5]'s value on the Data Bus. (4) CPU reads value from Data Bus into a register. This entire handshake happens in nanoseconds."
+              ]
+            }
+          }
+        },
+        {
+          "name": "Microoperations and ALU Design",
+          "keywords": [
+            "microoperation",
+            "alu",
+            "arithmetic microoperation",
+            "logic microoperation",
+            "shift microoperation",
+            "alu design",
+            "control unit"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Arithmetic microoperations — add, subtract, increment, decrement",
+            "Logic and Shift microoperations",
+            "ALU Structure and Functions",
+            "Control Unit — hardwired vs microprogrammed",
+            "Arithmetic Logic Shift Unit — combined ALU+shift in one circuit"
+          ],
+          "one_slide_per_subtopic": true,
+          "required_content": [
+            "Microoperation: elementary operation performed on data in registers in one clock cycle",
+            "Arithmetic: R1 ← R1 + R2, R1 ← R1 + R2 + 1 (add with carry), R1 ← R1 - 1 (decrement)",
+            "Logic microops: R1 ← R1 AND R2 (bitwise), R1 ← R1 XOR R2, R1 ← NOT R1 (complement)",
+            "Shift microops: logical shift (0 fills vacancy), arithmetic shift (sign bit preserved), circular/rotate shift",
+            "ALU: combinational circuit performing arithmetic and logic operations. Inputs: two operands + operation select. Output: result + status flags (Zero, Carry, Overflow, Sign)",
+            "Status flags: Zero flag (result=0), Carry flag (unsigned overflow), Overflow flag (signed overflow), Sign flag (MSB of result)",
+            "Arithmetic Logic Shift Unit (ALSU): single unit that performs arithmetic, logic, AND shift operations. Controlled by operation select lines. Output goes to destination register."
+          ],
+          "required_diagrams": [
+            "ALU block diagram: two inputs A and B, operation select lines (S0, S1, S2), output F, and status flags (C, Z, V, S). Show as a rectangular block with labeled inputs/outputs.",
+            "Shift operations: three diagrams side by side showing logical left shift (0 enters from right), arithmetic right shift (sign bit copies), circular right shift (bit wraps around).",
+            "ALSU block diagram: inputs A, B, operation select (S0,S1,S2,S3). Internal MUX routes to Arithmetic unit, Logic unit, or Shift unit. Output F. Status flags C,Z,V,S."
+          ],
+          "required_tables": [
+            "Shift microoperations: Type | Direction | Vacated position filled with | Shifted out bit || Logical Left | Left | 0 | Lost || Logical Right | Right | 0 | Lost || Arithmetic Left | Left | 0 | Lost || Arithmetic Right | Right | Copy of sign bit | Lost || Circular Left | Left | Bit shifted out | Wraps to right || Circular Right | Right | Bit shifted out | Wraps to left"
+          ],
+          "common_mistakes": [
+            "Confusing logical right shift (0 fills MSB) with arithmetic right shift (sign bit fills MSB)",
+            "Forgetting that subtract is implemented as add with 2's complement: A - B = A + (-B) = A + B' + 1",
+            "Thinking overflow flag and carry flag are the same — carry is for unsigned, overflow is for signed arithmetic"
+          ]
+        },
+        {
+          "name": "Control Unit Design",
+          "keywords": [
+            "control unit",
+            "hardwired control",
+            "microprogrammed control",
+            "control signals",
+            "microprogram",
+            "firmware"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Hardwired Control Unit — combinational logic implementation",
+            "Microprogrammed Control Unit — firmware-based implementation",
+            "Hardwired vs Microprogrammed comparison"
+          ],
+          "one_slide_per_subtopic": true,
+          "required_content": [
+            "Control Unit generates control signals that coordinate CPU operation: ALU operation select, register enable, memory read/write, bus control",
+            "Hardwired: control signals generated by combinational logic circuits. Fast but inflexible — changing behavior requires rewiring. Used in RISC processors (ARM, MIPS)",
+            "Microprogrammed: control signals stored as microinstructions in a Control Memory (firmware). Flexible — behavior changeable by updating firmware. Used in CISC processors (x86)",
+            "Microinstruction: one row in control memory. Each bit controls one hardware signal. Executing an instruction = reading a sequence of microinstructions",
+            "Intel x86 uses microprogrammed CU — allows complex CISC instructions to be decoded into sequences of simpler micro-operations"
+          ],
+          "required_diagrams": [
+            "Control Unit block diagram: IR (Instruction Register) feeds into CU. CU outputs control signals to ALU, Register File, Memory, and Bus. Show for both hardwired (logic gates) and microprogrammed (control memory + microprogram counter) variants side by side."
+          ],
+          "required_tables": [
+            "Comparison: Feature | Hardwired | Microprogrammed || Implementation | Combinational logic | Control memory (ROM) || Speed | Faster | Slower || Flexibility | Rigid (hard to modify) | Flexible (update firmware) || Design complexity | Complex for complex ISA | Simpler to design || Used in | RISC (ARM, MIPS) | CISC (x86, VAX) || Bug fix | Requires hardware change | Firmware update"
+          ],
+          "common_mistakes": [
+            "Thinking microprogrammed means the CPU runs programs differently — microprogram is invisible to software",
+            "Thinking hardwired is always better — for complex CISC ISAs, microprogrammed is more practical to design",
+            "Confusing microinstruction (one CU control word) with machine instruction (one assembly instruction)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Instruction Set Architecture",
+      "topics": [
+        {
+          "name": "Instruction Types and Addressing Modes",
+          "keywords": [
+            "instruction",
+            "addressing mode",
+            "direct addressing",
+            "indirect addressing",
+            "immediate",
+            "indexed",
+            "register addressing",
+            "instruction format",
+            "memory reference",
+            "register reference"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Types of Instructions — memory-reference, register-reference, I/O",
+            "Addressing Modes — Direct, Indirect, Immediate, Indexed, Register",
+            "Instruction Formats — opcode, operand fields"
+          ],
+          "one_slide_per_subtopic": true,
+          "required_content": [
+            "Memory-reference instruction: operand is in memory. ADD R1, [1000h] — fetch from address 1000h",
+            "Register-reference instruction: operand is in register. ADD R1, R2 — fast, no memory access",
+            "I/O instruction: transfers data between CPU and I/O device. IN AL, 60h (read from port 60h)",
+            "Immediate: operand is the value itself. MOV R1, #5 — R1 gets value 5. Fast, no memory fetch",
+            "Direct: instruction contains memory address. ADD R1, [2000h] — fetch from address 2000h",
+            "Indirect: instruction contains address of address. MOV R1, [[500h]] — fetch address from 500h, then fetch data from that address. Enables pointers",
+            "Register: operand is in specified register. MOV R1, R2",
+            "Indexed: EA = base address + index register. MOV R1, [BX+SI] — enables array access"
+          ],
+          "required_diagrams": [
+            "Addressing modes comparison diagram: 5 diagrams side by side. Each shows instruction → memory/register access path. Immediate: value in instruction itself. Direct: instruction→memory[addr]. Indirect: instruction→memory[addr]→memory[EA]. Register: instruction→register. Indexed: instruction + index register → computed address → memory."
+          ],
+          "required_tables": [
+            "Comparison: Mode | EA Calculation | Memory Accesses | Speed | Use Case || Immediate | EA = operand value | 0 | Fastest | Constants || Register | EA = register | 0 | Fast | Local variables || Direct | EA = address in instruction | 1 | Medium | Global variables || Indirect | EA = Memory[address] | 2 | Slow | Pointers || Indexed | EA = base + index | 1 | Medium | Array elements"
+          ],
+          "common_mistakes": [
+            "Confusing immediate mode (value is the data) with direct mode (value is the address)",
+            "Thinking indirect mode means 'indirect register' — it means the memory location contains another address",
+            "Forgetting that more memory accesses = slower execution"
+          ],
+          "use_slide_scripts": true,
+          "slide_scripts": {
+            "Addressing Modes — Direct, Indirect, Immediate, Indexed, Register": {
+              "title": "Addressing Modes — Five Ways the CPU Finds Its Data",
+              "structure": "concept",
+              "items": [
+                "An instruction needs to tell the CPU WHERE to find its data. The addressing mode is the rule for calculating the Effective Address (EA) — the actual memory location or register containing the operand. Different modes trade speed for flexibility.",
+                "Immediate: the operand IS the data. MOV R1, #5 puts the number 5 into R1 — no memory access needed. Fastest mode. Used for constants. Limitation: only for small, fixed values known at compile time.",
+                "Register: operand is in a register. MOV R1, R2 copies R2 into R1 — again no memory access. Almost as fast as immediate. Most instructions in optimized code use register mode — the compiler's job is to keep data in registers as long as possible.",
+                "Direct: instruction contains the memory address. ADD R1, [2000h] fetches data from address 2000h. One memory access. Used for global variables whose address is fixed at compile time.",
+                "Indirect: instruction contains the address OF the address. MOV R1, [[500h]] — first fetch address from memory location 500h, then fetch data from THAT address. Two memory accesses. This is how pointers work at the hardware level — the pointer variable holds the address, indirect mode follows it.",
+                "Indexed: EA = base address + index register. MOV R1, [BX + SI] where BX is base and SI is index. Used for array access — BX points to start of array, SI holds element index. Changes SI in a loop → walks through the array."
+              ]
+            }
+          }
+        },
+        {
+          "name": "Instruction Cycle and Pipelining",
+          "keywords": [
+            "instruction cycle",
+            "fetch",
+            "decode",
+            "execute",
+            "pipeline",
+            "pipelining",
+            "hazard",
+            "data hazard",
+            "control hazard",
+            "structural hazard",
+            "pipeline stages"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Instruction Cycle — Fetch, Decode, Execute",
+            "Instruction Pipelining — stages and throughput improvement",
+            "Pipeline Hazards — data, control, structural hazards and solutions"
+          ],
+          "one_slide_per_subtopic": true,
+          "required_content": [
+            "Fetch: PC → MAR, Memory[MAR] → MDR → IR. PC incremented",
+            "Decode: CU interprets IR, identifies opcode and operands",
+            "Execute: ALU performs operation, result stored, flags updated",
+            "Pipelining: overlapping execution of multiple instructions. While instruction N is in decode, instruction N+1 is being fetched",
+            "5-stage pipeline: IF (Instruction Fetch) → ID (Instruction Decode) → EX (Execute) → MEM (Memory Access) → WB (Write Back)",
+            "Data hazard: instruction needs result of previous instruction not yet written. Solution: forwarding/bypassing",
+            "Control hazard: branch instruction — CPU doesn't know next instruction. Solution: branch prediction",
+            "Structural hazard: two instructions need same hardware resource. Solution: stall or duplicate resource"
+          ],
+          "required_diagrams": [
+            "5-stage pipeline diagram: horizontal timeline showing 5 instructions. Each instruction goes through IF, ID, EX, MEM, WB stages. Show how instruction 2 starts IF while instruction 1 is in ID — demonstrating overlap. Compare with non-pipelined sequential execution above it.",
+            "Data hazard diagram: show RAW (Read After Write) hazard. Instruction 1 writes R1, Instruction 2 reads R1 before write completes. Show forwarding path that bypasses the hazard."
+          ],
+          "required_tables": [
+            "Hazard types: Hazard | Cause | Example | Solution || Data (RAW) | Read before write completes | ADD R1,R2 then SUB R3,R1 | Forwarding/stall || Data (WAR) | Write before read completes | Rare in simple pipelines | Register renaming || Control | Branch destination unknown | JMP instruction | Branch prediction || Structural | Resource conflict | Two instr need ALU | Stall or duplicate ALU"
+          ],
+          "common_mistakes": [
+            "Thinking pipelining speeds up ONE instruction — it doesn't. It improves THROUGHPUT of many instructions",
+            "Confusing latency (time for one instruction) with throughput (instructions per unit time)",
+            "Thinking forwarding eliminates ALL data hazards — load-use hazard still requires a stall cycle"
+          ],
+          "use_slide_scripts": true,
+          "slide_scripts": {
+            "Instruction Cycle — Fetch, Decode, Execute": {
+              "title": "Instruction Cycle — How the CPU Executes One Instruction",
+              "structure": "process_flow",
+              "items": [
+                "Every instruction your CPU ever executes goes through the same fundamental cycle: Fetch the instruction from memory, Decode what it means, Execute it. Modern CPUs add memory access and write-back stages, but the core F-D-E cycle has been unchanged since the first stored-program computers.",
+                "Fetch stage: PC (Program Counter) holds address of next instruction. CPU copies PC to MAR (Memory Address Register), sends read signal. Memory puts instruction bits into MDR (Memory Data Register). MDR contents copied to IR (Instruction Register). PC incremented to point to next instruction.",
+                "Decode stage: Control Unit reads the opcode field of IR. Identifies: what operation to perform, what addressing mode is used, which registers or memory locations are involved. Generates control signals for ALU, register file, and memory.",
+                "Execute stage: ALU performs the specified operation using the decoded operands. Result stored in destination register or memory. Status flags (Zero, Carry, Overflow, Sign) updated based on result. For branch instructions, PC may be updated to jump address.",
+                "Timing: each stage takes one or more clock cycles. A 3GHz CPU completes 3 billion clock cycles per second. A simple instruction might take 3-5 cycles total. This is why modern CPUs use pipelining — to start the next instruction before the current one finishes."
+              ]
+            },
+            "Instruction Pipelining — stages and throughput improvement": {
+              "title": "Instruction Pipelining — Assembly Line for the CPU",
+              "structure": "concept",
+              "items": [
+                "Without pipelining: each instruction fully completes (5 cycles) before the next begins. 10 instructions = 50 cycles. With a 5-stage pipeline: while instruction 1 is in Decode, instruction 2 enters Fetch simultaneously. The result — 10 instructions complete in 14 cycles instead of 50. Same hardware, ~3.5x throughput.",
+                "The 5-stage classic pipeline (MIPS): IF (Instruction Fetch from memory) → ID (Instruction Decode + register read) → EX (ALU executes operation) → MEM (read/write data memory) → WB (write result back to register). Each stage takes exactly 1 clock cycle.",
+                "Pipeline efficiency visualization: like a car assembly line. Station 1 fits engine (IF). Station 2 fits wheels (ID). Car 2 enters Station 1 while Car 1 moves to Station 2. All stations busy simultaneously = maximum throughput.",
+                "Throughput gain: ideal speedup = number of pipeline stages. 5-stage pipeline = 5x theoretical speedup. Real speedup is less due to hazards, but modern CPUs achieve 15-20 stage pipelines with 4+ instructions per cycle using superscalar execution.",
+                "Pipeline depth trade-off: more stages = higher clock frequency possible (each stage does less work) but more hazard penalties and higher power consumption. Intel's Pentium 4 (NetBurst) had a 31-stage pipeline — extremely fast clock but poor IPC due to misprediction penalties. Core architecture moved back to shorter pipelines for better efficiency."
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "module": "CPU Architecture",
+      "topics": [
+        {
+          "name": "CPU Design — Registers, Stack, and Data Flow",
+          "keywords": [
+            "general register",
+            "stack",
+            "program counter",
+            "status register",
+            "data transfer",
+            "stack organization",
+            "cpu design",
+            "register organization"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "General Register Organization — why registers exist and how they work",
+            "Stack Organization — LIFO structure in CPU and memory",
+            "Program Counter and Status Registers",
+            "Data Transfer and Manipulation Instructions",
+            "Control Flow — branching, jumping, loops at instruction level"
+          ],
+          "one_slide_per_subtopic": true,
+          "required_content": [
+            "Registers: fastest storage in computer. Directly accessible by ALU. Typical: 8-32 registers of 32 or 64 bits",
+            "General-purpose registers: can hold any data. x86-64 has RAX, RBX, RCX, RDX, RSI, RDI, RSP, RBP + R8-R15",
+            "Stack: LIFO data structure. PUSH adds to top, POP removes from top. SP (Stack Pointer) always points to top",
+            "Stack grows downward in memory (high to low addresses) on x86",
+            "PC (Program Counter): holds address of NEXT instruction to fetch. Modified by jump/branch instructions",
+            "Status register (FLAGS/PSW): collection of 1-bit flags. Zero, Carry, Overflow, Sign, Parity",
+            "MOV: data transfer. ADD/SUB/MUL/DIV: arithmetic. AND/OR/XOR/NOT: logical. SHL/SHR: shift",
+            "Unconditional jump: JMP address — PC loaded with target address immediately",
+            "Conditional branch: BEQ, BNE, BLT — PC updated only if FLAGS condition met. Example: BEQ checks Zero flag",
+            "Loop implementation: initialize counter, body instructions, decrement counter, conditional branch back to loop start",
+            "CALL instruction: pushes return address onto stack, jumps to subroutine. RET: pops return address, resumes"
+          ],
+          "required_diagrams": [
+            "CPU register file diagram: show 8 general-purpose registers (R0-R7) connected to ALU via internal bus. Also show PC, SP, IR, MAR, MDR, FLAGS as special-purpose registers.",
+            "Stack operation diagram: show memory with stack pointer. PUSH operation: SP decremented, value written. POP operation: value read, SP incremented. Show stack growing downward."
+          ],
+          "required_tables": [
+            "x86-64 registers: Register | Size | Primary Use || RAX | 64-bit | Accumulator, return value || RBX | 64-bit | Base register, preserved || RCX | 64-bit | Counter (loops) || RDX | 64-bit | Data, I/O || RSP | 64-bit | Stack pointer || RBP | 64-bit | Base pointer (stack frame) || RIP | 64-bit | Instruction pointer (PC)"
+          ],
+          "common_mistakes": [
+            "Thinking registers are part of RAM — they are separate, faster storage inside the CPU chip itself",
+            "Confusing stack pointer (points to top of stack) with base pointer (points to current stack frame base)",
+            "Thinking PC holds the CURRENT instruction address — it holds the NEXT instruction address"
+          ]
+        },
+        {
+          "name": "RISC vs CISC Architectures",
+          "keywords": [
+            "risc",
+            "cisc",
+            "arm",
+            "x86",
+            "reduced instruction set",
+            "complex instruction set",
+            "risc vs cisc"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "RISC vs CISC — the fundamental design philosophy difference",
+            "RISC examples — ARM architecture and its dominance in mobile",
+            "CISC examples — x86 architecture and its legacy in desktops"
+          ],
+          "one_slide_per_subtopic": true,
+          "required_content": [
+            "CISC: Complex Instruction Set Computer. Many instructions, some very complex (one instruction does multiply + store). Variable instruction length. x86 is CISC",
+            "RISC: Reduced Instruction Set Computer. Few simple instructions, each executes in one cycle. Fixed instruction length. ARM is RISC",
+            "RISC advantages: simpler hardware, easier pipelining, lower power. CISC advantages: fewer instructions per program (denser code)",
+            "Modern reality: x86 CPUs internally translate CISC instructions to RISC-like micro-ops for execution",
+            "ARM dominates mobile (all smartphones), embedded, servers (AWS Graviton). x86 dominates desktops, laptops, traditional servers"
+          ],
+          "required_diagrams": [
+            "RISC vs CISC comparison diagram: two CPU pipeline diagrams side by side. RISC shows uniform stages, fixed-length instructions, load-store architecture. CISC shows variable-length instructions, complex decode stage, memory operands."
+          ],
+          "required_tables": [
+            "Comparison: Feature | RISC | CISC || Instructions | Few, simple | Many, complex || Instruction length | Fixed | Variable || Execution time | 1 cycle/instruction | Multiple cycles possible || Registers | Many (32+) | Fewer (8 in original x86) || Memory operands | Load/Store only | Direct memory operations || Pipelining | Easy | Complex || Power | Lower | Higher || Examples | ARM, MIPS, RISC-V | x86, x86-64 (Intel/AMD)"
+          ],
+          "common_mistakes": [
+            "Thinking RISC is always faster — depends on workload. CISC code density can be better for some tasks",
+            "Thinking modern Intel/AMD are pure CISC — they decode x86 to internal RISC micro-operations",
+            "Thinking ARM can't do complex tasks — Apple M1/M2/M3 chips (ARM) outperform Intel in many benchmarks"
+          ],
+          "use_slide_scripts": true,
+          "slide_scripts": {
+            "RISC vs CISC — the fundamental design philosophy difference": {
+              "title": "RISC vs CISC — Simple Instructions vs Powerful Instructions",
+              "structure": "comparison",
+              "items": [
+                "In the 1970s, a debate split computer architects: should a CPU have many powerful instructions (CISC) or few simple ones (RISC)? The answer shaped every processor designed in the last 50 years — and both philosophies are alive today, dominating different markets.",
+                "CISC (Complex Instruction Set Computer): the VAX and x86 approach. One instruction can do a lot — MOVSB on x86 copies an entire block of memory. Variable-length instructions (1-15 bytes on x86). Complex decode hardware. Advantage: fewer instructions per program = smaller code size = important when RAM was expensive.",
+                "RISC (Reduced Instruction Set Computer): the MIPS, SPARC, ARM approach. Every instruction is simple and executes in exactly one clock cycle. Fixed 32-bit instruction length. Load/Store architecture — only LOAD and STORE touch memory, all other operations work on registers. Advantage: simple decode, easy pipelining, lower power.",
+                "Comparison: Feature|RISC|CISC || Instructions|Few, simple|Many, complex || Instruction size|Fixed 32-bit|Variable 1-15 bytes || Execution|1 cycle each|Multiple cycles possible || Registers|32+|8-16 || Memory access|Load/Store only|Any instruction || Power|Low|High || Examples|ARM, MIPS, RISC-V|x86, x86-64",
+                "The modern twist: Intel and AMD x86 CPUs secretly decode their CISC instructions into RISC-like internal micro-operations before execution. Apple M1/M2/M3 (pure ARM RISC) outperform many Intel chips. RISC won the philosophy war — but x86 survives through backward compatibility and software ecosystem."
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "module": "Input/Output Organization",
+      "topics": [
+        {
+          "name": "I/O Interfaces and Data Transfer Mechanisms",
+          "keywords": [
+            "i/o",
+            "programmed io",
+            "interrupt",
+            "interrupt driven io",
+            "dma",
+            "direct memory access",
+            "io mapped",
+            "memory mapped",
+            "io interface"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "I/O Mapped vs Memory-Mapped I/O",
+            "Programmed I/O — CPU polling method",
+            "Interrupt-Driven I/O — hardware interrupts",
+            "Direct Memory Access (DMA) — bypassing the CPU"
+          ],
+          "one_slide_per_subtopic": true,
+          "required_content": [
+            "I/O mapped: separate address space for I/O. Special IN/OUT instructions. x86 has 65536 I/O ports",
+            "Memory-mapped: I/O devices appear as memory locations. Normal MOV instructions work. ARM uses memory-mapped exclusively",
+            "Programmed I/O: CPU continuously polls device status register. Simple but wastes CPU cycles — CPU does nothing while waiting",
+            "Interrupt-driven: device interrupts CPU when ready. CPU resumes other work until interrupt. ISR (Interrupt Service Routine) handles the I/O",
+            "DMA: dedicated DMA controller transfers data directly between device and memory without CPU involvement. CPU sets up transfer parameters, DMA completes it, DMA interrupts CPU when done",
+            "DMA advantages: CPU free during large data transfers. Disk reads, network packets, display refresh use DMA"
+          ],
+          "required_diagrams": [
+            "Three I/O method comparison diagram: three side-by-side flowcharts. Programmed I/O: CPU polls in loop. Interrupt-driven: CPU works on other tasks, device sends interrupt. DMA: CPU initializes DMA controller, DMA transfers directly, interrupt on completion.",
+            "DMA architecture diagram: CPU, DMA Controller, Memory, and I/O Device. Show DMA controller connected to memory bus and I/O bus. Arrows showing data flow from device directly to memory bypassing CPU."
+          ],
+          "required_tables": [
+            "Comparison: Method | CPU Involvement | Efficiency | Use Case || Programmed I/O | Constant (polls) | Low (CPU busy waiting) | Simple/slow devices || Interrupt-driven | Only during ISR | Medium (CPU free between transfers) | Keyboard, mouse, serial || DMA | Only setup + completion | High (CPU fully free) | Disk, network, display, USB bulk"
+          ],
+          "common_mistakes": [
+            "Thinking DMA is faster because it moves data faster — DMA frees the CPU, the transfer speed is the same",
+            "Thinking interrupts are always better than polling — for very fast devices, polling can be more efficient (no interrupt overhead)",
+            "Confusing ISR (Interrupt Service Routine) with the main program — ISR is separate code triggered by hardware"
+          ],
+          "use_slide_scripts": true,
+          "slide_scripts": {
+            "Direct Memory Access (DMA) — bypassing the CPU": {
+              "title": "DMA — Moving Data Without Bothering the CPU",
+              "structure": "concept",
+              "items": [
+                "When your computer reads a file from disk, transfers it over a network, or sends pixels to your display, the CPU does NOT move that data byte by byte. A dedicated DMA (Direct Memory Access) controller does it independently. The CPU just gives the order and gets notified when it's done.",
+                "The problem DMA solves: Programmed I/O and even interrupt-driven I/O require the CPU to be involved in every byte transfer. Copying a 100MB file with CPU involvement means 100 million CPU read-write cycles — the CPU is tied up moving bytes instead of doing useful computation.",
+                "How DMA works: (1) CPU programs the DMA controller — source address, destination address, byte count, transfer direction. (2) CPU continues executing other programs. (3) DMA controller takes control of the memory bus, transfers data directly from device to RAM (or RAM to device). (4) DMA sends interrupt to CPU when transfer is complete. CPU was free the entire time.",
+                "DMA in modern systems: every storage device (NVMe SSD, HDD), every network card (Ethernet, Wi-Fi), every GPU uses DMA. When you play a video, the GPU uses DMA to pull frame data from RAM into VRAM without CPU involvement. A modern PC has 10-20 simultaneous DMA channels active.",
+                "Bus mastering DMA: modern PCIe devices (NVMe, GPU, network cards) can directly access any RAM address — called bus mastering. Your NVMe SSD directly writes data to your RAM buffer at full link speed (7 GB/s on PCIe 4.0) while your CPU continues executing code."
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "module": "Memory Organization",
+      "topics": [
+        {
+          "name": "Memory Types and Hierarchy",
+          "keywords": [
+            "memory hierarchy",
+            "cache",
+            "ram",
+            "rom",
+            "virtual memory",
+            "paging",
+            "hit ratio",
+            "associative memory",
+            "sram",
+            "dram",
+            "auxiliary memory"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Memory Hierarchy — registers, cache, RAM, disk",
+            "Cache Memory — levels, mapping techniques, hit ratio",
+            "Virtual Memory and Paging",
+            "Memory Protection and Address Translation"
+          ],
+          "one_slide_per_subtopic": true,
+          "required_content": [
+            "Memory hierarchy: Registers (fastest, bytes, inside CPU) → L1 Cache (32-64KB) → L2 Cache (256KB-1MB) → L3 Cache (8-32MB) → RAM (GBs) → SSD/HDD (TBs)",
+            "Locality of reference: temporal (recently used data likely reused) and spatial (nearby data likely used soon). Cache exploits this",
+            "Direct mapping: each memory block maps to exactly one cache line. Simple but conflicts possible",
+            "Fully associative: any block can go in any cache line. No conflicts but expensive hardware",
+            "Set associative: compromise. n-way set associative is most common (4-way, 8-way)",
+            "Hit ratio = hits / (hits + misses). Miss penalty = extra time to fetch from next level",
+            "Virtual memory: program thinks it has large contiguous memory. OS maps virtual pages to physical frames",
+            "Page fault: virtual page not in RAM. OS loads it from disk. Expensive operation",
+            "Memory protection: each process gets its own virtual address space. OS prevents one process from accessing another's memory",
+            "Base and limit registers: simplest protection. Base = start of process memory, Limit = size. Access outside range → trap",
+            "Page table: maps virtual page numbers to physical frame numbers. Each process has its own page table",
+            "TLB (Translation Lookaside Buffer): cache for page table entries. Avoids page table lookup on every memory access"
+          ],
+          "required_diagrams": [
+            "Memory hierarchy pyramid: 6-level triangle. Bottom (largest/slowest): HDD/SSD. Then RAM. Then L3 Cache. Then L2 Cache. Then L1 Cache. Top (smallest/fastest): Registers. Label each level with typical size and access time.",
+            "Cache mapping: three diagrams for direct mapping, fully associative, and 4-way set associative. Show how memory blocks map to cache lines in each scheme."
+          ],
+          "required_tables": [
+            "Memory hierarchy: Level | Typical Size | Access Time | Technology || Registers | 32-256 bytes | <1 ns | Flip-flops in CPU || L1 Cache | 32-64 KB | 1-4 ns | SRAM on chip || L2 Cache | 256KB-1MB | 4-12 ns | SRAM on chip || L3 Cache | 8-32 MB | 30-50 ns | SRAM on chip || DRAM (RAM) | 4-64 GB | 60-100 ns | Capacitors || SSD | 256GB-4TB | 50-100 μs | NAND Flash || HDD | 1-20 TB | 5-10 ms | Magnetic disk"
+          ],
+          "common_mistakes": [
+            "Thinking cache is user-accessible storage — it is managed entirely by hardware",
+            "Thinking a high hit ratio means cache is large — a well-designed small cache can have higher hit ratio than a poorly-designed large one",
+            "Thinking page fault always crashes the program — it's a normal OS operation, just slow"
+          ],
+          "use_slide_scripts": true,
+          "slide_scripts": {
+            "Memory Hierarchy — registers, cache, RAM, disk": {
+              "title": "Memory Hierarchy — Why Computers Have 6 Types of Memory",
+              "structure": "concept",
+              "items": [
+                "Why does your computer have registers, L1/L2/L3 cache, RAM, SSD, AND HDD? Because no single memory technology can be fast, large, AND cheap simultaneously. The memory hierarchy is the engineering solution to this trilemma — each level trades two properties to excel at the third.",
+                "The hierarchy from fastest to slowest: Registers (inside CPU, <1ns, ~256 bytes) → L1 Cache (on CPU chip, 1-4ns, 32-64KB) → L2 Cache (on CPU chip, 4-12ns, 256KB-1MB) → L3 Cache (on CPU chip, 30-50ns, 8-32MB) → DRAM/RAM (60-100ns, 4-64GB) → SSD (50μs, terabytes) → HDD (10ms, terabytes).",
+                "The key principle — locality of reference: programs don't access memory randomly. Temporal locality: data used recently will likely be used again soon (loop variables). Spatial locality: data near recently accessed data will likely be accessed soon (array traversal). Cache exploits both to keep frequently-used data close to the CPU.",
+                "The speed gap that makes hierarchy necessary: registers access in 0.3ns. DRAM takes 80ns — 250x slower. If your CPU had to wait for DRAM on every instruction, a 3GHz processor would effectively run at 12MHz. L1 cache cuts this to 1.5ns average access — close to register speed for frequently used data.",
+                "Practical impact: a cache miss that goes to RAM adds ~250 cycles of stall. A page fault that goes to SSD adds ~100,000 cycles. A page fault to HDD adds ~10 million cycles. Writing cache-friendly code (sequential array access vs random pointer chasing) can make a program 10-100x faster with zero algorithm change."
+              ]
+            },
+            "Cache Memory — levels, mapping techniques, hit ratio": {
+              "title": "Cache Memory — The Speed Bridge Between CPU and RAM",
+              "structure": "concept",
+              "items": [
+                "Cache memory is SRAM (Static RAM — uses flip-flops, no refresh needed) built directly on the CPU die. It holds copies of recently used data from DRAM. When the CPU needs data, it checks cache first — a cache hit takes 1-4ns. A cache miss requires fetching from DRAM — 80ns. The cache hit ratio directly determines effective CPU performance.",
+                "Hit ratio formula: Hit Ratio = Number of Cache Hits / (Total Memory Accesses). Average Access Time = Hit Ratio × Cache Access Time + (1 - Hit Ratio) × Memory Access Time. Example: hit ratio 0.95, cache = 2ns, RAM = 80ns: Average = 0.95×2 + 0.05×80 = 1.9 + 4 = 5.9ns. Without cache: 80ns. Cache gives ~13x speedup.",
+                "Direct Mapping: each RAM block maps to exactly one cache line (using modulo arithmetic on address). Simple and fast lookup. Problem: two frequently used blocks that map to the same line will evict each other repeatedly — called thrashing.",
+                "Fully Associative: any RAM block can go in any cache line. No thrashing. Problem: to find data, must check all cache lines simultaneously — expensive hardware. Used only for small TLBs.",
+                "Set-Associative (practical solution): cache divided into sets, each set has N lines (N-way). Block maps to one set (like direct mapping) but can go in any of the N lines within that set. 4-way and 8-way set-associative are most common in modern CPUs. Balances hardware cost vs thrashing avoidance."
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "module": "Computer Arithmetic",
+      "topics": [
+        {
+          "name": "Integer Arithmetic and Number Representations",
+          "keywords": [
+            "signed",
+            "unsigned",
+            "2s complement",
+            "ones complement",
+            "overflow",
+            "booth algorithm",
+            "multiplication",
+            "division",
+            "integer arithmetic",
+            "number representation"
+          ],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Signed and Unsigned Number Representations — 2's complement",
+            "Addition and Subtraction with Overflow Detection",
+            "Multiplication Algorithms — Booth's Algorithm",
+            "Floating Point Arithmetic — IEEE 754",
+            "Booth's Algorithm — efficient binary multiplication",
+            "Floating Point Arithmetic — IEEE 754 format and operations"
+          ],
+          "one_slide_per_subtopic": true,
+          "required_content": [
+            "Unsigned: all bits are magnitude. 8-bit range 0 to 255",
+            "Sign-magnitude: MSB is sign bit. +5 = 00000101, -5 = 10000101. Problem: two zeros",
+            "1's complement: flip all bits. -5 = 11111010. Problem: two zeros, awkward arithmetic",
+            "2's complement: flip all bits + add 1. -5 = 11111011. Only one zero. Subtraction = add 2's complement. Used in all modern CPUs",
+            "2's complement range (n-bit): -2^(n-1) to 2^(n-1)-1. 8-bit: -128 to +127",
+            "Overflow: result too large for bit width. Signed overflow: adding two positives gives negative. Carry flag (unsigned overflow) ≠ Overflow flag (signed overflow)",
+            "Booth's algorithm: efficient multiplication handling consecutive 0s and 1s in multiplier",
+            "IEEE 754 float: sign(1 bit) + exponent(8 bits, biased-127) + mantissa(23 bits). Value = (-1)^S × 1.mantissa × 2^(exponent-127)",
+            "Booth's Algorithm: examines multiplier bits in pairs. If current=0,prev=1: ADD multiplicand. If current=1,prev=0: SUBTRACT multiplicand. If same: no operation. Efficient for runs of 0s and 1s",
+            "IEEE 754 single precision (32-bit): bit31=sign, bits30-23=exponent(biased-127), bits22-0=mantissa. Value = (-1)^S × 1.M × 2^(E-127)",
+            "IEEE 754 example: 6.5 = 110.1 in binary = 1.101 × 2^2. S=0, E=2+127=129=10000001, M=10100000000000000000000",
+            "Special values: exponent all 0s = denormalized. Exponent all 1s, mantissa=0 = Infinity. Exponent all 1s, mantissa≠0 = NaN"
+          ],
+          "required_diagrams": [
+            "2's complement representation: number line from -128 to +127 for 8-bit. Show binary values at -128, -1, 0, +1, +127. Show wrapping at overflow.",
+            "IEEE 754 float format: 32-bit register divided into 3 fields. Bit 31: Sign (1 bit). Bits 30-23: Exponent (8 bits, excess-127). Bits 22-0: Mantissa (23 bits). Show example for 6.5."
+          ],
+          "required_tables": [
+            "Number representation comparison: Representation | +5 (8-bit) | -5 (8-bit) | Range (8-bit) | Zero representations || Sign-Magnitude | 00000101 | 10000101 | -127 to +127 | Two (+0 and -0) || 1's Complement | 00000101 | 11111010 | -127 to +127 | Two (+0 and -0) || 2's Complement | 00000101 | 11111011 | -128 to +127 | One"
+          ],
+          "common_mistakes": [
+            "Thinking -0 is valid in 2's complement — it isn't. 2's complement has only one zero",
+            "Confusing carry flag (unsigned overflow) with overflow flag (signed overflow) — they are independent",
+            "Thinking Booth's algorithm is for division — it's for multiplication, specifically optimizing runs of 1s and 0s"
+          ],
+          "use_slide_scripts": true,
+          "slide_scripts": {
+            "Signed and Unsigned Number Representations — 2's complement": {
+              "title": "2's Complement — Why Every CPU Uses This Representation",
+              "structure": "concept",
+              "items": [
+                "How does a computer store -5? It can't use a minus sign — everything must be 0s and 1s. Three representations were invented: sign-magnitude, 1's complement, and 2's complement. Only 2's complement survived into all modern CPUs — because it makes arithmetic elegant.",
+                "Sign-magnitude: use MSB as sign bit. +5 = 00000101, -5 = 10000101. Intuitive but broken: has TWO zeros (+0 = 00000000, -0 = 10000000). Arithmetic requires sign-checking logic — inconvenient.",
+                "1's complement: flip all bits to negate. -5 = 11111010. Still has two zeros. Adding +5 + (-5) = 00000101 + 11111010 = 11111111 = -0. Requires 'end-around carry' correction in arithmetic.",
+                "2's complement: flip all bits, then add 1. -5: 00000101 → 11111010 → 11111011. Only ONE zero (00000000). The beauty: subtraction IS addition. 8 - 5 = 8 + (-5) = 00001000 + 11111011 = 00000011 = 3. No special subtraction hardware needed — the ALU just adds.",
+                "Range for n-bit 2's complement: -2^(n-1) to +2^(n-1)-1. For 8-bit: -128 to +127. Notice asymmetry — one more negative number than positive. This is because 10000000 = -128 (not +128). This asymmetry causes the famous overflow: -128 × -1 = +128, which doesn't fit in 8 bits."
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1119 @@
+{
+  "subject": "data visualization using excel and powerbi",
+  "modules": [
+    {
+      "module": "PivotTables and Data Analysis (Excel)",
+      "topics": [
+        {
+          "name": "Creating PivotTables",
+          "keywords": ["pivottable", "pivot table", "rows", "columns", "values", "summarizing data", "creating pivottable"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Creating and structuring PivotTables",
+            "Summarizing data using Rows",
+            "Summarizing data using Columns",
+            "Summarizing data using Values"
+          ],
+          "subtopic_content": {
+            "Creating and structuring PivotTables": [
+              "PivotTable: most powerful Excel feature for data analysis. Instantly summarize thousands of rows into a meaningful report — no formulas needed.",
+              "How to create: select data → Insert tab → PivotTable → choose New Worksheet → OK. PivotTable Fields panel appears on right with 4 zones: Filters, Columns, Rows, Values.",
+              "Golden rule: your data must be clean — no blank rows, no merged cells, first row must be headers. Dirty data = wrong PivotTable results."
+            ],
+            "Summarizing data using Rows": [
+              "Drag a field to Rows area to group data by that field vertically. Example: drag 'Product' to Rows — each unique product becomes one row in PivotTable.",
+              "Multiple fields in Rows creates hierarchy: Region → City → Store. Click + to expand, – to collapse. Outer field is the grouping level."
+            ],
+            "Summarizing data using Columns": [
+              "Drag a field to Columns area to create column headers. Example: drag 'Quarter' to Columns — Q1, Q2, Q3, Q4 become column headers.",
+              "Rows + Columns together create a cross-tabulation: Products in rows, Quarters in columns → see each product's sales per quarter in one view."
+            ],
+            "Summarizing data using Values": [
+              "Values area is where your numbers go. Drag 'Sales' to Values → PivotTable shows Sum of Sales by default.",
+              "Change aggregation: right-click value → Summarize Values By → choose Count, Average, Max, Min, Product. Value Field Settings gives more options including % of Total."
+            ]
+          },
+          "required_diagrams": [
+            "PivotTable structure diagram: show a table with source data on left (columns: Region, Product, Quarter, Sales). Arrow pointing right to PivotTable result on right. Show the 4 field zones (Filters, Columns, Rows, Values) as labeled boxes with arrows showing which field goes where. Clean white background."
+          ],
+          "required_tables": [
+            "Dataset: Region | Product | Quarter | Sales || North | Laptop | Q1 | 50000 || South | Phone | Q1 | 30000 || North | Phone | Q2 | 45000 || South | Laptop | Q2 | 60000"
+          ],
+          "common_mistakes": [
+            "Merged cells in source data — PivotTable breaks with merged cells. Always unmerge all cells before creating PivotTable",
+            "Blank rows in data — PivotTable treats them as a separate group. Delete all blank rows from source data first"
+          ]
+        },
+        {
+          "name": "Grouping and Sorting Data",
+          "keywords": ["grouping", "sorting", "group by date", "group by number", "custom sort", "pivottable grouping"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Grouping by date",
+            "Grouping by number",
+            "Grouping by text",
+            "Custom sorting techniques"
+          ],
+          "subtopic_content": {
+            "Grouping by date": [
+              "Date grouping: right-click any date in PivotTable → Group → choose Years, Quarters, Months, Weeks, Days. Excel automatically groups all dates.",
+              "Example: 365 individual dates → grouped into 12 months or 4 quarters instantly. Show Year then Month hierarchy by selecting both in Group dialog."
+            ],
+            "Grouping by number": [
+              "Number grouping: right-click a number field in Rows → Group → set Starting at, Ending at, By (interval). Example: Salary 0-100000 grouped by 10000 creates 10 ranges.",
+              "Perfect for age groups (0-10, 11-20...) or price ranges. Creates meaningful categories from continuous data."
+            ],
+            "Grouping by text": [
+              "Text grouping: manually select cells you want to group → right-click → Group. Useful when categories need custom merging.",
+              "Example: group 'North' and 'Northeast' into one 'Northern Region' group. Select both cells while holding Ctrl → right-click → Group."
+            ],
+            "Custom sorting techniques": [
+              "Sort PivotTable values: click dropdown arrow on Row/Column label → Sort → Largest to Smallest (sorts by value). Or right-click value → Sort.",
+              "Custom list sort: sort Months correctly (Jan, Feb, Mar) not alphabetically (Apr, Aug, Dec). File → Options → Advanced → Edit Custom Lists → add month order."
+            ]
+          },
+          "required_diagrams": [
+            "Date grouping example diagram: show before (list of individual dates: 01-Jan-2024, 15-Jan-2024, 03-Feb-2024...) and after grouping (Jan 2024: sum, Feb 2024: sum). Arrow between showing Group action. Clean white background."
+          ],
+          "common_mistakes": [
+            "Dates stored as text won't group — Excel shows 'Cannot group that selection'. Fix: select column → Data → Text to Columns → Finish to convert text dates to real dates",
+            "Ungrouping all dates accidentally — right-clicking one date and choosing Ungroup removes ALL date grouping. Use carefully"
+          ]
+        },
+        {
+          "name": "PivotCharts & Calculations",
+          "keywords": ["pivotchart", "pivot chart", "totals", "subtotals", "custom calculations", "calculated field"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Using PivotCharts",
+            "Calculating totals",
+            "Calculating subtotals",
+            "Custom calculations"
+          ],
+          "subtopic_content": {
+            "Using PivotCharts": [
+              "PivotChart: visual representation of PivotTable that updates automatically when PivotTable changes. Insert → PivotChart from existing PivotTable.",
+              "PivotChart has interactive field buttons — click to filter directly on chart. Slicers connected to PivotTable automatically filter PivotChart too."
+            ],
+            "Calculating totals": [
+              "Grand Totals: automatically shown at bottom/right of PivotTable. Toggle: PivotTable Design tab → Grand Totals → On for Rows and Columns.",
+              "Grand Total shows sum of all values. Useful for quickly seeing overall performance without manual SUM formulas."
+            ],
+            "Calculating subtotals": [
+              "Subtotals appear for each group when multiple fields in Rows. PivotTable Design → Subtotals → Show all Subtotals at Top/Bottom or Do Not Show.",
+              "Example: Region subtotal shows region total before breaking into individual products within that region."
+            ],
+            "Custom calculations": [
+              "Calculated Field: creates new field using formula on existing fields. PivotTable Analyze → Fields, Items & Sets → Calculated Field. Example: Profit = Revenue - Cost.",
+              "Show Values As: right-click value → Show Values As → % of Grand Total, % of Row Total, Running Total, Rank. No formula needed — built into PivotTable."
+            ]
+          },
+          "common_mistakes": [
+            "Calculated fields use sum of fields by default — =Revenue/Quantity gives wrong result for PivotTable. Use =SUM(Revenue)/SUM(Quantity) syntax",
+            "PivotChart doesn't update when source data changes — must refresh PivotTable first (right-click → Refresh)"
+          ]
+        },
+        {
+          "name": "Filtering and Slicers",
+          "keywords": ["slicer", "filter", "label filter", "value filter", "timeline", "pivottable filter"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Using label filters",
+            "Using value filters",
+            "Using slicers",
+            "Using timelines"
+          ],
+          "subtopic_content": {
+            "Using label filters": [
+              "Label filter: filter rows/columns by their text labels. Click dropdown arrow → Label Filters → Contains, Begins With, Equals, Does Not Contain.",
+              "Example: filter products that begin with 'A' or contain 'Pro'. Useful for text-based segmentation."
+            ],
+            "Using value filters": [
+              "Value filter: filter based on calculated values. Click dropdown → Value Filters → Greater Than, Top 10, Between.",
+              "Example: show only products where Total Sales > 100000. Or Top 5 products by revenue. Much faster than manual filtering."
+            ],
+            "Using slicers": [
+              "Slicer: visual button panel for filtering — much more user-friendly than dropdowns. PivotTable Analyze → Insert Slicer → choose field.",
+              "Click slicer button to filter. Ctrl+click for multiple selections. Connect one slicer to multiple PivotTables: right-click slicer → Report Connections. Professional dashboard essential."
+            ],
+            "Using timelines": [
+              "Timeline: date-specific slicer showing months/quarters/years as visual slider. Only works with date fields.",
+              "PivotTable Analyze → Insert Timeline → select date field. Drag handles to select date range. Toggle between Years/Quarters/Months/Days using dropdown."
+            ]
+          },
+          "required_diagrams": [
+            "Slicer dashboard diagram: show a PivotTable with 3 slicers beside it (Region slicer with North/South/East/West buttons, Product slicer, Year slicer). Show one button highlighted/selected and PivotTable filtered accordingly. Clean white background, button-style slicer elements."
+          ],
+          "common_mistakes": [
+            "Slicer not filtering PivotTable — slicer must be connected to PivotTable. Right-click slicer → Report Connections → check the PivotTable",
+            "Timeline requires date field — if date is stored as text, Timeline option will be greyed out. Convert text to date first"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Data Visualization (Excel)",
+      "topics": [
+        {
+          "name": "Creating Basic Charts",
+          "keywords": ["column chart", "bar chart", "line chart", "pie chart", "chart types", "excel charts"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Creating column charts",
+            "Creating bar charts",
+            "Creating line charts",
+            "Creating pie charts"
+          ],
+          "subtopic_content": {
+            "Creating column charts": [
+              "Column chart: vertical bars comparing values across categories. Best for: comparing different items at same time period. Example: Sales of 5 products in Q1.",
+              "Create: select data → Insert → Column Chart → Clustered Column. Clustered: multiple series side by side. Stacked: series stacked to show composition. 100% Stacked: shows proportions."
+            ],
+            "Creating bar charts": [
+              "Bar chart: horizontal bars — same as column chart rotated. Best for: long category names that don't fit horizontally, ranking lists, survey results.",
+              "When to use Bar vs Column: Column for time-based comparisons, Bar for category comparisons with long labels or many categories (10+)."
+            ],
+            "Creating line charts": [
+              "Line chart: shows trends over time with connected data points. Best for: time series data — monthly sales, stock prices, temperature over days.",
+              "Multiple lines show multiple series over same time period. Smooth line option in Format Data Series reduces jaggedness for presentations."
+            ],
+            "Creating pie charts": [
+              "Pie chart: shows proportion/percentage of a whole. Best for: maximum 5-6 categories (too many slices = unreadable), when proportions are the story.",
+              "Pie chart rule: all slices must add to 100%. Never use 3D pie chart — distorts proportions visually. Use Doughnut chart for same data with better readability."
+            ]
+          },
+          "required_diagrams": [
+            "Chart type selector diagram: four small chart thumbnails side by side. 1) Column chart with 4 vertical bars. 2) Bar chart with 4 horizontal bars. 3) Line chart with trend line over time. 4) Pie chart with 4 segments. Each labeled with when to use it. Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: Chart Type | Best For | Avoid When || Column | Compare categories at one time | Many categories (>10) || Bar | Long labels, ranking | Time series data || Line | Trends over time | Few data points || Pie | Part-to-whole (max 6 items) | Many categories, negative values"
+          ],
+          "common_mistakes": [
+            "Using pie chart with many categories — 10-slice pie chart is impossible to read. Use bar chart instead",
+            "Using line chart for non-time data — line implies continuous trend. Use column chart for discrete categories"
+          ]
+        },
+        {
+          "name": "Formatting Charts",
+          "keywords": ["chart title", "data labels", "legend", "chart formatting", "chart elements"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Adding chart titles",
+            "Adding data labels",
+            "Adding legends",
+            "Formatting chart elements"
+          ],
+          "subtopic_content": {
+            "Adding chart titles": [
+              "Chart title explains what the chart shows. Click chart → Chart Design → Add Chart Element → Chart Title → Above Chart. Click title box to edit text.",
+              "Good title: specific and informative. Bad: 'Sales Chart'. Good: 'Monthly Product Sales — Q1 2024 (₹ Lakhs)'. Include units in title or axis labels."
+            ],
+            "Adding data labels": [
+              "Data labels show exact values on bars/lines. Chart Design → Add Chart Element → Data Labels → choose position (Outside End, Center, Inside Base).",
+              "For small charts or presentations: show data labels to avoid readers guessing values. For complex charts with many series: avoid clutter, rely on axis."
+            ],
+            "Adding legends": [
+              "Legend identifies which color/pattern represents which data series. Essential when multiple series in chart.",
+              "Position: Chart Design → Add Chart Element → Legend → Bottom/Right/Top. For single-series charts, delete legend to save space."
+            ],
+            "Formatting chart elements": [
+              "Double-click any element to open Format pane. Bar color: right-click bar → Format Data Series → Fill → Solid Color. Consistent color scheme = professional look.",
+              "Chart area background, plot area, gridlines, axis font size — all formattable. Quick tip: Chart Design tab → Change Colors for instant color scheme change."
+            ]
+          },
+          "common_mistakes": [
+            "Overlapping data labels — if labels collide, reduce font size or change position. Or use data table below chart instead",
+            "Too many chart elements — title + data labels + legend + gridlines + data table = cluttered. Include only what adds value"
+          ]
+        },
+        {
+          "name": "Advanced Chart Types and Sparklines",
+          "keywords": ["combo chart", "scatter chart", "box plot", "sparkline", "line sparkline", "column sparkline", "win loss sparkline"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Creating combo charts",
+            "Creating scatter charts",
+            "Creating box plots",
+            "Creating line sparklines",
+            "Creating column sparklines",
+            "Creating win/loss sparklines"
+          ],
+          "subtopic_content": {
+            "Creating combo charts": [
+              "Combo chart: two different chart types in one. Example: bars for Sales + line for Profit Margin % on secondary axis.",
+              "Create: select data → Insert → Combo Chart → Custom Combination. Set each series to Bar or Line. Check 'Secondary Axis' for the line series when values are on different scales."
+            ],
+            "Creating scatter charts": [
+              "Scatter chart: plots two numeric variables to show relationship/correlation. Each point = one data record. Example: Hours Studied vs Exam Score.",
+              "Add trendline: right-click data point → Add Trendline → Linear/Polynomial. Shows R² value to indicate strength of correlation. Essential for data analysis."
+            ],
+            "Creating box plots": [
+              "Box plot (Box and Whisker): shows distribution statistics — median, quartiles, outliers in one visual. Excel 2016+: Insert → Statistical Charts → Box and Whisker.",
+              "Box = IQR (middle 50% of data). Line in box = median. Whiskers extend to min/max (or 1.5×IQR). Dots beyond whiskers = outliers."
+            ],
+            "Creating line sparklines": [
+              "Sparkline: tiny chart inside a single cell. Shows trend without taking up chart space. Perfect for dashboards.",
+              "Create: select empty cell → Insert → Sparklines → Line → select data range → OK. Shows mini trend line in cell. Add Markers to highlight high/low points."
+            ],
+            "Creating column sparklines": [
+              "Column sparkline: tiny bar chart in a cell. Shows values as small bars — positive up, negative down. Good for monthly comparisons.",
+              "Sparkline Design tab: change color, mark highest/lowest bars in different color. Axis options let you set same scale across multiple sparklines."
+            ],
+            "Creating win/loss sparklines": [
+              "Win/Loss sparkline: binary — shows only positive (win = bar up) or negative (loss = bar down). Perfect for profit/loss, pass/fail, above/below average.",
+              "Each value simply becomes a block up or down — doesn't show magnitude, only direction. Clean visual for binary outcomes."
+            ]
+          },
+          "required_diagrams": [
+            "Sparklines example diagram: show a small table with monthly data (Jan-Jun) in one row, and three sparkline types in adjacent cells — line sparkline showing trend, column sparkline showing bars, win/loss showing blocks up/down. Label each type. Clean white background."
+          ],
+          "common_mistakes": [
+            "Scatter chart with text on X-axis — scatter requires numeric data on both axes. For text categories, use column chart instead",
+            "Sparklines scale differently by default — each sparkline auto-scales independently. For comparison, set same axis scale: Sparkline Design → Axis → Same for All Sparklines"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Excel Dashboards",
+      "topics": [
+        {
+          "name": "Dashboard Design Principles",
+          "keywords": ["dashboard design", "layout", "purpose", "audience", "visualization type", "interactivity", "dashboard principles"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Understanding purpose",
+            "Identifying audience",
+            "Planning layout",
+            "Choosing visualization types",
+            "Ensuring interactivity"
+          ],
+          "subtopic_content": {
+            "Understanding purpose": [
+              "Every dashboard must answer specific business questions. Before building anything, write down: 'This dashboard will help [WHO] to [DO WHAT] by showing [WHAT METRICS].'",
+              "Operational dashboard: real-time monitoring (today's sales, current inventory). Strategic dashboard: long-term trends and KPIs. Analytical dashboard: deep-dive analysis."
+            ],
+            "Identifying audience": [
+              "CEO/Management: high-level KPIs, big numbers, traffic lights (red/green). Operations team: detailed transactional data, drill-down capability.",
+              "Ask: How technical is the audience? How much time do they have? What decisions will they make? Design for your audience, not for yourself."
+            ],
+            "Planning layout": [
+              "Z-pattern: eyes move left-to-right, top-to-bottom. Put most important metric top-left. Summary KPIs at top, supporting charts below, details at bottom.",
+              "Sketch on paper first — never start building in Excel before sketching. Group related information together. Use consistent spacing and alignment throughout."
+            ],
+            "Choosing visualization types": [
+              "Match chart to message: Comparison → Bar/Column. Trend → Line. Proportion → Pie/Donut. Relationship → Scatter. Geographic → Map. Distribution → Histogram.",
+              "One dashboard = maximum 5-7 charts. More than that overwhelms. Ask 'Does this chart help the audience decide something?' If no → remove it."
+            ],
+            "Ensuring interactivity": [
+              "Static dashboard: user reads, cannot filter. Interactive dashboard: user selects filters, chart updates. Always add at least date filter + category filter.",
+              "Slicers are the easiest interactivity in Excel. Connect all charts to same slicer for synchronized filtering across entire dashboard."
+            ]
+          },
+          "required_diagrams": [
+            "Dashboard layout wireframe diagram: show a rectangle representing a dashboard. Top section: three KPI boxes side by side (Total Revenue, Units Sold, Profit %). Middle section: large bar chart on left, line chart on right. Bottom: slicer buttons and data table. Labeled zones with arrows. Clean white background."
+          ],
+          "common_mistakes": [
+            "Building dashboard before defining questions — results in dashboard that looks good but answers nothing useful",
+            "Too many colors — use maximum 2-3 colors consistently. Random colors create visual noise and look unprofessional"
+          ]
+        },
+        {
+          "name": "Interactive Dashboards",
+          "keywords": ["linked data", "form controls", "dropdown", "slider", "navigation", "interactive dashboard", "conditional formatting"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Using linked data",
+            "Using form controls (dropdowns, sliders)",
+            "Creating navigation systems",
+            "Applying rules-based highlighting",
+            "Using data bars",
+            "Applying color scales",
+            "Showing trends visually"
+          ],
+          "subtopic_content": {
+            "Using linked data": [
+              "Link charts to PivotTables — when PivotTable refreshes, chart auto-updates. Dynamic named ranges with OFFSET/INDIRECT update charts when data grows.",
+              "Data Model (Power Pivot): connect multiple tables. Slicers filter all connected PivotTables simultaneously — true linked dashboard."
+            ],
+            "Using form controls (dropdowns, sliders)": [
+              "Form Controls: Developer tab → Insert → Form Controls. Dropdown list: links selection to a cell. Use that cell value in formulas/charts for dynamic content.",
+              "Spinner/Slider: numeric input control. Links to cell. Use in INDEX/MATCH or OFFSET to show data for selected period. No VBA needed for basic interactivity."
+            ],
+            "Creating navigation systems": [
+              "Multi-sheet dashboard: hide sheet tabs, create navigation buttons using shapes. Right-click shape → Assign Hyperlink → 'Place in This Document' → select sheet.",
+              "Home button on every sheet → brings user back to main dashboard. Consistent navigation = professional feel."
+            ],
+            "Applying rules-based highlighting": [
+              "Conditional Formatting: Home → Conditional Formatting → Highlight Cell Rules. Color cells automatically based on value — red for negative, green for positive.",
+              "Traffic light system: three rules — <80%: red, 80-100%: yellow, >100%: green. Instantly shows which areas need attention without reading numbers."
+            ],
+            "Using data bars": [
+              "Data Bars: mini bar chart inside cell. Home → Conditional Formatting → Data Bars. Length proportional to cell value. Shows relative comparison within column.",
+              "Gradient vs Solid fill: Gradient looks modern. Solid is clearer. Always choose 'Show Bar Only' option when number already visible in adjacent column."
+            ],
+            "Applying color scales": [
+              "Color Scale: gradient from one color to another based on value. Green-Yellow-Red: high values green, medium yellow, low red. Perfect for heatmap effect.",
+              "Custom: set minimum/midpoint/maximum values and colors. Useful when 0 should be neutral (white), positive = green, negative = red."
+            ],
+            "Showing trends visually": [
+              "Icon Sets: arrows (↑↓→) or traffic lights inside cells. Home → Conditional Formatting → Icon Sets. Communicates direction without reading numbers.",
+              "Sparklines in KPI cells: tiny trend line shows whether metric improving or declining — adds context to a single number dashboard tile."
+            ]
+          },
+          "required_diagrams": [
+            "Conditional formatting heatmap diagram: show a 5x5 table with numbers, colored from green (high) through yellow (medium) to red (low). Label it 'Color Scale - Green to Red'. Adjacent column shows Data Bars. Clean white background."
+          ],
+          "common_mistakes": [
+            "Conditional formatting on entire column — slows Excel significantly. Apply only to data range, not entire column (A:A)",
+            "Form controls not working — Developer tab must be enabled: File → Options → Customize Ribbon → check Developer"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Introduction to Power BI",
+      "topics": [
+        {
+          "name": "What is Power BI?",
+          "keywords": ["power bi", "power bi desktop", "power bi service", "power bi mobile", "architecture", "installing power bi", "interface"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Overview and Use Cases",
+            "Components (Desktop, Service, Mobile)",
+            "Power BI Architecture",
+            "Installing Power BI Desktop",
+            "Exploring Power BI Interface"
+          ],
+          "subtopic_content": {
+            "Overview and Use Cases": [
+              "Power BI: Microsoft's business intelligence tool for creating interactive reports and dashboards from any data source. Free to use at individual level.",
+              "Use cases: Sales performance dashboard, HR analytics, Financial reporting, Supply chain monitoring, Marketing campaign analysis. Used by 97% of Fortune 500 companies.",
+              "Power BI vs Excel: Excel is for analysis by individual, Power BI is for sharing insights across organization. Excel: 1 million rows max. Power BI: billions of rows."
+            ],
+            "Components (Desktop, Service, Mobile)": [
+              "Power BI Desktop: free Windows application — where you build reports. Connect to data, transform, model, create visuals. .pbix file format.",
+              "Power BI Service (app.powerbi.com): cloud platform — where you publish, share, and collaborate. Dashboards, workspaces, scheduled refresh. Free tier available.",
+              "Power BI Mobile: iOS/Android app — view and interact with published reports on phone. Touch-optimized. Push notifications for data alerts."
+            ],
+            "Power BI Architecture": [
+              "Workflow: Get Data → Transform (Power Query) → Model (Relationships + DAX) → Visualize (Reports) → Publish (Service) → Share (Dashboards).",
+              "Data flows from source → Power Query cleans it → Data Model stores it → DAX measures calculate from it → Visuals display it → Service shares it."
+            ],
+            "Installing Power BI Desktop": [
+              "Download free from powerbi.microsoft.com → Download → Power BI Desktop. Also available in Microsoft Store. Requires Windows 10/11.",
+              "Sign in with Microsoft account (free) or organizational account (Office 365). Sign-in required only for publishing to Service. Building reports works offline."
+            ],
+            "Exploring Power BI Interface": [
+              "Three views: Report view (canvas for visuals), Data view (table of your data), Model view (relationships between tables). Toggle on left sidebar.",
+              "Key panels: Visualizations pane (chart types), Fields pane (your data columns), Filters pane (filter visuals/page/report). Ribbon at top for formatting."
+            ]
+          },
+          "required_diagrams": [
+            "Power BI workflow diagram: horizontal flow with 6 boxes connected by arrows. Data Sources (Excel, SQL, Web) → Power Query (Clean) → Data Model (Relationships) → DAX (Calculations) → Report (Visuals) → Service (Share). Each box labeled with what happens there. Clean white background, blue theme."
+          ],
+          "required_tables": [
+            "Comparison: Feature | Power BI Desktop | Power BI Service | Power BI Mobile || Purpose | Build reports | Publish and share | View reports || Cost | Free | Free (limited)/Pro | Free || Platform | Windows only | Any browser | iOS/Android || Data limit | Limited by RAM | Varies by plan | View only || File type | .pbix | Cloud stored | View only"
+          ],
+          "common_mistakes": [
+            "Thinking Power BI is just expensive Excel — Power BI handles millions of rows with relationships, DAX, and sharing that Excel cannot do",
+            "Building entire report before connecting proper data — connect and model data first, then build visuals"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Connecting to Data Sources",
+      "topics": [
+        {
+          "name": "Connecting to Data Sources",
+          "keywords": ["data sources", "connect excel", "connect sql", "connect web", "import", "direct query", "live connection", "data gateway"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Supported sources in Power BI",
+            "Excel",
+            "SQL Server",
+            "Web",
+            "Differences and use cases",
+            "Secure and efficient connections"
+          ],
+          "subtopic_content": {
+            "Supported sources in Power BI": [
+              "Power BI connects to 100+ data sources. Categories: File (Excel, CSV, JSON, PDF), Database (SQL Server, Oracle, MySQL), Online Services (Salesforce, Google Analytics, SharePoint), Other (Web, OData, ODBC).",
+              "Home → Get Data → shows all connectors. Search bar to find specific connector quickly."
+            ],
+            "Excel": [
+              "Connect to Excel: Get Data → Excel Workbook → browse to file → Navigator shows sheets and tables → select → Load or Transform Data.",
+              "Best practice: format Excel data as Table (Ctrl+T) before connecting — Power BI recognizes structured tables better than plain ranges. Headers automatically used as column names."
+            ],
+            "SQL Server": [
+              "Get Data → SQL Server → enter Server name and Database name → choose Import or DirectQuery → sign in if required.",
+              "Can write custom SQL query: Advanced Options → SQL Statement box. Useful to filter large tables at source instead of importing everything."
+            ],
+            "Web": [
+              "Get Data → Web → enter URL. Power BI automatically detects tables on webpage. Select table → Load. Great for public data like Wikipedia tables, government statistics.",
+              "Dynamic web data: URL can include parameters for date ranges. Power BI refreshes by re-fetching URL on schedule."
+            ],
+            "Differences and use cases": [
+              "Import mode: data copied into Power BI file. Fastest performance. Works offline. Must refresh to see new data. Best for: most scenarios, data up to ~1GB.",
+              "DirectQuery: no data copied, queries sent to source on demand. Always current data. Slower performance. Best for: very large databases, real-time data, security-sensitive data.",
+              "Live Connection: for Analysis Services and Power BI datasets only. Similar to DirectQuery but uses source model's DAX."
+            ],
+            "Secure and efficient connections": [
+              "On-premises data gateway: required when data source is on company's private network. Gateway installed on-premises creates secure channel to Power BI Service for scheduled refresh.",
+              "Efficient: only load columns you need — fewer columns = smaller file = faster performance. Filter rows at source (SQL WHERE clause) rather than in Power Query when possible."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Mode | Data stored | Performance | Always current | Max data size || Import | In Power BI | Fast | No (refresh needed) | ~1-2 GB || DirectQuery | At source | Slower | Yes | Unlimited || Live Connection | At source | Moderate | Yes | Unlimited"
+          ],
+          "common_mistakes": [
+            "Connecting to entire database table with millions of rows when only need recent year — always filter at source to import only what you need",
+            "Using DirectQuery for complex DAX — many DAX functions don't work in DirectQuery mode. Import mode supports full DAX"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Data Transformation with Power Query",
+      "topics": [
+        {
+          "name": "Power Query Editor",
+          "keywords": ["power query", "power query editor", "data cleaning", "remove duplicates", "filter", "merge tables", "unpivot", "group by", "custom column", "custom measure"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Interface Overview",
+            "Removing Duplicates",
+            "Filtering and Sorting",
+            "Merging Tables",
+            "Unpivoting Columns",
+            "Grouping Data",
+            "Aggregating Data",
+            "Creating Custom Columns",
+            "Creating Custom Measures"
+          ],
+          "subtopic_content": {
+            "Interface Overview": [
+              "Power Query Editor: Home → Transform Data. Left panel: Queries list. Center: data preview. Right panel: Applied Steps — every transformation recorded as step.",
+              "Applied Steps is like undo history but permanent. Each step = one transformation. Can delete, reorder, or edit any step. Steps run top-to-bottom in sequence."
+            ],
+            "Removing Duplicates": [
+              "Remove duplicate rows: select column → right-click → Remove Duplicates. Or Home → Remove Rows → Remove Duplicates.",
+              "Keep First/Last occurrence of duplicate. Remove duplicates based on specific columns: select multiple columns with Ctrl+click, then Remove Duplicates."
+            ],
+            "Filtering and Sorting": [
+              "Filter: click dropdown arrow on column header → uncheck values to hide, or use Text/Number Filters for conditions. Rows are filtered permanently (or until step deleted).",
+              "Sort: right-click column → Sort Ascending/Descending. Multiple sorts: first sort applies first. Unlike Excel, Power Query sort is a recorded step."
+            ],
+            "Merging Tables": [
+              "Merge: Home → Merge Queries → select second table → choose matching columns → choose join type (Left/Right/Inner/Outer). Like SQL JOIN.",
+              "Append: Home → Append Queries → stack tables vertically (same columns). Like SQL UNION ALL. Perfect for combining monthly files into one table."
+            ],
+            "Unpivoting Columns": [
+              "Unpivoting: convert wide table (years as columns) to tall table (one row per year). Select columns to keep → right-click → Unpivot Other Columns.",
+              "Essential for data that comes with months/years as column headers. Power BI needs data in tall format (one row per observation) for proper analysis."
+            ],
+            "Grouping Data": [
+              "Group By: summarize rows by category. Home → Group By → select column to group by → add aggregation (Sum, Count, Average, Min, Max).",
+              "Example: daily sales table → Group By Month → Sum of Sales. Creates summary table from detail data."
+            ],
+            "Aggregating Data": [
+              "Aggregation functions in Group By: Sum (add all values), Count (count rows), Count Distinct (unique values), Average, Min, Max, Median.",
+              "Multiple aggregations at once: Advanced Group By → Add aggregation → multiple columns can have different aggregations in same step."
+            ],
+            "Creating Custom Columns": [
+              "Add Column → Custom Column → write formula using column names in square brackets. Formula: [Price] * [Quantity] creates Profit column.",
+              "Custom column uses Power Query M language (different from DAX). Common: Text.Combine([First], \" \", [Last]) to merge names. Date.Year([Date]) to extract year."
+            ],
+            "Creating Custom Measures": [
+              "Custom measures (DAX) are created in Report view, not Power Query. But calculated columns can be added in Power Query or Data view.",
+              "Power Query custom column: stored in table, uses M language, calculated at refresh time. DAX measure: calculated at query time, not stored, more flexible."
+            ]
+          },
+          "required_diagrams": [
+            "Unpivot transformation diagram: show before table with columns (Product, Jan, Feb, Mar, Apr) and multiple product rows. Arrow pointing to after table (unpivoted) with columns (Product, Month, Value) and one row per month per product. Label 'Unpivot Other Columns'. Clean white background."
+          ],
+          "common_mistakes": [
+            "Changing data type before cleaning — always clean first (remove blanks, fix errors) then change data type last",
+            "Editing steps out of order — Power Query steps are sequential. Changing an early step may break later steps that depend on it"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Data Modeling Basics",
+      "topics": [
+        {
+          "name": "Data Modeling Concepts",
+          "keywords": ["data modeling", "relationships", "primary key", "foreign key", "normalization", "star schema", "fact table", "dimension table"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Importance of Modeling",
+            "Creating Relationships Between Tables",
+            "Using Primary Keys and Foreign Keys",
+            "Normalizing Data"
+          ],
+          "subtopic_content": {
+            "Importance of Modeling": [
+              "Data model: how tables connect to each other. Without proper model, slicers won't filter correctly, DAX measures give wrong results.",
+              "Star Schema: central Fact Table (transactions, sales) connected to multiple Dimension Tables (Date, Product, Customer, Region). Most common and efficient Power BI model."
+            ],
+            "Creating Relationships Between Tables": [
+              "Model view: drag field from one table to matching field in another → relationship line appears. Or Manage Relationships → New → select tables and columns.",
+              "Relationship types: One-to-Many (1:*) most common — one product in Product table, many rows in Sales table. Many-to-Many (*:*) avoid unless necessary — complex and slow."
+            ],
+            "Using Primary Keys and Foreign Keys": [
+              "Primary Key: unique identifier in dimension table. CustomerID in Customer table — each customer has unique ID, no duplicates.",
+              "Foreign Key: reference to primary key in fact table. CustomerID in Sales table — refers to Customer table. The relationship connects these two columns."
+            ],
+            "Normalizing Data": [
+              "Normalization: separating data into proper tables to avoid repetition. Bad: one table with customer address in every sales row. Good: Customer table with address, Sales table with CustomerID only.",
+              "Benefits: smaller file size, faster performance, one place to update data. Star schema = properly normalized for analytics."
+            ]
+          },
+          "required_diagrams": [
+            "Star schema diagram: center box labeled 'Sales (Fact)' with fields like OrderID, Date, CustomerID, ProductID, Amount. Four dimension table boxes connected to center with lines: Date table (DateKey, Month, Quarter, Year), Customer table (CustomerID, Name, City), Product table (ProductID, Name, Category), Region table (RegionID, Name). Arrows showing 1:many relationships. Clean white background."
+          ],
+          "required_tables": [
+            "Comparison: Table Type | Purpose | Contains | Example || Fact Table | Transactions/events | Numbers (measures) | Sales, Orders || Dimension Table | Context/attributes | Descriptive info | Customer, Product, Date"
+          ],
+          "common_mistakes": [
+            "Many-to-many relationships without bridge table — causes incorrect totals. Create a bridge/junction table to resolve many-to-many",
+            "Date table not marked as Date Table — time intelligence DAX functions won't work. Right-click date table → Mark as Date Table"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "DAX Fundamentals",
+      "topics": [
+        {
+          "name": "Introduction to DAX",
+          "keywords": ["dax", "what is dax", "sum", "average", "count", "distinct", "calculated column", "measure", "row context", "filter context"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "What is DAX?",
+            "SUM",
+            "AVERAGE",
+            "COUNT",
+            "DISTINCT",
+            "Key differences",
+            "Understanding Context in DAX",
+            "Practical examples"
+          ],
+          "subtopic_content": {
+            "What is DAX?": [
+              "DAX (Data Analysis Expressions): formula language for Power BI, Excel Power Pivot, and SSAS. Used to create calculated columns and measures.",
+              "DAX looks like Excel formulas but works differently — DAX operates on entire tables and columns, not individual cells. SUM(Sales[Amount]) not =SUM(A2:A100)."
+            ],
+            "SUM": [
+              "DAX: SUM(TableName[ColumnName]). Example: Total Sales = SUM(Sales[Amount]). Sums all values in Amount column of Sales table.",
+              "SUMX: row-by-row calculation then sum. Total Revenue = SUMX(Sales, Sales[Quantity] * Sales[Price]). Multiplies per row then sums — handles row-level math."
+            ],
+            "AVERAGE": [
+              "AVERAGE(Sales[Amount]): average of all values. Ignores blank cells automatically.",
+              "AVERAGEX: row-by-row average. Avg Order Value = AVERAGEX(Sales, Sales[Quantity] * Sales[Price]). Calculates value per row then averages."
+            ],
+            "COUNT": [
+              "COUNT(Sales[OrderID]): counts non-blank numeric values. COUNTA: counts non-blank values including text. COUNTROWS(Sales): counts total rows in table.",
+              "DISTINCTCOUNT(Sales[CustomerID]): counts unique values. Number of Customers = DISTINCTCOUNT(Sales[CustomerID]) — counts each customer once."
+            ],
+            "DISTINCT": [
+              "DISTINCT(Table[Column]): returns table of unique values. Used inside other functions. VALUES(): similar but includes blank if present in data.",
+              "Example: COUNTROWS(DISTINCT(Sales[ProductID])) = number of unique products sold. Same as DISTINCTCOUNT but more flexible."
+            ],
+            "Key differences": [
+              "Calculated Column: computed row-by-row, stored in table, uses Row Context. Add Column → New Column → formula. Good for row-level attributes.",
+              "Measure: computed on demand based on filter context, NOT stored, dynamic. Fields → New Measure → formula. Good for aggregations (Sum, Average, %). Always use Measures for numbers shown in visuals."
+            ],
+            "Understanding Context in DAX": [
+              "Row Context: when DAX evaluates formula row by row. Calculated columns have row context — [Price] refers to price in current row.",
+              "Filter Context: set of filters applied when measure evaluates. When you select 'North' in slicer, filter context = Region = North. Measure automatically filters to that context."
+            ],
+            "Practical examples": [
+              "Profit Margin % = DIVIDE([Total Profit], [Total Revenue], 0) → shows margin for whatever is filtered (product/region/time).",
+              "DIVIDE(numerator, denominator, alternate_result): safe division — returns alternate_result (0) instead of error when denominator = 0."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Feature | Calculated Column | Measure || Evaluation | Row by row | On demand || Storage | Stored in table | Not stored || Context | Row context | Filter context || Use for | Row attributes | Aggregations || Memory | Uses more | Uses less || Example | Profit = Revenue - Cost | Total Sales = SUM([Sales])"
+          ],
+          "common_mistakes": [
+            "Using SUM in calculated column — calculated columns have row context, no need to aggregate. Just use [Price] * [Quantity] not SUM([Price]) * SUM([Quantity])",
+            "Measure showing blank — usually a filter context issue or DIVIDE by zero. Add error handling: IFERROR(formula, 0)"
+          ]
+        },
+        {
+          "name": "Advanced DAX Concepts",
+          "keywords": ["calculate", "all", "filter dax", "dateadd", "datesytd", "sameperiodlastyear", "time intelligence", "variables", "var", "return"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "DATEADD",
+            "DATESYTD",
+            "SAMEPERIODLASTYEAR",
+            "CALCULATE",
+            "ALL",
+            "FILTER",
+            "Defining and Using Variables"
+          ],
+          "subtopic_content": {
+            "DATEADD": [
+              "DATEADD(Dates[Date], -1, MONTH): shifts date column by interval. Sales Last Month = CALCULATE([Total Sales], DATEADD(Dates[Date], -1, MONTH)).",
+              "Intervals: DAY, MONTH, QUARTER, YEAR. Negative = go back in time, Positive = go forward. Requires a proper Date table marked as Date Table."
+            ],
+            "DATESYTD": [
+              "DATESYTD(Dates[Date]): all dates from start of year to current date. Sales YTD = CALCULATE([Total Sales], DATESYTD(Dates[Date])).",
+              "Year-to-date is most common time intelligence requirement. Shows cumulative running total from Jan 1 to selected date."
+            ],
+            "SAMEPERIODLASTYEAR": [
+              "SAMEPERIODLASTYEAR(Dates[Date]): same period in previous year. Sales LY = CALCULATE([Total Sales], SAMEPERIODLASTYEAR(Dates[Date])).",
+              "YoY Growth % = DIVIDE([Total Sales] - [Sales LY], [Sales LY], 0). Most important KPI in business reporting — how are we doing vs last year?"
+            ],
+            "CALCULATE": [
+              "CALCULATE: most important DAX function. Changes the filter context for a calculation. CALCULATE(expression, filter1, filter2...).",
+              "North Sales = CALCULATE([Total Sales], Region[Region] = 'North'). Adds filter 'North' to existing context. Can also remove filters: CALCULATE([Total Sales], ALL(Region))."
+            ],
+            "ALL": [
+              "ALL(Table or Column): removes all filters from table or column. Used to calculate % of total.",
+              "% of Total = DIVIDE([Total Sales], CALCULATE([Total Sales], ALL(Sales))). Denominator ignores all filters → gives grand total → division gives percentage."
+            ],
+            "FILTER": [
+              "FILTER(Table, condition): returns subset of table that meets condition. Used inside CALCULATE for complex filters.",
+              "High Value Sales = CALCULATE([Total Sales], FILTER(Sales, Sales[Amount] > 10000)). Filters to rows where Amount > 10000 before calculating."
+            ],
+            "Defining and Using Variables": [
+              "VAR keyword: store intermediate result to reuse. Makes complex formulas readable and efficient — expression evaluated only once.",
+              "Profit Margin = VAR TotalRev = SUM(Sales[Revenue]) VAR TotalCost = SUM(Sales[Cost]) RETURN DIVIDE(TotalRev - TotalCost, TotalRev, 0). RETURN is mandatory — what the measure outputs."
+            ]
+          },
+          "required_tables": [
+            "DAX: Measure Name | Formula | Purpose || Total Sales | SUM(Sales[Amount]) | Basic sum || Sales LY | CALCULATE([Total Sales], SAMEPERIODLASTYEAR(Date[Date])) | Last year comparison || Sales YTD | CALCULATE([Total Sales], DATESYTD(Date[Date])) | Year to date || % of Total | DIVIDE([Total Sales], CALCULATE([Total Sales], ALL(Sales)), 0) | Share of total || YoY Growth | DIVIDE([Total Sales]-[Sales LY], [Sales LY], 0) | Year over year growth"
+          ],
+          "common_mistakes": [
+            "Time intelligence without Date table — DATEADD, DATESYTD etc. require a continuous Date table marked as Date Table. Gaps in dates break time intelligence",
+            "Forgetting RETURN in VAR block — VAR without RETURN causes error. Structure is always: VAR x = ... RETURN expression"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Power BI Service",
+      "topics": [
+        {
+          "name": "Power BI Service",
+          "keywords": ["publish report", "power bi service", "dashboard", "pin visual", "sharing", "permissions", "scheduled refresh", "workspace", "row level security", "rls"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Desktop to Service",
+            "Pinning visualizations",
+            "Permissions and Access",
+            "Scheduled Refresh",
+            "Apps and Datasets",
+            "Setup and Testing"
+          ],
+          "subtopic_content": {
+            "Desktop to Service": [
+              "Publish: Power BI Desktop → Home → Publish → select workspace → Publish. Report appears in Power BI Service at app.powerbi.com.",
+              "Publishing uploads .pbix to cloud. Dataset (data model) and Report (visuals) uploaded separately — can build multiple reports from one dataset."
+            ],
+            "Pinning visualizations": [
+              "Power BI Dashboard: collection of pinned visuals from one or multiple reports. Not the same as a Report page.",
+              "Pin visual: hover over chart in Service → pin icon → select existing or new dashboard. Dashboard = curated summary, Report = detailed analysis."
+            ],
+            "Permissions and Access": [
+              "Share report: click Share button → enter email addresses → choose permission level (Can view / Can edit). Recipient needs Power BI account.",
+              "Workspace roles: Admin (full control), Member (publish, edit), Contributor (create content), Viewer (view only). Assign appropriate role to each person."
+            ],
+            "Scheduled Refresh": [
+              "Scheduled refresh: automatically update data without manual republishing. Dataset → Settings → Scheduled Refresh → turn On → set frequency (daily/weekly) and time.",
+              "Requires Gateway for on-premises data sources. Cloud sources (SharePoint Online, SQL Azure) can refresh without gateway."
+            ],
+            "Apps and Datasets": [
+              "App: packaged collection of reports and dashboards for distribution. Workspace → Create App → bundle reports → publish to organization.",
+              "Shared dataset: one central dataset used by multiple reports across organization. Single source of truth — one refresh updates all reports."
+            ],
+            "Setup and Testing": [
+              "Row-Level Security (RLS): restrict data access based on user login. Manager sees only their team's data. Salesperson sees only their territory.",
+              "Setup: Modeling → Manage Roles → create role → add DAX filter. Example: [Region] = USERPRINCIPALNAME() maps user login to their region. Test with 'View As' feature."
+            ]
+          },
+          "required_diagrams": [
+            "Power BI Service workflow diagram: Desktop .pbix file → Publish arrow → Power BI Service cloud. In Service: Dataset box and Report box. From Report: Pin visual arrow to Dashboard. Dashboard has Share arrow to Users (person icons). Dataset has Scheduled Refresh arrow from Data Source. Clean white background, blue Power BI theme."
+          ],
+          "common_mistakes": [
+            "Sharing report without data access — recipient can see report structure but gets 'no permission' error on data. Share both report and dataset",
+            "Scheduled refresh failing — check Gateway status and data source credentials in dataset settings → Data Source Credentials"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Power BI Mobile & Embedded",
+      "topics": [
+        {
+          "name": "Power BI Mobile and Embedded",
+          "keywords": ["power bi mobile", "mobile view", "embedded", "embedding reports", "security embedded", "licensing"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Features and Navigation",
+            "Designing for Mobile View",
+            "Embedding Reports in Apps and Sites",
+            "Security Considerations",
+            "Licensing Options"
+          ],
+          "subtopic_content": {
+            "Features and Navigation": [
+              "Power BI Mobile app: free for iOS and Android. Sign in with same account as Service. Access all reports and dashboards published to Service.",
+              "Features: offline access (cached data), push notifications for data alerts, annotate reports, QR code scan to open specific report, voice queries."
+            ],
+            "Designing for Mobile View": [
+              "Mobile layout: in Power BI Desktop → View → Mobile Layout. Separate canvas for phone design — drag visuals to phone-shaped canvas.",
+              "Best practices: large visuals, single-column layout, big touch targets, hide secondary visuals. Most used KPIs at top. Test on actual device."
+            ],
+            "Embedding Reports in Apps and Sites": [
+              "Embed in website: Power BI Service → report → File → Embed Report → Website or Portal → copy iframe code → paste in HTML.",
+              "Embed for organization: Power BI Embedded API with Azure Active Directory authentication. Reports show inside your company's application."
+            ],
+            "Security Considerations": [
+              "Public embed (Publish to Web): anyone with link can see report — no login required. NOT for confidential data. Good for public-facing reports.",
+              "Secure embed: requires Power BI login with permissions. Use for internal reports. RLS enforced — users see only their data."
+            ],
+            "Licensing Options": [
+              "Power BI Free: individual use, no sharing. Power BI Pro (₹750/user/month): share with others, workspaces, collaboration. Power BI Premium: dedicated capacity for large-scale deployment.",
+              "Premium Per User (PPU): Pro features + Premium features per user. For Embedded: Power BI Embedded on Azure — pay per capacity, no per-user licensing."
+            ]
+          },
+          "required_tables": [
+            "Comparison: License | Cost | Sharing | Premium Features || Free | ₹0 | No | No || Pro | ~₹750/user/month | Yes | No || Premium Per User | ~₹1500/user/month | Yes | Yes || Premium Capacity | Fixed monthly | Yes | Yes (org-wide)"
+          ],
+          "common_mistakes": [
+            "Using 'Publish to Web' for internal reports — this makes report publicly accessible to anyone with the link. Use secure embed for internal data"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Power BI Advanced Analytics",
+      "topics": [
+        {
+          "name": "Advanced Analytics in Power BI",
+          "keywords": ["python power bi", "r power bi", "key influencers", "decomposition tree", "what if", "ai visuals", "predictive"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Using Python Scripts in Power BI",
+            "Using R for Data Manipulation",
+            "Key Influencers",
+            "Decomposition Tree",
+            "What-If Scenarios"
+          ],
+          "subtopic_content": {
+            "Using Python Scripts in Power BI": [
+              "Python integration: Get Data → Python Script → write pandas/matplotlib code → Power BI imports resulting DataFrame as table.",
+              "Also: Python visual in report — Insert Visual → Python visual → write plotting code → renders in report. Requires Python installed with pandas, matplotlib."
+            ],
+            "Using R for Data Manipulation": [
+              "R integration: similar to Python. Get Data → R Script → write R code → data frame returned as Power BI table.",
+              "R visuals: ggplot2 charts in Power BI report. Better statistical visualization library than Python matplotlib for some use cases."
+            ],
+            "Key Influencers": [
+              "Key Influencers visual: AI-powered. Drag metric to 'Analyze' field, add potential factors to 'Explain by' → Power BI automatically finds what factors most influence your metric.",
+              "Example: what factors influence customer churn? Power BI analyzes and shows: 'When contract is Month-to-Month, customers are 3.2x more likely to churn.'"
+            ],
+            "Decomposition Tree": [
+              "Decomposition Tree visual: interactive drill-down to explore what's driving a metric. Add metric → Add levels → click '+' to drill into any dimension.",
+              "AI Split: Power BI automatically suggests which dimension to split by next for maximum insight. Example: Total Sales → AI suggests splitting by Region as it has highest variance."
+            ],
+            "What-If Scenarios": [
+              "What-If Parameter: Modeling → New Parameter → set range and increment → creates slider slicer + DAX measure for selected value.",
+              "Example: Discount slider 0-30% step 5%. Create measure: Adjusted Revenue = [Revenue] * (1 - [Discount Value]). Slide to see how different discounts affect revenue."
+            ]
+          },
+          "required_diagrams": [
+            "Key Influencers visual diagram: show the visual with two tabs (Key Influencers and Top Segments). Left side shows bubble chart with factors sized by influence. Right side shows detail: 'When Contract Type is Month-to-Month, probability increases by 3.2x'. Clean white background."
+          ],
+          "common_mistakes": [
+            "What-If parameter not appearing — must create a Measure that references the parameter measure. Parameter alone doesn't change existing measures automatically",
+            "Python visual not rendering — Python and required libraries must be installed on same machine as Power BI Desktop. Set Python path in Options → Python scripting"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Creating Basic Visualizations (Power BI)",
+      "topics": [
+        {
+          "name": "Creating and Customizing Visuals",
+          "keywords": ["bar chart power bi", "line chart power bi", "pie chart power bi", "map", "formatting visuals", "colors", "labels", "tooltips", "filters", "slicers power bi", "drill through"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Bar, Line, Pie, Map, etc.",
+            "Formatting, Colors, Labels, Tooltips",
+            "Visual/Page/Report-level Filtering",
+            "Enabling deep dive analysis"
+          ],
+          "subtopic_content": {
+            "Bar, Line, Pie, Map, etc.": [
+              "Click visual type in Visualizations pane → drag fields to X-axis, Y-axis, Legend wells. Power BI automatically aggregates by default (SUM).",
+              "Common visuals: Clustered Bar/Column (compare), Line (trend), Pie/Donut (proportion), Card (single KPI), Table (detail), Matrix (cross-tabulation), Map (geographic), Gauge (progress).",
+              "Map visual: drag Location field → Power BI geocodes automatically. Bubble size = measure. Use filled map for regions. Requires internet connection for geocoding."
+            ],
+            "Formatting, Colors, Labels, Tooltips": [
+              "Format pane (paintbrush icon): Visual tab for chart-specific settings, General tab for position/size/title. Every visual element is customizable.",
+              "Conditional formatting: field → right-click → Conditional Formatting → Background Color/Font Color/Data Bars. Apply rules or color scale to table/matrix values.",
+              "Tooltips: hover over visual shows default tooltip (field values). Custom tooltip: create a report page → set as Tooltip page → assign to visual for rich hover experience."
+            ],
+            "Visual/Page/Report-level Filtering": [
+              "Three filter scopes: Visual-level (affects only one chart), Page-level (affects all visuals on page), Report-level (affects all pages in report).",
+              "Filters pane: drag field → set filter type (Basic/Advanced/Top N). Slicers: visual filter — user clicks to filter. Both slicers and filter pane can work together."
+            ],
+            "Enabling deep dive analysis": [
+              "Drill-through: right-click data point → Drill through → target page. Target page must have drill-through field in Drill through well.",
+              "Example: Sales by Region page → right-click 'North' → Drill through → North Region Detail page showing individual transactions for North only. Back button auto-appears."
+            ]
+          },
+          "required_diagrams": [
+            "Filter levels diagram: show a Power BI report outline with three nested rectangles. Outermost: Report-level filter (applies to all pages). Middle: Page-level filter (applies to current page). Innermost: Visual-level filter (applies to one chart). Each level labeled with example filter (Report: Year=2024, Page: Region=North, Visual: Category=Electronics). Clean white background."
+          ],
+          "common_mistakes": [
+            "Dragging measure to wrong well — measure in 'Legend' creates too many series. Measure goes in Values/Y-axis, dimension goes in Axis/Legend",
+            "Slicer filtering wrong visuals — by default slicer filters all visuals on same page. Use Edit Interactions (Format → Edit Interactions) to control which visuals each slicer affects"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Advanced Visualization Techniques",
+      "topics": [
+        {
+          "name": "Advanced Visualization Techniques",
+          "keywords": ["custom visuals", "bookmarks", "selections", "conditional formatting power bi", "mapping", "arcgis", "shape map", "report themes", "power bi themes"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Importing and Using Custom Visuals",
+            "Creating Guided Interactions",
+            "Visual Cues with Data Bars, Color Rules",
+            "ArcGIS Maps, Shape Maps, Filled Maps",
+            "Designing with Power BI Themes"
+          ],
+          "subtopic_content": {
+            "Importing and Using Custom Visuals": [
+              "AppSource marketplace: 200+ free custom visuals. Visualizations pane → '...' → Get more visuals → search AppSource → Import.",
+              "Popular custom visuals: Deneb (Vega-Lite), Charticulator (custom charts), Tornado Chart (bidirectional bar), Gantt Chart, Word Cloud, Sankey Chart. Add functionality Power BI doesn't have built-in."
+            ],
+            "Creating Guided Interactions": [
+              "Bookmarks: save current state of report (filters, visuals shown/hidden, selections). View → Bookmarks → Add Bookmark. Assign to button for navigation.",
+              "Show/Hide visuals: select visual → right-click → Show/Hide button toggle. Combine with bookmarks for toggle panels, drill-in animations, step-by-step guided stories."
+            ],
+            "Visual Cues with Data Bars, Color Rules": [
+              "Table/Matrix conditional formatting: select column → right-click → Conditional Formatting → Data Bars: shows mini bars in cells. Background Color: color cells by rules or gradient.",
+              "Icon sets: right-click column → Conditional Formatting → Icons → choose arrows/traffic lights/shapes based on rules. Shows ↑↓ or 🔴🟡🟢 inside table cells."
+            ],
+            "ArcGIS Maps, Shape Maps, Filled Maps": [
+              "Filled Map: fills geographic regions (countries, states) with color based on value. Drag Location + Measure → Filled Map visual. Uses Bing geocoding.",
+              "Shape Map: use custom shapefiles (TopoJSON format) for non-standard regions like sales territories, districts. Import shapefile in Shape Map visual settings.",
+              "ArcGIS Maps: integration with Esri's mapping platform. More advanced features: heat maps, reference layers, driving time areas. Requires ArcGIS account for advanced features."
+            ],
+            "Designing with Power BI Themes": [
+              "Report theme: consistent colors, fonts, visual formatting applied to entire report. View → Themes → choose built-in or customize.",
+              "Custom theme: download theme JSON file from community gallery, modify colors in JSON, import via View → Themes → Browse for Themes. Company branding: apply company colors and fonts globally."
+            ]
+          },
+          "common_mistakes": [
+            "Too many custom visuals from different sources — inconsistent styling looks unprofessional. Stick to 1-2 custom visual types per report",
+            "Bookmarks capturing slicer state — by default bookmark saves slicer selection. May not be intended. Uncheck 'Data' in bookmark options to capture only visual state"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Building a Comprehensive Dashboard",
+      "topics": [
+        {
+          "name": "Building a Comprehensive Dashboard",
+          "keywords": ["dashboard project", "business case", "kpi", "layout planning", "implementing dashboard", "advanced dax", "publishing report"],
+          "nature": "practical",
+          "no_code": true,
+          "subtopics": [
+            "Business Case and Data Source",
+            "Layout, KPIs, and Interactions",
+            "Creating and Connecting Visuals",
+            "Complex Measures and Logic",
+            "Sharing and Feedback"
+          ],
+          "subtopic_content": {
+            "Business Case and Data Source": [
+              "Example project: Sales Performance Dashboard for a retail company. Data: Sales transactions, Product catalog, Customer list, Date table, Region mapping.",
+              "Business questions: Which regions are growing? Which products are underperforming? How does this month compare to last year? Who are our top customers?"
+            ],
+            "Layout, KPIs, and Interactions": [
+              "KPIs to show: Total Revenue, Revenue vs Last Year (YoY%), Units Sold, Average Order Value, Top 5 Products, Sales by Region map.",
+              "Layout: Card row at top (4 KPI cards), Bar chart + Map side by side in middle, Line chart (trend) at bottom. Slicers: Year, Region, Product Category on left sidebar."
+            ],
+            "Creating and Connecting Visuals": [
+              "Build step-by-step: create Date table first → build relationships → create base measures → add visuals → add slicers → test filtering.",
+              "Ensure all visuals respond to slicers. Check with Edit Interactions that every visual filters correctly. Cross-highlight should work across charts."
+            ],
+            "Complex Measures and Logic": [
+              "Core measures needed: Total Sales = SUM(Sales[Amount]). Sales LY = CALCULATE([Total Sales], SAMEPERIODLASTYEAR(Date[Date])). YoY % = DIVIDE([Total Sales]-[Sales LY],[Sales LY],0).",
+              "Running Total = CALCULATE([Total Sales], DATESYTD(Date[Date])). Top Customer = TOPN(1, Customer, [Total Sales]). Each measure builds on previous."
+            ],
+            "Sharing and Feedback": [
+              "Publish to Service → create App → share with stakeholders. Get feedback: Is the right data shown? Are filters intuitive? Is performance acceptable?",
+              "Iterate: real dashboards go through 3-5 feedback rounds. Version control: keep backup of .pbix before major changes. Document DAX measures with descriptions."
+            ]
+          },
+          "required_diagrams": [
+            "Sample dashboard wireframe diagram: rectangle showing dashboard layout. Top row: four Card visuals (Revenue, YoY%, Units, Avg Order). Left sidebar: three slicers (Year, Region, Category). Middle: Bar chart (Sales by Product) on left, Filled Map (Sales by Region) on right. Bottom: Line chart (Monthly Trend) spanning full width. All areas labeled. Clean white background."
+          ],
+          "common_mistakes": [
+            "Building visuals before creating measures — always create all DAX measures first, then build visuals using those measures",
+            "Not testing on different screen sizes — report looks different on laptop vs large monitor. Use View → Page View → Fit to Window to test"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Performance Optimization & Best Practices",
+      "topics": [
+        {
+          "name": "Performance Optimization & Best Practices",
+          "keywords": ["performance", "file size", "load time", "best practices", "clean layout", "accessibility", "audit logs", "usage metrics", "monitoring"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Reducing File Size",
+            "Efficient Data Practices",
+            "Clean Layouts, Accessibility",
+            "Audit Logs, Usage Metrics"
+          ],
+          "subtopic_content": {
+            "Reducing File Size": [
+              "Remove unused columns in Power Query — every column takes memory. Only load columns your visuals actually use. Reducing 50 columns to 20 can halve file size.",
+              "Remove unused queries, measures, and calculated columns. Aggregate data where possible — daily data → monthly if daily detail not needed. Use integers instead of text for IDs."
+            ],
+            "Efficient Data Practices": [
+              "Avoid calculated columns when measure works — measures don't increase file size. Use measures for aggregations, calculated columns only for row-level attributes.",
+              "Use star schema — avoid many-to-many relationships and complex relationship chains. Simpler model = faster queries. Disable Auto Date/Time (File → Options → Data Load) to reduce hidden tables."
+            ],
+            "Clean Layouts, Accessibility": [
+              "Alignment: Format → Align to align visuals perfectly. Consistent padding (4-8px) between visuals. Use snap-to-grid (View → Show Gridlines + Snap to Grid).",
+              "Accessibility: add Alt Text to all visuals (Format → Alt Text). Use sufficient color contrast. Don't rely only on color — add text labels or patterns. Tab order for keyboard navigation."
+            ],
+            "Audit Logs, Usage Metrics": [
+              "Usage Metrics: in Power BI Service → report → File → Usage Metrics Report. See who views your report, how often, from which page.",
+              "Admin Audit Logs: Power BI Admin Portal → Audit Logs → see all activities (who published, who shared, who viewed). Essential for governance and compliance."
+            ]
+          },
+          "required_tables": [
+            "Performance Checklist: Action | Impact | Effort || Remove unused columns | High | Low || Use measures instead of calc columns | High | Medium || Disable Auto Date/Time | Medium | Low || Use star schema | High | High || Filter data at source | High | Medium || Avoid many-to-many | High | Medium"
+          ],
+          "common_mistakes": [
+            "Importing entire database without filtering — loading 10 million rows when you need 100K. Always filter at source",
+            "Too many visuals on one page — each visual runs a query. 20 visuals per page = 20 simultaneous queries = slow load. Limit to 8-10 visuals per page"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Power BI Administration & Governance",
+      "topics": [
+        {
+          "name": "Power BI Administration & Governance",
+          "keywords": ["admin", "permissions", "data governance", "gateway", "tenant settings", "admin portal", "security compliance"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Role Responsibilities",
+            "Setting Access Levels",
+            "Security and Compliance Policies",
+            "Configuring Gateway Connections",
+            "Admin Portal Configuration"
+          ],
+          "subtopic_content": {
+            "Role Responsibilities": [
+              "Power BI Admin: manages entire Power BI tenant. Controls what features are enabled, who can publish, sharing policies. Assigned in Microsoft 365 Admin Center.",
+              "Workspace Admin: manages one workspace — add/remove members, manage content. Does not need Power BI Admin role."
+            ],
+            "Setting Access Levels": [
+              "Workspace roles: Admin > Member > Contributor > Viewer. Admin: full control. Member: publish and manage content. Contributor: create content, can't publish apps. Viewer: view only.",
+              "Report sharing: can share individual reports to specific people without giving workspace access. Share → enter email → choose Can View or Can Edit."
+            ],
+            "Security and Compliance Policies": [
+              "Sensitivity Labels: classify data (Confidential, Public, Internal). Microsoft Purview integration. Labels travel with exported files — Excel export keeps label.",
+              "Data Loss Prevention (DLP): prevent sharing sensitive data outside organization. Block or alert when sensitive data detected in datasets."
+            ],
+            "Configuring Gateway Connections": [
+              "On-premises Data Gateway: installed on server in company network. Allows Power BI Service to refresh data from on-premises SQL Server, Excel files, etc.",
+              "Gateway types: Standard mode (multiple users, scheduled refresh), Personal mode (one user, only for personal workspace). Standard mode required for organizational sharing."
+            ],
+            "Admin Portal Configuration": [
+              "Admin Portal (app.powerbi.com → Settings → Admin Portal): control all tenant-wide settings. Enable/disable: export to Excel, Publish to Web, Python/R visuals, external sharing.",
+              "Usage Metrics dashboard in Admin Portal: see overall adoption across organization. Identify most/least used reports. Plan training accordingly."
+            ]
+          },
+          "common_mistakes": [
+            "Everyone as Admin — follow least privilege principle. Most users should be Viewer or Contributor, not Admin",
+            "No gateway for on-premises refresh — scheduled refresh will fail silently without gateway. Check gateway status before setting up refresh schedule"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Course Recap and Q&A",
+      "topics": [
+        {
+          "name": "Course Recap and Next Steps",
+          "keywords": ["recap", "summary", "real world", "industry dashboard", "certification", "next steps", "resources"],
+          "nature": "theoretical",
+          "no_code": true,
+          "subtopics": [
+            "Summary of Excel and Power BI Learnings",
+            "Industry Dashboards & Insights",
+            "Next Steps and Certification Prep"
+          ],
+          "subtopic_content": {
+            "Summary of Excel and Power BI Learnings": [
+              "Excel strengths: PivotTables for quick analysis, charts for presentations, conditional formatting for visual cues, dashboards for smaller teams without Power BI license.",
+              "Power BI strengths: handles large data, relationships between tables, DAX for complex calculations, published reports refresh automatically, sharing across organization."
+            ],
+            "Industry Dashboards & Insights": [
+              "Sales: Revenue vs Target, YoY growth, Top products, Regional performance, Sales rep leaderboard.",
+              "HR: Headcount trend, Attrition rate, Hiring funnel, Salary distribution, Training completion. Finance: P&L summary, Budget vs Actual, Cash flow, Expense breakdown.",
+              "Choose tool based on: data size (Excel < 100K rows, Power BI for more), sharing needs (Excel for small team, Power BI for organization), refresh frequency (Excel manual, Power BI automated)."
+            ],
+            "Next Steps and Certification Prep": [
+              "Microsoft certifications: PL-300 (Power BI Data Analyst) — covers data prep, modeling, DAX, visualizations, service. Practice with free Microsoft Learn path at learn.microsoft.com.",
+              "Build portfolio: create 3 real dashboards using public datasets (kaggle.com, data.gov.in). Publish to Power BI Service and share links. Practice explaining DAX measures and design decisions."
+            ]
+          },
+          "required_tables": [
+            "Comparison: Scenario | Use Excel | Use Power BI || Data size | < 500K rows | Any size || Multiple tables | Complex with VLOOKUP | Easy with relationships || Auto refresh | Manual only | Scheduled (daily/hourly) || Sharing | Email file | Publish link, always updated || DAX/Formulas | Excel formulas | DAX measures || Team size | 1-5 users | Any size || License needed | Excel | Power BI Pro for sharing"
+          ],
+          "common_mistakes": [
+            "Not practicing on real datasets — theory without practice is quickly forgotten. Build at least one real dashboard using your own organization's or public data"
+          ]
+        }
+      ]
+    }
+  ]
+}

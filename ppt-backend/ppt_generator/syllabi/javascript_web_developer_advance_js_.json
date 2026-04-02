@@ -1,0 +1,1271 @@
+{
+  "subject": "javascript web developer (advance js)",
+  "modules": [
+    {
+      "module": "Function in JavaScript",
+      "topics": [
+        {
+          "name": "Introduction to function",
+          "keywords": ["function", "what is function", "advantages", "reusability"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "What is function?",
+            "Advantages of using function"
+          ],
+          "required_content": [
+            "A function is a reusable block of code that performs a specific task. Defined once, called many times.",
+            "Advantages: code reusability, modularity, easier debugging, abstraction of logic",
+            "Without functions: same logic copy-pasted 10 places = 10 places to fix when a bug is found"
+          ],
+          "required_code": "// Without function — repetitive\nconsole.log(2 * 3.14 * 5);  // area of circle r=5\nconsole.log(2 * 3.14 * 8);  // area of circle r=8\n\n// With function — reusable\nfunction circleArea(r) {\n    return 2 * 3.14 * r;\n}\nconsole.log(circleArea(5));  // 31.4\nconsole.log(circleArea(8));  // 50.24",
+          "common_mistakes": [
+            "Thinking functions are optional — without them, code becomes unmaintainable beyond 50 lines",
+            "Defining the function but forgetting to call it — definition alone does nothing"
+          ]
+        },
+        {
+          "name": "Function declaration and invoking",
+          "keywords": ["function declaration", "invoking", "argument", "parameter", "return", "function expression"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Function declaration syntax",
+            "Invoking a function",
+            "Argument vs Parameter",
+            "Returning values from function",
+            "Function declaration vs Function expression"
+          ],
+          "required_content": [
+            "Parameter: variable in the function definition. Argument: actual value passed when calling. function add(a, b) — a,b are parameters. add(3, 5) — 3,5 are arguments.",
+            "return stops function execution and sends value back. Without return, function returns undefined.",
+            "Function declaration is hoisted — can call before it appears in code. Function expression is NOT hoisted."
+          ],
+          "required_code": "// Function declaration (hoisted)\nfunction greet(name) {          // name = parameter\n    return `Hello, ${name}!`;\n}\nconsole.log(greet('Alice'));    // 'Alice' = argument\n// Output: Hello, Alice!\n\n// Function expression (NOT hoisted)\nconst square = function(n) {\n    return n * n;\n};\nconsole.log(square(4));  // 16\n\n// Calling before declaration — works for declarations\nconsole.log(add(2, 3));  // 5 — works due to hoisting\nfunction add(a, b) { return a + b; }",
+          "required_tables": [
+            "Comparison: Feature | Function Declaration | Function Expression || Syntax | function name() {} | const name = function() {} || Hoisting | Yes — call before define | No — must define first || Name | Always has name | Can be anonymous || Use case | General purpose functions | Callbacks, conditional definitions"
+          ],
+          "common_mistakes": [
+            "Confusing argument and parameter — parameter is the placeholder, argument is the real value",
+            "Forgetting return — the function does the work but the caller gets undefined"
+          ]
+        },
+        {
+          "name": "Function with Parameter",
+          "keywords": ["single parameter", "multiple parameter", "arguments object", "rest parameter"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Single parameter",
+            "Multiple parameter",
+            "N number of parameter"
+          ],
+          "required_content": [
+            "Single parameter: function double(n) { return n * 2; }. Arrow shorthand: const double = n => n * 2.",
+            "Multiple parameters separated by comma. JS does not enforce argument count — missing args become undefined, extra args are ignored.",
+            "N number of parameters: use rest parameter ...args which collects all into an array. Or use the arguments object (old way, not available in arrow functions)."
+          ],
+          "required_code": "// Single parameter\nconst double = n => n * 2;\nconsole.log(double(5));      // 10\n\n// Multiple parameters\nfunction power(base, exp) {\n    return Math.pow(base, exp);\n}\nconsole.log(power(2, 10));   // 1024\n\n// N parameters using rest\nfunction sum(...nums) {\n    return nums.reduce((acc, n) => acc + n, 0);\n}\nconsole.log(sum(1, 2, 3, 4, 5)); // 15\nconsole.log(sum(10, 20));         // 30",
+          "common_mistakes": [
+            "Using arguments object inside arrow functions — it doesn't exist there, use ...rest instead",
+            "Passing too few arguments — missing params become undefined, causing NaN or errors silently"
+          ]
+        },
+        {
+          "name": "Arrow function",
+          "keywords": ["arrow function", "arrow function declaration", "arrow vs traditional"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to arrow function",
+            "Arrow function declaration",
+            "Arrow function vs Traditional function"
+          ],
+          "required_content": [
+            "Arrow functions: shorter syntax introduced in ES6. const fn = (params) => expression. If single expression, return is implicit.",
+            "Key difference: arrow functions do NOT have their own 'this'. They inherit 'this' from the surrounding lexical scope.",
+            "Arrow functions cannot be used as constructors (no new keyword), have no arguments object, and cannot be used as generator functions."
+          ],
+          "required_code": "// Traditional function\nfunction multiply(a, b) {\n    return a * b;\n}\n\n// Arrow — full form\nconst multiply2 = (a, b) => {\n    return a * b;\n};\n\n// Arrow — implicit return (single expression)\nconst multiply3 = (a, b) => a * b;\n\n// Single param — no parentheses needed\nconst triple = n => n * 3;\n\n// No params — empty parentheses required\nconst greet = () => 'Hello!';\n\nconsole.log(multiply3(3, 4)); // 12\nconsole.log(triple(7));       // 21",
+          "required_tables": [
+            "Comparison: Feature | Traditional Function | Arrow Function || Syntax | function name() {} | const name = () => {} || this binding | Own this (dynamic) | Lexical this (from parent) || arguments object | Available | Not available — use ...rest || Use as constructor | Yes (new keyword) | No — throws TypeError || Hoisting | Yes (declaration) | No || Best for | Methods, constructors | Callbacks, array methods"
+          ],
+          "common_mistakes": [
+            "Using arrow function as object method — 'this' will refer to outer scope (window/undefined), not the object",
+            "Forgetting parentheses for zero-parameter arrow functions — () => is required, not just =>"
+          ]
+        },
+        {
+          "name": "Recursive function",
+          "keywords": ["recursive", "recursion", "base case", "recursive case", "call stack"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to recursive function",
+            "Understanding the base case and recursive case"
+          ],
+          "required_content": [
+            "Recursion: a function that calls itself to solve smaller versions of the same problem.",
+            "Base case: the condition that stops recursion. Without it — infinite recursion → stack overflow.",
+            "Recursive case: the part that calls itself with a smaller/simpler input moving toward the base case."
+          ],
+          "required_code": "// Factorial — classic recursion\nfunction factorial(n) {\n    if (n === 0 || n === 1) return 1;  // base case\n    return n * factorial(n - 1);       // recursive case\n}\nconsole.log(factorial(5)); // 5*4*3*2*1 = 120\n\n// Trace for factorial(3):\n// factorial(3) → 3 * factorial(2)\n// factorial(2) → 2 * factorial(1)\n// factorial(1) → 1  [base case]\n// unwinds: 2*1=2, 3*2=6\n\n// Fibonacci\nfunction fib(n) {\n    if (n <= 1) return n;              // base case\n    return fib(n - 1) + fib(n - 2);   // recursive case\n}\nconsole.log(fib(7)); // 13",
+          "common_mistakes": [
+            "Missing base case — causes 'Maximum call stack size exceeded' (stack overflow)",
+            "Base case never reached — ensure recursive call moves toward base case (n-1, not n+1)"
+          ]
+        },
+        {
+          "name": "Function Chaining",
+          "keywords": ["function chaining", "method chaining", "fluent interface", "chaining limitation"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to function chaining",
+            "Example for function chaining",
+            "Limitation of function chaining"
+          ],
+          "required_content": [
+            "Function chaining: calling multiple methods on the same object in one line. Works when each method returns 'this' or the object itself.",
+            "Common in JS: 'hello world'.toUpperCase().split(' ').reverse().join('-') — each method returns a new string/array.",
+            "Limitation: if any method in the chain returns undefined or null, the next call throws TypeError. Hard to debug — error points to chain line not the failing method."
+          ],
+          "required_code": "// String method chaining\nconst result = '  hello world  '\n    .trim()\n    .toUpperCase()\n    .split(' ')\n    .join('-');\nconsole.log(result); // 'HELLO-WORLD'\n\n// Custom class with chaining (return this)\nclass Calculator {\n    constructor() { this.value = 0; }\n    add(n)      { this.value += n; return this; }\n    subtract(n) { this.value -= n; return this; }\n    multiply(n) { this.value *= n; return this; }\n    result()    { return this.value; }\n}\n\nconst ans = new Calculator()\n    .add(10)\n    .subtract(3)\n    .multiply(2)\n    .result();\nconsole.log(ans); // 14",
+          "common_mistakes": [
+            "Chaining on a method that returns undefined — breaks the chain with 'Cannot read property of undefined'",
+            "Long chains without intermediate variables — impossible to debug which step failed"
+          ]
+        },
+        {
+          "name": "Important functions",
+          "keywords": ["anonymous function", "named function expression", "first class function", "iife", "pure function", "impure function", "callback", "hof", "higher order", "lambda", "currying", "generator"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Anonymous function",
+            "Named function expression",
+            "First class function",
+            "IIFE",
+            "Pure function",
+            "Impure function",
+            "Callback function",
+            "HOF",
+            "Lambda function",
+            "Currying",
+            "Generator function"
+          ],
+          "required_content": [
+            "First-class functions: in JS, functions are values — they can be stored in variables, passed as arguments, and returned from other functions.",
+            "Pure function: same input always gives same output, no side effects. Impure function: depends on or modifies external state (Math.random(), console.log are impure).",
+            "IIFE (Immediately Invoked Function Expression): (function() { ... })() — runs immediately, creates private scope, avoids polluting global namespace.",
+            "Currying: transforming f(a,b,c) into f(a)(b)(c). Each call returns a new function waiting for the next argument.",
+            "Generator function: function* with yield. Returns an iterator. Pauses at each yield, resumes on .next() call.",
+            "HOF (Higher Order Function): takes a function as argument OR returns a function. map, filter, reduce are HOFs."
+          ],
+          "required_code": "// IIFE\n(function() {\n    const secret = 'hidden';  // private scope\n    console.log('IIFE runs immediately');\n})();\n\n// Pure vs Impure\nconst add = (a, b) => a + b;           // pure\nlet count = 0;\nconst increment = () => ++count;       // impure — modifies external state\n\n// Currying\nconst multiply = a => b => a * b;\nconst double = multiply(2);\nconsole.log(double(5));  // 10\nconsole.log(multiply(3)(4)); // 12\n\n// Generator\nfunction* counter() {\n    yield 1;\n    yield 2;\n    yield 3;\n}\nconst gen = counter();\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2",
+          "common_mistakes": [
+            "Thinking callback = async — callbacks are just functions passed as arguments, they can be sync or async",
+            "Curried function vs partially applied function — currying always produces single-argument functions at each step"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "JavaScript Fundamentals",
+      "topics": [
+        {
+          "name": "Scope",
+          "keywords": ["scope", "global scope", "local scope", "block scope", "functional scope"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to scope in js",
+            "Types of scope: global & local(functional & block)"
+          ],
+          "required_content": [
+            "Scope determines where a variable is accessible. JS has 3 scope types: global, function, and block.",
+            "Global scope: declared outside any function/block — accessible everywhere. Risk: name collisions, accidental overwrites.",
+            "Function scope: var declared inside a function — only accessible within that function.",
+            "Block scope: let and const declared inside {} (if, for, while) — only accessible within that block."
+          ],
+          "required_code": "var globalVar = 'I am global';     // global scope\n\nfunction outer() {\n    var funcVar = 'I am function scoped';  // function scope\n    if (true) {\n        let blockLet = 'I am block scoped'; // block scope\n        const blockConst = 'also block';    // block scope\n        var funcVar2 = 'var ignores block'; // function scope!\n        console.log(blockLet);   // accessible here\n    }\n    // console.log(blockLet); // ReferenceError\n    console.log(funcVar2);  // accessible — var is function scoped\n}\n\nouter();\n// console.log(funcVar); // ReferenceError — outside function",
+          "common_mistakes": [
+            "var ignores block scope — a var inside an if/for block leaks into the enclosing function",
+            "Thinking global variables are always safe — they persist forever and can be overwritten from anywhere"
+          ]
+        },
+        {
+          "name": "Closure",
+          "keywords": ["closure", "lexical scope", "scope chaining", "abstraction", "encapsulation"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Intro to closure with example & a real life use case",
+            "Lexical Scope",
+            "Scope chaining",
+            "Abstraction & Encapsulation with Closure"
+          ],
+          "required_content": [
+            "Closure: an inner function retains access to its outer function's variables even after the outer function has returned. The inner function 'closes over' the outer scope.",
+            "Lexical scope: scope is determined by where the function is WRITTEN in the code, not where it is called.",
+            "Scope chaining: when JS looks up a variable, it searches current scope → outer scope → outer-outer scope → global. Stops at first match.",
+            "Practical use: data privacy (counter, bank balance) — outer variable is inaccessible from outside but inner function can use it."
+          ],
+          "required_code": "// Closure for data privacy\nfunction createCounter() {\n    let count = 0;              // private — not accessible outside\n    return {\n        increment: () => ++count,\n        decrement: () => --count,\n        getCount:  () => count\n    };\n}\n\nconst counter = createCounter();\ncounter.increment();\ncounter.increment();\ncounter.increment();\nconsole.log(counter.getCount()); // 3\n// console.log(count); // ReferenceError — count is private!\n\n// Scope chaining example\nconst x = 'global';\nfunction outer() {\n    const x = 'outer';\n    function inner() {\n        // x not found here → looks in outer → finds 'outer'\n        console.log(x); // 'outer'\n    }\n    inner();\n}",
+          "common_mistakes": [
+            "Classic closure-in-loop bug with var: for(var i=0; i<3; i++) { setTimeout(() => console.log(i)) } — prints 3,3,3. Fix: use let",
+            "Thinking closure copies the variable — it captures a REFERENCE, so the value seen is the current value at call time"
+          ]
+        },
+        {
+          "name": "let and const",
+          "keywords": ["let", "const", "var", "block scope", "temporal dead zone"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to let and const",
+            "Need of let and const",
+            "Difference between let and const vs var"
+          ],
+          "required_content": [
+            "var was the only option before ES6 — function-scoped, hoisted, re-declarable. This caused many bugs.",
+            "let: block-scoped, not re-declarable in same scope, in Temporal Dead Zone before declaration.",
+            "const: same as let but must be initialized at declaration and cannot be reassigned. Object/array contents CAN still be mutated.",
+            "Rule: use const by default. Use let when you need to reassign. Never use var in modern JS."
+          ],
+          "required_code": "// var problems\nvar x = 1;\nvar x = 2;           // no error — re-declaration allowed\nif (true) {\n    var x = 3;       // leaks out of block!\n}\nconsole.log(x);     // 3 — unexpected!\n\n// let solution\nlet y = 1;\n// let y = 2;        // SyntaxError — cannot redeclare\nif (true) {\n    let y = 3;       // new y, only in this block\n}\nconsole.log(y);     // 1 — unchanged\n\n// const\nconst PI = 3.14159;\n// PI = 3;            // TypeError — cannot reassign\n\nconst user = { name: 'Alice' };\nuser.name = 'Bob'; // OK — mutating object, not reassigning const\n// user = {};        // TypeError — reassigning const",
+          "required_tables": [
+            "Comparison: Feature | var | let | const || Scope | Function | Block | Block || Hoisting | Yes (undefined) | Yes (TDZ — error if accessed) | Yes (TDZ — error if accessed) || Redeclaration | Allowed | Error | Error || Reassignment | Allowed | Allowed | Error || Must initialize | No | No | Yes || Use today | Avoid | For mutable values | Default choice"
+          ],
+          "common_mistakes": [
+            "const with objects — thinking const makes object immutable. It only prevents reassignment of the variable",
+            "Accessing let/const before declaration — Temporal Dead Zone throws ReferenceError unlike var which gives undefined"
+          ]
+        },
+        {
+          "name": "Number",
+          "keywords": ["number", "number method", "tostring", "tofixed", "toprecision", "number property", "max value", "min value"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Number method",
+            "toString(), toExponential(), toFixed(), toPrecision(), ValueOf()",
+            "Number property",
+            ".MAX_VALUE, .MIN_VALUE, .MAX_SAFE_INTEGER, .MIN_SAFE_INTEGER"
+          ],
+          "required_content": [
+            "toFixed(n): rounds to n decimal places, returns string. Used for displaying prices: (9.999).toFixed(2) → '10.00'",
+            "toPrecision(n): formats to n significant digits total. (123.456).toPrecision(4) → '123.5'",
+            "Number.MAX_SAFE_INTEGER = 2^53 - 1 = 9007199254740991. Beyond this, integers lose precision in JS.",
+            "Number.isNaN() vs global isNaN(): Number.isNaN(undefined) → false. isNaN(undefined) → true. Always use Number.isNaN()."
+          ],
+          "required_code": "// Number methods\nconst price = 9.9999;\nconsole.log(price.toFixed(2));        // '10.00' (string)\nconsole.log(price.toPrecision(3));    // '10.0'\nconsole.log((1234).toExponential(2)); // '1.23e+3'\nconsole.log((255).toString(16));      // 'ff' (hex)\nconsole.log((7).toString(2));         // '111' (binary)\n\n// Number properties\nconsole.log(Number.MAX_VALUE);           // 1.7976931348623157e+308\nconsole.log(Number.MIN_VALUE);           // 5e-324 (smallest positive)\nconsole.log(Number.MAX_SAFE_INTEGER);    // 9007199254740991\nconsole.log(Number.MIN_SAFE_INTEGER);    // -9007199254740991\nconsole.log(Number.POSITIVE_INFINITY);   // Infinity\nconsole.log(Number.isInteger(4.0));      // true\nconsole.log(Number.isFinite(Infinity));  // false",
+          "common_mistakes": [
+            "toFixed() returns a string, not a number — parseFloat(price.toFixed(2)) if you need a number for math",
+            "Floating point precision: 0.1 + 0.2 !== 0.3 in JS. Use toFixed or multiply to integers before math"
+          ]
+        },
+        {
+          "name": "Math",
+          "keywords": ["math", "math object", "math methods", "abs", "ceil", "floor", "round", "random", "pow", "sqrt"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to math object",
+            "Math object methods",
+            ".abs(), .ceil(), .floor(), .round(), .max(), .min(), .pow(), .sqrt(), .random(), etc"
+          ],
+          "required_content": [
+            "Math is a built-in object (not a class — cannot use new Math()). All methods are static.",
+            "Math.random() returns float between 0 (inclusive) and 1 (exclusive). For random integer 1-10: Math.floor(Math.random() * 10) + 1",
+            "Math.ceil() rounds UP always. Math.floor() rounds DOWN always. Math.round() rounds to nearest."
+          ],
+          "required_code": "console.log(Math.abs(-7));        // 7\nconsole.log(Math.ceil(4.1));      // 5\nconsole.log(Math.floor(4.9));     // 4\nconsole.log(Math.round(4.5));     // 5\nconsole.log(Math.round(4.4));     // 4\nconsole.log(Math.max(3, 7, 1));   // 7\nconsole.log(Math.min(3, 7, 1));   // 1\nconsole.log(Math.pow(2, 8));      // 256\nconsole.log(Math.sqrt(144));      // 12\nconsole.log(Math.PI);             // 3.141592653589793\n\n// Random integer between min and max (inclusive)\nfunction randomInt(min, max) {\n    return Math.floor(Math.random() * (max - min + 1)) + min;\n}\nconsole.log(randomInt(1, 6));  // dice roll simulation",
+          "common_mistakes": [
+            "Math.round(4.5) = 5 but Math.round(-4.5) = -4 (rounds toward +infinity) — not symmetric",
+            "Using Math.random() for security — it is NOT cryptographically secure. Use crypto.getRandomValues() instead"
+          ]
+        },
+        {
+          "name": "Date",
+          "keywords": ["date", "date object", "getfullyear", "getmonth", "getdate", "gethours", "date methods"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to date object",
+            "Getting date and time",
+            "Date methods",
+            ".getFullYear(), .getMonth(), .getDate(), .getHours(), .getMinutes(), .getSeconds() etc"
+          ],
+          "required_content": [
+            "new Date() creates current date/time. Date stores milliseconds since Jan 1, 1970 UTC (Unix epoch).",
+            "GOTCHA: getMonth() returns 0-11, not 1-12. January = 0, December = 11. Always add 1 when displaying.",
+            "Date.now() returns current timestamp in ms — faster than new Date().getTime() for performance measurement."
+          ],
+          "required_code": "const now = new Date();\nconsole.log(now.getFullYear());   // e.g. 2025\nconsole.log(now.getMonth());      // 0-11 (Jan=0!)\nconsole.log(now.getMonth() + 1);  // 1-12 (human-readable)\nconsole.log(now.getDate());       // day of month 1-31\nconsole.log(now.getDay());        // 0-6 (Sunday=0)\nconsole.log(now.getHours());      // 0-23\nconsole.log(now.getMinutes());    // 0-59\nconsole.log(now.getSeconds());    // 0-59\n\n// Specific date\nconst birthday = new Date(2000, 0, 15); // Jan 15, 2000\n\n// Performance measurement\nconst start = Date.now();\n// ...some code...\nconsole.log(`Took ${Date.now() - start}ms`);",
+          "common_mistakes": [
+            "getMonth() returning 0 for January — always add 1 before displaying month to users",
+            "Parsing date strings with new Date('DD-MM-YYYY') — format inconsistent across browsers. Use YYYY-MM-DD"
+          ]
+        },
+        {
+          "name": "Regex in Javascript",
+          "keywords": ["regex", "regular expression", "regex characters", "test", "match", "replace"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to regex",
+            "Characters in regex",
+            "Regex with example"
+          ],
+          "required_content": [
+            "Regex (Regular Expression): pattern for matching text. Two ways to create: /pattern/flags or new RegExp('pattern', 'flags').",
+            "Key characters: . (any char), * (0 or more), + (1 or more), ? (0 or 1), ^ (start), $ (end), [] (character class), \\d (digit), \\w (word char), \\s (whitespace).",
+            "Flags: g (global — find all), i (case-insensitive), m (multiline).",
+            "Methods: regex.test(str) → boolean. str.match(regex) → array. str.replace(regex, newStr) → new string."
+          ],
+          "required_code": "// Test if string matches pattern\nconst emailRegex = /^[\\w.-]+@[\\w.-]+\\.\\w{2,}$/i;\nconsole.log(emailRegex.test('user@gmail.com'));  // true\nconsole.log(emailRegex.test('invalid-email'));   // false\n\n// Extract matches\nconst text = 'Phone: 9876543210, Alt: 8765432109';\nconst phones = text.match(/\\d{10}/g);\nconsole.log(phones); // ['9876543210', '8765432109']\n\n// Replace\nconst dirty = 'Hello   World  JS';\nconst clean = dirty.replace(/\\s+/g, ' ');\nconsole.log(clean); // 'Hello World JS'\n\n// Password validation\nconst strongPwd = /^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$]).{8,}$/;\nconsole.log(strongPwd.test('Secure@123')); // true",
+          "common_mistakes": [
+            "Forgetting the g flag — without it, match() returns only the first result",
+            "Using new RegExp() with backslashes — need double backslash: new RegExp('\\\\d+') for \\d+"
+          ]
+        },
+        {
+          "name": "String",
+          "keywords": ["string", "string methods", "template literals", "escape characters", "slice", "substring", "replace", "split", "trim", "indexof"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to string",
+            "Using different quotes for string",
+            "property access & its problems",
+            "Escape characters",
+            "String methods",
+            "length, slice, substring, substr, replace, replaceAll, toUpperCase, toLowerCase, concat, split, indexOf, lastIndexOf, startsWith, endsWith, search, trim, charAt, at, charCodeAt",
+            "template literals"
+          ],
+          "required_content": [
+            "Strings are immutable — methods return new strings, never modify original. str[0] = 'X' silently fails.",
+            "slice(start, end): negative index counts from end. slice(-3) = last 3 chars. substring doesn't support negative.",
+            "Template literals (backticks): support multiline strings and ${expression} interpolation — preferred over concatenation.",
+            "at(-1) is the modern way to get last character. str[str.length-1] is the old way."
+          ],
+          "required_code": "const str = 'JavaScript Developer';\n\n// Common methods\nconsole.log(str.length);              // 20\nconsole.log(str.toUpperCase());       // 'JAVASCRIPT DEVELOPER'\nconsole.log(str.includes('Script')); // true\nconsole.log(str.startsWith('Java')); // true\nconsole.log(str.slice(0, 10));        // 'JavaScript'\nconsole.log(str.slice(-9));           // 'Developer'\nconsole.log(str.split(' '));          // ['JavaScript', 'Developer']\nconsole.log(str.replace('Java', 'Type')); // 'TypeScript Developer'\nconsole.log('  hello  '.trim());     // 'hello'\nconsole.log(str.at(-1));             // 'r' (last char)\n\n// Template literal\nconst name = 'Alice';\nconst age = 25;\nconsole.log(`${name} is ${age} years old`); // 'Alice is 25 years old'\nconst multiline = `Line 1\nLine 2\nLine 3`;",
+          "common_mistakes": [
+            "Trying to mutate string with index: str[0] = 'j' — silently does nothing in non-strict mode",
+            "substr() vs substring() vs slice() — substr is deprecated. Use slice (supports negative) or substring"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Array and Object",
+      "topics": [
+        {
+          "name": "Introduction to Array",
+          "keywords": ["array", "index", "accessing array", "for of", "what is array"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "What is an Array?",
+            "Index in arrays",
+            "Accessing from array",
+            "for...of"
+          ],
+          "required_content": [
+            "Array: ordered collection of values. Can hold mixed types. Zero-indexed — first element is index 0.",
+            "Arrays are objects in JS — typeof [] === 'object'. Use Array.isArray() to check.",
+            "for...of iterates VALUES directly — cleaner than traditional for loop when index not needed."
+          ],
+          "required_code": "// Array creation\nconst fruits = ['apple', 'banana', 'cherry'];\nconst mixed  = [1, 'hello', true, null, {name: 'obj'}];\n\n// Accessing\nconsole.log(fruits[0]);           // 'apple'\nconsole.log(fruits[fruits.length - 1]); // 'cherry' (last)\nconsole.log(fruits.at(-1));       // 'cherry' (modern)\n\n// for...of\nfor (const fruit of fruits) {\n    console.log(fruit);           // apple, banana, cherry\n}\n\n// With index using entries()\nfor (const [index, fruit] of fruits.entries()) {\n    console.log(index, fruit);    // 0 apple, 1 banana, 2 cherry\n}\n\nconsole.log(Array.isArray(fruits)); // true\nconsole.log(typeof fruits);         // 'object'",
+          "common_mistakes": [
+            "Accessing out-of-bounds index returns undefined (not an error) — can cause subtle bugs downstream",
+            "Using for...in on arrays — iterates string indices AND prototype properties, use for...of instead"
+          ]
+        },
+        {
+          "name": "Array Methods",
+          "keywords": ["slice", "splice", "push", "pop", "shift", "unshift", "reverse", "join", "concat", "sort", "foreach", "map", "filter", "reduce", "find", "includes", "every", "some", "indexof"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "slice", "splice", "push", "pop", "shift", "unshift", "reverse", "join", "toString",
+            "delete operator", "concat", "sort",
+            "forEach", "map", "filter", "reduce", "reduceRight",
+            "every", "some", "indexOf", "lastIndexOf", "find", "findIndex", "includes"
+          ],
+          "required_content": [
+            "Mutating methods (change original): push, pop, shift, unshift, splice, reverse, sort. Non-mutating (return new): slice, map, filter, reduce, concat.",
+            "map vs forEach: map returns a new array. forEach returns undefined — use it for side effects only.",
+            "filter returns all matches as array. find returns first matching element (or undefined). some returns boolean (any match). every returns boolean (all match).",
+            "sort() default sorts as strings — [10, 2, 1].sort() = [1, 10, 2]. Always pass comparator for numbers: arr.sort((a,b) => a-b)"
+          ],
+          "required_code": "const nums = [3, 1, 4, 1, 5, 9, 2, 6];\n\n// Mutating\nnums.push(7);              // add to end\nnums.pop();                // remove from end\nnums.unshift(0);           // add to start\nnums.shift();              // remove from start\nnums.splice(2, 1, 99);     // at index 2, remove 1, insert 99\n\n// Non-mutating\nconst sliced = nums.slice(1, 4);     // copy indices 1-3\nconst sorted = [...nums].sort((a,b) => a - b); // numeric sort\n\n// Functional\nconst doubled  = nums.map(n => n * 2);\nconst evens    = nums.filter(n => n % 2 === 0);\nconst sum      = nums.reduce((acc, n) => acc + n, 0);\nconst found    = nums.find(n => n > 5);       // first > 5\nconst hasNine  = nums.includes(9);            // true\nconst allPos   = nums.every(n => n > 0);      // true\nconst hasEven  = nums.some(n => n % 2 === 0); // true",
+          "required_tables": [
+            "Comparison: Method | Mutates? | Returns | Use for || push/pop | Yes | element/length | Add/remove from end || shift/unshift | Yes | element/length | Add/remove from start || splice | Yes | removed items | Insert/delete at position || slice | No | new array | Copy a portion || map | No | new array | Transform each element || filter | No | new array | Keep matching elements || reduce | No | single value | Accumulate to one value || find | No | element/undefined | First matching element || forEach | No | undefined | Side effects only"
+          ],
+          "common_mistakes": [
+            "sort() without comparator on numbers — sorts lexicographically: [10,2,1] becomes [1,10,2]",
+            "Using map when forEach is sufficient (or vice versa) — map for transformation, forEach for side effects"
+          ]
+        },
+        {
+          "name": "Introduction to Object",
+          "keywords": ["object", "properties", "methods", "for in", "in operator", "computed property", "optional chaining"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "What is an Object?",
+            "Properties access via (objectName.propertyName, objectName[\"propertyName\"] & objectName[expression])",
+            "Add/remove properties/methods",
+            "for...in",
+            "in operator",
+            "ComputedPropertyName",
+            "optional chaining"
+          ],
+          "required_content": [
+            "Object: collection of key-value pairs. Keys are strings (or Symbols). Values can be any type including functions (then called methods).",
+            "Dot notation: obj.name (when key is known, valid identifier). Bracket notation: obj['name'] or obj[variable] (when key is dynamic or has spaces).",
+            "delete obj.property removes a property. Adding: just assign obj.newProp = value.",
+            "Optional chaining (?.) — safely access nested properties. user?.address?.city returns undefined instead of throwing if address is null/undefined."
+          ],
+          "required_code": "const person = {\n    name: 'Alice',\n    age: 25,\n    greet() { return `Hi, I'm ${this.name}`; }\n};\n\n// Property access\nconsole.log(person.name);          // dot notation\nconsole.log(person['age']);        // bracket notation\nconst key = 'name';\nconsole.log(person[key]);          // dynamic key\n\n// Add / remove\nperson.city = 'Delhi';             // add\ndelete person.age;                 // remove\n\n// for...in\nfor (const key in person) {\n    console.log(key, person[key]); // name Alice, city Delhi...\n}\n\n// in operator\nconsole.log('name' in person);     // true\nconsole.log('age' in person);      // false (deleted)\n\n// Optional chaining\nconst user = { profile: { address: null } };\nconsole.log(user?.profile?.address?.city); // undefined (no error)",
+          "common_mistakes": [
+            "Using dot notation with dynamic keys — obj.variable gives you property named 'variable', not the value of variable",
+            "for...in iterates inherited prototype properties too — use hasOwnProperty() or Object.keys() to get own props only"
+          ]
+        },
+        {
+          "name": "Object metadata",
+          "keywords": ["object metadata", "writable", "enumerable", "configurable", "property descriptor"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "writable",
+            "enumerable",
+            "configurable"
+          ],
+          "required_content": [
+            "Every object property has 3 hidden attributes (descriptors): writable, enumerable, configurable — all true by default when you assign normally.",
+            "writable: false — property cannot be changed (silently fails in non-strict, throws in strict mode).",
+            "enumerable: false — property won't appear in for...in or Object.keys().",
+            "configurable: false — property descriptor cannot be changed, property cannot be deleted."
+          ],
+          "required_code": "const obj = {};\nObject.defineProperty(obj, 'PI', {\n    value: 3.14159,\n    writable: false,       // cannot change value\n    enumerable: true,      // shows in for...in\n    configurable: false    // cannot delete or redefine\n});\n\nconsole.log(obj.PI);      // 3.14159\nobj.PI = 99;              // silently fails (or TypeError in strict)\nconsole.log(obj.PI);      // 3.14159 — unchanged\n\n// Check descriptor\nconst desc = Object.getOwnPropertyDescriptor(obj, 'PI');\nconsole.log(desc);\n// { value: 3.14159, writable: false, enumerable: true, configurable: false }\n\n// Hidden property (non-enumerable)\nObject.defineProperty(obj, 'secret', {\n    value: 'hidden',\n    enumerable: false\n});\nconsole.log(Object.keys(obj));  // ['PI'] — secret not shown",
+          "common_mistakes": [
+            "Thinking writable:false makes nested objects immutable — it only prevents reassignment of that property reference",
+            "Confusing non-enumerable with non-existent — property still accessible directly, just hidden from iteration"
+          ]
+        },
+        {
+          "name": "Object methods and enumerating properties",
+          "keywords": ["object keys", "object values", "object entries", "object assign", "object create", "fromentries", "defineproperty", "freeze", "seal"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "keys", "values", "entries", "create", "assign", "fromEntries",
+            "defineProperty", "defineProperties", "getOwnPropertyDescriptor",
+            "getOwnPropertyNames", "getPrototypeOf", "setPrototypeOf",
+            "preventExtensions", "isExtensible", "seal", "isSealed", "freeze", "isFrozen"
+          ],
+          "required_content": [
+            "Object.keys(obj): array of own enumerable property names. Object.values(obj): array of values. Object.entries(obj): array of [key, value] pairs.",
+            "Object.assign(target, source): shallow copy/merge. Object.freeze(obj): deep immutability prevention (cannot add/change/delete).",
+            "Object.seal(obj): cannot add or delete properties, but CAN change existing values. Object.freeze is stricter — no changes at all.",
+            "Object.fromEntries(entries): inverse of Object.entries. Converts array of [key,val] pairs back to object."
+          ],
+          "required_code": "const user = { name: 'Alice', age: 25, city: 'Delhi' };\n\nconsole.log(Object.keys(user));    // ['name', 'age', 'city']\nconsole.log(Object.values(user));  // ['Alice', 25, 'Delhi']\nconsole.log(Object.entries(user)); // [['name','Alice'],['age',25],...]\n\n// assign — shallow merge\nconst defaults = { theme: 'dark', lang: 'en' };\nconst settings = Object.assign({}, defaults, { lang: 'hi' });\nconsole.log(settings); // { theme: 'dark', lang: 'hi' }\n\n// freeze — immutable\nconst config = Object.freeze({ API_URL: 'https://api.example.com' });\nconfig.API_URL = 'hacked'; // silently fails\nconsole.log(config.API_URL); // original unchanged\n\n// fromEntries\nconst entries = [['a', 1], ['b', 2]];\nconst obj = Object.fromEntries(entries);\nconsole.log(obj); // { a: 1, b: 2 }",
+          "required_tables": [
+            "Comparison: Method | Can Add | Can Change | Can Delete || Normal object | Yes | Yes | Yes || preventExtensions | No | Yes | Yes || seal | No | Yes | No || freeze | No | No | No"
+          ],
+          "common_mistakes": [
+            "Object.assign does SHALLOW copy — nested objects are still referenced, not cloned. Use structuredClone() for deep copy",
+            "Object.freeze is also shallow — nested objects inside a frozen object are still mutable"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Advanced JavaScript Part 1",
+      "topics": [
+        {
+          "name": "map and set",
+          "keywords": ["map", "set", "weakmap", "weakset", "map vs object", "set vs array"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "includes creation from & to object & arrays respectively & vice versa as well"
+          ],
+          "required_content": [
+            "Map: key-value collection where keys can be ANY type (objects, functions, primitives). Maintains insertion order. Unlike plain objects, no prototype pollution.",
+            "Set: collection of UNIQUE values. Automatically removes duplicates. Maintains insertion order.",
+            "Map → Object: Object.fromEntries(map). Object → Map: new Map(Object.entries(obj)). Set → Array: [...set] or Array.from(set). Array → Set: new Set(array)."
+          ],
+          "required_code": "// Map\nconst map = new Map();\nmap.set('name', 'Alice');\nmap.set(42, 'number key');         // number as key\nmap.set({id: 1}, 'object key');    // object as key\nconsole.log(map.get('name'));       // 'Alice'\nconsole.log(map.size);              // 3\nmap.forEach((val, key) => console.log(key, val));\n\n// Object ↔ Map conversion\nconst obj = { a: 1, b: 2 };\nconst mapFromObj = new Map(Object.entries(obj));\nconst objFromMap = Object.fromEntries(mapFromObj);\n\n// Set\nconst set = new Set([1, 2, 2, 3, 3, 3]);\nconsole.log(set); // Set {1, 2, 3} — duplicates removed\nset.add(4);\nset.has(2);       // true\nset.delete(1);\n\n// Remove duplicates from array\nconst arr = [1, 2, 2, 3, 3];\nconst unique = [...new Set(arr)];\nconsole.log(unique); // [1, 2, 3]",
+          "required_tables": [
+            "Comparison: Feature | Object | Map || Key types | String/Symbol only | Any type || Key order | Not guaranteed (mostly) | Insertion order guaranteed || Size | Manual (Object.keys.length) | .size property || Iteration | for...in (includes prototype) | .forEach, for...of || Performance (frequent add/delete) | Slower | Faster"
+          ],
+          "common_mistakes": [
+            "Using map.get(key) with an object key — must use the SAME object reference, not an equal-looking object",
+            "Checking Set membership with indexOf — use set.has(), not array methods"
+          ]
+        },
+        {
+          "name": "Spread and Rest",
+          "keywords": ["spread", "rest", "spread operator", "rest parameter", "destructuring"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Spread and Rest"
+          ],
+          "required_content": [
+            "Spread (...): EXPANDS an iterable into individual elements. Used in function calls, array literals, object literals.",
+            "Rest (...): COLLECTS remaining elements into an array. Used in function parameters and destructuring.",
+            "Same syntax (...) but opposite purpose — spread expands, rest collects. Context determines which it is."
+          ],
+          "required_code": "// SPREAD — expanding\nconst arr1 = [1, 2, 3];\nconst arr2 = [4, 5, 6];\nconst combined = [...arr1, ...arr2];  // [1,2,3,4,5,6]\nconst copy = [...arr1];               // shallow copy\n\n// Spread in function call\nconsole.log(Math.max(...arr1));       // 3\n\n// Spread with objects (merge)\nconst defaults = { theme: 'dark', size: 'md' };\nconst custom   = { size: 'lg', font: 'mono' };\nconst merged   = { ...defaults, ...custom };\n// { theme: 'dark', size: 'lg', font: 'mono' } — custom overrides\n\n// REST — collecting\nfunction sum(first, ...rest) {  // rest collects remaining args\n    return first + rest.reduce((a, b) => a + b, 0);\n}\nconsole.log(sum(1, 2, 3, 4)); // 10\n\n// Rest in destructuring\nconst [head, ...tail] = [1, 2, 3, 4];\nconsole.log(head); // 1\nconsole.log(tail); // [2, 3, 4]",
+          "common_mistakes": [
+            "Spread creates SHALLOW copy — nested objects still reference original. Use structuredClone() for deep copy",
+            "Rest parameter must be last — function(a, ...rest, b) is a SyntaxError"
+          ]
+        },
+        {
+          "name": "Destructuring in JS",
+          "keywords": ["destructuring", "array destructuring", "object destructuring", "nested destructuring", "default parameter"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "What is destructuring?",
+            "Importance of destructring",
+            "Default parameter",
+            "Array destructuring",
+            "Object destructuring",
+            "Nested object destructuring"
+          ],
+          "required_content": [
+            "Destructuring: unpack values from arrays or properties from objects into variables in one clean line.",
+            "Array destructuring: position-based. Object destructuring: name-based (order doesn't matter).",
+            "Default values in destructuring: const { name = 'Guest' } = user — uses 'Guest' if name is undefined.",
+            "Rename while destructuring: const { name: userName } = user — creates variable userName with value of user.name."
+          ],
+          "required_code": "// Array destructuring\nconst [a, b, c] = [1, 2, 3];\nconst [first, , third] = [10, 20, 30]; // skip middle\nconst [x = 0, y = 0] = [5];            // default values\nconsole.log(x, y); // 5 0\n\n// Swap variables\nlet p = 1, q = 2;\n[p, q] = [q, p];\nconsole.log(p, q); // 2 1\n\n// Object destructuring\nconst user = { name: 'Alice', age: 25, city: 'Delhi' };\nconst { name, age } = user;\nconst { name: userName, role = 'user' } = user; // rename + default\nconsole.log(userName); // 'Alice'\nconsole.log(role);     // 'user' (default)\n\n// Nested destructuring\nconst { address: { street, pin } } = {\n    address: { street: 'MG Road', pin: '110001' }\n};\nconsole.log(street); // 'MG Road'\n\n// Function parameter destructuring\nfunction greet({ name, age = 18 }) {\n    return `${name} is ${age}`;\n}\nconsole.log(greet({ name: 'Bob' })); // 'Bob is 18'",
+          "common_mistakes": [
+            "Nested destructuring when property is null/undefined — throws TypeError. Use optional chaining or default: { address: { city } = {} }",
+            "Object destructuring is name-based not position-based — const { b, a } = { a: 1, b: 2 } gives b=2, a=1 (correct)"
+          ]
+        },
+        {
+          "name": "this keyword",
+          "keywords": ["this", "this keyword", "this binding", "call apply bind"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to this keyword",
+            "Importance of this keyword & usecases"
+          ],
+          "required_content": [
+            "'this' refers to the object that is executing the current function. Its value depends on HOW the function is called, not where it's defined.",
+            "Global context: this = window (browser) or global (Node). Object method: this = the object. Arrow function: this = inherited from outer scope.",
+            "Event handler: this = the DOM element that fired the event (unless arrow function used)."
+          ],
+          "required_code": "// Object method — this = the object\nconst person = {\n    name: 'Alice',\n    greet() {\n        return `Hi, I'm ${this.name}`; // this = person\n    },\n    greetArrow: () => {\n        return `Hi, I'm ${this.name}`; // this = outer (window) — WRONG!\n    }\n};\nconsole.log(person.greet());       // 'Hi, I'm Alice'\nconsole.log(person.greetArrow()); // 'Hi, I'm undefined'\n\n// Losing this\nconst fn = person.greet;    // detached from object\n// fn();  // this = window — name is undefined\n\n// Fix with bind\nconst boundFn = person.greet.bind(person);\nconsole.log(boundFn()); // 'Hi, I'm Alice'",
+          "common_mistakes": [
+            "Using arrow functions as object methods — arrow functions don't have own 'this', they inherit from outer scope",
+            "Detaching a method from its object — const fn = obj.method; fn() loses 'this'. Use .bind() to preserve it"
+          ]
+        },
+        {
+          "name": "call, apply, and bind method",
+          "keywords": ["call", "apply", "bind", "this binding", "function borrowing"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "call, apply, and bind method"
+          ],
+          "required_content": [
+            "All three explicitly set 'this' for a function. call() and apply() invoke immediately. bind() returns a new function.",
+            "call(thisArg, arg1, arg2): arguments passed individually. apply(thisArg, [arg1, arg2]): arguments as array.",
+            "bind(thisArg): returns a new permanently-bound function. Useful for event handlers and callbacks."
+          ],
+          "required_code": "function introduce(city, country) {\n    return `${this.name} from ${city}, ${country}`;\n}\n\nconst alice = { name: 'Alice' };\nconst bob   = { name: 'Bob' };\n\n// call — args comma-separated\nconsole.log(introduce.call(alice, 'Delhi', 'India'));\n// 'Alice from Delhi, India'\n\n// apply — args as array\nconsole.log(introduce.apply(bob, ['Mumbai', 'India']));\n// 'Bob from Mumbai, India'\n\n// bind — returns new function\nconst aliceIntro = introduce.bind(alice);\nconsole.log(aliceIntro('Jaipur', 'India'));\n// 'Alice from Jaipur, India'\n\n// Function borrowing\nconst dog = { name: 'Rex', sound: 'woof' };\nconst cat = { name: 'Whiskers' };\nfunction makeSound() { return `${this.name} says ${this.sound}`; }\n// cat doesn't have makeSound — borrow from dog's context\nconsole.log(makeSound.call({ name: 'Whiskers', sound: 'meow' }));",
+          "required_tables": [
+            "Comparison: Method | Invokes immediately | Args format | Returns || call | Yes | Individual: fn.call(this, a, b) | Return value of fn || apply | Yes | Array: fn.apply(this, [a, b]) | Return value of fn || bind | No | Individual: fn.bind(this, a, b) | New bound function"
+          ],
+          "common_mistakes": [
+            "Using apply when you want call — apply takes array, call takes individual args. Easy to mix up",
+            "bind returns a function — forgetting to call it: const fn = greet.bind(obj); fn() not just greet.bind(obj)"
+          ]
+        },
+        {
+          "name": "Hoisting",
+          "keywords": ["hoisting", "temporal dead zone", "tdz", "var hoisting", "function hoisting"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to hoisting in js",
+            "Hoisting with let, var and const",
+            "Hoisting with traditional & arrow function",
+            "Temporal Dead Zone"
+          ],
+          "required_content": [
+            "Hoisting: JS engine moves declarations to the top of their scope during compilation phase — before any code runs.",
+            "var hoisting: declaration hoisted, initialized to undefined. Accessing before assignment gives undefined (no error).",
+            "let/const hoisting: declaration hoisted but NOT initialized. Accessing before declaration throws ReferenceError — this gap is the Temporal Dead Zone (TDZ).",
+            "Function declarations are fully hoisted (both declaration and body). Function expressions and arrow functions follow variable hoisting rules."
+          ],
+          "required_code": "// var hoisting\nconsole.log(x); // undefined (not ReferenceError)\nvar x = 5;\nconsole.log(x); // 5\n\n// let/const — TDZ\n// console.log(y); // ReferenceError: Cannot access 'y' before initialization\nlet y = 10;\n\n// Function declaration — fully hoisted\nconsole.log(add(2, 3)); // 5 — works before declaration\nfunction add(a, b) { return a + b; }\n\n// Function expression — NOT hoisted\n// console.log(subtract(5, 2)); // TypeError: subtract is not a function\nconst subtract = function(a, b) { return a - b; };\n\n// Arrow function — NOT hoisted\n// console.log(multiply(2, 3)); // ReferenceError\nconst multiply = (a, b) => a * b;",
+          "common_mistakes": [
+            "Thinking let/const are not hoisted — they ARE hoisted but in TDZ. The difference is initialization",
+            "Relying on var hoisting intentionally — always declare variables before use for readable code"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Advanced JavaScript Part 2",
+      "topics": [
+        {
+          "name": "Object constructor",
+          "keywords": ["object constructor", "constructor function", "this keyword", "instances", "new keyword"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to object constructor",
+            "Creating object constructor",
+            "Understanding this keyword in object constructor",
+            "Properties and Methods",
+            "Creating instances of objects",
+            "Accessing object properties and method"
+          ],
+          "required_content": [
+            "Object constructor: a function used as a template to create multiple similar objects using the new keyword.",
+            "Convention: constructor function names start with Capital Letter (Person, Car, BankAccount).",
+            "When called with new: 1) new empty object created, 2) 'this' set to that object, 3) function runs (sets properties), 4) object returned automatically."
+          ],
+          "required_code": "// Constructor function\nfunction Person(name, age) {\n    this.name = name;      // property\n    this.age  = age;\n    this.greet = function() {   // method\n        return `Hi, I'm ${this.name}, ${this.age} years old`;\n    };\n}\n\n// Create instances with new\nconst alice = new Person('Alice', 25);\nconst bob   = new Person('Bob', 30);\n\nconsole.log(alice.name);     // 'Alice'\nconsole.log(bob.greet());    // 'Hi, I'm Bob, 30 years old'\nconsole.log(alice instanceof Person); // true\n\n// What new does internally:\n// 1. Creates: const obj = Object.create(Person.prototype)\n// 2. Binds: this = obj\n// 3. Runs: Person.call(obj, name, age)\n// 4. Returns: obj",
+          "common_mistakes": [
+            "Calling constructor without new — 'this' refers to global object, properties set on window (bug in strict mode: TypeError)",
+            "Adding methods inside constructor — each instance gets its own copy of the method. Put methods on prototype instead"
+          ]
+        },
+        {
+          "name": "Prototypes in JavaScript",
+          "keywords": ["prototype", "proto", "prototypal inheritance", "prototype chain", "prototype property"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to prototype",
+            "Prototype Property, __proto__ & their difference.",
+            "Prototypical inheritance",
+            "Adding properties and methods to the prototype",
+            "Accessing prototype properties and methods",
+            "Polymorphism and prototype chains"
+          ],
+          "required_content": [
+            "Every JS object has a hidden [[Prototype]] link to another object. When a property isn't found on the object, JS looks up this chain.",
+            "Constructor.prototype: the object that will become [[Prototype]] of instances. instance.__proto__: the actual prototype of that instance. They point to the same object.",
+            "Add methods to prototype (not inside constructor) so ALL instances share ONE copy — memory efficient.",
+            "Prototype chain lookup: instance → Constructor.prototype → Object.prototype → null"
+          ],
+          "required_code": "function Animal(name) {\n    this.name = name;\n}\n// Add to prototype — shared by all instances\nAnimal.prototype.speak = function() {\n    return `${this.name} makes a sound`;\n};\n\nconst dog = new Animal('Rex');\nconsole.log(dog.speak());           // 'Rex makes a sound'\nconsole.log(dog.__proto__ === Animal.prototype); // true\n\n// Prototypical inheritance\nfunction Dog(name, breed) {\n    Animal.call(this, name);         // inherit properties\n    this.breed = breed;\n}\nDog.prototype = Object.create(Animal.prototype); // inherit methods\nDog.prototype.constructor = Dog;\nDog.prototype.bark = function() {\n    return `${this.name} barks!`;\n};\n\nconst rex = new Dog('Rex', 'Labrador');\nconsole.log(rex.speak()); // inherited from Animal\nconsole.log(rex.bark());  // own method\nconsole.log(rex instanceof Dog);    // true\nconsole.log(rex instanceof Animal); // true",
+          "required_diagrams": [
+            "Prototype chain diagram: show 3 boxes in a vertical chain connected by [[Prototype]] arrows. Top box: rex instance (name, breed properties). Middle box: Dog.prototype (bark method, constructor). Bottom box: Animal.prototype (speak method). Arrow from bottom to Object.prototype, then to null."
+          ],
+          "common_mistakes": [
+            "Adding methods inside constructor instead of prototype — 1000 instances = 1000 copies of same function in memory",
+            "Overwriting entire prototype: Dog.prototype = Animal.prototype (wrong) vs Dog.prototype = Object.create(Animal.prototype) (right)"
+          ]
+        },
+        {
+          "name": "Polyfills in JavaScript",
+          "keywords": ["polyfill", "custom polyfill", "browser compatibility", "builtin polyfill"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to polyfills",
+            "Writing custom polyfills",
+            "Working with build in polyfills"
+          ],
+          "required_content": [
+            "Polyfill: code that implements a modern feature for browsers that don't natively support it. Fills the gap — like spackle filling holes.",
+            "Pattern: check if feature exists → if not, implement it manually on the prototype.",
+            "Common polyfills: Array.prototype.flat, Array.prototype.includes, Object.assign, Promise."
+          ],
+          "required_code": "// Polyfill for Array.prototype.includes\nif (!Array.prototype.includes) {\n    Array.prototype.includes = function(searchElement) {\n        for (let i = 0; i < this.length; i++) {\n            if (this[i] === searchElement) return true;\n        }\n        return false;\n    };\n}\n\n// Polyfill for Array.prototype.map\nif (!Array.prototype.myMap) {\n    Array.prototype.myMap = function(callback) {\n        const result = [];\n        for (let i = 0; i < this.length; i++) {\n            result.push(callback(this[i], i, this));\n        }\n        return result;\n    };\n}\n\n// Usage — works same as native\nconst nums = [1, 2, 3];\nconsole.log(nums.myMap(n => n * 2)); // [2, 4, 6]",
+          "common_mistakes": [
+            "Not checking if feature exists before polyfilling — may override the native (better) implementation",
+            "Polyfilling on Object.prototype (not Array.prototype) causes issues — all objects would inherit the method"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Class in JavaScript",
+      "topics": [
+        {
+          "name": "Introduction to OOJS",
+          "keywords": ["oojs", "object oriented javascript", "oop", "class", "prototype"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to OOJS"
+          ],
+          "required_content": [
+            "OOP in JS is prototype-based, not class-based like Java/C++. ES6 classes are syntactic sugar over prototype system.",
+            "4 pillars of OOP in JS: Encapsulation (closures, classes), Inheritance (prototypes, extends), Polymorphism (method overriding), Abstraction (hiding implementation).",
+            "JS classes are just constructor functions under the hood — class syntax makes them look like traditional OOP languages."
+          ],
+          "required_code": "// Same thing, two syntaxes\n// Old: Constructor function\nfunction PersonOld(name) {\n    this.name = name;\n}\nPersonOld.prototype.greet = function() {\n    return `Hi, ${this.name}`;\n};\n\n// New: Class syntax (syntactic sugar)\nclass PersonNew {\n    constructor(name) {\n        this.name = name;\n    }\n    greet() {\n        return `Hi, ${this.name}`;\n    }\n}\n\n// Both create same prototype chain\nconst p1 = new PersonOld('Alice');\nconst p2 = new PersonNew('Bob');\nconsole.log(p1.greet()); // Hi, Alice\nconsole.log(p2.greet()); // Hi, Bob\nconsole.log(typeof PersonNew); // 'function' — it's still a function!",
+          "common_mistakes": [
+            "Thinking JS classes work like Java classes — JS classes are prototype-based under the hood, not classical inheritance",
+            "Forgetting that class is not hoisted like function declarations — cannot use class before it's defined"
+          ]
+        },
+        {
+          "name": "Constructor function",
+          "keywords": ["constructor function", "factory function", "new keyword", "constructor vs factory"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to constructor function",
+            "Introduction to factory function",
+            "constructor function vs factory function",
+            "Introduction to new keyword"
+          ],
+          "required_content": [
+            "Constructor function: uses new keyword, 'this' for properties, PascalCase name convention.",
+            "Factory function: regular function that creates and returns objects. No new keyword, no this confusion.",
+            "new keyword: creates new object, sets its prototype to Constructor.prototype, binds 'this', returns object automatically.",
+            "Factory functions are safer (no new keyword confusion) but don't set up prototype chain automatically."
+          ],
+          "required_code": "// Constructor function\nfunction Car(make, model) {\n    this.make  = make;\n    this.model = model;\n    this.drive = function() {\n        return `${this.make} ${this.model} is driving`;\n    };\n}\nconst car1 = new Car('Toyota', 'Camry');\n\n// Factory function\nfunction createCar(make, model) {\n    return {\n        make,\n        model,\n        drive() {\n            return `${make} ${model} is driving`;\n        }\n    };\n}\nconst car2 = createCar('Honda', 'Civic');\n\nconsole.log(car1.drive()); // Toyota Camry is driving\nconsole.log(car2.drive()); // Honda Civic is driving\nconsole.log(car1 instanceof Car); // true\nconsole.log(car2 instanceof createCar); // false — factory returns plain object",
+          "required_tables": [
+            "Comparison: Feature | Constructor Function | Factory Function || Invocation | new keyword required | Called like regular function || this usage | Uses this | No this needed || instanceof | Works correctly | Always false || Prototype chain | Set automatically | Not set || Risk | Forgetting new is bad | No such risk || Memory | Methods on prototype | Methods recreated each time"
+          ],
+          "common_mistakes": [
+            "Calling constructor without new in non-strict mode — 'this' is window, properties pollute global scope silently",
+            "Factory functions and instanceof — car instanceof createCar is always false since factory returns plain object"
+          ]
+        },
+        {
+          "name": "ES6 classes",
+          "keywords": ["class", "class syntax", "constructor", "hoisting class", "getter setter", "class inheritance", "method overriding", "static", "syntactic sugar", "classical vs prototypical"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "class syntax",
+            "class constructor and intialization",
+            "hositing in class",
+            "getters & setters",
+            "class inheritance",
+            "method overriding",
+            "static properties & methods",
+            "syntactic sugar over constructor functions",
+            "classical inheritance vs prototypical inheritance"
+          ],
+          "required_content": [
+            "class keyword, constructor() method, methods defined directly in class body (auto-added to prototype).",
+            "extends keyword for inheritance. super() must be called first in child constructor before accessing 'this'.",
+            "static methods/properties: belong to the class itself, not instances. Call as ClassName.method(), not instance.method().",
+            "Getters (get) and setters (set): look like properties but execute functions. Useful for validation and computed properties.",
+            "Classes are NOT hoisted unlike function declarations — ReferenceError if used before declaration."
+          ],
+          "required_code": "class Animal {\n    #sound;  // private field (ES2022)\n    \n    constructor(name, sound) {\n        this.name  = name;\n        this.#sound = sound;\n    }\n    \n    get info() {            // getter\n        return `${this.name} says ${this.#sound}`;\n    }\n    \n    speak() {\n        return this.info;\n    }\n    \n    static kingdom() {      // static method\n        return 'Animalia';\n    }\n}\n\nclass Dog extends Animal {\n    constructor(name) {\n        super(name, 'woof'); // must call super first\n        this.tricks = [];\n    }\n    \n    speak() {               // method overriding\n        return `${super.speak()} (wags tail)`;\n    }\n    \n    learn(trick) {\n        this.tricks.push(trick);\n        return this;\n    }\n}\n\nconst rex = new Dog('Rex');\nconsole.log(rex.speak());         // Rex says woof (wags tail)\nconsole.log(Animal.kingdom());    // 'Animalia' — static\nconsole.log(rex instanceof Dog);  // true\nconsole.log(rex instanceof Animal); // true",
+          "required_tables": [
+            "Comparison: Feature | Classical Inheritance (Java/C++) | Prototypical Inheritance (JS) || Mechanism | Copy-based | Reference/delegation-based || Classes | Blueprint — instances copy class | Syntactic sugar over prototypes || Object creation | new creates new copy | new creates object with prototype link || Method lookup | In the class definition | Up the prototype chain || Flexibility | Rigid type hierarchy | Any object can inherit from any object"
+          ],
+          "common_mistakes": [
+            "Forgetting super() in child constructor — 'Must call super constructor in derived class before accessing this'",
+            "Calling static method on instance — rex.kingdom() fails. Must be Animal.kingdom() or Dog.kingdom()"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Error Handling in JS",
+      "topics": [
+        {
+          "name": "Introduction to Error Handling",
+          "keywords": ["error handling", "try catch", "syntax error", "runtime error", "logical error", "error object", "custom error"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "What is error handling",
+            "Need of error handling",
+            "Types of error handling\nSyntax error\nRuntime error\nLogical error",
+            "Error Object",
+            "Custom Errors"
+          ],
+          "required_content": [
+            "3 types: Syntax error (caught at parse time — typos, missing brackets). Runtime error (during execution — null.property, undefined is not a function). Logical error (runs without error but wrong output — hardest to find).",
+            "Error object properties: name (type of error), message (what went wrong), stack (where it happened — line numbers).",
+            "Custom errors: extend the Error class to create domain-specific errors with meaningful names."
+          ],
+          "required_code": "// try-catch-finally\nfunction parseUserData(json) {\n    try {\n        const data = JSON.parse(json);      // might throw SyntaxError\n        if (!data.name) throw new Error('Name is required');\n        return data;\n    } catch (err) {\n        console.error(`${err.name}: ${err.message}`);\n        return null;\n    } finally {\n        console.log('parseUserData executed'); // always runs\n    }\n}\n\n// Custom error\nclass ValidationError extends Error {\n    constructor(message, field) {\n        super(message);\n        this.name    = 'ValidationError';\n        this.field   = field;\n    }\n}\n\nfunction validateAge(age) {\n    if (typeof age !== 'number') {\n        throw new ValidationError('Age must be a number', 'age');\n    }\n    if (age < 0 || age > 150) {\n        throw new ValidationError('Age out of range', 'age');\n    }\n    return true;\n}\n\ntry {\n    validateAge('twenty');\n} catch (e) {\n    if (e instanceof ValidationError) {\n        console.log(`Field: ${e.field}, Error: ${e.message}`);\n    }\n}",
+          "common_mistakes": [
+            "Catching errors silently (empty catch block) — swallows errors making debugging impossible",
+            "Using try-catch for logical errors — they won't throw, they just produce wrong output. Use console.log and debugger"
+          ]
+        },
+        {
+          "name": "Re-throwing and Extending Errors",
+          "keywords": ["rethrowing", "extending errors", "error types", "instanceof error"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Re-throwing and Extending Errors"
+          ],
+          "required_content": [
+            "Re-throwing: catch only the errors you can handle — rethrow the rest so they propagate up to a handler that knows what to do.",
+            "Pattern: catch(err) { if (err instanceof SpecificError) { handle } else { throw err; } }",
+            "Built-in error types: Error (base), TypeError, RangeError, ReferenceError, SyntaxError, URIError, EvalError."
+          ],
+          "required_code": "class NetworkError extends Error {\n    constructor(message, statusCode) {\n        super(message);\n        this.name       = 'NetworkError';\n        this.statusCode = statusCode;\n    }\n}\n\nclass AuthError extends Error {\n    constructor(message) {\n        super(message);\n        this.name = 'AuthError';\n    }\n}\n\nasync function fetchData(url) {\n    try {\n        const res = await fetch(url);\n        if (res.status === 401) throw new AuthError('Unauthorized');\n        if (!res.ok) throw new NetworkError('Request failed', res.status);\n        return await res.json();\n    } catch (err) {\n        if (err instanceof AuthError) {\n            redirectToLogin();   // handle auth errors here\n        } else {\n            throw err;           // re-throw — let caller handle\n        }\n    }\n}",
+          "common_mistakes": [
+            "Catching Error (base class) when you only want NetworkError — instanceof Error is true for ALL error types",
+            "Re-throwing without throw keyword — just writing err in catch block does nothing, must use throw err"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Async JS, Browser API & Window",
+      "topics": [
+        {
+          "name": "AJAX",
+          "keywords": ["ajax", "async js", "asynchronous", "xmlhttprequest", "api request"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to Async JS",
+            "Introduction to AJAX",
+            "The XMLHttpRequest object",
+            "Making API request"
+          ],
+          "required_content": [
+            "JS is single-threaded but async operations (network, timers, I/O) are handled by browser Web APIs — they run in background, results come back via callback queue.",
+            "AJAX (Asynchronous JavaScript and XML): technique to fetch data from server without reloading the page. Modern apps use JSON not XML.",
+            "XMLHttpRequest (XHR): old API for making HTTP requests. Still used but replaced by fetch() in modern code."
+          ],
+          "required_code": "// XMLHttpRequest\nconst xhr = new XMLHttpRequest();\nxhr.open('GET', 'https://jsonplaceholder.typicode.com/posts/1');\nxhr.onreadystatechange = function() {\n    if (xhr.readyState === 4 && xhr.status === 200) {\n        const data = JSON.parse(xhr.responseText);\n        console.log(data.title);\n    }\n};\nxhr.onerror = function() {\n    console.error('Request failed');\n};\nxhr.send();\n\n// readyState values:\n// 0: UNSENT, 1: OPENED, 2: HEADERS_RECEIVED\n// 3: LOADING, 4: DONE",
+          "common_mistakes": [
+            "Accessing xhr.responseText before readyState === 4 — data is not complete yet",
+            "Not handling xhr.onerror — network failures would be swallowed silently"
+          ]
+        },
+        {
+          "name": "Promise",
+          "keywords": ["promise", "async await", "json parse", "json stringify", "fetch", "promise constructor"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to promise",
+            "Promise construtor",
+            "async and await",
+            "JSON.parse",
+            "JSON.stringify"
+          ],
+          "required_content": [
+            "Promise: object representing eventual completion or failure of async operation. States: pending → fulfilled (resolve) or rejected (reject).",
+            "async/await: syntactic sugar over Promises. async function always returns a Promise. await pauses until Promise resolves.",
+            "JSON.stringify(obj): JS object → JSON string (for sending). JSON.parse(str): JSON string → JS object (for receiving)."
+          ],
+          "required_code": "// Promise basics\nconst p = new Promise((resolve, reject) => {\n    const success = true;\n    if (success) resolve('Data fetched!');\n    else reject(new Error('Fetch failed'));\n});\n\np.then(data => console.log(data))\n .catch(err => console.error(err.message))\n .finally(() => console.log('Done'));\n\n// async/await (cleaner)\nasync function getUser(id) {\n    try {\n        const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);\n        if (!response.ok) throw new Error(`HTTP ${response.status}`);\n        const user = await response.json();\n        return user;\n    } catch (err) {\n        console.error('Failed:', err.message);\n    }\n}\n\n// JSON\nconst obj = { name: 'Alice', age: 25 };\nconst str = JSON.stringify(obj);   // '{\"name\":\"Alice\",\"age\":25}'\nconst obj2 = JSON.parse(str);       // back to object",
+          "common_mistakes": [
+            "Using await outside async function — SyntaxError. Every function using await must be marked async",
+            "Not catching rejected promises — unhandled rejections crash Node apps and show warnings in browser"
+          ]
+        },
+        {
+          "name": "Browser API",
+          "keywords": ["browser api", "form validation", "history", "local storage", "session storage", "indexdb", "geolocation", "fetch"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Form validation",
+            "History",
+            "Local storage",
+            "Session storage",
+            "Index DB",
+            "Geolocation",
+            "Introduction to fetch",
+            "Handling api using the fetch"
+          ],
+          "required_content": [
+            "localStorage: persists data even after browser close (until cleared). sessionStorage: cleared when tab closes. Both store string key-value pairs — use JSON.stringify/parse for objects.",
+            "fetch(): modern Promise-based HTTP API. Returns Response object — must call .json() or .text() to get body.",
+            "Geolocation API: navigator.geolocation.getCurrentPosition() — user must grant permission. Async operation.",
+            "History API: history.pushState(), history.back(), history.forward() — manipulate browser history without page reload (used in SPAs)."
+          ],
+          "required_code": "// localStorage\nlocalStorage.setItem('user', JSON.stringify({ name: 'Alice' }));\nconst user = JSON.parse(localStorage.getItem('user'));\nlocalStorage.removeItem('user');\n\n// fetch with error handling\nasync function fetchPosts() {\n    const response = await fetch('https://jsonplaceholder.typicode.com/posts');\n    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);\n    const posts = await response.json();\n    return posts.slice(0, 5);\n}\n\n// fetch with POST\nasync function createPost(data) {\n    const res = await fetch('https://jsonplaceholder.typicode.com/posts', {\n        method: 'POST',\n        headers: { 'Content-Type': 'application/json' },\n        body: JSON.stringify(data)\n    });\n    return await res.json();\n}\n\n// Geolocation\nnavigator.geolocation.getCurrentPosition(\n    pos  => console.log(pos.coords.latitude, pos.coords.longitude),\n    err  => console.error('Location denied:', err.message)\n);",
+          "common_mistakes": [
+            "Storing objects directly in localStorage — localStorage.setItem('obj', {}) stores '[object Object]'. Always JSON.stringify",
+            "Not checking response.ok after fetch — fetch only rejects on network error, not on 404/500 HTTP errors"
+          ]
+        },
+        {
+          "name": "Window Object",
+          "keywords": ["window", "window object", "settimeout", "setinterval", "alert", "prompt", "confirm", "cookies", "screen", "location"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to window object",
+            "window object",
+            "window properties (screen & location)",
+            "cookies storage",
+            "setTimeout",
+            "clearTimeout",
+            "setInterval",
+            "clearInterval",
+            "alert", "prompt", "confirm"
+          ],
+          "required_content": [
+            "window is the global object in browsers — all global variables and functions are properties of window. console.log === window.console.log.",
+            "setTimeout(fn, ms): runs fn once after ms milliseconds. Returns ID. clearTimeout(id) cancels it.",
+            "setInterval(fn, ms): runs fn repeatedly every ms milliseconds. Returns ID. clearInterval(id) stops it.",
+            "window.location: current URL info. location.href to navigate. location.reload() to refresh. window.screen: screen dimensions."
+          ],
+          "required_code": "// Timers\nconst timeoutId = setTimeout(() => {\n    console.log('Runs once after 2s');\n}, 2000);\n// clearTimeout(timeoutId); // cancel before it fires\n\nconst intervalId = setInterval(() => {\n    console.log('Runs every 1s');\n}, 1000);\nsetTimeout(() => clearInterval(intervalId), 5000); // stop after 5s\n\n// Window properties\nconsole.log(window.location.href);      // current URL\nconsole.log(window.screen.width);       // screen width\nconsole.log(window.innerWidth);         // viewport width\n\n// Navigation\n// window.location.href = 'https://google.com'; // redirect\n\n// Dialogs (block execution)\nconst name    = prompt('What is your name?', 'Guest');\nconst proceed = confirm('Are you sure?');\nalert(`Hello, ${name}!`);",
+          "common_mistakes": [
+            "setInterval without clearInterval — creates memory leak, interval runs forever even if component/page destroyed",
+            "Using alert/prompt/confirm in production — they block JS execution completely and look unprofessional"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "JavaScript DOM",
+      "topics": [
+        {
+          "name": "Visualisation of DOM and It's Working",
+          "keywords": ["dom", "document object model", "dom tree", "dom visualization"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Visualisation of DOM and It's Working"
+          ],
+          "required_content": [
+            "DOM (Document Object Model): browser's in-memory representation of HTML as a tree of objects. JS can read and modify this tree.",
+            "Every HTML element becomes a Node. Types: Element nodes (tags), Text nodes (text content), Attribute nodes.",
+            "Changes to DOM immediately update the rendered page. This is how React, Vue, Angular work — they manipulate the DOM."
+          ],
+          "required_diagrams": [
+            "DOM tree diagram: show hierarchical tree. Root: 'document' node. Child: 'html' element. Two children of html: 'head' and 'body'. Head has 'title' child with text node 'My Page'. Body has 'h1' (text: 'Hello'), 'p' (text: 'World'), 'ul' with two 'li' children. Each node shown as labeled box, connected by lines. Clean white background."
+          ],
+          "required_code": "// DOM is a live tree — JS can traverse it\nconsole.log(document.documentElement); // <html>\nconsole.log(document.head);            // <head>\nconsole.log(document.body);            // <body>\nconsole.log(document.title);           // page title\n\n// Node types\nconsole.log(document.body.nodeType);   // 1 = Element\nconsole.log(document.body.firstChild.nodeType); // 3 = Text (whitespace)\n\n// DOM is LIVE — changes immediately reflect\ndocument.body.style.background = 'lightblue'; // instant visual change",
+          "common_mistakes": [
+            "Confusing DOM with HTML file — DOM is browser's live in-memory object. HTML is just source text. They can diverge (JS changes DOM without changing HTML file)",
+            "Running DOM code before DOM loads — put script at bottom of body or use DOMContentLoaded event"
+          ]
+        },
+        {
+          "name": "Methods of DOM - Part 1",
+          "keywords": ["getelementbyid", "getelementsbyclassname", "getelementsbytagname", "queryselector", "queryselectorall", "html collections"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "getElementById()",
+            "getElementsByClassName()",
+            "getElementsByTagName()",
+            "querySelector()",
+            "querySelectorAll()",
+            "Internal HTML object collections"
+          ],
+          "required_content": [
+            "getElementById: fastest, returns single element or null. getElementsByClassName/TagName: returns live HTMLCollection (updates automatically).",
+            "querySelector: returns FIRST match using CSS selectors — most flexible. querySelectorAll: returns static NodeList of ALL matches.",
+            "HTMLCollection is live (updates when DOM changes). NodeList from querySelectorAll is static (snapshot at query time)."
+          ],
+          "required_code": "// Targeting elements\nconst byId     = document.getElementById('header');\nconst byClass  = document.getElementsByClassName('card');   // HTMLCollection\nconst byTag    = document.getElementsByTagName('p');         // HTMLCollection\nconst first    = document.querySelector('.card');            // first match\nconst all      = document.querySelectorAll('.card');         // NodeList\n\n// Complex selectors with querySelector\nconst nested   = document.querySelector('nav > ul > li:first-child');\nconst input    = document.querySelector('input[type=\"email\"]');\n\n// Looping results\nall.forEach(card => console.log(card.textContent)); // NodeList supports forEach\n// HTMLCollection does NOT support forEach directly\nArray.from(byClass).forEach(el => console.log(el)); // convert first\n\n// Internal collections\nconsole.log(document.forms);    // all <form> elements\nconsole.log(document.images);   // all <img> elements\nconsole.log(document.links);    // all <a> with href",
+          "required_tables": [
+            "Comparison: Method | Returns | CSS Selectors | Live? | Multiple || getElementById | Single element/null | No | N/A | No || getElementsByClassName | HTMLCollection | No | Yes | Yes || getElementsByTagName | HTMLCollection | No | Yes | Yes || querySelector | Single element/null | Yes | No | No || querySelectorAll | Static NodeList | Yes | No | Yes"
+          ],
+          "common_mistakes": [
+            "Calling forEach on HTMLCollection directly — it's not an array. Use Array.from() or [...collection] first",
+            "querySelector('#id') slower than getElementById('id') — use getElementById for ID lookups"
+          ]
+        },
+        {
+          "name": "Methods of DOM - Part 2",
+          "keywords": ["innertext", "innerhtml", "textcontent", "setattribute", "getattribute"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "innerText",
+            "innerHTML",
+            "textContent",
+            "setAttribute()",
+            "getAttribute()"
+          ],
+          "required_content": [
+            "innerHTML: gets/sets HTML content (parses HTML tags). innerText: gets/sets visible text (respects CSS display:none). textContent: gets/sets all text (ignores CSS, faster).",
+            "innerHTML with user input is XSS vulnerability — never do element.innerHTML = userInput. Use textContent instead.",
+            "setAttribute(name, value): sets any attribute. getAttribute(name): gets attribute value as string."
+          ],
+          "required_code": "const div = document.querySelector('#content');\n\n// Reading\nconsole.log(div.innerHTML);    // '<h1>Hello</h1><p>World</p>'\nconsole.log(div.innerText);    // 'Hello\\nWorld' (visible text only)\nconsole.log(div.textContent);  // 'Hello\\nWorld' (all text)\n\n// Writing\ndiv.innerHTML  = '<strong>Bold</strong>'; // parses HTML\ndiv.innerText  = '<strong>Bold</strong>'; // displays as literal text\ndiv.textContent = 'Safe text';             // no HTML parsing\n\n// XSS danger — NEVER do this with user input:\n// div.innerHTML = userInput; // malicious script could execute\n\n// Attributes\nconst img = document.querySelector('img');\nimg.setAttribute('src', 'new-image.jpg');\nimg.setAttribute('alt', 'New description');\nconsole.log(img.getAttribute('src')); // 'new-image.jpg'\n\n// Direct property vs attribute\nimg.src = 'direct.jpg';         // property (resolved URL)\nimg.getAttribute('src');        // attribute (original string)",
+          "common_mistakes": [
+            "Using innerHTML for text-only content — use textContent which is faster and safe from XSS",
+            "Mixing .src property (returns full URL) with getAttribute('src') (returns original attribute value)"
+          ]
+        },
+        {
+          "name": "Methods of DOM - Part 3",
+          "keywords": ["style property", "csstext", "classlist", "classlist add", "classlist remove", "classlist toggle", "navigation", "createelement", "appendchild", "removechild"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "style property",
+            "style.setProperty()",
+            "cssText",
+            "classList.add()",
+            "classList.remove()",
+            "classList.toggle()",
+            "classList.contains()",
+            "Navigation & relationships",
+            "createElement()",
+            "appendChild()",
+            "append()",
+            "removeChild()",
+            "replaceChild()"
+          ],
+          "required_content": [
+            "Prefer classList over style for toggling visual states — keeps style in CSS, logic in JS.",
+            "createElement + appendChild: create elements programmatically. More efficient than innerHTML for dynamic content.",
+            "DOM navigation: parentNode, childNodes, firstChild, lastChild, nextSibling, previousSibling, children (elements only)."
+          ],
+          "required_code": "const el = document.querySelector('.card');\n\n// Inline styles\nel.style.backgroundColor = '#007bff'; // camelCase, not kebab-case\nel.style.setProperty('--custom-color', 'red'); // CSS variables\nel.style.cssText = 'color: white; font-size: 1.2rem;';\n\n// classList (preferred for toggling)\nel.classList.add('active');\nel.classList.remove('hidden');\nel.classList.toggle('expanded');           // add if absent, remove if present\nconsole.log(el.classList.contains('active')); // true\n\n// DOM navigation\nconsole.log(el.parentNode);             // parent element\nconsole.log(el.children);              // child elements (HTMLCollection)\nconsole.log(el.nextElementSibling);    // next sibling element\n\n// Creating elements\nconst btn = document.createElement('button');\nbtn.textContent = 'Click Me';\nbtn.classList.add('btn', 'btn-primary');\ndocument.body.appendChild(btn);         // add to end of body\n\n// Remove\nconst old = document.querySelector('.old-element');\nold.parentNode.removeChild(old);        // old way\n// old.remove();                         // modern, simpler",
+          "common_mistakes": [
+            "Using style.background-color (hyphenated) — JS needs camelCase: style.backgroundColor",
+            "appendChild vs append: appendChild takes single Node. append() can take multiple nodes AND strings"
+          ]
+        },
+        {
+          "name": "Event in JS",
+          "keywords": ["events", "event listener", "addeventlistener", "removeeventlistener", "event propagation", "bubbling", "capturing", "event delegation", "stoppropagation", "preventdefault"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "What are events?",
+            "Types of event",
+            "Javascript event listeners & ways to adding it",
+            "addEventListener & removeEventListener",
+            "Event propagation: Bubbling and Capturing",
+            "Javascript event method",
+            "Event delegation",
+            "StopPropagation",
+            "StopImmediatePropagation",
+            "PreventDefault"
+          ],
+          "required_content": [
+            "Events: actions that happen in browser — user click, keypress, form submit, page load, scroll, resize.",
+            "addEventListener(type, handler, useCapture): preferred way. Can add multiple handlers. Can remove. useCapture=true for capturing phase.",
+            "Event propagation: Capturing (top-down window→element) → Target → Bubbling (bottom-up element→window). By default listeners fire in bubbling phase.",
+            "Event delegation: attach one listener on parent, handle events from all children. Efficient for dynamic lists.",
+            "preventDefault(): stops default browser action (form submit, link navigate). stopPropagation(): stops event from bubbling up."
+          ],
+          "required_code": "// Adding events\nconst btn = document.querySelector('#submit');\nbtn.addEventListener('click', handleClick);\nbtn.removeEventListener('click', handleClick); // must use same reference!\n\nfunction handleClick(event) {\n    console.log(event.type);        // 'click'\n    console.log(event.target);      // element clicked\n    console.log(event.currentTarget); // element listener is on\n    event.preventDefault();         // stop form submit/link\n}\n\n// Event delegation — one listener for many items\ndocument.querySelector('#todo-list').addEventListener('click', (e) => {\n    if (e.target.matches('.delete-btn')) {\n        e.target.closest('li').remove();\n    }\n});\n\n// Bubbling example\ndocument.querySelector('.child').addEventListener('click', (e) => {\n    e.stopPropagation(); // prevents parent's click from firing\n});",
+          "required_diagrams": [
+            "Event propagation diagram: show nested boxes — window (outermost), document, body, div, button (innermost). Show two phases with arrows: Capturing phase arrows pointing DOWN from window to button (left side). Bubbling phase arrows pointing UP from button to window (right side). Label 'useCapture: true' for capturing, 'default (bubbling)' for the upward phase."
+          ],
+          "common_mistakes": [
+            "removeEventListener with anonymous function — can't remove it. Store handler in variable and pass same reference",
+            "Calling event.stopPropagation() thinking it stops other handlers on SAME element — use stopImmediatePropagation() for that"
+          ]
+        },
+        {
+          "name": "NodeList vs. HTML Collection",
+          "keywords": ["nodelist", "html collection", "live collection", "static collection", "convert nodelist", "convert htmlcollection"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "What is NodeList",
+            "What is HTML Collection",
+            "NodeList vs. HTML Collection",
+            "Convert NodeList to Array",
+            "Convert HTML Collection to Array"
+          ],
+          "required_content": [
+            "HTMLCollection: returned by getElementsByClassName/TagName. Live — automatically reflects DOM changes. Only contains Element nodes.",
+            "NodeList: returned by querySelectorAll (static) or childNodes (live). Can contain Element AND Text nodes.",
+            "Convert to array for full array methods: Array.from(collection) or spread [...collection]."
+          ],
+          "required_code": "// HTMLCollection — live\nconst items = document.getElementsByClassName('item'); // HTMLCollection\nconsole.log(items.length); // e.g. 3\n\n// Add element to DOM\ndocument.body.innerHTML += '<div class=\"item\">New</div>';\nconsole.log(items.length); // 4 — automatically updated! (live)\n\n// NodeList from querySelectorAll — static\nconst nodes = document.querySelectorAll('.item');\ndocument.body.innerHTML += '<div class=\"item\">Another</div>';\nconsole.log(nodes.length); // still 4 — NOT updated (static snapshot)\n\n// Convert to Array for full array methods\nconst arr1 = Array.from(items);   // from HTMLCollection\nconst arr2 = [...nodes];           // spread NodeList\n\narr1.filter(el => el.textContent.includes('New')); // now we can use filter!\n\n// NodeList does have forEach (but not filter/map/reduce)\nnodes.forEach(node => console.log(node.textContent));",
+          "required_tables": [
+            "Comparison: Feature | HTMLCollection | NodeList (querySelectorAll) | NodeList (childNodes) || Source method | getElements* | querySelectorAll | .childNodes || Live/Static | Live | Static | Live || Node types | Elements only | Elements only | All nodes (text, elements) || forEach support | No (convert first) | Yes | Yes || filter/map/reduce | No (convert first) | No (convert first) | No (convert first)"
+          ],
+          "common_mistakes": [
+            "Assuming querySelectorAll NodeList is live — it's a static snapshot. Add new elements and length won't change",
+            "Calling .filter() directly on NodeList — must convert to array first: [...nodeList].filter(...)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Modules",
+      "topics": [
+        {
+          "name": "Import/Export",
+          "keywords": ["import", "export", "commonjs", "esm", "modules", "default export", "named export"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "CommonJS",
+            "ESM/Module JS",
+            "Introduction to modules",
+            "Exporting and Importing",
+            "Default exports and named exports",
+            "Importing and exporting a function and variable",
+            "Importing and exporting multiple items"
+          ],
+          "required_content": [
+            "Module: a separate file with its own scope. Variables/functions are private by default — must explicitly export to share.",
+            "CommonJS (Node.js): module.exports = ... and require(). Synchronous loading. Used in Node.",
+            "ESM (ES Modules): export and import keywords. Async loading. Used in browsers and modern Node. Use type='module' in script tag.",
+            "Default export: one per file, import with any name. Named export: multiple per file, import with exact name in {}."
+          ],
+          "required_code": "// math.js — Named exports\nexport const PI = 3.14159;\nexport function add(a, b) { return a + b; }\nexport function subtract(a, b) { return a - b; }\n\n// greeting.js — Default export\nexport default function greet(name) {\n    return `Hello, ${name}!`;\n}\n\n// main.js — Importing\nimport greet from './greeting.js';           // default import (any name)\nimport { add, subtract, PI } from './math.js'; // named imports\nimport { add as sum } from './math.js';      // rename import\nimport * as MathUtils from './math.js';      // import all as namespace\n\nconsole.log(greet('Alice'));    // Hello, Alice!\nconsole.log(add(2, 3));         // 5\nconsole.log(MathUtils.PI);      // 3.14159\n\n// HTML — enable ES modules\n// <script type='module' src='main.js'></script>",
+          "required_tables": [
+            "Comparison: Feature | CommonJS | ES Modules || Syntax (export) | module.exports = | export / export default || Syntax (import) | require() | import ... from ... || Loading | Synchronous | Asynchronous || Environment | Node.js (primarily) | Browsers + modern Node || Dynamic import | require() anywhere | import() function (returns Promise) || File extension | .js | .js or .mjs"
+          ],
+          "common_mistakes": [
+            "Forgetting type='module' on script tag — ES module import/export won't work in browser without it",
+            "Exporting default and trying to import with {} — default imports don't use curly braces"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Misc",
+      "topics": [
+        {
+          "name": "console",
+          "keywords": ["console", "console log", "console error", "console table", "console warn", "console assert", "debugging"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "console.log()",
+            "console.error()",
+            "console.table()",
+            "console.warn()",
+            "console.info()",
+            "console.clear()",
+            "console.assert()"
+          ],
+          "required_content": [
+            "console.table(data): displays arrays/objects as a formatted table in DevTools — far more readable than console.log for arrays of objects.",
+            "console.error() prints in red with stack trace. console.warn() prints in yellow. Both have dedicated filters in DevTools.",
+            "console.assert(condition, message): prints message only if condition is FALSE. Great for quick sanity checks during development."
+          ],
+          "required_code": "// Different console methods\nconsole.log('Normal message');           // general logging\nconsole.error('Something went wrong!');  // red, with stack trace\nconsole.warn('Deprecated API used');     // yellow warning\nconsole.info('App started');             // blue info\nconsole.clear();                          // clear console\n\n// console.table — best for arrays of objects\nconst users = [\n    { name: 'Alice', age: 25, role: 'admin' },\n    { name: 'Bob',   age: 30, role: 'user' },\n];\nconsole.table(users);\n// Displays as formatted table with columns: name, age, role\n\n// console.assert — quick sanity check\nconst age = -5;\nconsole.assert(age >= 0, 'Age cannot be negative:', age);\n// Prints 'Assertion failed: Age cannot be negative: -5'\n\n// console.log with multiple values\nconsole.log('User:', { name: 'Alice' }, 'Count:', 5);\n\n// Styled log\nconsole.log('%c Important!', 'color: red; font-size: 16px; font-weight: bold');",
+          "common_mistakes": [
+            "Leaving console.log in production — use a logging library that can be disabled in prod, or remove them before deploy",
+            "Using console.log for error states — use console.error so it appears in error filters and includes stack trace"
+          ]
+        },
+        {
+          "name": "Execution Context",
+          "keywords": ["execution context", "memory heap", "call stack", "event loop", "callback queue", "microtask queue", "web api", "callback hell"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Memory Heap",
+            "Call Stack",
+            "Micro task queue",
+            "callback queue",
+            "Web APIs",
+            "Callback Hell",
+            "Event Loop"
+          ],
+          "required_content": [
+            "JS engine has two parts: Memory Heap (stores objects/variables) and Call Stack (tracks function execution — LIFO).",
+            "Browser provides Web APIs (setTimeout, fetch, DOM events) that run outside JS engine. When done, callback goes to queue.",
+            "Event Loop: checks if Call Stack is empty → takes from Microtask Queue (Promises) first → then Callback Queue (setTimeout, DOM events).",
+            "Microtask queue has HIGHER priority than Callback/Macrotask queue — Promise .then() runs before setTimeout callback."
+          ],
+          "required_code": "// Event loop demonstration\nconsole.log('1 - synchronous');\n\nsetTimeout(() => console.log('3 - setTimeout (macrotask)'), 0);\n\nPromise.resolve().then(() => console.log('2 - Promise (microtask)'));\n\nconsole.log('4 - synchronous');\n\n// Output ORDER:\n// 1 - synchronous\n// 4 - synchronous\n// 2 - Promise (microtask)     ← microtask before macrotask!\n// 3 - setTimeout (macrotask)\n\n// Callback Hell\ngetUser(id, function(user) {\n    getPosts(user.id, function(posts) {\n        getComments(posts[0].id, function(comments) {\n            // deeply nested — hard to read, maintain, handle errors\n        });\n    });\n});  // Fix: use Promises or async/await",
+          "required_diagrams": [
+            "Event Loop diagram: show 4 boxes. Left: 'Call Stack' (vertical stack with function frames). Middle-top: 'Web APIs' box (setTimeout, fetch, DOM). Middle-bottom: two queues side by side — 'Microtask Queue (Promises)' and 'Callback Queue (setTimeout, events)'. Right: 'Memory Heap'. Show circular arrow from queues back to Call Stack labeled 'Event Loop checks: stack empty? → microtask first → then callback'. Clean white background, color-coded boxes."
+          ],
+          "common_mistakes": [
+            "Thinking setTimeout(fn, 0) runs immediately — it goes to callback queue, runs AFTER all synchronous code AND microtasks",
+            "Not knowing Promises have higher priority than setTimeout — this explains many async ordering bugs"
+          ]
+        },
+        {
+          "name": "Strict mode",
+          "keywords": ["strict mode", "use strict", "strict"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to strict mode",
+            "Why to use strict mode?"
+          ],
+          "required_content": [
+            "Strict mode: opt-in mode that catches common JS mistakes and prevents unsafe features. Enabled with 'use strict' at top of file or function.",
+            "What strict mode prevents: undeclared variables, duplicate parameters, deleting non-configurable properties, this in global context is undefined (not window).",
+            "ES6 modules and classes are in strict mode automatically — no need to add 'use strict'."
+          ],
+          "required_code": "'use strict'; // enable for entire file\n\n// Without strict mode:\nx = 10;  // creates global variable silently\n\n// With strict mode:\n// x = 10;  // ReferenceError: x is not defined\n\nfunction withStrict() {\n    'use strict'; // enable for this function only\n    // this = undefined (not window) in non-method call\n    console.log(this); // undefined\n}\n\n// Duplicate parameters — caught by strict mode\n// function bad(a, a) {} // SyntaxError in strict mode\n\n// Deleting variables — prevented\nlet y = 5;\n// delete y; // SyntaxError in strict mode",
+          "common_mistakes": [
+            "Placing 'use strict' in the middle of a file — it only works when it's the FIRST statement",
+            "Thinking strict mode slows down code — modern JS engines optimize strict mode code BETTER than sloppy mode"
+          ]
+        },
+        {
+          "name": "Debugging",
+          "keywords": ["debugging", "debugger", "breakpoint", "vscode debugger", "chrome devtools", "debugging best practices"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to debugging",
+            "Using debugger in vs code",
+            "Using debugger in web browser",
+            "Debugging best practices"
+          ],
+          "required_content": [
+            "debugger statement: pauses code execution at that line when DevTools is open — like a breakpoint in code.",
+            "Chrome DevTools Sources tab: set breakpoints by clicking line numbers. Step through code with F10 (step over), F11 (step into), Shift+F11 (step out).",
+            "VS Code debugger: launch.json config, breakpoints in editor, watch variables, call stack view."
+          ],
+          "required_code": "// debugger statement\nfunction buggyFunction(arr) {\n    let total = 0;\n    for (let i = 0; i <= arr.length; i++) {  // bug: <= should be <\n        debugger; // execution pauses here in DevTools\n        total += arr[i];\n    }\n    return total;\n}\n\n// Debugging best practices\n// 1. Narrow down — binary search through code with console.logs\n// 2. Check types first: console.log(typeof variable)\n// 3. Read error message carefully — line number is usually right\n// 4. Check Network tab for API issues\n// 5. Use breakpoints, not just console.log\n\n// Console tricks for debugging\nconsole.log({ myVar }); // logs { myVar: value } — shows variable name!\nconsole.trace();         // prints current call stack",
+          "common_mistakes": [
+            "Leaving debugger statement in production — code pauses for all users who open DevTools",
+            "Commenting out code to debug instead of using breakpoints — lose context of what the code does"
+          ]
+        },
+        {
+          "name": "Performance tips",
+          "keywords": ["performance", "memory management", "garbage collection", "memory leak", "style guide", "best practices", "chrome devtools performance"],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Understanding the code organization and best pratices",
+            "Memory management",
+            "Garbage collection",
+            "Memory leak",
+            "Style guide",
+            "Variable naming",
+            "spacing and indentation",
+            "Best practices to follow while",
+            "Variable declaration",
+            "Using const for declaring array and object",
+            "Avoiding the new keyword",
+            "Automatic conversions",
+            "Chrome dev tool for javascript"
+          ],
+          "required_content": [
+            "Garbage collection: JS automatically frees memory when objects are no longer reachable. V8 uses Mark-and-Sweep algorithm.",
+            "Memory leaks: objects that are still referenced but no longer needed. Common causes: forgotten setInterval, accidental global variables, detached DOM nodes, event listeners not removed.",
+            "Style guide essentials: camelCase for variables/functions, PascalCase for classes, UPPER_SNAKE_CASE for constants, 2-space indentation, semicolons.",
+            "Automatic type coercion traps: 1 + '1' = '11' (string concat). 1 - '1' = 0 (numeric). Always use explicit conversion."
+          ],
+          "required_code": "// Memory leak examples and fixes\n\n// LEAK: setInterval without clear\nconst id = setInterval(() => {\n    // runs forever, keeps closure alive\n}, 1000);\n// FIX: clearInterval(id) when done\n\n// LEAK: Accidental global\nfunction bad() {\n    leak = 'I am global'; // missing let/const\n}\n// FIX: 'use strict' catches this\n\n// LEAK: Event listener not removed\nconst btn = document.querySelector('btn');\nconst handler = () => console.log('clicked');\nbtn.addEventListener('click', handler);\n// FIX: btn.removeEventListener('click', handler);\n\n// Style guide examples\nconst MAX_RETRIES = 3;           // constant\nconst userName = 'alice';        // variable\nfunction fetchUserData() {}      // function\nclass UserProfile {}             // class\n\n// Explicit conversion instead of coercion\nconst num = Number('42');        // not +'42'\nconst str = String(42);          // not 42 + ''\nconst bool = Boolean(value);     // not !!value (less readable)",
+          "common_mistakes": [
+            "Relying on JS type coercion — 0 == '' is true, 0 == false is true. Always use === and explicit conversions",
+            "Not monitoring memory in Chrome DevTools Memory tab — memory leaks are invisible without profiling"
+          ]
+        }
+      ]
+    }
+  ]
+}

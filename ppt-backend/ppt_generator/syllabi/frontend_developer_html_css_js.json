@@ -1,0 +1,861 @@
+{
+  "subject": "frontend developer (html, css, js)",
+  "modules": [
+    {
+      "module": "Getting Started with Web Development",
+      "topics": [
+        {
+          "name": "Types of Software Applications and Web Basics",
+          "keywords": [
+            "software application",
+            "web application",
+            "desktop",
+            "mobile",
+            "distributed",
+            "fullstack",
+            "client server",
+            "internet",
+            "http",
+            "request",
+            "response"
+          ],
+          "nature": "theoretical",
+          "no_code": false,
+          "subtopics": [
+            "Types of software applications — Desktop, Web, Mobile, Distributed, AI, IoT",
+            "Full Stack career — Frontend, Backend, Database roles",
+            "Client-Server Architecture — how request travels from browser to server",
+            "Fundamentals of Internet — IP Address, SMTP, FTP, HTTP, Request Format",
+            "Web vs Website vs Web Application distinction"
+          ],
+          "required_content": [
+            "Desktop apps run on OS directly (Photoshop, MS Word). Web apps run in browser, no installation needed (Gmail, YouTube)",
+            "Full Stack = Frontend (HTML/CSS/JS) + Backend (Node.js/Python) + Database (SQL/MongoDB)",
+            "Client sends HTTP request → DNS resolves domain → Server processes → sends HTTP response → Browser renders",
+            "IP Address: unique identifier for every device on internet. IPv4 (192.168.1.1), IPv6 (longer format)",
+            "HTTP methods: GET (fetch data), POST (send data). Status codes: 200 OK, 404 Not Found, 500 Server Error"
+          ],
+          "required_diagrams": [
+            "Client-Server request-response flow: Browser → DNS Server → Web Server → Database → Response back to Browser. Show each step labeled with protocol names (HTTP, DNS lookup, SQL query)."
+          ],
+          "required_tables": [
+            "Comparison: App Type | Runs On | Installation | Examples || Desktop | OS directly | Required | Photoshop, VLC || Web App | Browser | Not required | Gmail, YouTube || Mobile | Mobile OS | Required | Instagram, WhatsApp || Distributed | Multiple servers | N/A | Google Search, Netflix"
+          ],
+          "common_mistakes": [
+            "Thinking website and web application are the same — a website is static (blog), a web app is dynamic (Gmail)",
+            "Confusing frontend and backend — frontend is what user sees, backend is server logic user never sees"
+          ]
+        },
+        {
+          "name": "Setting Up the Development Environment",
+          "keywords": [
+            "vs code",
+            "node js",
+            "npm",
+            "package manager",
+            "extensions",
+            "environment setup",
+            "tools"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "VS Code installation and essential extensions for web development",
+            "Node.js and npm — what they are and why frontend developers need them",
+            "Folder structure for a web project",
+            "Different stages — local development, web server, deployment"
+          ],
+          "required_content": [
+            "VS Code extensions: Live Server (auto-refresh), Prettier (auto-format), ESLint (error detection), HTML CSS Support",
+            "Node.js is a JS runtime. npm (Node Package Manager) installs libraries like Bootstrap, React",
+            "Standard folder: index.html at root, /css folder, /js folder, /images folder",
+            "Development → Testing → Staging → Production pipeline"
+          ],
+          "required_code": "/* Folder structure for web project */\nproject/\n├── index.html\n├── css/\n│   └── style.css\n├── js/\n│   └── app.js\n└── images/\n    └── logo.png",
+          "common_mistakes": [
+            "Putting all files in root folder — becomes unmanageable as project grows",
+            "Thinking Node.js is only for backend — frontend devs use it daily for npm packages"
+          ]
+        },
+        {
+          "name": "Browser Architecture and DOM Overview",
+          "keywords": [
+            "browser",
+            "dom",
+            "rendering engine",
+            "js engine",
+            "html parsing",
+            "markup",
+            "programming language"
+          ],
+          "nature": "theoretical",
+          "no_code": false,
+          "subtopics": [
+            "Browser components — Browser Engine, JS Engine, Rendering Engine, Networking",
+            "Programming language vs Markup language distinction",
+            "HTML parsing process — how browser reads HTML and builds DOM",
+            "DOM Overview — what is the Document Object Model"
+          ],
+          "required_content": [
+            "Browser components: Browser Engine (coordinates all), Rendering Engine (paints pixels — Blink in Chrome), JS Engine (executes JS — V8 in Chrome), Networking (handles HTTP requests)",
+            "Markup language (HTML) describes structure/content. Programming language (JS) has logic, loops, conditions",
+            "HTML parsing: browser reads HTML top to bottom → builds DOM tree → combines with CSSOM → creates Render Tree → paints to screen",
+            "DOM = Document Object Model. Tree structure where every HTML element is a node. JS can read/modify any node"
+          ],
+          "required_diagrams": [
+            "Browser architecture diagram: show 5 boxes — Browser Engine at center connecting to Rendering Engine, JS Engine (V8), Networking layer, and Data Persistence. Show HTML/CSS going into Rendering Engine, JS going into JS Engine.",
+            "DOM tree diagram: show HTML document as a tree. Root = document node, children = html, then head/body, then title/h1/p etc. Each element is a labeled node."
+          ],
+          "common_mistakes": [
+            "Thinking HTML is a programming language — it has no logic, no conditions, no loops",
+            "Thinking DOM and HTML file are the same — DOM is the browser's live memory representation, HTML is just the source file"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "HTML Fundamentals",
+      "topics": [
+        {
+          "name": "HTML Document Structure and Basic Tags",
+          "keywords": [
+            "html",
+            "doctype",
+            "head",
+            "body",
+            "title",
+            "meta",
+            "hello world",
+            "document structure"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Writing first HTML program — Hello World",
+            "Document structure — DOCTYPE, html, head, body",
+            "Head section — title, meta tags, link, style, script",
+            "Meta tags — charset, viewport, keywords, description, refresh"
+          ],
+          "required_content": [
+            "Every HTML file must start with <!DOCTYPE html> — tells browser this is HTML5",
+            "head section: metadata not shown to user (title, meta, css links, js links)",
+            "body section: everything visible on page (headings, paragraphs, images, forms)",
+            "meta charset='UTF-8' — supports all languages including Hindi, Chinese",
+            "meta name='viewport' content='width=device-width' — essential for mobile responsiveness"
+          ],
+          "required_code": "<!DOCTYPE html>\n<html lang='en'>\n<head>\n    <meta charset='UTF-8'>\n    <meta name='viewport' content='width=device-width, initial-scale=1.0'>\n    <meta name='description' content='My first webpage'>\n    <title>Hello World</title>\n</head>\n<body>\n    <h1>Hello, World!</h1>\n    <p>This is my first webpage.</p>\n</body>\n</html>",
+          "common_mistakes": [
+            "Forgetting DOCTYPE — causes browser to enter 'quirks mode' and render incorrectly",
+            "Putting visible content inside head — it won't show on page",
+            "Missing closing tags — causes unpredictable rendering"
+          ]
+        },
+        {
+          "name": "HTML Elements, Attributes and Colors",
+          "keywords": [
+            "html elements",
+            "attributes",
+            "colors",
+            "rgb",
+            "hex",
+            "hsl",
+            "void elements",
+            "semantic"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Types of HTML elements — Normal, Void, Raw Text, RC Data, Foreign",
+            "HTML attributes — id, class, style, src, href, alt",
+            "Defining colors — color name, hexadecimal, RGB, RGBA, HSL, HSLA",
+            "Relative vs absolute paths for links and images"
+          ],
+          "required_content": [
+            "Normal elements: have opening and closing tags (<p></p>, <div></div>). Void elements: self-closing, no content (<img>, <br>, <input>, <hr>)",
+            "id: unique identifier for one element. class: reusable identifier for multiple elements. id used for JS targeting, class used for CSS styling",
+            "Color formats: name ('red'), hex (#FF0000 or #F00), rgb(255,0,0), rgba(255,0,0,0.5) — a=opacity, hsl(0,100%,50%)",
+            "Absolute path: full URL (https://site.com/img.jpg). Relative path: from current file (../images/img.jpg)"
+          ],
+          "required_code": "<!-- Color formats -->\n<p style='color: red;'>Color name</p>\n<p style='color: #FF5733;'>Hex color</p>\n<p style='color: rgb(255, 87, 51);'>RGB color</p>\n<p style='color: rgba(255, 87, 51, 0.7);'>RGBA with 70% opacity</p>\n<p style='color: hsl(14, 100%, 60%);'>HSL color</p>",
+          "required_tables": [
+            "Color formats: Format | Syntax | Supports Opacity | Example || Name | red | No | color: red || Hex | #RRGGBB | No (#RRGGBBAA yes) | #FF5733 || RGB | rgb(r,g,b) | No | rgb(255,87,51) || RGBA | rgba(r,g,b,a) | Yes (0-1) | rgba(255,87,51,0.5) || HSL | hsl(h,s%,l%) | No | hsl(14,100%,60%) || HSLA | hsla(h,s%,l%,a) | Yes | hsla(14,100%,60%,0.5)"
+          ],
+          "common_mistakes": [
+            "Using id for multiple elements — id must be unique per page, use class for multiple elements",
+            "Confusing rgba alpha (0=transparent, 1=opaque) with CSS opacity (same range but different scope)"
+          ]
+        },
+        {
+          "name": "Semantic HTML and Layout Elements",
+          "keywords": [
+            "semantic",
+            "header",
+            "nav",
+            "footer",
+            "article",
+            "aside",
+            "section",
+            "div",
+            "span",
+            "layout"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Semantic elements — header, nav, main, article, section, aside, footer",
+            "Non-semantic elements — div and span",
+            "When to use semantic vs non-semantic elements",
+            "DOM structure and parent-child-sibling relationships"
+          ],
+          "required_content": [
+            "Semantic elements tell browser AND developer what content is inside. <header> = top section, <nav> = navigation links, <main> = main content, <footer> = bottom section",
+            "div = block-level container with no meaning. span = inline container with no meaning. Used when no semantic element fits",
+            "Benefits of semantic HTML: better SEO (Google understands content), screen reader accessibility, cleaner code",
+            "DOM relationships: parent contains children. Siblings share same parent. CSS can target based on these relationships"
+          ],
+          "required_code": "<!-- Semantic layout -->\n<header>\n    <nav>\n        <a href='/'>Home</a>\n        <a href='/about'>About</a>\n    </nav>\n</header>\n<main>\n    <article>\n        <h1>Article Title</h1>\n        <p>Article content...</p>\n    </article>\n    <aside>\n        <h3>Related Links</h3>\n    </aside>\n</main>\n<footer>\n    <p>Copyright 2024</p>\n</footer>",
+          "required_diagrams": [
+            "Semantic HTML page layout diagram: show a webpage wireframe divided into labeled sections — header (top), nav (inside header), main (center, containing article + aside side by side), footer (bottom). Each section labeled with its HTML tag name."
+          ],
+          "required_tables": [
+            "Comparison: Element | Type | Meaning | Use when || <div> | Non-semantic | None | Generic grouping, no meaning || <header> | Semantic | Page/section top | Site header, article header || <nav> | Semantic | Navigation | Menu, breadcrumbs || <main> | Semantic | Primary content | Main page content (once per page) || <article> | Semantic | Self-contained content | Blog post, news article || <aside> | Semantic | Tangentially related | Sidebar, callout box || <footer> | Semantic | Bottom section | Copyright, links, contact"
+          ],
+          "common_mistakes": [
+            "Using <div> for everything — loses semantic meaning, hurts SEO and accessibility",
+            "Using <header> tag inside <header> tag — valid but confusing, use <div> for inner grouping"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Core HTML",
+      "topics": [
+        {
+          "name": "Text Formatting, Lists and Tables",
+          "keywords": [
+            "formatting",
+            "bold",
+            "italic",
+            "list",
+            "ordered list",
+            "unordered list",
+            "table",
+            "thead",
+            "tbody",
+            "td",
+            "tr"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Text formatting tags — b, i, em, strong, u, ins, strike, del, sup, sub",
+            "Ordered and Unordered Lists — type, start, reversed, nesting",
+            "HTML Tables — table, thead, tbody, tfoot, tr, td, th, caption, colgroup",
+            "Table attributes — border, cellspacing, cellpadding, colspan, rowspan"
+          ],
+          "required_content": [
+            "<strong> = semantic bold (important content). <b> = visual bold only. <em> = semantic italic (emphasis). <i> = visual italic. Use semantic versions for accessibility",
+            "Ordered list: <ol type='A'> for A,B,C. type='i' for i,ii,iii. start='5' begins from 5. reversed reverses order",
+            "Table structure: <table> → <thead> (header rows) → <tbody> (data rows) → <tfoot> (summary row). <th> for header cells, <td> for data cells",
+            "colspan='2' makes cell span 2 columns. rowspan='3' makes cell span 3 rows. Used for merged cells in complex tables"
+          ],
+          "required_code": "<!-- Table with thead, tbody, tfoot -->\n<table border='1' cellpadding='8'>\n    <caption>Student Results</caption>\n    <thead>\n        <tr><th>Name</th><th>Score</th><th>Grade</th></tr>\n    </thead>\n    <tbody>\n        <tr><td>Alice</td><td>92</td><td>A</td></tr>\n        <tr><td>Bob</td><td>75</td><td>B</td></tr>\n    </tbody>\n    <tfoot>\n        <tr><td colspan='2'>Average</td><td>83.5</td></tr>\n    </tfoot>\n</table>",
+          "common_mistakes": [
+            "Forgetting <thead>/<tbody> — technically works but bad practice, breaks CSS nth-child targeting",
+            "Using tables for page layout — tables are for tabular DATA only, use flexbox/grid for layout"
+          ]
+        },
+        {
+          "name": "Images and Links",
+          "keywords": [
+            "img",
+            "image",
+            "anchor",
+            "link",
+            "href",
+            "src",
+            "iframe",
+            "url",
+            "uri",
+            "download"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Images — img tag, src, alt, width, height, srcset for responsive images",
+            "Links — anchor tag, href, target, download attribute, intra vs inter document links",
+            "URL vs URI distinction",
+            "iframe — embedding external pages, YouTube videos"
+          ],
+          "required_content": [
+            "img src='path' alt='description'. alt is mandatory for accessibility — screen readers read it. width/height in px or %",
+            "target='_blank' opens link in new tab. target='_self' (default) opens in same tab. Intra-document: href='#section-id'",
+            "srcset='small.jpg 480w, large.jpg 1080w' — browser picks right image based on screen width. Saves bandwidth on mobile",
+            "iframe src='https://youtube.com/embed/xyz' — embeds YouTube. Use sandbox attribute to restrict permissions"
+          ],
+          "required_code": "<!-- Responsive image with srcset -->\n<img src='default.jpg' \n     srcset='small.jpg 480w, medium.jpg 800w, large.jpg 1200w'\n     sizes='(max-width: 600px) 480px, (max-width: 900px) 800px, 1200px'\n     alt='Product photo'\n     width='100%'>\n\n<!-- Link examples -->\n<a href='#section2'>Jump to Section 2</a>  <!-- intra-document -->\n<a href='about.html'>About Page</a>          <!-- inter-document -->\n<a href='file.pdf' download>Download PDF</a> <!-- download -->\n<a href='https://google.com' target='_blank'>Google</a>",
+          "common_mistakes": [
+            "Missing alt attribute on img — fails accessibility audit, bad for SEO",
+            "Using target='_blank' without rel='noopener noreferrer' — security vulnerability (tab-nabbing attack)"
+          ]
+        },
+        {
+          "name": "HTML Forms — Complete Guide",
+          "keywords": [
+            "form",
+            "input",
+            "button",
+            "select",
+            "textarea",
+            "radio",
+            "checkbox",
+            "validation",
+            "get",
+            "post",
+            "label"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Form basics — action, method, GET vs POST",
+            "Input types — text, password, email, number, range, date, color, file, radio, checkbox",
+            "Form elements — select, datalist, textarea, meter, progress, label, button",
+            "Form validation — required, pattern, minlength, min, max attributes",
+            "Regular expressions in pattern attribute"
+          ],
+          "required_content": [
+            "GET: data in URL (visible, bookmarkable, limited size). POST: data in request body (hidden, no size limit). Use POST for passwords and sensitive data",
+            "label for='input-id' — clicking label focuses input. Crucial for accessibility and UX",
+            "pattern attribute accepts regex. pattern='[A-Za-z]{3,}' requires 3+ letters. Use with title attribute to show error message",
+            "radio buttons must share same name attribute to be mutually exclusive. checkbox each has independent name"
+          ],
+          "required_code": "<!-- Complete login form -->\n<form action='/login' method='POST'>\n    <label for='email'>Email:</label>\n    <input type='email' id='email' name='email' required placeholder='you@example.com'>\n    \n    <label for='password'>Password:</label>\n    <input type='password' id='password' name='password' \n           minlength='8' required\n           pattern='(?=.*[A-Z])(?=.*[0-9]).{8,}'\n           title='Min 8 chars, one uppercase, one number'>\n    \n    <label>\n        <input type='checkbox' name='remember'> Remember me\n    </label>\n    \n    <button type='submit'>Login</button>\n</form>",
+          "required_tables": [
+            "Input types: type | Purpose | Key Attributes || text | Single line text | placeholder, maxlength || password | Hidden text | minlength || email | Email validation | multiple || number | Numeric only | min, max, step || range | Slider | min, max, step || date | Date picker | min, max || file | File upload | accept, multiple || radio | One of many | name (shared) || checkbox | Multiple selection | checked || color | Color picker | value"
+          ],
+          "common_mistakes": [
+            "Not using label elements — clicking input area is small without label association",
+            "Using GET method for login forms — password appears in browser URL history"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Introduction to CSS",
+      "topics": [
+        {
+          "name": "CSS Basics — Selectors and Specificity",
+          "keywords": [
+            "css",
+            "selector",
+            "specificity",
+            "class selector",
+            "id selector",
+            "inline",
+            "embedded",
+            "external",
+            "cascade",
+            "cssom"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Three ways to add CSS — inline, embedded (style tag), external stylesheet",
+            "CSS selectors — element, class, id, universal (*)",
+            "Combinators — descendant, direct child (>), adjacent sibling (+), general sibling (~)",
+            "CSS specificity and cascade order",
+            "CDN and minification"
+          ],
+          "required_content": [
+            "Specificity order (lowest to highest): element (0,0,1) → class (0,1,0) → id (1,0,0) → inline (1,0,0,0) → !important",
+            "Inline CSS overrides everything but pollutes HTML. External stylesheet is best practice (separation of concerns)",
+            "Direct child selector: div > p — only p that are DIRECT children of div. Descendant: div p — any p inside div at any depth",
+            "CDN: Content Delivery Network. Bootstrap CDN loads from nearest server worldwide. Faster than local file for common libraries",
+            "Minification: removes whitespace and comments from CSS/JS. style.css → style.min.css. Reduces file size by 30-70%"
+          ],
+          "required_code": "/* Selector examples */\n* { box-sizing: border-box; }          /* universal */\np { color: #333; }                      /* element */\n.card { background: white; }           /* class */\n#header { position: fixed; }           /* id */\ndiv > p { margin: 0; }                 /* direct child */\ndiv p { line-height: 1.6; }            /* descendant */\nh2 + p { font-size: 1.1rem; }          /* adjacent sibling */\nh2 ~ p { color: gray; }                /* general sibling */",
+          "required_tables": [
+            "Specificity: Selector Type | Specificity Value | Example || Inline style | 1,0,0,0 | style='color:red' || ID | 0,1,0,0 | #header || Class | 0,0,1,0 | .card || Attribute | 0,0,1,0 | [type='text'] || Element | 0,0,0,1 | p, div || Universal | 0,0,0,0 | *"
+          ],
+          "common_mistakes": [
+            "Using id for styling (high specificity makes overriding hard) — use classes for CSS",
+            "Thinking last rule always wins — specificity beats order. A class rule later in file won't override an inline style"
+          ]
+        },
+        {
+          "name": "CSS Box Model, Colors and Units",
+          "keywords": [
+            "box model",
+            "margin",
+            "padding",
+            "border",
+            "width",
+            "height",
+            "css units",
+            "em",
+            "rem",
+            "vh",
+            "vw",
+            "px"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "CSS Box Model — content, padding, border, margin",
+            "box-sizing: content-box vs border-box",
+            "CSS Units — absolute (px, pt) vs relative (em, rem, %, vh, vw)",
+            "CSS Colors — gradients (linear-gradient, radial-gradient)",
+            "box-shadow and border-radius"
+          ],
+          "required_content": [
+            "Box model layers (inside out): content → padding (inside border) → border → margin (outside border). Total width = content + padding + border",
+            "box-sizing: border-box — width includes padding and border (predictable). content-box (default) — width is content only (confusing). Always use border-box",
+            "px: fixed pixels. em: relative to parent font-size. rem: relative to root font-size (html). vh/vw: % of viewport height/width",
+            "linear-gradient(direction, color1, color2). linear-gradient(to right, #FF6B6B, #4ECDC4) — horizontal gradient",
+            "box-shadow: offset-x offset-y blur spread color. box-shadow: 0 4px 6px rgba(0,0,0,0.1)"
+          ],
+          "required_code": "/* Box model demo */\n.card {\n    width: 300px;\n    padding: 20px;          /* space inside border */\n    border: 2px solid #ddd;\n    border-radius: 8px;\n    margin: 16px auto;      /* space outside border, centered */\n    box-shadow: 0 4px 12px rgba(0,0,0,0.1);\n    box-sizing: border-box; /* width includes padding+border */\n    background: linear-gradient(135deg, #667eea, #764ba2);\n    color: white;\n}",
+          "required_diagrams": [
+            "CSS Box Model diagram: concentric rectangles. Outermost = margin (labeled, light blue). Next = border (labeled, dark line). Next = padding (labeled, light green). Center = content (labeled, white). Show measurements on each layer."
+          ],
+          "common_mistakes": [
+            "Not setting box-sizing: border-box — elements overflow their containers because padding adds to width",
+            "Using px for font sizes — prevents browser accessibility zoom from working. Use rem instead"
+          ]
+        },
+        {
+          "name": "Advanced CSS Selectors and Pseudo-classes",
+          "keywords": [
+            "pseudo class",
+            "hover",
+            "focus",
+            "nth-child",
+            "first-child",
+            "last-child",
+            "pseudo element",
+            "before",
+            "after",
+            "attribute selector"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Dynamic pseudo-classes — :hover, :focus, :active, :visited, :link",
+            "Structural pseudo-selectors — :first-child, :last-child, :nth-child(n), :nth-of-type",
+            "Element state pseudo-classes — :enabled, :disabled, :checked, :read-only",
+            "Pseudo-elements — ::before, ::after, ::first-line, ::first-letter, ::placeholder",
+            "Attribute selectors — [attr], [attr^=], [attr$=], [attr*=]"
+          ],
+          "required_content": [
+            ":nth-child(2n) selects every even element. :nth-child(2n+1) selects every odd. :nth-child(3n) selects every 3rd",
+            "::before and ::after create CSS-only decorative elements. content: '' is required. Used for tooltips, badges, custom bullets",
+            "Attribute selectors: [href^='https'] — starts with. [href$='.pdf'] — ends with. [class*='btn'] — contains. Powerful for targeting without extra classes",
+            ":focus is critical for keyboard accessibility. Always style focus — never do outline: none without a replacement"
+          ],
+          "required_code": "/* Pseudo-class examples */\na:hover { color: #007bff; text-decoration: underline; }\ninput:focus { outline: 2px solid #007bff; border-color: #007bff; }\ntr:nth-child(even) { background: #f8f9fa; } /* zebra table */\nli:first-child { font-weight: bold; }\nbutton:disabled { opacity: 0.5; cursor: not-allowed; }\n\n/* Pseudo-element */\n.required-field::after {\n    content: ' *';\n    color: red;\n}\n\n/* Attribute selector */\na[href^='https']::before { content: '🔒 '; } /* show lock for https links */",
+          "common_mistakes": [
+            "Confusing ::before (pseudo-element, double colon) with :hover (pseudo-class, single colon)",
+            "Forgetting content: '' on ::before/::after — element won't appear without content property"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Positions, Flexbox and Grid in CSS",
+      "topics": [
+        {
+          "name": "CSS Positions and Display",
+          "keywords": [
+            "position",
+            "static",
+            "relative",
+            "absolute",
+            "fixed",
+            "sticky",
+            "z-index",
+            "display",
+            "block",
+            "inline",
+            "inline-block"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "CSS position values — static, relative, absolute, fixed, sticky",
+            "z-index — controlling stacking order",
+            "Display values — none, block, inline, inline-block, flex, grid",
+            "Visibility vs display:none distinction"
+          ],
+          "required_content": [
+            "static (default): normal flow. relative: offset from normal position, keeps space. absolute: removed from flow, relative to nearest positioned ancestor. fixed: relative to viewport, stays on scroll. sticky: relative until scroll threshold, then fixed",
+            "z-index only works on positioned elements (not static). Higher z-index = on top. Negative values go behind",
+            "block: full width, new line (div, p, h1). inline: content width, same line (span, a, img). inline-block: content width but accepts width/height",
+            "display:none — removes from layout, invisible. visibility:hidden — invisible but keeps space. opacity:0 — invisible, keeps space, still clickable"
+          ],
+          "required_code": "/* Position examples */\n.parent { position: relative; }\n\n.absolute-child {\n    position: absolute;\n    top: 10px;\n    right: 10px;  /* top-right corner of parent */\n}\n\n.sticky-nav {\n    position: sticky;\n    top: 0;           /* sticks at top when scrolled past */\n    z-index: 100;\n    background: white;\n}\n\n.modal-overlay {\n    position: fixed;\n    top: 0; left: 0;\n    width: 100%; height: 100%;\n    background: rgba(0,0,0,0.5);\n    z-index: 1000;\n}",
+          "required_diagrams": [
+            "CSS position comparison: 4 small diagrams side by side. 1) relative — element in flow, shifted with dotted outline showing original position. 2) absolute — element lifted out of flow, positioned in corner of parent. 3) fixed — element pinned to viewport corner, page scrolling behind it. 4) sticky — element scrolling normally, then freezing at top."
+          ],
+          "common_mistakes": [
+            "Using position:absolute without setting position:relative on parent — element positions relative to body/html instead",
+            "Setting z-index on static elements — has no effect, must set position first"
+          ]
+        },
+        {
+          "name": "Flexbox — Complete Guide",
+          "keywords": [
+            "flexbox",
+            "flex",
+            "justify-content",
+            "align-items",
+            "flex-direction",
+            "flex-wrap",
+            "flex-grow",
+            "align-self"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Flex container properties — display:flex, flex-direction, flex-wrap, justify-content, align-items",
+            "Flex item properties — flex-grow, flex-shrink, flex-basis, align-self, order",
+            "Main axis vs cross axis concept",
+            "Common Flexbox layouts — navbar, card row, centered content"
+          ],
+          "required_content": [
+            "flex-direction: row (default, horizontal) or column (vertical). This defines the MAIN AXIS. Cross axis is perpendicular",
+            "justify-content: aligns items along MAIN AXIS. Values: flex-start, flex-end, center, space-between, space-around, space-evenly",
+            "align-items: aligns items along CROSS AXIS. Values: flex-start, flex-end, center, stretch (default), baseline",
+            "flex: 1 — shorthand for flex-grow:1, flex-shrink:1, flex-basis:0. Makes item take equal share of available space"
+          ],
+          "required_code": "/* Flexbox navbar */\n.navbar {\n    display: flex;\n    justify-content: space-between;  /* logo left, links right */\n    align-items: center;             /* vertically centered */\n    padding: 0 20px;\n    height: 60px;\n}\n\n/* Centered card */\n.container {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    min-height: 100vh;               /* full screen height */\n}\n\n/* Equal-width cards */\n.card-row {\n    display: flex;\n    gap: 16px;\n}\n.card { flex: 1; }  /* all cards equal width */",
+          "required_diagrams": [
+            "Flexbox axes diagram: show a flex container with row direction. Label horizontal line as MAIN AXIS with justify-content. Label vertical line as CROSS AXIS with align-items. Show items positioned by space-between on main axis and center on cross axis."
+          ],
+          "common_mistakes": [
+            "Applying flex properties to the wrong element — display:flex goes on PARENT (container), not on the items themselves",
+            "Confusing justify-content (main axis) with align-items (cross axis) — swaps when flex-direction changes to column"
+          ]
+        },
+        {
+          "name": "CSS Grid — Complete Guide",
+          "keywords": [
+            "grid",
+            "grid-template-columns",
+            "grid-template-rows",
+            "grid-area",
+            "grid-gap",
+            "fr unit",
+            "auto-fill",
+            "auto-fit"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Grid container — display:grid, grid-template-columns, grid-template-rows, grid-gap",
+            "The fr unit and repeat() function",
+            "Grid item placement — grid-column, grid-row, grid-area",
+            "auto-fill vs auto-fit for responsive grids"
+          ],
+          "required_content": [
+            "grid-template-columns: 200px 1fr 1fr — first column 200px fixed, other two share remaining space equally",
+            "repeat(3, 1fr) = 1fr 1fr 1fr. repeat(auto-fill, minmax(250px, 1fr)) — creates as many 250px+ columns as fit",
+            "grid-column: 1 / 3 — item spans from column line 1 to line 3 (occupies 2 columns). grid-column: 1 / -1 — spans all columns",
+            "Grid vs Flexbox: Grid = 2D layout (rows AND columns). Flexbox = 1D layout (row OR column). Use Grid for page layout, Flexbox for component layout"
+          ],
+          "required_code": "/* Responsive grid layout */\n.grid-container {\n    display: grid;\n    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n    gap: 20px;\n    padding: 20px;\n}\n\n/* Named grid areas layout */\n.page-layout {\n    display: grid;\n    grid-template-areas:\n        'header header header'\n        'sidebar main main'\n        'footer footer footer';\n    grid-template-columns: 250px 1fr 1fr;\n    grid-template-rows: 60px 1fr 80px;\n    min-height: 100vh;\n}\n.header { grid-area: header; }\n.sidebar { grid-area: sidebar; }\n.main    { grid-area: main; }\n.footer  { grid-area: footer; }",
+          "required_diagrams": [
+            "CSS Grid visual: show a 3x3 grid with lines numbered 1-4 on both axes. Highlight one item spanning columns 1-3 (grid-column: 1/3). Show gap between cells. Label grid lines, tracks, cells, and areas."
+          ],
+          "common_mistakes": [
+            "Confusing grid lines (numbers) with column counts — grid-column: 1/3 spans 2 columns (from line 1 to line 3)",
+            "Using Grid for simple single-row layouts — Flexbox is simpler and more appropriate"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Advanced CSS",
+      "topics": [
+        {
+          "name": "CSS Typography, Transforms and Transitions",
+          "keywords": [
+            "font",
+            "text",
+            "transform",
+            "transition",
+            "animation",
+            "keyframes",
+            "translate",
+            "rotate",
+            "scale"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "CSS Font properties — font-family, font-size, font-weight, font-style",
+            "Text properties — text-align, text-decoration, text-transform, line-height, letter-spacing",
+            "CSS 2D Transforms — translate, rotate, scale, skew",
+            "CSS Transitions — property, duration, timing-function, delay"
+          ],
+          "required_content": [
+            "font-family fallback stack: font-family: 'Roboto', Arial, sans-serif — browser tries each in order. Always end with generic family (serif, sans-serif, monospace)",
+            "line-height: 1.6 (unitless, recommended) — 1.6x the font size. Better than px because scales with font",
+            "transform: translate(x, y) — moves element without affecting layout flow. translate(-50%, -50%) used for perfect centering",
+            "transition: property duration timing-function delay. transition: all 0.3s ease — smooth animation on any property change"
+          ],
+          "required_code": "/* Typography best practices */\nbody {\n    font-family: 'Inter', system-ui, sans-serif;\n    font-size: 16px;        /* base size */\n    line-height: 1.6;\n    color: #333;\n}\nh1 { font-size: 2.5rem; font-weight: 700; }\n\n/* Transform + transition for card hover */\n.card {\n    transition: transform 0.3s ease, box-shadow 0.3s ease;\n}\n.card:hover {\n    transform: translateY(-8px);          /* lift up */\n    box-shadow: 0 12px 24px rgba(0,0,0,0.15);\n}\n\n/* Centered overlay using transform */\n.centered {\n    position: absolute;\n    top: 50%; left: 50%;\n    transform: translate(-50%, -50%);     /* exact center */\n}",
+          "common_mistakes": [
+            "Using margin-top to push elements for visual effects — use transform:translateY for animations, it doesn't cause reflow",
+            "Setting transition: all — can cause performance issues, specify exact properties instead"
+          ]
+        },
+        {
+          "name": "CSS Animations and Media Queries",
+          "keywords": [
+            "animation",
+            "keyframes",
+            "media query",
+            "responsive",
+            "breakpoint",
+            "viewport",
+            "mobile first"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "CSS Animations — @keyframes, animation properties",
+            "CSS Filter functions — blur, brightness, contrast, grayscale",
+            "Media Queries — min-width, max-width, orientation",
+            "Responsive design — mobile-first approach, fluid images, viewport meta"
+          ],
+          "required_content": [
+            "@keyframes defines animation states. animation: name duration timing-function iteration. animation: spin 2s linear infinite",
+            "Mobile-first: write CSS for mobile first, then add media queries for larger screens. min-width queries build UP from small",
+            "Standard breakpoints: 576px (sm), 768px (md), 992px (lg), 1200px (xl)",
+            "Fluid images: img { max-width: 100%; height: auto; } — image never overflows container but shrinks on small screens"
+          ],
+          "required_code": "/* Keyframe animation */\n@keyframes fadeInUp {\n    from { opacity: 0; transform: translateY(30px); }\n    to   { opacity: 1; transform: translateY(0); }\n}\n.animate { animation: fadeInUp 0.6s ease forwards; }\n\n/* Filter effects */\n.img-hover:hover { filter: brightness(1.2) saturate(1.3); }\n.blur-bg { filter: blur(8px); }\n\n/* Mobile-first media queries */\n.container { padding: 10px; }           /* mobile default */\n\n@media (min-width: 768px) {\n    .container { padding: 20px; }       /* tablet */\n    .grid { grid-template-columns: 1fr 1fr; }\n}\n\n@media (min-width: 1200px) {\n    .container { max-width: 1140px; margin: auto; } /* desktop */\n    .grid { grid-template-columns: repeat(4, 1fr); }\n}",
+          "common_mistakes": [
+            "Desktop-first media queries (max-width) — harder to maintain, requires overriding more styles. Use mobile-first (min-width)",
+            "Animating width/height — triggers layout reflow, causes jank. Animate transform and opacity instead"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Introduction to JavaScript",
+      "topics": [
+        {
+          "name": "JavaScript Fundamentals — Variables, Data Types, Operators",
+          "keywords": [
+            "javascript",
+            "variable",
+            "var",
+            "let",
+            "const",
+            "datatype",
+            "string",
+            "number",
+            "boolean",
+            "operator",
+            "typeof"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to JS — AOT vs JIT compilation, JS engines (V8)",
+            "Variables — var, let, const differences, scopes",
+            "Data types — primitive (string, number, boolean, null, undefined, symbol) vs non-primitive",
+            "Operators — arithmetic, comparison, logical, ternary, nullish coalescing (??) "
+          ],
+          "required_content": [
+            "var: function-scoped, hoisted, can redeclare. let: block-scoped, not hoisted (TDZ), can reassign. const: block-scoped, must initialize, cannot reassign (but object properties CAN change)",
+            "typeof null === 'object' — famous JS bug. typeof undefined === 'undefined'. typeof function === 'function'",
+            "== (loose equality) does type coercion: '5' == 5 is true. === (strict) checks type AND value: '5' === 5 is false. Always use ===",
+            "?? (nullish coalescing): returns right side only if left is null or undefined. Different from || which triggers on any falsy value (0, '', false)"
+          ],
+          "required_code": "// Variable declarations\nvar oldWay = 'function scoped';    // avoid\nlet counter = 0;                    // use for mutable values\nconst PI = 3.14159;                 // use for constants\nconst user = { name: 'Alice' };     // object ref constant\nuser.name = 'Bob';                  // OK: property can change\n// user = {}; ERROR: cannot reassign const\n\n// Type checking\nconsole.log(typeof 42);        // 'number'\nconsole.log(typeof 'hello');   // 'string'\nconsole.log(typeof true);      // 'boolean'\nconsole.log(typeof null);      // 'object' (historic bug!)\nconsole.log(typeof undefined); // 'undefined'\n\n// Nullish coalescing\nconst name = user.name ?? 'Anonymous'; // 'Anonymous' if null/undefined\nconst count = 0 || 'default';          // 'default' (0 is falsy!)\nconst count2 = 0 ?? 'default';         // 0 (?? only triggers on null/undefined)",
+          "required_tables": [
+            "var vs let vs const: Feature | var | let | const || Scope | Function | Block | Block || Hoisting | Yes (undefined) | No (TDZ) | No (TDZ) || Redeclaration | Allowed | Error | Error || Reassignment | Allowed | Allowed | Error || Use today | Avoid | Yes | Preferred"
+          ],
+          "common_mistakes": [
+            "Using == instead of === — '0' == false is true in JS, causes subtle bugs",
+            "Thinking const prevents mutation — const prevents reassignment of the variable, NOT mutation of the object it points to"
+          ]
+        },
+        {
+          "name": "DOM Manipulation and Events",
+          "keywords": [
+            "dom",
+            "getelementbyid",
+            "queryselector",
+            "addeventlistener",
+            "innerhtml",
+            "classlist",
+            "events",
+            "onclick",
+            "onchange"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Targeting DOM elements — getElementById, querySelector, querySelectorAll, getElementsByClassName",
+            "Reading and modifying DOM — innerHTML, innerText, textContent, value",
+            "Modifying CSS via JS — style property, classList (add, remove, toggle)",
+            "Events — addEventListener, event object, common events (click, input, change, submit, keydown)"
+          ],
+          "required_content": [
+            "querySelector returns FIRST match (or null). querySelectorAll returns NodeList of ALL matches. NodeList is NOT an array (use Array.from() or spread)",
+            "innerHTML parses HTML (XSS risk with user input). innerText shows only visible text. textContent shows all text including hidden",
+            "classList.toggle('active') adds class if absent, removes if present. classList.contains('active') returns boolean",
+            "addEventListener('click', handler) preferred over onclick attribute — can add multiple handlers, can remove them"
+          ],
+          "required_code": "// DOM targeting\nconst btn = document.getElementById('submit-btn');\nconst cards = document.querySelectorAll('.card');\nconst firstCard = document.querySelector('.card');\n\n// Modifying content\nbtn.innerText = 'Click Me';\nfirstCard.innerHTML = '<h3>Updated Title</h3>';\n\n// Modifying CSS\nfirstCard.style.backgroundColor = '#007bff';\nfirstCard.classList.add('active');\nfirstCard.classList.toggle('hidden');\n\n// Event listener\nbtn.addEventListener('click', function(event) {\n    event.preventDefault();  // stop form submit/link navigate\n    console.log('Clicked!', event.target);\n    firstCard.classList.toggle('active');\n});\n\n// Input event\nconst input = document.querySelector('#search');\ninput.addEventListener('input', (e) => {\n    console.log('Current value:', e.target.value);\n});",
+          "common_mistakes": [
+            "Running DOM code before page loads — wrap in DOMContentLoaded or put script at bottom of body",
+            "Using innerHTML with user input without sanitization — XSS (Cross-Site Scripting) vulnerability"
+          ]
+        },
+        {
+          "name": "Functions, Scope and Closures",
+          "keywords": [
+            "function",
+            "arrow function",
+            "scope",
+            "closure",
+            "hoisting",
+            "callback",
+            "higher order",
+            "iife"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Function declarations vs expressions vs arrow functions",
+            "Scope — global, function, block scope",
+            "Hoisting — variable and function hoisting",
+            "Closures — function remembering its outer scope",
+            "Callbacks and higher-order functions"
+          ],
+          "required_content": [
+            "Arrow functions: shorter syntax, no own 'this'. const add = (a, b) => a + b. NOT suitable as methods or constructors",
+            "Function declarations are hoisted completely (can call before declaration). Function expressions are NOT hoisted",
+            "Closure: inner function retains access to outer function's variables even after outer function returns. Used for data privacy and factory functions",
+            "Higher-order functions: functions that take/return functions. Array methods (map, filter, reduce) are HOFs"
+          ],
+          "required_code": "// Function types\nfunction declared() { return 'hoisted'; }  // declaration\nconst expressed = function() { return 'not hoisted'; };\nconst arrow = (x) => x * 2;                 // arrow\n\n// Closure example\nfunction createCounter() {\n    let count = 0;                    // private variable\n    return {\n        increment: () => ++count,\n        decrement: () => --count,\n        getCount:  () => count\n    };\n}\nconst counter = createCounter();\ncounter.increment(); // 1\ncounter.increment(); // 2\ncounter.getCount();  // 2 — count is private!\n\n// Higher-order functions\nconst numbers = [1, 2, 3, 4, 5];\nconst doubled  = numbers.map(n => n * 2);         // [2,4,6,8,10]\nconst evens    = numbers.filter(n => n % 2 === 0); // [2,4]\nconst sum      = numbers.reduce((acc, n) => acc + n, 0); // 15",
+          "common_mistakes": [
+            "Using arrow functions as object methods — 'this' refers to outer scope, not the object",
+            "Confusing closure with global variables — closure captures variables from the specific outer function call, not global"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Conditionals, Loops and Arrays in JavaScript",
+      "topics": [
+        {
+          "name": "Conditionals and Control Flow",
+          "keywords": [
+            "if",
+            "else",
+            "switch",
+            "ternary",
+            "short circuit",
+            "logical operator",
+            "conditional"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "if, else if, else — simple and nested conditions",
+            "Switch statement — when to use over if-else",
+            "Ternary operator — single-line conditional",
+            "Short-circuit evaluation — && and || for conditional execution"
+          ],
+          "required_content": [
+            "switch uses strict equality (===). Don't forget break — without it, execution falls through to next case. Use default as last case",
+            "Ternary: condition ? valueIfTrue : valueIfFalse. Good for simple cases, not for complex logic (hurts readability)",
+            "Short-circuit: user && user.name — if user is falsy, stops and returns user (prevents error). isLoggedIn || redirectToLogin() — runs redirectToLogin only if not logged in",
+            "Truthy/Falsy: falsy values in JS: false, 0, '', null, undefined, NaN. Everything else is truthy"
+          ],
+          "required_code": "// if-else chain\nconst score = 85;\nlet grade;\nif (score >= 90)      grade = 'A';\nelse if (score >= 80) grade = 'B';\nelse if (score >= 70) grade = 'C';\nelse                   grade = 'F';\n\n// Ternary\nconst message = score >= 60 ? 'Pass' : 'Fail';\n\n// Short-circuit patterns\nconst user = { name: 'Alice', role: 'admin' };\nconst name = user && user.name;  // safe property access\nconst display = name || 'Guest'; // fallback\n\n// Optional chaining (modern)\nconst city = user?.address?.city;  // undefined if address missing\n\n// Switch\nconst day = 'Monday';\nswitch(day) {\n    case 'Monday':\n    case 'Tuesday': console.log('Weekday'); break;\n    case 'Saturday':\n    case 'Sunday':  console.log('Weekend'); break;\n    default:        console.log('Other day');\n}",
+          "common_mistakes": [
+            "Missing break in switch — code falls through to next case unintentionally",
+            "Using || for default values when 0 or '' are valid — use ?? (nullish coalescing) instead"
+          ]
+        },
+        {
+          "name": "Loops and Iteration",
+          "keywords": [
+            "for loop",
+            "while",
+            "do while",
+            "for in",
+            "for of",
+            "break",
+            "continue",
+            "iterator"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "for loop — classic counter-based loop",
+            "while and do-while — condition-based loops",
+            "for...in — iterating object keys",
+            "for...of — iterating iterables (arrays, strings, NodeList)",
+            "break, continue, return — loop control"
+          ],
+          "required_content": [
+            "for...in iterates over KEYS of an object (or array indices). for...of iterates over VALUES of an iterable. Use for...of for arrays, for...in for objects",
+            "do-while executes body AT LEAST ONCE before checking condition. Use when you need to run first, then check",
+            "break exits the loop entirely. continue skips to next iteration. return exits the entire function",
+            "Array forEach is cleaner for arrays: arr.forEach((item, index) => ...). Cannot use break/continue inside forEach"
+          ],
+          "required_code": "// Loop types comparison\nconst fruits = ['apple', 'banana', 'cherry'];\n\n// Classic for (when you need index)\nfor (let i = 0; i < fruits.length; i++) {\n    console.log(i, fruits[i]);\n}\n\n// for-of (clean value iteration)\nfor (const fruit of fruits) {\n    console.log(fruit);\n}\n\n// for-in (object keys)\nconst person = { name: 'Alice', age: 25 };\nfor (const key in person) {\n    console.log(key, person[key]); // 'name Alice', 'age 25'\n}\n\n// break and continue\nfor (let i = 0; i < 10; i++) {\n    if (i === 3) continue;  // skip 3\n    if (i === 7) break;     // stop at 7\n    console.log(i);         // 0,1,2,4,5,6\n}",
+          "common_mistakes": [
+            "Using for...in on arrays — iterates indices as strings, also iterates prototype properties. Use for...of for arrays",
+            "Modifying array length while looping — causes skipped/repeated elements. Create new array with filter/map instead"
+          ]
+        },
+        {
+          "name": "Arrays and Array Methods",
+          "keywords": [
+            "array",
+            "map",
+            "filter",
+            "reduce",
+            "push",
+            "pop",
+            "splice",
+            "slice",
+            "find",
+            "includes",
+            "spread",
+            "destructuring"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Array basics — creation, indexing, push, pop, shift, unshift, splice, slice",
+            "Searching — indexOf, find, findIndex, includes, some, every",
+            "Transformation — map, filter, reduce",
+            "Spread operator and array destructuring",
+            "Exception handling — try, catch, throw, finally"
+          ],
+          "required_content": [
+            "map returns NEW array of same length (transforms each item). filter returns NEW array of subset (removes items). reduce returns single value (accumulates)",
+            "slice(start, end) — non-destructive, returns copy. splice(start, deleteCount, ...items) — destructive, modifies original, returns removed items",
+            "find returns FIRST matching element (or undefined). filter returns ALL matching elements (as array)",
+            "Spread: [...arr1, ...arr2] combines arrays. [...arr] creates shallow copy. Destructuring: const [first, ...rest] = arr"
+          ],
+          "required_code": "const students = [\n    { name: 'Alice', score: 92 },\n    { name: 'Bob',   score: 68 },\n    { name: 'Carol', score: 85 },\n];\n\n// map — transform each\nconst names = students.map(s => s.name); // ['Alice','Bob','Carol']\n\n// filter — keep matching\nconst passing = students.filter(s => s.score >= 70); // Alice, Carol\n\n// reduce — accumulate\nconst total = students.reduce((sum, s) => sum + s.score, 0); // 245\nconst avg   = total / students.length;  // 81.67\n\n// find — first match\nconst topStudent = students.find(s => s.score >= 90);  // Alice\n\n// Spread + destructuring\nconst [first, ...rest] = students;\nconst newList = [...students, { name: 'Dave', score: 78 }];\n\n// Exception handling\ntry {\n    const data = JSON.parse(userInput);  // might throw\n    processData(data);\n} catch (error) {\n    console.error('Invalid JSON:', error.message);\n} finally {\n    hideLoadingSpinner();  // always runs\n}",
+          "common_mistakes": [
+            "Using splice when you mean slice — splice mutates the original array, slice does not",
+            "Expecting map/filter to mutate original array — they return NEW arrays, original is unchanged"
+          ]
+        }
+      ]
+    }
+  ]
+}

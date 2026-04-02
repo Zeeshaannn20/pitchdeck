@@ -1,0 +1,723 @@
+{
+  "subject": "object oriented programming using java",
+  "modules": [
+    {
+      "module": "Java Fundamentals",
+      "topics": [
+        {
+          "name": "Inception of Java and Platform Independence",
+          "keywords": [
+            "java",
+            "platform independent",
+            "jvm",
+            "bytecode",
+            "history",
+            "features",
+            "versions",
+            "wora"
+          ],
+          "nature": "theoretical",
+          "no_code": false,
+          "subtopics": [
+            "Invention of Java — history, creators, why Java was needed",
+            "Features of Java — platform independence, OOP, robust, secure, multithreaded",
+            "Platform Dependency vs Platform Independence — C failure, Java success",
+            "Java versions timeline — Java 8, 11, 17, 21 key features"
+          ],
+          "required_content": [
+            "Java invented by James Gosling at Sun Microsystems in 1995. Originally called 'Oak', renamed Java. Designed for embedded systems, became internet language",
+            "Platform Independence: C code compiles to machine-specific binary. Java compiles to bytecode (.class) — JVM interprets bytecode on any OS. WORA: Write Once Run Anywhere",
+            "C failure: C program compiled on Windows won't run on Linux — different machine instructions. Java solution: JVM acts as universal interpreter layer on every OS",
+            "Key Java features: Object-Oriented, Platform Independent, Robust (strong type checking), Secure (no pointers), Multithreaded, Garbage Collected"
+          ],
+          "required_diagrams": [
+            "Platform independence diagram: C flow (Source.c → Windows Compiler → Windows .exe → runs only on Windows). Java flow (Source.java → Java Compiler → Bytecode .class → JVM on Windows/Linux/Mac → runs everywhere). Side by side comparison."
+          ],
+          "required_tables": [
+            "Comparison: Feature | C Language | Java || Compilation target | Machine code | Bytecode (.class) || Portability | Not portable | Platform independent (WORA) || Memory management | Manual (malloc/free) | Automatic (Garbage Collector) || Pointers | Yes | No (references only) || Paradigm | Procedural | Object-Oriented"
+          ],
+          "common_mistakes": [
+            "Thinking Java source code runs directly on JVM — source code first compiles to bytecode, JVM runs bytecode",
+            "Confusing JDK, JRE, JVM — JDK = JRE + development tools. JRE = JVM + libraries. JVM = bytecode interpreter"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Object-Orientation in Java",
+      "topics": [
+        {
+          "name": "Object-Orientation Fundamentals and First Java Program",
+          "keywords": [
+            "object",
+            "class",
+            "oop",
+            "object oriented",
+            "new keyword",
+            "main method",
+            "instance",
+            "reference"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Object-Orientation principles — objects in real life vs in Java",
+            "Class vs Object — blueprint vs instance",
+            "new keyword — object creation and memory allocation",
+            "Main method syntax — public static void main(String[] args)",
+            "Develop, Compile and Execute a Java Program"
+          ],
+          "required_content": [
+            "Class = blueprint/template. Object = instance created from blueprint. Student class defines structure. new Student() creates actual object in heap memory",
+            "4 principles of OOP: Encapsulation (data hiding), Inheritance (reuse), Polymorphism (many forms), Abstraction (hide complexity)",
+            "new keyword: allocates memory in heap, calls constructor, returns reference. Student s = new Student() — s holds reference (address), not the object itself",
+            "main method is entry point. public: accessible from outside. static: no object needed to call. void: no return. String[] args: command-line arguments"
+          ],
+          "required_code": "// First Java Program\npublic class Student {\n    // Instance variables (attributes)\n    String name;\n    int rollNo;\n    double marks;\n\n    // Method (behavior)\n    void displayInfo() {\n        System.out.println(\"Name: \" + name);\n        System.out.println(\"Roll No: \" + rollNo);\n        System.out.println(\"Marks: \" + marks);\n    }\n\n    // Main method - entry point\n    public static void main(String[] args) {\n        // Create object using new keyword\n        Student s1 = new Student();\n        s1.name = \"Alice\";\n        s1.rollNo = 101;\n        s1.marks = 92.5;\n        s1.displayInfo();\n\n        Student s2 = new Student(); // separate object\n        s2.name = \"Bob\";\n        s2.rollNo = 102;\n        s2.marks = 85.0;\n        s2.displayInfo();\n    }\n}",
+          "required_diagrams": [
+            "Class vs Object diagram: Left side shows Student class as blueprint with fields (name, rollNo, marks) and methods (displayInfo). Right side shows two separate Student objects (s1: Alice, 101 and s2: Bob, 102) in heap memory with arrows from class to objects showing instantiation."
+          ],
+          "common_mistakes": [
+            "Confusing class and object — class is defined once, objects are created many times from it",
+            "Thinking Student s1 = new Student() stores the object in s1 — s1 stores only the REFERENCE (memory address)"
+          ]
+        },
+        {
+          "name": "Input/Output and Command-Line Arguments",
+          "keywords": [
+            "scanner",
+            "system.out",
+            "system.in",
+            "command line",
+            "args",
+            "input",
+            "output",
+            "println"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "System.out vs System.err — standard output vs error stream",
+            "Scanner class — reading input from keyboard",
+            "Command-Line Arguments — passing data from CLI",
+            "Naming conventions in Java — camelCase, PascalCase"
+          ],
+          "required_content": [
+            "System.out.println() — standard output to console. System.err.println() — error output (shown in red in IDEs). Both are PrintStream objects",
+            "Scanner sc = new Scanner(System.in). sc.nextInt(), sc.nextDouble(), sc.next() (word), sc.nextLine() (full line). Always close scanner",
+            "Command-line args: java MyProgram Alice 25 — args[0]=\"Alice\", args[1]=\"25\". All args are Strings, parse with Integer.parseInt() etc",
+            "Java naming: class names PascalCase (StudentInfo), method/variable names camelCase (firstName), constants UPPER_CASE (MAX_SIZE)"
+          ],
+          "required_code": "import java.util.Scanner;\n\npublic class InputDemo {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        System.out.print(\"Enter name: \");\n        String name = sc.nextLine();\n\n        System.out.print(\"Enter age: \");\n        int age = sc.nextInt();\n\n        System.out.print(\"Enter GPA: \");\n        double gpa = sc.nextDouble();\n\n        System.out.println(\"Name: \" + name);\n        System.out.println(\"Age: \" + age);\n        System.out.println(\"GPA: \" + gpa);\n\n        sc.close(); // always close Scanner\n\n        // Command-line args\n        // Run: java InputDemo Alice 21 3.8\n        if (args.length > 0) {\n            System.out.println(\"CLI Name: \" + args[0]);\n            System.out.println(\"CLI Age: \" + Integer.parseInt(args[1]));\n        }\n    }\n}",
+          "common_mistakes": [
+            "Calling sc.nextLine() after sc.nextInt() — nextInt() leaves newline in buffer, nextLine() reads empty string. Fix: add sc.nextLine() to consume the newline",
+            "Forgetting to parse command-line args — args[] is always String[], use Integer.parseInt() for numbers"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Tokens, Data Types and Operators",
+      "topics": [
+        {
+          "name": "Data Types, Type Casting and Literals",
+          "keywords": [
+            "data type",
+            "int",
+            "double",
+            "char",
+            "boolean",
+            "byte",
+            "short",
+            "long",
+            "float",
+            "type casting",
+            "implicit",
+            "explicit",
+            "literal"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Primitive data types — integer types (byte, short, int, long), real types (float, double)",
+            "Character and boolean data types",
+            "Implicit vs Explicit type casting",
+            "Type conversion chart — widening vs narrowing",
+            "var keyword in Java — local type inference"
+          ],
+          "required_content": [
+            "8 primitive types: byte(1B), short(2B), int(4B), long(8B), float(4B), double(8B), char(2B), boolean(1b). Default for integers: int. Default for decimals: double",
+            "Widening (implicit): byte→short→int→long→float→double. Happens automatically. Narrowing (explicit): must cast manually — data loss possible. double d=9.8; int i=(int)d; → i=9",
+            "char in Java is 2 bytes (Unicode, not ASCII). char c='A'; — stores Unicode value 65. Can do arithmetic: 'A'+1 = 66 = 'B'",
+            "var keyword (Java 10+): var x = 10; — compiler infers int. var list = new ArrayList<String>(); — cleaner code. Cannot use var for method parameters or fields"
+          ],
+          "required_code": "public class DataTypesDemo {\n    public static void main(String[] args) {\n        // Integer types\n        byte b = 127;           // max 127\n        short s = 32767;\n        int i = 2_147_483_647;  // underscore for readability\n        long l = 9_223_372_036_854_775_807L; // L suffix mandatory\n\n        // Real number types\n        float f = 3.14f;        // f suffix mandatory\n        double d = 3.14159265;  // default for decimals\n\n        // Char and boolean\n        char c = 'A';           // Unicode, 2 bytes\n        boolean flag = true;\n\n        // Widening (automatic)\n        int x = 100;\n        double y = x;           // int → double automatically\n\n        // Narrowing (manual cast, data loss)\n        double price = 99.99;\n        int rounded = (int) price;  // 99 — decimal truncated!\n\n        // var keyword\n        var name = \"Alice\";     // inferred as String\n        var count = 0;          // inferred as int\n        System.out.println(count + \": \" + name);\n    }\n}",
+          "required_tables": [
+            "Primitive data types: Type | Size | Range | Default | Example || byte | 1B | -128 to 127 | 0 | byte b = 100 || short | 2B | -32768 to 32767 | 0 | short s = 30000 || int | 4B | -2.1B to 2.1B | 0 | int i = 42 || long | 8B | very large | 0L | long l = 100L || float | 4B | 6-7 decimal digits | 0.0f | float f = 3.14f || double | 8B | 15-16 decimal digits | 0.0 | double d = 3.14 || char | 2B | 0 to 65535 | '\\u0000' | char c = 'A' || boolean | 1bit | true/false | false | boolean b = true"
+          ],
+          "common_mistakes": [
+            "Forgetting L suffix for long literals — long l = 9999999999 causes compile error. Write 9999999999L",
+            "Forgetting f suffix for float — float f = 3.14 causes error because 3.14 is double by default. Write 3.14f"
+          ]
+        },
+        {
+          "name": "Operators in Java",
+          "keywords": [
+            "operator",
+            "arithmetic",
+            "bitwise",
+            "logical",
+            "ternary",
+            "assignment",
+            "comparison",
+            "instanceof"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Arithmetic operators — +, -, *, /, %, ++, --",
+            "Comparison and logical operators — ==, !=, >, <, &&, ||, !",
+            "Bitwise operators — &, |, ^, ~, <<, >>",
+            "Ternary operator and instanceof",
+            "Operator precedence"
+          ],
+          "required_content": [
+            "Integer division: 7/2 = 3 (not 3.5). One operand must be double/float for decimal result: 7.0/2 = 3.5 or (double)7/2 = 3.5",
+            "% (modulo): 7%3 = 1 (remainder). Useful for even/odd check (n%2==0), circular indexing, last digit (n%10)",
+            "Short-circuit: && stops at first false. || stops at first true. Avoids NullPointerException: if(obj != null && obj.value > 0)",
+            "Bitwise: & (AND), | (OR), ^ (XOR), ~ (NOT), << (left shift = multiply by 2), >> (right shift = divide by 2)"
+          ],
+          "required_code": "public class OperatorsDemo {\n    public static void main(String[] args) {\n        // Arithmetic\n        System.out.println(7 / 2);      // 3 (integer division)\n        System.out.println(7.0 / 2);    // 3.5\n        System.out.println(7 % 3);      // 1 (remainder)\n        System.out.println(2 << 3);     // 16 (2 * 2^3)\n        System.out.println(16 >> 2);    // 4  (16 / 2^2)\n\n        // Comparison\n        int a = 5, b = 10;\n        System.out.println(a == b);     // false\n        System.out.println(a != b);     // true\n        System.out.println(a < b);      // true\n\n        // Logical with short-circuit\n        String s = null;\n        // Safe — short-circuit prevents NPE\n        if (s != null && s.length() > 0) {\n            System.out.println(\"Not empty\");\n        }\n\n        // Ternary\n        int max = (a > b) ? a : b;  // 10\n\n        // instanceof\n        Object obj = \"Hello\";\n        System.out.println(obj instanceof String); // true\n    }\n}",
+          "common_mistakes": [
+            "Using = instead of == in conditions — if(x = 5) assigns 5 to x, doesn't compare. Java catches this for primitives but not booleans",
+            "Assuming & and && behave the same — & always evaluates both sides, && short-circuits. Use && for null checks"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Control Constructs",
+      "topics": [
+        {
+          "name": "Conditional and Looping Statements",
+          "keywords": [
+            "if",
+            "else",
+            "switch",
+            "for",
+            "while",
+            "do while",
+            "break",
+            "continue",
+            "ternary",
+            "loop"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "if, if-else, if-else-if, nested-if statements",
+            "Switch statement — allowed types, fall-through, enhanced switch (Java 14+)",
+            "for, while, do-while loops",
+            "break, continue — labelled and unlabelled"
+          ],
+          "required_content": [
+            "Switch allowed types (Java): byte, short, int, char, String, enum. NOT: long, float, double, boolean",
+            "Fall-through in switch: without break, execution continues to next case. Sometimes intentional (multiple cases same action)",
+            "do-while executes body at least once — condition checked AFTER first execution. Use for menu-driven programs",
+            "Labelled break: breaks out of outer loop. Labelled continue: continues outer loop. Useful for nested loop control"
+          ],
+          "required_code": "public class ControlDemo {\n    public static void main(String[] args) {\n        // Enhanced switch (Java 14+)\n        int day = 3;\n        String dayName = switch(day) {\n            case 1 -> \"Monday\";\n            case 2 -> \"Tuesday\";\n            case 3 -> \"Wednesday\";\n            default -> \"Unknown\";\n        };\n        System.out.println(dayName); // Wednesday\n\n        // Labelled break\n        outer:\n        for (int i = 0; i < 3; i++) {\n            for (int j = 0; j < 3; j++) {\n                if (i == 1 && j == 1) break outer; // exits both loops\n                System.out.println(i + \",\" + j);\n            }\n        }\n\n        // do-while (runs at least once)\n        int choice;\n        do {\n            System.out.println(\"1.Start 2.Stop\");\n            choice = new java.util.Scanner(System.in).nextInt();\n        } while (choice != 2);\n    }\n}",
+          "common_mistakes": [
+            "Using float/double in switch — compile error. Switch only accepts int-compatible types and String",
+            "Missing break in switch — unintentional fall-through causes multiple cases to execute"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Java's Architecture and Variables",
+      "topics": [
+        {
+          "name": "JVM Architecture and Variable Types",
+          "keywords": [
+            "jdk",
+            "jre",
+            "jvm",
+            "jit",
+            "classloader",
+            "heap",
+            "stack",
+            "local variable",
+            "instance variable",
+            "static variable"
+          ],
+          "nature": "theoretical",
+          "no_code": false,
+          "subtopics": [
+            "JDK vs JRE vs JVM vs JIT — hierarchy and responsibilities",
+            "JVM Architecture — ClassLoader, Memory Areas, Execution Engine",
+            "JVM Memory Areas — Heap, Stack, Method Area, PC Register",
+            "Local Variables vs Instance Variables — scope, lifetime, defaults"
+          ],
+          "required_content": [
+            "JDK = JRE + development tools (javac, javadoc, jdb). JRE = JVM + class libraries. JVM = ClassLoader + Memory + Execution Engine. JIT = Just-In-Time compiler inside JVM",
+            "JVM Memory: Heap (objects, instance variables — GC managed). Stack (method calls, local variables — LIFO). Method Area (class metadata, static variables). PC Register (current instruction address)",
+            "Local variables: declared inside method, no default value (must initialize), exist only during method execution. Instance variables: declared in class, have default values (int=0, String=null, boolean=false)",
+            "Life cycle of Java program: Source.java → javac → Source.class (bytecode) → JVM loads → ClassLoader → Bytecode Verifier → Interpreter/JIT → CPU"
+          ],
+          "required_diagrams": [
+            "JVM Architecture diagram: show JVM as a box containing three sections. 1) ClassLoader subsystem (loading, linking, initialization). 2) Memory Areas (Heap, Stack, Method Area, PC Register, Native Method Stack). 3) Execution Engine (Interpreter, JIT Compiler, Garbage Collector). Show .class file entering ClassLoader."
+          ],
+          "required_tables": [
+            "Variable comparison: Feature | Local Variable | Instance Variable | Static Variable || Declared in | Method body | Class body | Class body with static || Memory | Stack | Heap (per object) | Method Area (once) || Default value | None (must init) | Yes (0, null, false) | Yes || Lifetime | Method execution | Object lifetime | Class lifetime || Access | Within method only | Through object | Through class name"
+          ],
+          "common_mistakes": [
+            "Using local variable without initialization — compile error 'variable might not have been initialized'",
+            "Thinking JVM is the same on all platforms — JVM implementation varies per OS (that's why Java is platform independent)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Methods in Java",
+      "topics": [
+        {
+          "name": "Methods — Definition, Types and Overloading",
+          "keywords": [
+            "method",
+            "parameter",
+            "return",
+            "void",
+            "method overloading",
+            "pass by value",
+            "pass by reference",
+            "method signature"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Method definition — syntax, return type, parameters",
+            "4 types of methods — no param/no return, no param/with return, param/no return, param/with return",
+            "Pass-by-Value vs Pass-by-Reference in Java",
+            "Method Overloading — same name different parameters",
+            "Wrapper classes — boxing, unboxing, autoboxing"
+          ],
+          "required_content": [
+            "Method signature = method name + parameter types. Return type is NOT part of signature. Two methods with same signature = compile error",
+            "Java is ALWAYS pass-by-value. For primitives: copy of value passed. For objects: copy of REFERENCE (address) passed — object itself can be modified but reassignment doesn't affect original",
+            "Method overloading: same name, different parameter count or types. Resolved at compile time (static/compile-time polymorphism). Return type alone cannot distinguish overloaded methods",
+            "Wrapper classes: Integer, Double, Character, Boolean etc. Boxing: int → Integer (new Integer(5)). Unboxing: Integer → int. Autoboxing: Java does it automatically (Java 5+)"
+          ],
+          "required_code": "public class MethodsDemo {\n    // Type-1: no params, no return\n    void greet() {\n        System.out.println(\"Hello!\");\n    }\n\n    // Type-2: no params, with return\n    int getYear() {\n        return 2024;\n    }\n\n    // Type-3: params, no return\n    void printSum(int a, int b) {\n        System.out.println(\"Sum: \" + (a + b));\n    }\n\n    // Type-4: params, with return\n    double calculateArea(double radius) {\n        return Math.PI * radius * radius;\n    }\n\n    // Method Overloading — same name, different params\n    int add(int a, int b) { return a + b; }\n    double add(double a, double b) { return a + b; }  // OK\n    int add(int a, int b, int c) { return a + b + c; } // OK\n    // double add(int a, int b) { return a+b; } // ERROR: same signature!\n\n    // Pass-by-value demo\n    void modify(int x) { x = 100; } // doesn't affect original\n    void modify(int[] arr) { arr[0] = 100; } // DOES affect original!\n\n    public static void main(String[] args) {\n        MethodsDemo d = new MethodsDemo();\n        // Autoboxing\n        Integer i = 42;        // int → Integer (autoboxing)\n        int j = i;             // Integer → int (unboxing)\n        System.out.println(d.calculateArea(5.0));\n    }\n}",
+          "common_mistakes": [
+            "Thinking Java uses pass-by-reference for objects — Java passes a COPY of the reference, not the reference itself. Reassigning the parameter won't change the original variable",
+            "Confusing method overloading (same class, different params) with method overriding (subclass, same signature)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Arrays in Java",
+      "topics": [
+        {
+          "name": "Arrays — Declaration, Initialization and Operations",
+          "keywords": [
+            "array",
+            "1d array",
+            "2d array",
+            "jagged array",
+            "for each",
+            "arrays class",
+            "varargs",
+            "arraycopy"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Array declaration and initialization — 1D, 2D, 3D arrays",
+            "Regular vs Jagged arrays",
+            "For-each loop — syntax, iterating arrays, limitations",
+            "Arrays utility class — sort, copyOf, fill, binarySearch",
+            "Varargs methods — variable argument count"
+          ],
+          "required_content": [
+            "Array in Java: int[] arr = new int[5]; — stored in heap. arr.length is property (not method). Index 0 to length-1. ArrayIndexOutOfBoundsException if out of range",
+            "Jagged array: int[][] jagged = new int[3][]; — rows have different lengths. jagged[0] = new int[2]; jagged[1] = new int[4]; Each row is separate array",
+            "for-each limitations: no index access, no backward traversal, cannot modify array elements, cannot skip elements. Use regular for loop when index needed",
+            "Varargs: void print(String... args) — zero or more arguments. args is treated as array inside method. Must be last parameter. Cannot have two varargs parameters"
+          ],
+          "required_code": "import java.util.Arrays;\n\npublic class ArraysDemo {\n    public static void main(String[] args) {\n        // 1D Array\n        int[] nums = {5, 2, 8, 1, 9, 3};\n        System.out.println(nums.length);        // 6\n        System.out.println(nums[2]);            // 8\n\n        // 2D Regular Array\n        int[][] matrix = new int[3][4]; // 3 rows, 4 cols\n        matrix[0][0] = 10;\n\n        // 2D Jagged Array\n        int[][] jagged = new int[3][];\n        jagged[0] = new int[]{1, 2};\n        jagged[1] = new int[]{3, 4, 5, 6};\n        jagged[2] = new int[]{7};\n\n        // For-each loop\n        for (int n : nums) {\n            System.out.print(n + \" \"); // 5 2 8 1 9 3\n        }\n\n        // Arrays utility methods\n        Arrays.sort(nums);\n        System.out.println(Arrays.toString(nums));  // [1,2,3,5,8,9]\n        int idx = Arrays.binarySearch(nums, 8);     // 4 (after sort)\n        int[] copy = Arrays.copyOf(nums, 3);        // [1,2,3]\n        Arrays.fill(copy, 0);                       // [0,0,0]\n\n        // Varargs\n        System.out.println(sum(1, 2, 3, 4, 5));    // 15\n    }\n\n    static int sum(int... numbers) {  // varargs\n        int total = 0;\n        for (int n : numbers) total += n;\n        return total;\n    }\n}",
+          "common_mistakes": [
+            "Using arr.length() — compile error. length is a PROPERTY for arrays, length() is a method for Strings",
+            "Comparing arrays with == — checks reference equality, not content. Use Arrays.equals() for content comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Strings in Java",
+      "topics": [
+        {
+          "name": "Strings — Immutable and Mutable",
+          "keywords": [
+            "string",
+            "immutable",
+            "stringbuilder",
+            "stringbuffer",
+            "string pool",
+            "intern",
+            "concat",
+            "string methods"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "String creation — string literals vs new String()",
+            "String immutability — String pool, 10 rules of Strings",
+            "String methods — length, charAt, substring, indexOf, replace, split, trim",
+            "Mutable Strings — StringBuilder vs StringBuffer",
+            "String to primitive and primitive to String conversion"
+          ],
+          "required_content": [
+            "String is immutable — once created, cannot change. String s = \"Hello\"; s = s + \" World\"; — original \"Hello\" unchanged, new object created. Old one eligible for GC",
+            "String pool: String s1 = \"Hello\"; String s2 = \"Hello\"; — same object in pool. String s3 = new String(\"Hello\"); — new object in heap. s1==s2 is true, s1==s3 is false. Use .equals() for content comparison",
+            "StringBuilder (not thread-safe, faster) vs StringBuffer (thread-safe, slower). Use StringBuilder in single-threaded code. Append, insert, delete, reverse, replace methods",
+            "String to int: Integer.parseInt(\"42\"). int to String: String.valueOf(42) or 42+\"\". String to char array: str.toCharArray()"
+          ],
+          "required_code": "public class StringsDemo {\n    public static void main(String[] args) {\n        // Immutability and String pool\n        String s1 = \"Hello\";\n        String s2 = \"Hello\";          // same object in pool\n        String s3 = new String(\"Hello\"); // new object in heap\n        System.out.println(s1 == s2);   // true (same pool object)\n        System.out.println(s1 == s3);   // false (different objects)\n        System.out.println(s1.equals(s3)); // true (same content)\n\n        // Common String methods\n        String str = \"  Hello, World!  \";\n        System.out.println(str.length());         // 17\n        System.out.println(str.trim());           // \"Hello, World!\"\n        System.out.println(str.toUpperCase());    // \"  HELLO, WORLD!  \"\n        System.out.println(str.indexOf(\"World\")); // 9\n        System.out.println(str.substring(2, 7));  // \"Hello\"\n        System.out.println(str.replace(\"World\", \"Java\")); // replace\n        String[] words = \"a,b,c\".split(\",\");      // [\"a\",\"b\",\"c\"]\n\n        // StringBuilder (mutable, fast)\n        StringBuilder sb = new StringBuilder();\n        sb.append(\"Hello\");\n        sb.append(\" World\");\n        sb.insert(5, \",\");            // \"Hello, World\"\n        sb.reverse();                 // \"dlroW ,olleH\"\n        System.out.println(sb.toString());\n\n        // Conversions\n        int num = Integer.parseInt(\"42\");    // String → int\n        String s = String.valueOf(42);       // int → String\n        double d = Double.parseDouble(\"3.14\"); // String → double\n    }\n}",
+          "required_tables": [
+            "StringBuilder vs StringBuffer vs String: Feature | String | StringBuilder | StringBuffer || Mutability | Immutable | Mutable | Mutable || Thread Safety | Yes | No | Yes || Performance | Slow (for concat) | Fastest | Moderate || Storage | String Pool/Heap | Heap | Heap || Use when | Fixed strings | Single-threaded | Multi-threaded"
+          ],
+          "common_mistakes": [
+            "Using == to compare String content — always use .equals() for content, == only checks reference",
+            "Concatenating Strings in a loop — creates many temporary objects. Use StringBuilder for loop concatenation"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "OOPs - Encapsulation",
+      "topics": [
+        {
+          "name": "Encapsulation, Constructors and this Keyword",
+          "keywords": [
+            "encapsulation",
+            "getter",
+            "setter",
+            "constructor",
+            "this keyword",
+            "private",
+            "public",
+            "data hiding",
+            "constructor overloading"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Encapsulation — private fields, public getters/setters",
+            "Shadowing problem and this keyword",
+            "Constructors — default, parameterized, constructor overloading",
+            "Constructor chaining — this() and super()",
+            "Constructor vs Method differences"
+          ],
+          "required_content": [
+            "Encapsulation: private fields cannot be accessed directly outside class. Public getter/setter methods control access. Benefits: validation in setter, read-only fields (no setter), write-only fields (no getter)",
+            "Shadowing: when parameter name == instance variable name, parameter shadows the field. this.name refers to instance variable, name refers to parameter",
+            "Constructor: same name as class, no return type (not even void). Called automatically on object creation. If no constructor defined, compiler provides default (no-arg) constructor",
+            "this() calls another constructor in same class — must be first statement. Used for constructor chaining to avoid code duplication"
+          ],
+          "required_code": "public class BankAccount {\n    private String accountNo;   // private — encapsulated\n    private double balance;\n    private String owner;\n\n    // Parameterized constructor\n    public BankAccount(String accountNo, String owner) {\n        this.accountNo = accountNo;  // this. resolves shadowing\n        this.owner = owner;\n        this.balance = 0.0;          // default balance\n    }\n\n    // Constructor chaining\n    public BankAccount(String accountNo, String owner, double initialBalance) {\n        this(accountNo, owner);      // calls 2-param constructor\n        this.balance = initialBalance;\n    }\n\n    // Getter — read-only access to balance\n    public double getBalance() { return balance; }\n    public String getOwner()   { return owner; }\n\n    // Setter with validation\n    public void deposit(double amount) {\n        if (amount <= 0) throw new IllegalArgumentException(\"Invalid amount\");\n        this.balance += amount;\n    }\n\n    public boolean withdraw(double amount) {\n        if (amount > balance) return false; // insufficient funds\n        balance -= amount;\n        return true;\n    }\n\n    public static void main(String[] args) {\n        BankAccount acc = new BankAccount(\"ACC001\", \"Alice\");\n        acc.deposit(5000);\n        acc.withdraw(2000);\n        System.out.println(acc.getBalance()); // 3000.0\n        // acc.balance = 999999; // ERROR: private!\n    }\n}",
+          "common_mistakes": [
+            "Not using this keyword when parameter and field have same name — shadowing bug, field never gets set",
+            "Making constructor void — constructors have NO return type, not even void. Writing void BankAccount() is a regular method, not constructor"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Static Modifier",
+      "topics": [
+        {
+          "name": "Static Keyword — Variables, Methods, Blocks",
+          "keywords": [
+            "static",
+            "static variable",
+            "static method",
+            "static block",
+            "singleton",
+            "class loading",
+            "instance control flow"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Static variables — shared across all objects, class-level",
+            "Static methods — no object needed, cannot access instance members",
+            "Static blocks — class initialization, execution order",
+            "Static vs Instance control flow",
+            "Singleton Design Pattern using static"
+          ],
+          "required_content": [
+            "Static members belong to CLASS, not object. All objects share one copy of static variable. Accessed as ClassName.variable without creating object",
+            "Static method cannot use this keyword, cannot access instance variables/methods directly. main() is static because JVM calls it without creating an object",
+            "Execution order: static blocks (once, when class loads) → instance blocks (every object creation) → constructor",
+            "Singleton: only one object of a class. private constructor + private static instance + public static getInstance() method"
+          ],
+          "required_code": "public class Counter {\n    // Static variable — shared by all objects\n    private static int totalObjects = 0;\n    private int objectId;\n\n    // Static block — runs once when class is loaded\n    static {\n        System.out.println(\"Class loaded!\");\n        totalObjects = 0;\n    }\n\n    // Instance block — runs for every object before constructor\n    {\n        totalObjects++;\n        objectId = totalObjects;\n        System.out.println(\"Instance block: object \" + objectId);\n    }\n\n    public Counter() {\n        System.out.println(\"Constructor: object \" + objectId);\n    }\n\n    public static int getTotalObjects() {\n        return totalObjects; // static method → static variable OK\n    }\n\n    public static void main(String[] args) {\n        Counter c1 = new Counter(); // Class loaded! → Instance block → Constructor\n        Counter c2 = new Counter(); // Instance block → Constructor only\n        System.out.println(Counter.getTotalObjects()); // 2\n    }\n}\n\n// Singleton Pattern\nclass DatabaseConnection {\n    private static DatabaseConnection instance; // single instance\n    private DatabaseConnection() {}             // private constructor\n\n    public static DatabaseConnection getInstance() {\n        if (instance == null) instance = new DatabaseConnection();\n        return instance;                         // always same object\n    }\n}",
+          "common_mistakes": [
+            "Accessing instance variable from static method — compile error. Static method has no 'this', cannot access non-static members directly",
+            "Thinking static block runs every time object is created — static block runs only ONCE when class is first loaded"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "OOPs - Inheritance",
+      "topics": [
+        {
+          "name": "Inheritance, Access Modifiers and Packages",
+          "keywords": [
+            "inheritance",
+            "extends",
+            "super",
+            "access modifier",
+            "private",
+            "protected",
+            "public",
+            "package",
+            "import",
+            "method overriding"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Inheritance — IS-A relationship, extends keyword, types",
+            "Access modifiers — private, default, protected, public",
+            "Packages — definition, import statement, static import",
+            "Method Overriding — rules, @Override annotation, covariant return",
+            "final keyword — final class, method, variable"
+          ],
+          "required_content": [
+            "Inheritance: child class inherits all non-private members of parent. extends keyword. Java supports single inheritance (one parent class). Multiple inheritance via interfaces",
+            "Access levels: private (class only) < default (package) < protected (package + subclass) < public (everywhere)",
+            "Method Overriding rules: same name, same parameters, same or covariant return type. @Override annotation — compiler checks correctness. Cannot override final, static, private methods",
+            "super() calls parent constructor — must be first line. super.method() calls parent's method. If child has no constructor, compiler adds super() automatically"
+          ],
+          "required_code": "// Parent class\npublic class Animal {\n    protected String name;\n    protected String sound;\n\n    public Animal(String name, String sound) {\n        this.name = name;\n        this.sound = sound;\n    }\n\n    public void makeSound() {\n        System.out.println(name + \" says \" + sound);\n    }\n\n    public String toString() {\n        return \"Animal: \" + name;\n    }\n}\n\n// Child class inherits from Animal\npublic class Dog extends Animal {\n    private String breed;\n\n    public Dog(String name, String breed) {\n        super(name, \"Woof\"); // calls Animal constructor\n        this.breed = breed;\n    }\n\n    @Override  // annotation — compiler verifies this is valid override\n    public void makeSound() {\n        super.makeSound();  // calls parent method\n        System.out.println(breed + \" dog barking!\");\n    }\n\n    public static void main(String[] args) {\n        Dog d = new Dog(\"Rex\", \"German Shepherd\");\n        d.makeSound(); // Rex says Woof + German Shepherd dog barking!\n        System.out.println(d); // calls toString() from Animal\n    }\n}",
+          "required_tables": [
+            "Access modifiers: Modifier | Same Class | Same Package | Subclass | Other Package || private | ✅ | ❌ | ❌ | ❌ || default | ✅ | ✅ | ❌ | ❌ || protected | ✅ | ✅ | ✅ | ❌ || public | ✅ | ✅ | ✅ | ✅"
+          ],
+          "common_mistakes": [
+            "Thinking @Override is mandatory for overriding — it's optional but highly recommended. Without it, typos create new methods instead of overriding",
+            "Calling super() anywhere except first line of constructor — compile error"
+          ]
+        },
+        {
+          "name": "Polymorphism and Abstraction",
+          "keywords": [
+            "polymorphism",
+            "runtime polymorphism",
+            "compile time",
+            "abstract class",
+            "abstract method",
+            "interface",
+            "lambda",
+            "functional interface"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Polymorphism — compile-time (overloading) vs runtime (overriding)",
+            "Abstract classes and abstract methods",
+            "Interfaces — rules, default methods, functional interfaces",
+            "Lambda expressions — syntax and usage with functional interfaces",
+            "Abstract class vs Interface comparison"
+          ],
+          "required_content": [
+            "Runtime polymorphism: Animal a = new Dog(); a.makeSound() — calls Dog's makeSound() at runtime. Reference type is Animal, object type is Dog. Method resolved at runtime based on actual object",
+            "Abstract class: cannot instantiate, can have abstract and concrete methods, can have constructor, can have instance variables. Subclass MUST implement all abstract methods",
+            "Interface: all methods implicitly public abstract (before Java 8). Can have default and static methods (Java 8+). All variables implicitly public static final. Class implements interface",
+            "Lambda: replaces anonymous inner class for functional interfaces. (params) -> expression. Comparator<String> c = (a,b) -> a.compareTo(b); instead of new Comparator<String>(){...}"
+          ],
+          "required_code": "// Abstract class\nabstract class Shape {\n    String color;\n\n    Shape(String color) { this.color = color; }\n\n    abstract double area();         // must be overridden\n    abstract double perimeter();    // must be overridden\n\n    void display() {                // concrete method — inherited\n        System.out.printf(\"%s %s: area=%.2f%n\", color, getClass().getSimpleName(), area());\n    }\n}\n\nclass Circle extends Shape {\n    double radius;\n    Circle(String color, double radius) { super(color); this.radius = radius; }\n\n    @Override double area()      { return Math.PI * radius * radius; }\n    @Override double perimeter() { return 2 * Math.PI * radius; }\n}\n\n// Interface with lambda\n@FunctionalInterface\ninterface Calculator {\n    int calculate(int a, int b);\n}\n\npublic class PolyDemo {\n    public static void main(String[] args) {\n        // Runtime polymorphism\n        Shape s = new Circle(\"Red\", 5.0); // Shape ref, Circle obj\n        s.display(); // Red Circle: area=78.54\n\n        // Lambda expressions\n        Calculator add = (a, b) -> a + b;\n        Calculator mul = (a, b) -> a * b;\n        System.out.println(add.calculate(3, 4));  // 7\n        System.out.println(mul.calculate(3, 4));  // 12\n    }\n}",
+          "required_tables": [
+            "Abstract class vs Interface: Feature | Abstract Class | Interface || Instantiation | No | No || Constructor | Yes | No || Instance variables | Yes | No (only static final) || Method types | Abstract + concrete | Abstract + default + static || Inheritance | extends (one) | implements (multiple) || When to use | Partial implementation, IS-A | Contract/capability, multiple types"
+          ],
+          "common_mistakes": [
+            "Trying to instantiate abstract class — Shape s = new Shape() causes compile error",
+            "Thinking interface variables can be changed — interface variables are implicitly public static final (constants)"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "OOPs - Association",
+      "topics": [
+        {
+          "name": "Association, Aggregation and Composition",
+          "keywords": [
+            "association",
+            "aggregation",
+            "composition",
+            "has-a",
+            "dependency injection",
+            "one to one",
+            "one to many",
+            "delegation"
+          ],
+          "nature": "theoretical",
+          "no_code": false,
+          "subtopics": [
+            "IS-A vs HAS-A relationships",
+            "Types of Association — one-to-one, one-to-many, many-to-many",
+            "Dependency Injection — constructor injection vs setter injection",
+            "Aggregation vs Composition — lifecycle dependency",
+            "Delegation Model"
+          ],
+          "required_content": [
+            "IS-A (inheritance): Dog IS-A Animal. HAS-A (association): Car HAS-A Engine. Use IS-A when subtype relationship exists, HAS-A when ownership/usage relationship exists",
+            "Aggregation: weak HAS-A. Department HAS-A Professor — Professor can exist without Department. Composition: strong HAS-A. Car HAS-A Engine — Engine cannot exist without Car (same lifecycle)",
+            "Constructor injection: dependency passed via constructor (immutable, tested easily). Setter injection: dependency set via setter (flexible, optional dependencies)",
+            "Delegation: object delegates task to another object rather than inheriting. Printer delegates to InkCartridge. Preferred over inheritance when relationship is HAS-A not IS-A"
+          ],
+          "required_code": "// Composition — Engine cannot exist without Car\nclass Engine {\n    String type;\n    int horsepower;\n\n    Engine(String type, int hp) { this.type = type; this.horsepower = hp; }\n    void start() { System.out.println(type + \" engine started\"); }\n}\n\nclass Car {\n    private String model;\n    private Engine engine; // Car HAS-A Engine (Composition)\n\n    // Constructor Injection\n    Car(String model, String engineType, int hp) {\n        this.model = model;\n        this.engine = new Engine(engineType, hp); // Car creates Engine\n    }\n\n    void drive() {\n        engine.start();  // delegation\n        System.out.println(model + \" is moving\");\n    }\n}\n\n// Aggregation — Student can exist without University\nclass University {\n    private String name;\n    private List<Student> students; // University HAS-A Students\n\n    University(String name) {\n        this.name = name;\n        this.students = new ArrayList<>();\n    }\n\n    void addStudent(Student s) { students.add(s); }  // student provided\n}\n\npublic class AssociationDemo {\n    public static void main(String[] args) {\n        Car car = new Car(\"Tesla Model 3\", \"Electric\", 450);\n        car.drive();\n    }\n}",
+          "required_tables": [
+            "Association types: Type | Relationship | Lifecycle | Example || Dependency | Uses temporarily | Independent | Method uses another class || Association | Knows about | Independent | Teacher knows Students || Aggregation | HAS-A (weak) | Independent | Department has Professors || Composition | HAS-A (strong) | Dependent | Car has Engine"
+          ],
+          "common_mistakes": [
+            "Using inheritance when association is more appropriate — if relationship is HAS-A not IS-A, use composition",
+            "Confusing aggregation and composition — key difference is lifecycle: composition parts die with the whole, aggregation parts survive"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Exception Handling",
+      "topics": [
+        {
+          "name": "Exception Handling — Complete Guide",
+          "keywords": [
+            "exception",
+            "try",
+            "catch",
+            "finally",
+            "throw",
+            "throws",
+            "checked",
+            "unchecked",
+            "custom exception",
+            "exception hierarchy"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Exception hierarchy — Throwable, Error vs Exception",
+            "try-catch-finally — execution flow",
+            "Checked vs Unchecked exceptions",
+            "throw vs throws keywords",
+            "Custom exceptions and try-with-resources"
+          ],
+          "required_content": [
+            "Exception hierarchy: Throwable → Error (JVM problems, don't catch) and Exception (application problems). Exception → RuntimeException (unchecked) and checked exceptions",
+            "Checked exceptions: must handle or declare (IOException, SQLException). Unchecked: RuntimeException subclasses (NullPointerException, ArrayIndexOutOfBoundsException) — optional handling",
+            "throw: explicitly throw an exception object. throws: declares method might throw checked exception — callers must handle",
+            "try-with-resources (Java 7): resources in try() automatically closed. No need for finally to close. Resource must implement AutoCloseable"
+          ],
+          "required_code": "import java.io.*;\n\n// Custom Exception\nclass InsufficientFundsException extends Exception {\n    private double amount;\n    InsufficientFundsException(double amount) {\n        super(\"Insufficient funds: need \" + amount + \" more\");\n        this.amount = amount;\n    }\n    double getAmount() { return amount; }\n}\n\npublic class ExceptionDemo {\n    // throws declares checked exception\n    static void withdraw(double balance, double amount)\n            throws InsufficientFundsException {\n        if (amount > balance) {\n            throw new InsufficientFundsException(amount - balance);\n        }\n        System.out.println(\"Withdrawn: \" + amount);\n    }\n\n    public static void main(String[] args) {\n        // try-catch-finally\n        try {\n            withdraw(100, 150);          // throws exception\n        } catch (InsufficientFundsException e) {\n            System.out.println(e.getMessage());\n            System.out.println(\"Need: \" + e.getAmount());\n        } finally {\n            System.out.println(\"Always runs\"); // cleanup code\n        }\n\n        // try-with-resources (auto-close)\n        try (BufferedReader br = new BufferedReader(new FileReader(\"file.txt\"))) {\n            String line = br.readLine();\n            System.out.println(line);\n        } catch (IOException e) {\n            System.out.println(\"File error: \" + e.getMessage());\n        } // br.close() called automatically!\n\n        // Multi-catch (Java 7)\n        try {\n            int[] arr = new int[5];\n            arr[10] = Integer.parseInt(\"abc\");\n        } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {\n            System.out.println(\"Caught: \" + e.getClass().getSimpleName());\n        }\n    }\n}",
+          "required_tables": [
+            "Checked vs Unchecked: Feature | Checked Exception | Unchecked Exception || Superclass | Exception | RuntimeException || Must handle | Yes | No || Examples | IOException, SQLException | NullPointerException, ArithmeticException || When occurs | External resources | Programming errors || Detection | Compile time | Runtime"
+          ],
+          "common_mistakes": [
+            "Catching Exception or Throwable for everything — too broad, hides real errors and catches things you can't handle",
+            "Empty catch block — silently swallows exceptions, makes debugging impossible. Always at minimum log the exception"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Multithreading",
+      "topics": [
+        {
+          "name": "Multithreading — Thread Lifecycle and Synchronization",
+          "keywords": [
+            "thread",
+            "multithreading",
+            "runnable",
+            "synchronized",
+            "race condition",
+            "deadlock",
+            "daemon thread",
+            "join",
+            "thread state"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Creating threads — Thread class vs Runnable interface",
+            "Thread lifecycle — New, Runnable, Running, Waiting, Dead",
+            "Race condition and synchronization — synchronized keyword",
+            "join() and isAlive() methods",
+            "Daemon threads and Deadlock"
+          ],
+          "required_content": [
+            "Two ways: extend Thread class (single inheritance limitation) or implement Runnable (preferred — flexible). Lambda for Runnable: new Thread(() -> { /* code */ }).start()",
+            "Thread states: New (created) → Runnable (start() called) → Running (CPU allocated) → Waiting/Sleeping → Dead (run() completed). Cannot restart dead thread",
+            "Race condition: multiple threads modify shared resource simultaneously → unpredictable results. synchronized keyword ensures only one thread executes block at a time",
+            "Deadlock: Thread A holds lock1, wants lock2. Thread B holds lock2, wants lock1. Neither can proceed. Prevention: always acquire locks in same order"
+          ],
+          "required_code": "// Implementing Runnable (preferred)\nclass PrintTask implements Runnable {\n    private String message;\n    private int count;\n\n    PrintTask(String message, int count) {\n        this.message = message;\n        this.count = count;\n    }\n\n    @Override\n    public void run() {\n        for (int i = 0; i < count; i++) {\n            System.out.println(Thread.currentThread().getName() + \": \" + message);\n            try { Thread.sleep(100); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }\n        }\n    }\n}\n\n// Race condition and synchronization\nclass BankAccount {\n    private double balance = 1000;\n\n    // synchronized prevents race condition\n    public synchronized void deposit(double amount) {\n        double temp = balance;\n        temp += amount;\n        balance = temp;\n    }\n\n    public synchronized double getBalance() { return balance; }\n}\n\npublic class ThreadDemo {\n    public static void main(String[] args) throws InterruptedException {\n        Thread t1 = new Thread(new PrintTask(\"Hello\", 5), \"Thread-1\");\n        Thread t2 = new Thread(() -> System.out.println(\"Lambda thread\"), \"Thread-2\");\n\n        t1.start();\n        t2.start();\n        t1.join(); // main waits for t1 to finish\n        t2.join();\n        System.out.println(\"Both threads done\");\n    }\n}",
+          "common_mistakes": [
+            "Calling run() instead of start() — run() executes in current thread (no multithreading). start() creates new thread and calls run()",
+            "Synchronizing on different objects — synchronized(this) in two different objects doesn't prevent race condition. Use shared lock object"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Collections framework and Map API",
+      "topics": [
+        {
+          "name": "Collections Framework and Generics",
+          "keywords": [
+            "collections",
+            "arraylist",
+            "linkedlist",
+            "hashset",
+            "treeset",
+            "hashmap",
+            "treemap",
+            "iterator",
+            "generics",
+            "list",
+            "set",
+            "queue"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Collections hierarchy — List, Set, Queue interfaces",
+            "ArrayList vs LinkedList — when to use which",
+            "HashSet, LinkedHashSet, TreeSet — uniqueness and ordering",
+            "HashMap, LinkedHashMap, TreeMap",
+            "Iterating collections — for-each, Iterator, forEach()",
+            "Generics — type safety, bounded wildcards"
+          ],
+          "required_content": [
+            "Collections framework: List (ordered, duplicates allowed), Set (unordered, no duplicates), Queue (FIFO). ArrayList: fast random access O(1). LinkedList: fast insertion/deletion O(1) at known position",
+            "HashSet: no order, O(1) operations. LinkedHashSet: insertion order maintained. TreeSet: sorted order, O(log n). All implement Set — no duplicates",
+            "HashMap: no order, O(1) get/put. LinkedHashMap: insertion order. TreeMap: sorted by key. Iterate with entrySet(): for(Map.Entry<K,V> e : map.entrySet())",
+            "Generics: List<String> prevents adding wrong types at compile time. Without generics, ClassCastException at runtime. <T extends Number> — bounded type parameter"
+          ],
+          "required_code": "import java.util.*;\n\npublic class CollectionsDemo {\n    public static void main(String[] args) {\n        // ArrayList — dynamic array\n        List<String> list = new ArrayList<>();\n        list.add(\"Alice\"); list.add(\"Bob\"); list.add(\"Alice\"); // duplicates allowed\n        list.remove(\"Bob\");\n        System.out.println(list.get(0));   // Alice (O(1) access)\n\n        // HashSet — no duplicates\n        Set<Integer> set = new HashSet<>();\n        set.add(3); set.add(1); set.add(2); set.add(1); // duplicate ignored\n        System.out.println(set); // [1, 2, 3] (unordered)\n\n        // HashMap\n        Map<String, Integer> scores = new HashMap<>();\n        scores.put(\"Alice\", 95);\n        scores.put(\"Bob\", 87);\n        scores.getOrDefault(\"Carol\", 0); // 0 if not found\n\n        // Iterating map\n        for (Map.Entry<String, Integer> entry : scores.entrySet()) {\n            System.out.println(entry.getKey() + \": \" + entry.getValue());\n        }\n\n        // Streams (Java 8+)\n        list.stream()\n            .filter(s -> s.startsWith(\"A\"))\n            .map(String::toUpperCase)\n            .forEach(System.out::println); // ALICE\n\n        // Generics\n        List<Integer> nums = new ArrayList<>();\n        nums.add(10); // only Integer allowed\n        // nums.add(\"hello\"); // compile error!\n    }\n}",
+          "required_tables": [
+            "Collections comparison: Class | Order | Duplicates | Null | Performance | Use when || ArrayList | Insertion order | Yes | Yes | O(1) get, O(n) insert middle | Random access, iteration || LinkedList | Insertion order | Yes | Yes | O(1) insert/delete | Frequent insert/delete || HashSet | No order | No | One null | O(1) | Unique elements, fast lookup || TreeSet | Sorted | No | No | O(log n) | Sorted unique elements || HashMap | No order | Keys no | One null key | O(1) | Key-value, fast lookup || TreeMap | Sorted by key | Keys no | No null key | O(log n) | Sorted key-value pairs"
+          ],
+          "common_mistakes": [
+            "Using ArrayList when you need unique elements — use HashSet. ArrayList allows duplicates",
+            "Modifying collection while iterating with for-each — ConcurrentModificationException. Use Iterator's remove() method instead"
+          ]
+        }
+      ]
+    }
+  ]
+}

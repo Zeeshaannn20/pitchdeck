@@ -1,0 +1,857 @@
+{
+  "subject": "fundamentals of machine learning",
+  "modules": [
+    {
+      "module": "Introduction to Machine Learning",
+      "topics": [
+        {
+          "name": "Basics of Machine Learning",
+          "keywords": [
+            "supervised learning",
+            "definition",
+            "classification",
+            "regression",
+            "training testing data",
+            "ml pipeline",
+            "streamlit",
+            "what is ml",
+            "machine learning basics"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Introduction to Supervised Learning",
+            "Definition and Basic Concepts",
+            "Classification vs Regression",
+            "Training and Testing Data",
+            "ML Pipeline",
+            "Introduction to Streamlit"
+          ],
+          "subtopic_content": {
+            "Introduction to Supervised Learning": [
+              "Machine Learning (ML): teaching a computer to learn patterns from data WITHOUT being explicitly programmed for every scenario. Instead of writing rules by hand, we show the computer thousands of examples and it learns the rules itself.",
+              "Analogy — Teaching a child: you don't explain every dog mathematically. You show them 1000 pictures labeled 'dog' and 'not dog'. The child learns the pattern. ML works the same way — show labeled examples, algorithm learns the pattern.",
+              "Supervised Learning specifically: we provide both the INPUT (features) and the correct OUTPUT (label) during training. The algorithm learns the mapping from input → output. Supervised because we supervise the learning with correct answers.",
+              "Real-world supervised learning examples: Email spam detection (input: email text, label: spam/not spam), House price prediction (input: size/location/rooms, label: price), Disease diagnosis (input: symptoms/test results, label: disease/no disease)."
+            ],
+            "Definition and Basic Concepts": [
+              "Feature (X): the input variables we use to make predictions. Also called attributes, predictors, or independent variables. Example: for predicting house price — features are area (sq ft), number of bedrooms, location, age of house.",
+              "Label (y): the output we want to predict. Also called target variable or dependent variable. Example: the actual house price in rupees.",
+              "Model: the mathematical function learned from data that maps features → prediction. Think of it as a formula the computer discovers by itself.",
+              "Training: the process of feeding data to the algorithm so it can learn patterns and adjust its internal parameters to make better predictions.",
+              "Prediction/Inference: using the trained model on new, unseen data to make predictions."
+            ],
+            "Classification vs Regression": [
+              "Classification: predicting which CATEGORY something belongs to. Output is a discrete class label. Examples: Is this email spam? (Yes/No), What digit is this? (0-9), Will this customer churn? (Yes/No), What disease does this patient have? (Cancer/Diabetes/Healthy).",
+              "Regression: predicting a CONTINUOUS NUMERIC VALUE. Output is a number on a continuous scale. Examples: What will be the temperature tomorrow? (27.3°C), How much will this house sell for? (₹45,00,000), How many units will we sell next month? (1,234 units).",
+              "Simple test: Can your answer be 'between' two values? If yes → Regression. Does your answer fit into distinct buckets? If yes → Classification.",
+              "Binary classification: only 2 classes (spam/not spam, fraud/not fraud). Multi-class classification: 3+ classes (cat/dog/bird, news categories)."
+            ],
+            "Training and Testing Data": [
+              "Why split data? If you test on the SAME data you trained on, the model memorizes instead of learning — like a student who memorizes exam answers but can't solve new problems. We need to test on unseen data to know if the model truly learned.",
+              "Train-Test Split: typically 70-80% for training, 20-30% for testing. Example: 1000 house records → 800 for training (model learns patterns), 200 for testing (check if model predicts correctly on new data).",
+              "Training set: data model learns from. Test set: data held out to evaluate final performance — model NEVER sees this during training. Validation set (optional): used during training to tune the model without touching the test set.",
+              "Overfitting: model memorizes training data perfectly but fails on test data (high training accuracy, low test accuracy). Underfitting: model is too simple, performs poorly on both training and test data."
+            ],
+            "ML Pipeline": [
+              "ML Pipeline: the step-by-step process from raw data to deployed model. Think of it as an assembly line in a factory.",
+              "Step 1 — Data Collection: gather raw data from databases, APIs, web scraping, sensors. Step 2 — Data Cleaning (EDA): handle missing values, remove outliers, fix errors.",
+              "Step 3 — Feature Engineering: transform raw features into better representations (scale numbers, encode categories). Step 4 — Model Selection: choose appropriate algorithm (Linear Regression for regression, Random Forest for classification).",
+              "Step 5 — Model Training: feed training data to algorithm, it adjusts parameters. Step 6 — Model Evaluation: test on held-out test data, calculate metrics (accuracy, MAE, etc.). Step 7 — Hyperparameter Tuning: optimize model settings. Step 8 — Deployment: make model available for real-world predictions via API or web app."
+            ],
+            "Introduction to Streamlit": [
+              "Streamlit: a Python library that lets you turn your ML model into an interactive web application in minutes — no web development skills needed.",
+              "Why Streamlit? After training a model, you need a way for non-technical users to use it. Streamlit creates a simple web UI where users can enter inputs and see predictions in real time.",
+              "Install: pip install streamlit. Run: streamlit run app.py. Your app opens in browser automatically at localhost:8501."
+            ]
+          },
+          "required_code": "# ===== What is Machine Learning — Simple Example =====\nimport numpy as np\nfrom sklearn.linear_model import LinearRegression\n\n# Training data: house sizes (sq ft) and prices (lakhs)\nhouse_sizes = np.array([[500], [750], [1000], [1250], [1500], [1750], [2000]])\nhouse_prices = np.array([25, 35, 48, 58, 70, 82, 95])  # in lakhs\n\n# Step 1: Create the model\nmodel = LinearRegression()\n\n# Step 2: Train the model (it learns the relationship)\nmodel.fit(house_sizes, house_prices)\n\n# Step 3: Make predictions on new data\nnew_house = np.array([[1100]])  # 1100 sq ft\npredicted_price = model.predict(new_house)\nprint(f\"Predicted price for 1100 sq ft: ₹{predicted_price[0]:.1f} Lakhs\")\n# Output: Predicted price for 1100 sq ft: ₹52.3 Lakhs\n\n# ===== Train-Test Split Example =====\nfrom sklearn.model_selection import train_test_split\n\n# Sample dataset: 100 samples\nX = np.random.rand(100, 3)  # 100 samples, 3 features\ny = np.random.rand(100)      # 100 labels\n\n# Split: 80% train, 20% test\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42\n)\n\nprint(f\"Training samples: {len(X_train)}\")  # 80\nprint(f\"Testing samples:  {len(X_test)}\")   # 20\n\n# ===== Simple Streamlit App =====\n# Save this as app.py and run: streamlit run app.py\n\"\"\"\nimport streamlit as st\nimport numpy as np\nfrom sklearn.linear_model import LinearRegression\n\nst.title('House Price Predictor')\n\n# User input\narea = st.slider('House Area (sq ft)', 500, 3000, 1000)\nbedrooms = st.selectbox('Bedrooms', [1, 2, 3, 4, 5])\n\n# Predict button\nif st.button('Predict Price'):\n    # In real app, load pre-trained model\n    predicted = area * 0.047 + bedrooms * 3.2  # simplified\n    st.success(f'Estimated Price: ₹{predicted:.1f} Lakhs')\n\"\"\"",
+          "required_diagrams": [
+            "ML Pipeline diagram: clean horizontal flow diagram on white background. Eight rectangular boxes connected by right-pointing arrows: 1) Data Collection → 2) Data Cleaning → 3) Feature Engineering → 4) Model Selection → 5) Model Training → 6) Evaluation → 7) Tuning → 8) Deployment. Each box has a small icon description below it. White background, plain black arrows."
+          ],
+          "required_tables": [
+            "Comparison: Task Type | Output Type | Output Example | Algorithm Examples | Real-world Example || Classification | Discrete class label | Spam / Not Spam | Logistic Regression, Random Forest | Email filtering || Regression | Continuous number | ₹45,00,000 | Linear Regression, XGBoost | House price prediction || Multi-class | One of N classes | Cat / Dog / Bird | SVM, Neural Network | Image recognition"
+          ],
+          "common_mistakes": [
+            "Testing on the same data used for training — model scores 100% but fails completely on real data. Always keep test data separate and untouched until final evaluation",
+            "Thinking more data always means better model — quality of data matters more than quantity. 1000 clean, relevant samples beat 100,000 noisy, irrelevant ones"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Exploratory Data Analysis",
+      "topics": [
+        {
+          "name": "Missing Data and Imputation",
+          "keywords": [
+            "missing data",
+            "MCAR",
+            "MAR",
+            "MNAR",
+            "structural missing",
+            "imputation",
+            "mean imputation",
+            "median imputation",
+            "mode imputation",
+            "forward fill",
+            "backward fill",
+            "KNN imputation"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Types of Missing Data (MCAR, MAR, MNAR, Structural)",
+            "Imputation Methods: Mean, Median, Mode, Constant, Forward/Backward Fill",
+            "Introduction to Predictive Learning based Imputation"
+          ],
+          "subtopic_content": {
+            "Types of Missing Data (MCAR, MAR, MNAR, Structural)": [
+              "MCAR (Missing Completely At Random): data is missing purely by chance, unrelated to any other variable. Example: lab equipment randomly malfunctions, some blood pressure readings are lost. The missing values are a random sample of all values. Safest type — can simply delete missing rows without introducing bias.",
+              "MAR (Missing At Random): missingness depends on OTHER observed variables, not on the missing value itself. Example: elderly patients are less likely to fill in weight, so weight is missing more for older people. Age is observed, and missingness of weight depends on age. Can be handled well with proper imputation.",
+              "MNAR (Missing Not At Random): missingness depends on the MISSING VALUE ITSELF. Example: people with very high income refuse to report income. The fact that income is missing is correlated with income being high. Hardest to handle — introduces bias if ignored.",
+              "Structural Missing: missing by design, not by accident. Example: 'Year of second marriage' is blank for people who never married a second time. This blank is meaningful information. Should be filled with 0 or 'N/A', not imputed."
+            ],
+            "Imputation Methods: Mean, Median, Mode, Constant, Forward/Backward Fill": [
+              "Mean imputation: replace missing value with the column average. Best for: normally distributed numeric data with few outliers. Problem: reduces variance (all missing values become the same number), can distort distributions.",
+              "Median imputation: replace with middle value. Best for: skewed numeric data or data with outliers (since median is not affected by extreme values). Example: income data is always skewed — use median, not mean.",
+              "Mode imputation: replace with most frequent value. Best for: categorical data. Example: 'City' column missing some values — fill with the most common city.",
+              "Constant value: fill with a fixed value (0, 'Unknown', -1). Use when: 0 or 'Unknown' has meaningful interpretation. Example: number of previous purchases = 0 if a new customer.",
+              "Forward Fill (ffill): carry previous valid value forward to fill gap. Best for: time series data where values persist over time. Example: stock price on a holiday = previous day's closing price.",
+              "Backward Fill (bfill): fill with the NEXT valid value. Best for: filling initial missing values in time series."
+            ],
+            "Introduction to Predictive Learning based Imputation": [
+              "KNN Imputation: find K most similar rows (neighbours) based on other features, average their values to fill the missing value. More intelligent than simple statistics — uses relationships between features.",
+              "Example: height is missing for a person who is Male, 25 years old, 70kg. KNN finds 5 most similar people (same gender, similar age and weight) and uses their average height. Much better than using average height of all genders and ages.",
+              "Iterative Imputation (MICE — Multiple Imputation by Chained Equations): treat each column with missing values as a target and train a model (usually linear regression) on other columns to predict the missing values. Very powerful for datasets where features are correlated."
+            ]
+          },
+          "required_code": "import pandas as pd\nimport numpy as np\nfrom sklearn.impute import SimpleImputer, KNNImputer\n\n# ===== Create sample data with missing values =====\ndata = {\n    'age':    [25, 30, np.nan, 35, 28, np.nan, 45, 32],\n    'income': [50000, np.nan, 75000, 80000, np.nan, 60000, 90000, 70000],\n    'gender': ['M', 'F', np.nan, 'M', 'F', 'M', np.nan, 'F'],\n    'score':  [8.5, 7.2, 9.1, np.nan, 6.8, 8.0, 7.5, np.nan]\n}\ndf = pd.DataFrame(data)\n\n# Check missing values\nprint(\"Missing values per column:\")\nprint(df.isnull().sum())\nprint(f\"Missing %: {df.isnull().sum() / len(df) * 100}\")\n\n# ===== Mean Imputation (for normally distributed numeric) =====\ndf_mean = df.copy()\ndf_mean['age'].fillna(df_mean['age'].mean(), inplace=True)\nprint(f\"\\nMean of age: {df['age'].mean():.1f}\")\n\n# ===== Median Imputation (for skewed numeric / outliers) =====\ndf_median = df.copy()\ndf_median['income'].fillna(df_median['income'].median(), inplace=True)\nprint(f\"Median income: {df['income'].median()}\")\n\n# ===== Mode Imputation (for categorical) =====\ndf_mode = df.copy()\ndf_mode['gender'].fillna(df_mode['gender'].mode()[0], inplace=True)\nprint(f\"Mode of gender: {df['gender'].mode()[0]}\")\n\n# ===== Sklearn SimpleImputer =====\nimputer_mean   = SimpleImputer(strategy='mean')\nimputer_median = SimpleImputer(strategy='median')\nimputer_mode   = SimpleImputer(strategy='most_frequent')\nimputer_const  = SimpleImputer(strategy='constant', fill_value=0)\n\n# Apply to numeric columns\nnumeric_cols = ['age', 'income', 'score']\ndf_imputed = df.copy()\ndf_imputed[numeric_cols] = imputer_median.fit_transform(df[numeric_cols])\n\n# ===== Forward Fill (for time series) =====\ntime_data = pd.Series([100, np.nan, np.nan, 104, np.nan, 106])\nprint(\"\\nOriginal:\", list(time_data))\nprint(\"After ffill:\", list(time_data.ffill()))  # [100, 100, 100, 104, 104, 106]\nprint(\"After bfill:\", list(time_data.bfill()))  # [100, 104, 104, 104, 106, 106]\n\n# ===== KNN Imputation (intelligent, uses feature relationships) =====\nknn_imputer = KNNImputer(n_neighbors=3)\ndf_numeric = df[['age', 'income', 'score']]\ndf_knn = pd.DataFrame(\n    knn_imputer.fit_transform(df_numeric),\n    columns=['age', 'income', 'score']\n)\nprint(\"\\nKNN Imputed:\")\nprint(df_knn)",
+          "required_tables": [
+            "Imputation Method Guide: Method | Best For | Advantage | Disadvantage | When to Use || Mean | Normal numeric data | Simple, fast | Reduces variance, affected by outliers | Normally distributed, few outliers || Median | Skewed numeric, outliers | Robust to outliers | Ignores relationships | Skewed data (income, price) || Mode | Categorical data | Handles text/categories | Can over-represent dominant class | Categorical columns || Forward Fill | Time series | Preserves temporal patterns | Propagates stale values too long | Sequential/time-based data || KNN | Correlated features | Uses relationships between features | Slower, sensitive to scaling | Rich dataset with feature correlations || MICE | Complex datasets | Most statistically rigorous | Complex, slow | Research-grade imputation"
+          ],
+          "common_mistakes": [
+            "Imputing before train-test split — you should fit the imputer on TRAINING data only, then transform both train and test. Fitting on all data leaks test information into training (data leakage)",
+            "Using mean imputation for skewed data — income, house prices, and medical costs are always skewed. Use median instead of mean for these"
+          ]
+        },
+        {
+          "name": "Outlier Handling and Data Exploration",
+          "keywords": [
+            "outlier detection",
+            "z-score",
+            "IQR",
+            "boxplot",
+            "outlier treatment",
+            "value counts",
+            "distribution",
+            "pairplot",
+            "data exploration",
+            "EDA"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Outlier Detection and Treatment (Z-score, IQR)",
+            "Data Exploration: Value Counts, Distributions, Pairplots"
+          ],
+          "subtopic_content": {
+            "Outlier Detection and Treatment (Z-score, IQR)": [
+              "Outlier: a data point that is significantly different from other values. Can be caused by: measurement error (sensor malfunction), data entry error (typing 1000 instead of 100), or genuine extreme values (billionaires in income data).",
+              "Z-Score method: measures how many standard deviations a point is from the mean. Z = (value - mean) / std. Convention: |Z| > 3 = outlier. Works best for normally distributed data. Example: height of 250cm has Z-score of 5 → outlier.",
+              "IQR (Interquartile Range) method: IQR = Q3 - Q1 (middle 50% of data). Lower fence = Q1 - 1.5×IQR. Upper fence = Q3 + 1.5×IQR. Points outside fences = outliers. More robust than Z-score — works for skewed data too.",
+              "Treatment options: Remove (if it's a data error), Cap/Winsorise (replace with fence value — preserves sample size), Transform (log transformation reduces effect of extreme values), Keep (if genuine extreme value has business meaning — billionaire's income IS real)."
+            ],
+            "Data Exploration: Value Counts, Distributions, Pairplots": [
+              "Value counts: count how often each unique value appears. Essential first step for categorical columns. Reveals class imbalance (99% 'Not Fraud', 1% 'Fraud' — problem for ML).",
+              "Distributions: histogram or KDE plot shows the shape of numeric data. Is it normal? Skewed? Bimodal? This tells you which imputation, scaling, and algorithm to use.",
+              "Pairplot (Seaborn): scatter plot matrix — shows relationship between every pair of numeric variables AND distribution on diagonal. In 5 minutes, see which features are correlated and which separate classes visually.",
+              "Correlation heatmap: shows correlation coefficient (-1 to +1) between all pairs. Features correlated >0.9 with each other = multicollinearity (problem for linear models). Features correlated strongly with target = good predictors."
+            ]
+          },
+          "required_code": "import pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom scipy import stats\n\n# Sample data with outliers\nnp.random.seed(42)\ndf = pd.DataFrame({\n    'age':    np.concatenate([np.random.normal(35, 10, 95), [150, 200, -5, 0, 180]]),  # 5 outliers\n    'income': np.concatenate([np.random.normal(50000, 15000, 95), [500000, 750000, 1000000, -100, 0]]),\n    'score':  np.random.normal(75, 10, 100)\n})\n\n# ===== Z-Score Outlier Detection =====\nz_scores = np.abs(stats.zscore(df['age']))\noutlier_mask_z = z_scores > 3\nprint(f\"Z-Score outliers in age: {outlier_mask_z.sum()} rows\")\nprint(f\"Outlier values: {df['age'][outlier_mask_z].values}\")\n\n# ===== IQR Method =====\ndef detect_outliers_iqr(series):\n    Q1  = series.quantile(0.25)\n    Q3  = series.quantile(0.75)\n    IQR = Q3 - Q1\n    lower_fence = Q1 - 1.5 * IQR\n    upper_fence = Q3 + 1.5 * IQR\n    return (series < lower_fence) | (series > upper_fence), lower_fence, upper_fence\n\noutliers_mask, lower, upper = detect_outliers_iqr(df['income'])\nprint(f\"\\nIQR fences: [{lower:.0f}, {upper:.0f}]\")\nprint(f\"IQR outliers in income: {outliers_mask.sum()} rows\")\n\n# ===== Treatment: Winsorisation (Cap at fences) =====\ndf['income_capped'] = df['income'].clip(lower=lower, upper=upper)\nprint(f\"\\nBefore capping — max income: {df['income'].max():.0f}\")\nprint(f\"After capping  — max income: {df['income_capped'].max():.0f}\")\n\n# ===== Treatment: Remove outliers =====\ndf_clean = df[~outliers_mask].copy()\nprint(f\"\\nRows before: {len(df)}, Rows after removing outliers: {len(df_clean)}\")\n\n# ===== Data Exploration =====\n# 1. Value Counts (categorical)\ndf_iris = sns.load_dataset('iris')\nprint(\"\\nSpecies counts:\")\nprint(df_iris['species'].value_counts())\n\n# 2. Describe — quick statistical summary\nprint(\"\\nStatistical summary:\")\nprint(df_iris.describe())\n\n# 3. Correlation matrix\ncorr = df_iris.drop('species', axis=1).corr()\nprint(\"\\nCorrelation matrix:\")\nprint(corr.round(2))\n\n# Visualizations\nfig, axes = plt.subplots(1, 3, figsize=(15, 4))\n\n# Histogram\naxes[0].hist(df['income'], bins=30, color='steelblue', edgecolor='black')\naxes[0].set_title('Income Distribution')\naxes[0].set_xlabel('Income')\n\n# Boxplot showing outliers\naxes[1].boxplot(df['income'])\naxes[1].set_title('Income Boxplot (outliers shown as dots)')\n\n# Pairplot (run separately)\n# sns.pairplot(df_iris, hue='species')\n# plt.show()\nplt.tight_layout()\nplt.savefig('eda_plots.png', dpi=100)\nprint(\"\\nPlots saved!\")",
+          "required_diagrams": [
+            "IQR boxplot diagram: clean diagram on white background. A horizontal boxplot showing: left whisker (minimum non-outlier value), Q1 box edge, median line in middle of box, Q3 box edge, right whisker (maximum non-outlier value), and dots beyond whiskers labeled 'Outliers'. Label: Q1, Q3, IQR (bracket between Q1 and Q3), Lower fence = Q1 - 1.5*IQR, Upper fence = Q3 + 1.5*IQR. White background, plain black."
+          ],
+          "common_mistakes": [
+            "Always removing outliers — outliers are not always errors. In fraud detection, the rare fraudulent transaction IS the outlier and is exactly what you want to find. Understand the context before removing",
+            "Using Z-score on skewed data — Z-score assumes normal distribution. For skewed data like income, use IQR method which doesn't assume any distribution"
+          ]
+        },
+        {
+          "name": "Statistics, Feature Engineering and Dimensionality Reduction",
+          "keywords": [
+            "descriptive statistics",
+            "inferential statistics",
+            "feature scaling",
+            "standardscaler",
+            "minmaxscaler",
+            "normalization",
+            "label encoding",
+            "one hot encoding",
+            "frequency encoding",
+            "PCA",
+            "t-SNE",
+            "UMAP"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Descriptive and Inferential Statistics",
+            "Feature Scaling: StandardScaler, MinMaxScaler, Normalization",
+            "Encoding Techniques: Label Encoding, One-Hot Encoding, Frequency Encoding",
+            "PCA, t-SNE, UMAP"
+          ],
+          "subtopic_content": {
+            "Descriptive and Inferential Statistics": [
+              "Descriptive Statistics: summarize and describe the data you have. No predictions, no generalizations. Measures of central tendency: Mean (average), Median (middle value), Mode (most frequent). Measures of spread: Variance, Standard Deviation, Range, IQR.",
+              "Inferential Statistics: use a SAMPLE to draw conclusions about the POPULATION. You cannot survey every person in India — instead survey 1000 people and infer about 1.4 billion.",
+              "Hypothesis Testing: is there a real difference or just random chance? H0 (null hypothesis) = no effect. H1 (alternative) = there is an effect. p-value < 0.05 = reject H0 (effect is real). Example: 'Does a new drug reduce blood pressure?' — compare drug vs placebo group with t-test.",
+              "Correlation: Pearson correlation measures LINEAR relationship (-1 to +1). 0 = no linear relationship, +1 = perfect positive, -1 = perfect negative. WARNING: correlation ≠ causation. Ice cream sales and drowning rates are correlated — both increase in summer, but ice cream doesn't cause drowning."
+            ],
+            "Feature Scaling: StandardScaler, MinMaxScaler, Normalization": [
+              "Why scale? Many ML algorithms (KNN, SVM, Neural Networks, Ridge, Lasso) use DISTANCES or gradients. If Age (0-100) and Income (0-10,00,000), income dominates because it's numerically larger — NOT because it's more important.",
+              "StandardScaler (Z-score normalisation): transforms to mean=0, std=1. Formula: (x - mean) / std. Result: features have same scale around 0. Use when: data is approximately normally distributed. Does NOT bound to a specific range.",
+              "MinMaxScaler: scales values to [0, 1] range. Formula: (x - min) / (max - min). Use when: you need values in a specific range. Sensitive to outliers (outlier pulls min or max, compressing all other values).",
+              "Normalisation (L2): scales each SAMPLE (row) to unit length. Used in NLP and text processing. Less common in tabular ML."
+            ],
+            "Encoding Techniques: Label Encoding, One-Hot Encoding, Frequency Encoding": [
+              "Why encode? ML algorithms work with numbers only. Categorical text ('Male'/'Female', 'Delhi'/'Mumbai') must be converted to numbers. But HOW you encode matters enormously.",
+              "Label Encoding: assign integer to each category. Cat→0, Dog→1, Bird→2. Problem: implies order and distance — algorithm thinks Dog (1) is 'between' Cat (0) and Bird (2), which is meaningless. Use ONLY for ordinal categories (Small=0, Medium=1, Large=2 — order matters).",
+              "One-Hot Encoding: create a new binary column for each category. Color: [Red, Blue, Green] → Red=[1,0,0], Blue=[0,1,0], Green=[0,0,1]. No false ordering. Problem: creates many columns for high-cardinality features (City with 1000 unique values → 1000 columns!).",
+              "Frequency Encoding: replace each category with how often it appears in dataset. City 'Mumbai' appears 500 times out of 1000 → encode as 0.5. Good for high-cardinality categorical features. Preserves information about prevalence without explosion of columns."
+            ],
+            "PCA, t-SNE, UMAP": [
+              "Dimensionality reduction problem: datasets can have hundreds or thousands of features. Many are redundant or correlated. Too many features = slower training, overfitting, harder to visualize.",
+              "PCA (Principal Component Analysis): finds new axes (principal components) that capture maximum variance in data. PC1 explains most variance, PC2 explains next most, etc. Can reduce 100 features to top 10 components that capture 95% of variance. LINEAR method — works best when features have linear relationships.",
+              "t-SNE (t-Distributed Stochastic Neighbor Embedding): Non-linear dimensionality reduction specifically for VISUALIZATION. Reduces high-dimensional data to 2D or 3D for plotting. Preserves local structure (similar points stay together). Slow for large datasets. Use for: visualizing whether clusters/classes are separable.",
+              "UMAP (Uniform Manifold Approximation and Projection): similar to t-SNE but faster and better preserves global structure. Becoming the preferred visualization tool for high-dimensional data (single-cell genomics, NLP embeddings)."
+            ]
+          },
+          "required_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.preprocessing import StandardScaler, MinMaxScaler, LabelEncoder, OneHotEncoder\nfrom sklearn.decomposition import PCA\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\n# ===== Descriptive Statistics =====\nnp.random.seed(42)\ndf = pd.DataFrame({\n    'age':    np.random.normal(35, 10, 100).astype(int),\n    'income': np.random.exponential(50000, 100),\n    'city':   np.random.choice(['Mumbai', 'Delhi', 'Bangalore', 'Chennai'], 100),\n    'size':   np.random.choice(['Small', 'Medium', 'Large'], 100)\n})\n\nprint(\"Descriptive Statistics:\")\nprint(df['age'].describe())\nprint(f\"\\nMean: {df['age'].mean():.1f}\")\nprint(f\"Median: {df['age'].median():.1f}\")\nprint(f\"Std Dev: {df['age'].std():.1f}\")\nprint(f\"Skewness: {df['income'].skew():.2f}\")  # positive = right-skewed\n\n# ===== Feature Scaling =====\nnumbers = np.array([[25, 50000], [30, 75000], [35, 30000], [28, 120000]])\nprint(\"\\nOriginal values:\")\nprint(numbers)\n\n# StandardScaler\nscaler_std = StandardScaler()\nscaled_std = scaler_std.fit_transform(numbers)\nprint(\"\\nStandardScaler (mean=0, std=1):\")\nprint(scaled_std.round(3))\n\n# MinMaxScaler\nscaler_mm = MinMaxScaler()\nscaled_mm = scaler_mm.fit_transform(numbers)\nprint(\"\\nMinMaxScaler (range 0 to 1):\")\nprint(scaled_mm.round(3))\n\n# ===== Encoding =====\n# Label Encoding (ONLY for ordinal data)\nle = LabelEncoder()\n# Size: Small < Medium < Large — order matters!\nsize_map = {'Small': 0, 'Medium': 1, 'Large': 2}  # manual is better\ndf['size_encoded'] = df['size'].map(size_map)\nprint(\"\\nLabel Encoding (ordinal only):\")\nprint(df[['size', 'size_encoded']].drop_duplicates().sort_values('size_encoded'))\n\n# One-Hot Encoding (for nominal categories)\ndf_encoded = pd.get_dummies(df, columns=['city'], prefix='city')\nprint(\"\\nOne-Hot Encoding for city:\")\nprint(df_encoded[['city_Mumbai', 'city_Delhi', 'city_Bangalore', 'city_Chennai']].head())\n\n# Frequency Encoding (for high-cardinality)\nfreq_map = df['city'].value_counts(normalize=True).to_dict()\ndf['city_freq'] = df['city'].map(freq_map)\nprint(\"\\nFrequency Encoding:\")\nprint(df[['city', 'city_freq']].drop_duplicates())\n\n# ===== PCA Example =====\nfrom sklearn.datasets import load_iris\niris = load_iris()\nX, y = iris.data, iris.target  # 4 features\n\n# Reduce from 4D to 2D\npca = PCA(n_components=2)\nX_pca = pca.fit_transform(X)\n\nprint(f\"\\nPCA: 4 features → 2 components\")\nprint(f\"Variance explained: {pca.explained_variance_ratio_}\")\nprint(f\"Total variance retained: {pca.explained_variance_ratio_.sum():.1%}\")\n\n# Plot PCA result\nplt.figure(figsize=(8, 5))\ncolors = ['red', 'green', 'blue']\nfor i, name in enumerate(iris.target_names):\n    mask = y == i\n    plt.scatter(X_pca[mask, 0], X_pca[mask, 1], c=colors[i], label=name, alpha=0.7)\nplt.xlabel(f'PC1 ({pca.explained_variance_ratio_[0]:.1%} variance)')\nplt.ylabel(f'PC2 ({pca.explained_variance_ratio_[1]:.1%} variance)')\nplt.title('Iris Dataset — PCA to 2D')\nplt.legend()\nplt.tight_layout()\nplt.savefig('pca_iris.png', dpi=100)\nprint(\"PCA plot saved!\")",
+          "required_tables": [
+            "Encoding Decision Guide: Encoding | When to Use | Example | Pros | Cons || Label Encoding | Ordinal categories (order matters) | Small=0, Medium=1, Large=2 | Simple, no new columns | Wrong for nominal (implies order) || One-Hot Encoding | Nominal with low cardinality (<20 unique) | City → [Mumbai, Delhi, ...] binary cols | No false ordering | Many columns for high cardinality || Frequency Encoding | Nominal with high cardinality (>20 unique) | City → proportion (0.0-1.0) | Handles high cardinality | Similar frequency = similar encoding"
+          ],
+          "required_diagrams": [
+            "Scaling comparison diagram: clean diagram on white background. Three columns side by side. Column 1 (Original): two number lines showing Age 0-100 and Income 0-1000000 at very different scales. Column 2 (StandardScaler): both features now centered at 0, ranging from -3 to +3. Column 3 (MinMaxScaler): both features now ranging from 0 to 1. Label each column clearly. White background, plain black lines."
+          ],
+          "common_mistakes": [
+            "Fitting scaler on entire dataset before split — fit ONLY on training data, then transform both train and test. Otherwise test statistics leak into training (data leakage)",
+            "Using One-Hot Encoding for a column with 500 unique cities — creates 500 new columns, makes model slow and causes overfitting. Use Frequency Encoding or Target Encoding instead"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Regression Analysis",
+      "topics": [
+        {
+          "name": "Linear Regression Deep Dive",
+          "keywords": [
+            "linear regression",
+            "gradient descent",
+            "bias variance tradeoff",
+            "ridge regression",
+            "lasso regression",
+            "regularization",
+            "multicollinearity",
+            "VIF",
+            "assumptions linear regression"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Linear Regression",
+            "Assumptions of Linear Regression",
+            "Gradient Descent",
+            "Bias-Variance Trade-off",
+            "Regularization: Ridge and Lasso",
+            "Multicollinearity",
+            "Variance Inflation Factor (VIF)"
+          ],
+          "subtopic_content": {
+            "Linear Regression": [
+              "Linear Regression: find the best-fit straight line through data points. Goal: predict a continuous output (y) from input features (X). Equation: y = b0 + b1×X1 + b2×X2 + ... + bn×Xn.",
+              "Simple analogy: you notice that taller people tend to weigh more. Linear regression quantifies this: 'For every 1 cm increase in height, weight increases by approximately 0.5 kg.' b0 is where the line crosses y-axis, b1 is the slope.",
+              "How it finds the best line: minimise the sum of squared differences between actual values and predicted values (OLS — Ordinary Least Squares). The 'best' line minimizes these errors.",
+              "Multiple Linear Regression: use multiple input features. House price = 50,000 + 2,000×area + 5,000×bedrooms - 100×age. Each coefficient tells you how much the output changes when that feature increases by 1, holding other features constant."
+            ],
+            "Assumptions of Linear Regression": [
+              "1. Linearity: relationship between X and y must be linear. Check: scatter plot of predicted vs actual values should follow diagonal line. If curved → features need transformation.",
+              "2. Independence: observations must be independent of each other. Violated in time series (today's sales depend on yesterday's). Solution: use time series models instead.",
+              "3. Homoscedasticity: variance of residuals should be CONSTANT across all predicted values. Check: residual plot — should show random scatter. If funnel shape → heteroscedasticity (log transform often fixes this).",
+              "4. Normality of residuals: residuals (prediction errors) should be approximately normally distributed. Check: histogram of residuals or Q-Q plot.",
+              "5. No multicollinearity: input features should not be highly correlated with each other. If area and total_rooms are both in the model and highly correlated, model can't determine which one is actually responsible for price changes."
+            ],
+            "Gradient Descent": [
+              "Gradient Descent: the optimisation algorithm that finds the best model parameters by iteratively moving in the direction that reduces the error. It's how the model 'learns'.",
+              "Analogy: imagine you're blindfolded on a hilly terrain and want to reach the valley (minimum error). You feel the slope under your feet and take a step downhill. Repeat until flat ground (minimum found). Gradient Descent does this mathematically.",
+              "Learning Rate: the size of each step. Too large → you overshoot the minimum and bounce around. Too small → convergence is extremely slow. Finding the right learning rate is crucial.",
+              "Types: Batch GD (use all data for each step — slow but stable), Stochastic GD (use 1 sample per step — fast but noisy), Mini-batch GD (use small batch — balance of both, most used in practice)."
+            ],
+            "Bias-Variance Trade-off": [
+              "Bias: error from wrong assumptions. A model with high bias is too simple — it 'underfits' the data. Example: trying to fit a curved relationship with a straight line. It misses the true pattern.",
+              "Variance: sensitivity to small fluctuations in training data. A model with high variance 'overfits' — it memorises training data including noise. Works perfectly on training data but fails on new data.",
+              "Trade-off: as model complexity increases, bias decreases but variance increases. The sweet spot is a model complex enough to capture real patterns but simple enough not to memorise noise.",
+              "Analogy: Bias = a student who studied only one textbook and gets confused by new question styles (too rigid). Variance = a student who memorised only the specific practice questions and can't generalise. You want a student who understood the concepts."
+            ],
+            "Regularization: Ridge and Lasso": [
+              "Regularization: add a penalty to the loss function to prevent overfitting by discouraging the model from learning excessively large coefficients.",
+              "Ridge Regression (L2): adds penalty = λ × sum(coefficients²). Shrinks all coefficients towards zero but never makes them exactly zero. All features remain in model. Good when you believe all features are somewhat useful.",
+              "Lasso Regression (L1): adds penalty = λ × sum(|coefficients|). Can make coefficients EXACTLY zero — performs automatic feature selection! Good when you suspect many features are irrelevant.",
+              "λ (alpha) hyperparameter: controls regularization strength. λ=0 → no regularization (normal linear regression). Large λ → heavy penalty, more shrinkage. Find optimal λ via cross-validation."
+            ],
+            "Multicollinearity": [
+              "Multicollinearity: when two or more input features are highly correlated with each other. Example: 'total area' and 'living area' in a house dataset are 98% correlated.",
+              "Why it's a problem: when features are highly correlated, the model cannot determine which feature is actually responsible for changes in output. Coefficient estimates become unstable — small changes in data cause wild swings in coefficients.",
+              "Detection: correlation matrix (anything > 0.8-0.9 between features is suspicious), Variance Inflation Factor (VIF).",
+              "Solutions: remove one of the correlated features, combine them (e.g., average), use PCA, or use Ridge regression which handles multicollinearity by shrinking coefficients."
+            ],
+            "Variance Inflation Factor (VIF)": [
+              "VIF: quantifies how much the variance of a regression coefficient is inflated due to multicollinearity. VIF = 1/(1-R²j) where R²j is the R² from regressing feature j on all other features.",
+              "Interpretation: VIF = 1 → no multicollinearity. VIF = 5 → moderate (R² = 0.8 when this feature is predicted by others). VIF > 10 → severe multicollinearity, action required.",
+              "Action: for features with VIF > 10, remove the feature with lower correlation to target and recalculate VIF until all VIF < 10."
+            ]
+          },
+          "required_code": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression, Ridge, Lasso\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import r2_score, mean_squared_error\nfrom statsmodels.stats.outliers_influence import variance_inflation_factor\n\nnp.random.seed(42)\n\n# ===== Create realistic dataset =====\nn = 200\narea       = np.random.normal(1200, 300, n)\nbedrooms   = np.random.randint(1, 6, n)\nage        = np.random.uniform(0, 30, n)\nprice = 50 + 0.04*area + 5*bedrooms - 0.5*age + np.random.normal(0, 5, n)  # in lakhs\n\ndf = pd.DataFrame({'area': area, 'bedrooms': bedrooms, 'age': age, 'price': price})\n\n# Split data\nX = df[['area', 'bedrooms', 'age']]\ny = df['price']\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\n# ===== Linear Regression =====\nlr = LinearRegression()\nlr.fit(X_train, y_train)\ny_pred = lr.predict(X_test)\n\nprint(\"Linear Regression:\")\nprint(f\"  Intercept: {lr.intercept_:.2f}\")\nprint(f\"  Coefficients: area={lr.coef_[0]:.4f}, bedrooms={lr.coef_[1]:.2f}, age={lr.coef_[2]:.2f}\")\nprint(f\"  Interpretation: every extra sq ft adds ₹{lr.coef_[0]*100:.1f}k to price\")\nprint(f\"  R² Score: {r2_score(y_test, y_pred):.4f}\")\n\n# ===== Check Multicollinearity with VIF =====\nX_scaled = StandardScaler().fit_transform(X_train)\nvif_data = pd.DataFrame()\nvif_data['Feature'] = X_train.columns\nvif_data['VIF'] = [variance_inflation_factor(X_train.values, i)\n                   for i in range(X_train.shape[1])]\nprint(\"\\nVariance Inflation Factor:\")\nprint(vif_data)\nprint(\"VIF < 5: OK, VIF 5-10: Moderate, VIF > 10: Severe\")\n\n# ===== Ridge vs Lasso =====\n# Add correlated feature to demonstrate regularization\nX_multi = X.copy()\nX_multi['area_copy'] = X_multi['area'] + np.random.normal(0, 10, n)  # near-duplicate\nX_tr, X_te = X_multi[:160], X_multi[160:]\ny_tr, y_te = y[:160], y[160:]\n\nscaler = StandardScaler()\nX_tr_s = scaler.fit_transform(X_tr)\nX_te_s = scaler.transform(X_te)\n\nfor name, model in [('LinearRegression', LinearRegression()),\n                     ('Ridge (alpha=1)',   Ridge(alpha=1)),\n                     ('Lasso (alpha=0.5)', Lasso(alpha=0.5))]:\n    model.fit(X_tr_s, y_tr)\n    pred = model.predict(X_te_s)\n    print(f\"\\n{name}:\")\n    print(f\"  Coefficients: {model.coef_.round(3)}\")\n    print(f\"  R²: {r2_score(y_te, pred):.4f}\")\n# Notice: Lasso makes area_copy coefficient = 0 (feature selection!)\n\n# ===== Gradient Descent Visualisation =====\n# Manual gradient descent on simple 1D problem\nX_1d = np.array([1, 2, 3, 4, 5], dtype=float)\ny_1d = np.array([2, 4, 5, 4, 5], dtype=float)\n\nslope, intercept = 0.0, 0.0\nlr_rate = 0.01\nlosses = []\n\nfor epoch in range(500):\n    y_pred_gd = slope * X_1d + intercept\n    error = y_pred_gd - y_1d\n    loss = np.mean(error**2)\n    losses.append(loss)\n    # Gradient\n    d_slope = (2/len(X_1d)) * np.sum(error * X_1d)\n    d_intercept = (2/len(X_1d)) * np.sum(error)\n    # Update\n    slope     -= lr_rate * d_slope\n    intercept -= lr_rate * d_intercept\n\nprint(f\"\\nGradient Descent final: slope={slope:.3f}, intercept={intercept:.3f}\")\nprint(f\"Final loss (MSE): {losses[-1]:.4f}\")",
+          "required_diagrams": [
+            "Bias-Variance tradeoff diagram: clean diagram on white background. X-axis labeled 'Model Complexity (Simple → Complex)'. Y-axis labeled 'Error'. Three curves: one decreasing curve labeled 'Bias' (high at left, low at right), one increasing curve labeled 'Variance' (low at left, high at right), one U-shaped curve labeled 'Total Error = Bias² + Variance'. Vertical dashed line at the bottom of U-curve labeled 'Optimal Complexity'. Regions labeled: left side = 'Underfitting', right side = 'Overfitting'. White background, plain black."
+          ],
+          "required_tables": [
+            "Ridge vs Lasso Comparison: Feature | Ridge (L2) | Lasso (L1) || Penalty term | λ × Σ(coef²) | λ × Σ(|coef|) || Coefficients go to | Very small (near 0) | Exactly 0 (feature selection) || Feature selection | No (keeps all) | Yes (removes irrelevant) || When multicollinearity exists | Groups correlated features | Picks one, zeros others || Best for | All features somewhat relevant | Many irrelevant features || Sensitivity to outliers | Less sensitive | More sensitive"
+          ],
+          "common_mistakes": [
+            "Interpreting coefficients without scaling first — if Area is in sq ft (0-3000) and Bedrooms is (1-5), the coefficient sizes are incomparable. Scale features before comparing coefficient importance",
+            "Ignoring residual plots — high R² doesn't mean the model is valid. Check residual plots for patterns (curves = non-linearity, funnel = heteroscedasticity) to validate assumptions"
+          ]
+        },
+        {
+          "name": "Regression Evaluation Metrics",
+          "keywords": [
+            "MAE",
+            "MSE",
+            "RMSE",
+            "R squared",
+            "adjusted R squared",
+            "regression metrics",
+            "mean absolute error",
+            "mean squared error"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Mean Absolute Error (MAE)",
+            "Mean Squared Error (MSE)",
+            "Root Mean Squared Error (RMSE)",
+            "R² Score",
+            "Adjusted R² Score"
+          ],
+          "subtopic_content": {
+            "Mean Absolute Error (MAE)": [
+              "MAE: average of absolute differences between predicted and actual values. Formula: MAE = (1/n) × Σ|actual - predicted|.",
+              "Intuition: on average, how far off are our predictions? If MAE = ₹2 lakhs for house prices, predictions are typically off by ₹2 lakhs.",
+              "Properties: in the SAME UNITS as target variable (easy to explain to business). Not sensitive to outliers — a prediction off by 100 is treated as 100× worse than off by 1 (linear). Best when you want to treat all errors equally."
+            ],
+            "Mean Squared Error (MSE)": [
+              "MSE: average of SQUARED differences. Formula: MSE = (1/n) × Σ(actual - predicted)².",
+              "Why square? Squaring: (1) makes all errors positive, (2) penalises large errors much more than small ones. A prediction off by 10 contributes 100× more than off by 1. Use when large errors are especially bad.",
+              "Disadvantage: units are SQUARED (rupees² for house prices — hard to interpret). Solution: take square root → RMSE."
+            ],
+            "Root Mean Squared Error (RMSE)": [
+              "RMSE: square root of MSE. Formula: RMSE = √MSE = √[(1/n) × Σ(actual - predicted)²].",
+              "Same units as target variable. Penalizes large errors more than MAE. Most commonly reported regression metric in industry.",
+              "MAE vs RMSE: RMSE always ≥ MAE. Large gap between RMSE and MAE suggests large outlier errors (a few predictions very wrong). If RMSE ≈ MAE, errors are consistent in magnitude."
+            ],
+            "R² Score": [
+              "R² (Coefficient of Determination): measures how much variance in the target is explained by the model. R² = 1 - (SS_residual / SS_total).",
+              "Interpretation: R² = 0.85 means the model explains 85% of variance in house prices. The remaining 15% is unexplained (noise or missing features). R² = 0 means model is no better than predicting the mean for everything. R² = 1 means perfect predictions.",
+              "Can R² be negative? YES — if your model is worse than just predicting the mean, R² is negative. This indicates a fundamentally broken model."
+            ],
+            "Adjusted R² Score": [
+              "Problem with R²: adding ANY feature to a model, even random noise, will NEVER decrease R². So R² always improves with more features, even if those features are meaningless.",
+              "Adjusted R²: penalises for adding features that don't improve the model. Formula: Adj. R² = 1 - [(1-R²)(n-1)/(n-p-1)] where n = samples, p = number of features.",
+              "Use Adjusted R² (not R²) when comparing models with different numbers of features. If adding a feature increases Adjusted R² → useful feature. If it stays same or decreases → feature is noise."
+            ]
+          },
+          "required_code": "import numpy as np\nfrom sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score\n\n# Actual vs predicted house prices (in lakhs)\ny_actual    = np.array([50, 65, 80, 45, 70, 55, 90, 60, 75, 85])\ny_predicted = np.array([52, 63, 78, 48, 73, 57, 86, 61, 76, 80])\n\n# ===== Calculate all metrics =====\nmae  = mean_absolute_error(y_actual, y_predicted)\nmse  = mean_squared_error(y_actual, y_predicted)\nrmse = np.sqrt(mse)\nr2   = r2_score(y_actual, y_predicted)\n\nprint(\"Regression Evaluation Metrics:\")\nprint(f\"  MAE  = {mae:.2f} lakhs     (avg error is ₹{mae:.2f}L)\")\nprint(f\"  MSE  = {mse:.2f} lakhs²   (squared units — hard to interpret)\")\nprint(f\"  RMSE = {rmse:.2f} lakhs   (like MAE but penalises big errors more)\")\nprint(f\"  R²   = {r2:.4f}          (model explains {r2*100:.1f}% of variance)\")\n\n# ===== Adjusted R² (use when comparing models with different features) =====\ndef adjusted_r2(r2, n, p):\n    \"\"\"n = number of samples, p = number of features\"\"\"\n    return 1 - (1 - r2) * (n - 1) / (n - p - 1)\n\nn_samples = len(y_actual)\nfor n_features in [1, 3, 5, 8]:  # more features added\n    adj_r2 = adjusted_r2(r2, n_samples, n_features)\n    print(f\"  Adj R² with {n_features} features: {adj_r2:.4f}  \", end=\"\")\n    print(\"← decreases as useless features added\" if n_features > 3 else \"\")\n\n# ===== Visual comparison of metrics =====\nprint(\"\\nVisual: Actual vs Predicted\")\nfor i, (actual, pred) in enumerate(zip(y_actual, y_predicted)):\n    error = pred - actual\n    bar = '▓' * int(abs(error)) + ('↑' if error > 0 else '↓')\n    print(f\"  House {i+1}: Actual=₹{actual}L  Predicted=₹{pred}L  Error={error:+.0f}L  {bar}\")\n\n# ===== When to use which metric =====\nprint(\"\"\"\nMetric Selection Guide:\n  Use MAE when:  outliers shouldn't be penalised heavily, easy to explain\n  Use RMSE when: large errors are especially unacceptable\n  Use R² when:   explaining model quality to stakeholders\n  Use Adj R² when: comparing models with different numbers of features\n\"\"\")",
+          "required_tables": [
+            "Comparison: Metric | Formula | Units | Range | Outlier Sensitivity | Best For || MAE | avg(|actual - pred|) | Same as target | 0 to ∞, lower better | Low | Easy to explain, outliers OK || MSE | avg((actual-pred)²) | Target² | 0 to ∞, lower better | High | When large errors must be penalised || RMSE | √MSE | Same as target | 0 to ∞, lower better | High | Standard metric, same units as target || R² | 1 - SS_res/SS_tot | Dimensionless | -∞ to 1, higher better | Medium | Proportion of variance explained || Adj R² | Penalised R² | Dimensionless | -∞ to 1, higher better | Medium | Comparing models with different feature counts"
+          ],
+          "common_mistakes": [
+            "Using R² alone to judge a model — R²=0.95 sounds great, but if RMSE is ₹50 lakhs for house prices that's terrible. Always check metric values in context of the problem",
+            "Comparing RMSE across different datasets — RMSE of 5 means different things for house prices (₹5L) vs temperature (5°C). RMSE is only comparable for the same target variable"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Classification Models",
+      "topics": [
+        {
+          "name": "Classification Algorithms",
+          "keywords": [
+            "logistic regression",
+            "knn",
+            "decision tree",
+            "random forest",
+            "svm",
+            "naive bayes",
+            "xgboost",
+            "bagging",
+            "boosting",
+            "ensemble methods"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Logistic Regression",
+            "K-Nearest Neighbors (KNN)",
+            "Decision Trees",
+            "Random Forest",
+            "Support Vector Machines (SVM)",
+            "Naive Bayes (Gaussian & Multinomial)",
+            "XGBoost",
+            "Ensemble Methods: Bagging and Boosting"
+          ],
+          "subtopic_content": {
+            "Logistic Regression": [
+              "Despite the name, Logistic Regression is a CLASSIFICATION algorithm. It predicts the PROBABILITY that an input belongs to a class (0 or 1). If probability > 0.5 → class 1, else → class 0.",
+              "Sigmoid function: maps any number to range (0, 1). Formula: σ(z) = 1 / (1 + e^(-z)). The model computes a linear combination of features (just like linear regression), then passes it through sigmoid to get probability.",
+              "Example: predicting whether a customer will buy (1) or not (0) based on age, income, and browsing history. P(buy) = sigmoid(0.3×age + 0.5×income - 0.2×age) → if P > 0.5 → predict buy.",
+              "Binary vs Multi-class: binary LR predicts one of two classes. Multi-class: One-vs-Rest (OvR) — train one binary classifier per class, predict the class with highest probability."
+            ],
+            "K-Nearest Neighbors (KNN)": [
+              "KNN: the simplest classification algorithm. 'A person is known by the company they keep.' To classify a new point, find the K closest training points and take the majority vote.",
+              "Algorithm: for each new point, calculate distance to all training points (Euclidean, Manhattan, etc.), sort by distance, take K nearest neighbors, majority class = prediction.",
+              "K is a hyperparameter: K=1 → very flexible, memorises training data (overfits). K=100 → very smooth boundary (underfits). Typical range: 3-20, use odd K to avoid ties. Find best K with cross-validation.",
+              "Weakness: slow at prediction time (computes distance to all training points), sensitive to scale (MUST normalize features before using KNN), fails in high dimensions (curse of dimensionality)."
+            ],
+            "Decision Trees": [
+              "Decision Tree: splits data based on feature values, creating a tree of if-then rules. Extremely interpretable — you can explain every prediction step by step.",
+              "How it splits: at each node, find the feature and threshold that best separates the classes. Measured by: Gini impurity (default in sklearn — lower = more pure node) or Information Gain (entropy reduction).",
+              "Example tree for loan default: Root → Is income > ₹5L? → Yes → Is credit score > 700? → Yes → Approve. Each path leads to a leaf node (final prediction).",
+              "Overfitting problem: deep trees perfectly memorise training data but fail on new data. Solution: max_depth, min_samples_split, min_samples_leaf hyperparameters."
+            ],
+            "Random Forest": [
+              "Random Forest: build MANY decision trees on random subsets of data and features, then aggregate predictions (majority vote for classification, average for regression). An ensemble method.",
+              "Why better than one tree? Each tree makes different errors. When you average many imperfect models, random errors cancel out and systematic patterns remain. Like asking 100 experts and averaging — more reliable than any single expert.",
+              "Two sources of randomness: (1) Bootstrap sampling — each tree trains on a random sample with replacement. (2) Feature subsampling — at each split, only consider √n random features (not all features).",
+              "Advantage: handles missing values, automatically provides feature importance, resistant to overfitting (hard to overfit when averaging many trees), works well without much tuning."
+            ],
+            "Support Vector Machines (SVM)": [
+              "SVM: find the hyperplane (decision boundary) that MAXIMALLY separates the two classes. Maximising the margin (distance between the boundary and closest points of each class) leads to better generalisation.",
+              "Support Vectors: the training points closest to the decision boundary. They 'support' or define the boundary. All other points are irrelevant — only support vectors matter.",
+              "Kernel trick: SVM can handle non-linearly separable data by projecting data to higher dimensions where it becomes linearly separable. Common kernels: Linear, RBF (Radial Basis Function — works for most cases), Polynomial.",
+              "C parameter: controls trade-off between maximising margin and minimising classification errors. High C → small margin, few misclassifications (possible overfit). Low C → large margin, more misclassifications (possible underfit)."
+            ],
+            "Naive Bayes (Gaussian & Multinomial)": [
+              "Naive Bayes: applies Bayes' theorem with the 'naive' assumption that features are INDEPENDENT of each other. Despite this overly simplistic assumption, works surprisingly well in practice — especially for text.",
+              "Bayes theorem: P(class|features) ∝ P(features|class) × P(class). Calculate the probability of each class given the features, predict the class with highest probability.",
+              "Gaussian Naive Bayes: assumes features follow normal distribution. Used for continuous features (height, weight, measurements). Multinomial Naive Bayes: for count-based features — word counts in text classification (spam vs not spam).",
+              "Why 'Naive'? Real features are correlated (e.g., height and weight are related). NB ignores this. But even with wrong independence assumption, it's very fast and works well for text."
+            ],
+            "XGBoost": [
+              "XGBoost (Extreme Gradient Boosting): one of the most powerful and widely used ML algorithms. Wins most Kaggle competitions. Boosting ensemble — builds trees SEQUENTIALLY, each tree correcting errors of previous.",
+              "Boosting idea: first tree makes predictions, compute residual errors. Second tree learns to predict those residuals. Third tree corrects remaining errors. Combine all trees = excellent predictions.",
+              "XGBoost advantages over regular gradient boosting: built-in L1/L2 regularization, handles missing values automatically, parallel processing (fast), can handle very large datasets.",
+              "Key hyperparameters: n_estimators (number of trees), learning_rate (shrinkage — smaller is better but needs more trees), max_depth (tree depth), subsample, colsample_bytree."
+            ],
+            "Ensemble Methods: Bagging and Boosting": [
+              "Ensemble methods: combine multiple models to produce better predictions than any single model. 'Wisdom of the crowd' — diverse group makes better decisions than any individual.",
+              "Bagging (Bootstrap Aggregating): train multiple independent models on random subsets of data IN PARALLEL, then aggregate. Random Forest is bagging with Decision Trees. Reduces VARIANCE (fixes overfitting).",
+              "Boosting: train models SEQUENTIALLY, each focusing on examples previous models got wrong. Weights of misclassified examples increase so next model pays more attention to them. Reduces BIAS and VARIANCE. XGBoost, AdaBoost, LightGBM are boosting methods.",
+              "Stacking: train multiple different models (SVM, Random Forest, XGBoost), then train a 'meta-model' on their predictions. Often achieves highest accuracy but complex to implement."
+            ]
+          },
+          "required_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.tree import DecisionTreeClassifier, export_text\nfrom sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier\nfrom sklearn.svm import SVC\nfrom sklearn.naive_bayes import GaussianNB\nfrom xgboost import XGBClassifier\nfrom sklearn.metrics import accuracy_score, classification_report\n\n# Load breast cancer dataset (benign vs malignant)\ndata = load_breast_cancer()\nX, y = data.data, data.target\nfeature_names = data.feature_names\n\n# Train-test split + scaling\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\nscaler = StandardScaler()\nX_train_s = scaler.fit_transform(X_train)\nX_test_s  = scaler.transform(X_test)\n\n# ===== Compare All Classifiers =====\nclassifiers = {\n    'Logistic Regression':  LogisticRegression(max_iter=1000, random_state=42),\n    'KNN (k=5)':            KNeighborsClassifier(n_neighbors=5),\n    'Decision Tree':        DecisionTreeClassifier(max_depth=5, random_state=42),\n    'Random Forest':        RandomForestClassifier(n_estimators=100, random_state=42),\n    'SVM (RBF kernel)':     SVC(kernel='rbf', C=1.0, random_state=42),\n    'Naive Bayes':          GaussianNB(),\n    'XGBoost':              XGBClassifier(n_estimators=100, random_state=42, eval_metric='logloss'),\n    'Gradient Boosting':    GradientBoostingClassifier(n_estimators=100, random_state=42),\n}\n\nprint(f\"{'Model':<25} {'Train Acc':>10} {'Test Acc':>10}\")\nprint(\"-\" * 50)\nfor name, clf in classifiers.items():\n    clf.fit(X_train_s, y_train)\n    train_acc = accuracy_score(y_train, clf.predict(X_train_s))\n    test_acc  = accuracy_score(y_test,  clf.predict(X_test_s))\n    overfit = '⚠️ overfit' if train_acc - test_acc > 0.05 else ''\n    print(f\"{name:<25} {train_acc:>10.4f} {test_acc:>10.4f} {overfit}\")\n\n# ===== Decision Tree — Interpretable Rules =====\ndt_simple = DecisionTreeClassifier(max_depth=3, random_state=42)\ndt_simple.fit(X_train_s, y_train)\nprint(\"\\nDecision Tree Rules (depth=3):\")\nprint(export_text(dt_simple, feature_names=list(feature_names)))\n\n# ===== Random Forest — Feature Importance =====\nrf = RandomForestClassifier(n_estimators=100, random_state=42)\nrf.fit(X_train_s, y_train)\nimportances = pd.Series(rf.feature_importances_, index=feature_names)\nprint(\"\\nTop 5 Most Important Features (Random Forest):\")\nprint(importances.nlargest(5))\n\n# ===== Detailed Classification Report (best model) =====\nxgb = XGBClassifier(n_estimators=100, random_state=42, eval_metric='logloss')\nxgb.fit(X_train_s, y_train)\ny_pred_xgb = xgb.predict(X_test_s)\nprint(\"\\nXGBoost Classification Report:\")\nprint(classification_report(y_test, y_pred_xgb, target_names=data.target_names))",
+          "required_diagrams": [
+            "Bagging vs Boosting comparison diagram: clean diagram on white background. Two rows. Top row (Bagging): Training data → three parallel arrows to Tree 1, Tree 2, Tree 3 (independent, different data samples) → combine with 'Majority Vote'. Bottom row (Boosting): Training data → Tree 1 → errors fed to → Tree 2 → remaining errors to → Tree 3 → 'Weighted Sum'. Label arrows showing sequential dependency in boosting. White background, plain black."
+          ],
+          "required_tables": [
+            "Algorithm Quick Comparison: Algorithm | Type | Interpretable | Needs Scaling | Handles Outliers | Speed | Best For || Logistic Regression | Linear | Yes | Yes | No | Fast | Binary classification, baselines || KNN | Instance-based | No | YES (critical) | No | Slow (predict) | Small datasets, recommendation || Decision Tree | Tree | Yes (visual) | No | Yes | Fast | When explainability needed || Random Forest | Ensemble (Bag) | No | No | Yes | Fast | General purpose, robust || SVM | Kernel | No | Yes | No | Slow on large | High-dim, clear margins || Naive Bayes | Probabilistic | Yes | No | Yes | Very fast | Text classification || XGBoost | Ensemble (Boost) | No | No | Yes | Fast | Competitions, tabular data"
+          ],
+          "common_mistakes": [
+            "Not scaling features before KNN or SVM — both use distances. Without scaling, a feature with large values (income) dominates features with small values (age), giving wrong distance calculations",
+            "Using Decision Tree without max_depth — deep trees overfit perfectly on training data but fail on test data. Always set max_depth=3-7 or use min_samples_leaf"
+          ]
+        },
+        {
+          "name": "Classification Evaluation Metrics",
+          "keywords": [
+            "accuracy",
+            "precision",
+            "recall",
+            "specificity",
+            "F1 score",
+            "ROC AUC",
+            "confusion matrix",
+            "precision recall curve",
+            "classification metrics"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Confusion Matrix",
+            "Accuracy",
+            "Precision",
+            "Recall",
+            "Specificity",
+            "F1 Score",
+            "ROC-AUC",
+            "Precision-Recall Curve"
+          ],
+          "subtopic_content": {
+            "Confusion Matrix": [
+              "Confusion Matrix: a 2×2 table (for binary classification) showing all four possible prediction outcomes. The foundation for all other classification metrics.",
+              "Four cells: True Positive (TP): Actually positive, predicted positive ✓. True Negative (TN): Actually negative, predicted negative ✓. False Positive (FP): Actually negative, predicted positive ✗ (Type I error — false alarm). False Negative (FN): Actually positive, predicted negative ✗ (Type II error — missed detection).",
+              "Medical example: COVID test. TP = has COVID, test positive. TN = no COVID, test negative. FP = no COVID but test positive (false alarm — unnecessary quarantine). FN = has COVID but test negative (WORST — spreads disease). In medical diagnosis, FN is usually more costly."
+            ],
+            "Accuracy": [
+              "Accuracy = (TP + TN) / Total. Proportion of ALL predictions that were correct.",
+              "MISLEADING for imbalanced data: if 99% of emails are not spam and 1% are spam. A model that ALWAYS predicts 'not spam' achieves 99% accuracy but never finds any spam. This model is useless!",
+              "Use accuracy ONLY when classes are balanced. For imbalanced classes, use Precision, Recall, or F1 Score."
+            ],
+            "Precision": [
+              "Precision = TP / (TP + FP). Of all the times the model PREDICTED POSITIVE, how often was it actually correct?",
+              "Think: 'When I say fire, there really IS a fire.' High precision = low false alarm rate. The model only predicts positive when it's quite sure.",
+              "When high precision matters: spam detection (don't want to send real emails to spam folder — false positives are costly). Recommendation systems (don't recommend irrelevant items)."
+            ],
+            "Recall": [
+              "Recall (Sensitivity) = TP / (TP + FN). Of all actual positives, how many did the model CATCH?",
+              "Think: 'I catch all the criminals — even if I arrest some innocent people.' High recall = low miss rate. The model catches almost all positives.",
+              "When high recall matters: cancer screening (missing a cancer case is deadly — FN is catastrophic), fraud detection (missing fraud is very costly), COVID testing."
+            ],
+            "Specificity": [
+              "Specificity (True Negative Rate) = TN / (TN + FP). Of all actual negatives, how many did the model correctly identify as negative?",
+              "Complement of False Positive Rate (FPR). High specificity = model rarely misclassifies negatives as positives.",
+              "Used in medical tests alongside sensitivity (recall). A good test has high sensitivity AND high specificity, but there's always a trade-off."
+            ],
+            "F1 Score": [
+              "F1 Score: harmonic mean of Precision and Recall. F1 = 2 × (Precision × Recall) / (Precision + Recall).",
+              "Harmonic mean punishes extreme values — if either Precision or Recall is very low, F1 is low even if the other is high. Forces both to be reasonably good.",
+              "F1 = 1 → perfect Precision AND Recall. F1 → 0 if either Precision or Recall → 0. Best single metric for imbalanced classification problems. Use when both false positives AND false negatives matter."
+            ],
+            "ROC-AUC": [
+              "ROC Curve (Receiver Operating Characteristic): plots True Positive Rate (Recall) vs False Positive Rate at different classification THRESHOLDS. Shows model performance across all possible decision thresholds.",
+              "AUC (Area Under Curve): single number summarising ROC curve. AUC = 1.0 → perfect model. AUC = 0.5 → random guessing (diagonal line). AUC = 0.9 → 90% chance model ranks a random positive higher than a random negative.",
+              "ROC-AUC measures RANKING ability — is the model good at separating classes? Useful for comparing models independently of the chosen threshold."
+            ],
+            "Precision-Recall Curve": [
+              "PR Curve: plots Precision vs Recall at different thresholds. For highly imbalanced datasets (fraud, rare diseases), PR curve is more informative than ROC curve.",
+              "Average Precision (AP): area under PR curve. Higher = better. Preferred metric when positive class is rare (1% fraud transactions — ROC can be misleadingly optimistic).",
+              "Threshold tuning: moving threshold changes trade-off between Precision and Recall. In fraud detection: lower threshold → catch more fraud (high recall) but more false alarms (low precision). Business decides the acceptable trade-off."
+            ]
+          },
+          "required_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import (\n    confusion_matrix, accuracy_score, precision_score,\n    recall_score, f1_score, roc_auc_score, roc_curve,\n    precision_recall_curve, average_precision_score,\n    classification_report\n)\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\n# Load and prepare data\ndata = load_breast_cancer()\nX, y = data.data, data.target\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\nscaler = StandardScaler()\nX_train_s = scaler.fit_transform(X_train)\nX_test_s  = scaler.transform(X_test)\n\n# Train model\nrf = RandomForestClassifier(n_estimators=100, random_state=42)\nrf.fit(X_train_s, y_train)\ny_pred    = rf.predict(X_test_s)\ny_prob    = rf.predict_proba(X_test_s)[:, 1]  # probability of positive class\n\n# ===== Confusion Matrix =====\ncm = confusion_matrix(y_test, y_pred)\nTN, FP, FN, TP = cm.ravel()\nprint(\"Confusion Matrix:\")\nprint(f\"  TN={TN}  FP={FP}\")\nprint(f\"  FN={FN}  TP={TP}\")\n\n# Visualise confusion matrix\nplt.figure(figsize=(6, 5))\nsns.heatmap(cm, annot=True, fmt='d', cmap='Blues',\n            xticklabels=data.target_names,\n            yticklabels=data.target_names)\nplt.title('Confusion Matrix')\nplt.xlabel('Predicted')\nplt.ylabel('Actual')\nplt.tight_layout()\nplt.savefig('confusion_matrix.png', dpi=100)\n\n# ===== All Metrics =====\naccuracy    = accuracy_score(y_test, y_pred)\nprecision   = precision_score(y_test, y_pred)\nrecall      = recall_score(y_test, y_pred)\nspecificity = TN / (TN + FP)\nf1          = f1_score(y_test, y_pred)\nauc         = roc_auc_score(y_test, y_prob)\n\nprint(f\"\\nAccuracy:     {accuracy:.4f}  ({accuracy*100:.1f}% correct)\")\nprint(f\"Precision:    {precision:.4f}  (when says +ve, correct {precision*100:.1f}% of time)\")\nprint(f\"Recall:       {recall:.4f}  (catches {recall*100:.1f}% of actual positives)\")\nprint(f\"Specificity:  {specificity:.4f}  (correctly identifies {specificity*100:.1f}% of negatives)\")\nprint(f\"F1 Score:     {f1:.4f}  (harmonic mean of Precision & Recall)\")\nprint(f\"ROC-AUC:      {auc:.4f}  (model separates classes this well)\")\n\n# ===== Full Classification Report =====\nprint(\"\\nDetailed Report:\")\nprint(classification_report(y_test, y_pred, target_names=data.target_names))\n\n# ===== ROC Curve =====\nfpr, tpr, thresholds = roc_curve(y_test, y_prob)\nplt.figure(figsize=(8, 6))\nplt.plot(fpr, tpr, 'b-', linewidth=2, label=f'ROC Curve (AUC = {auc:.3f})')\nplt.plot([0, 1], [0, 1], 'r--', label='Random Classifier (AUC = 0.5)')\nplt.xlabel('False Positive Rate (FPR)')\nplt.ylabel('True Positive Rate (Recall)')\nplt.title('ROC Curve')\nplt.legend()\nplt.grid(True, alpha=0.3)\nplt.tight_layout()\nplt.savefig('roc_curve.png', dpi=100)\nprint(\"\\nROC Curve saved!\")\n\n# ===== Imbalanced Data Demo — Why Accuracy Fails =====\nprint(\"\\n===== Why Accuracy is Misleading (Imbalanced Data) =====\")\ny_imbalanced = np.array([0]*99 + [1]*1)  # 99% class 0, 1% class 1\ny_pred_lazy  = np.zeros(100)              # always predict 0\nprint(f\"'Always predict 0' accuracy: {accuracy_score(y_imbalanced, y_pred_lazy):.0%}\")\nprint(f\"'Always predict 0' recall:   {recall_score(y_imbalanced, y_pred_lazy):.0%}\")\nprint(f\"'Always predict 0' F1 score: {f1_score(y_imbalanced, y_pred_lazy):.0%}\")\nprint(\"→ 99% accuracy but 0% recall and 0% F1 — model is useless!\")",
+          "required_diagrams": [
+            "Confusion Matrix diagram: clean 2x2 table on white background. Rows labeled 'Actual Positive' and 'Actual Negative'. Columns labeled 'Predicted Positive' and 'Predicted Negative'. Four cells: Top-left: TP = True Positive (green, 'Correctly detected'), Top-right: FN = False Negative (red, 'Missed - Type II error'), Bottom-left: FP = False Positive (yellow, 'False alarm - Type I error'), Bottom-right: TN = True Negative (green, 'Correctly rejected'). Show formulas: Precision = TP/(TP+FP), Recall = TP/(TP+FN). White background."
+          ],
+          "required_tables": [
+            "Metric Selection Guide: Metric | Formula | When to Use | Example Use Case || Accuracy | (TP+TN)/Total | Balanced classes only | Equal spam/not-spam || Precision | TP/(TP+FP) | False positives costly | Spam filter (don't lose real email) || Recall | TP/(TP+FN) | False negatives costly | Cancer screening (don't miss cancer) || F1 Score | 2×P×R/(P+R) | Both FP and FN matter, imbalanced data | Fraud detection || ROC-AUC | Area under ROC | Compare models, threshold-independent | Binary classification comparison || Avg Precision | Area under PR | Rare positive class | Disease detection (1% positive rate)"
+          ],
+          "common_mistakes": [
+            "Reporting only accuracy for medical or fraud data — 99% accuracy on 1% positive rate dataset means nothing. Always report Precision, Recall, and F1 for imbalanced datasets",
+            "Confusing Precision and Recall — Precision asks 'how reliable are my positive predictions?', Recall asks 'how many positives did I catch?' They trade off against each other"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Model Optimization",
+      "topics": [
+        {
+          "name": "Hyperparameter Tuning and Cross-Validation",
+          "keywords": [
+            "grid search",
+            "random search",
+            "cross validation",
+            "k-fold",
+            "train test split",
+            "hyperparameter tuning",
+            "overfitting",
+            "bias variance"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Train-Test Split",
+            "Cross-Validation: K-Fold",
+            "Grid Search",
+            "Random Search",
+            "Hyperparameter Tuning",
+            "Bias-Variance Tradeoff"
+          ],
+          "subtopic_content": {
+            "Train-Test Split": [
+              "Train-test split: divide data into two parts. Train (70-80%): model learns from this. Test (20-30%): evaluate final performance on this data which model has NEVER seen.",
+              "Stratified split: for classification, ensure each split has the same proportion of each class. If 10% fraud in data, train and test should both have ~10% fraud. sklearn: train_test_split with stratify=y.",
+              "Test set should be used ONLY ONCE at the very end. If you repeatedly test and tune based on test results, you are implicitly overfitting to the test set — your reported performance is overly optimistic."
+            ],
+            "Cross-Validation: K-Fold": [
+              "Problem with single split: results depend heavily on which 20% you chose as test set. With small datasets, this variance can be huge. Solution: K-Fold Cross-Validation.",
+              "K-Fold process: split data into K equal 'folds'. Train on K-1 folds, test on the remaining 1 fold. Repeat K times (each fold serves as test once). Final score = average of K scores.",
+              "Example K=5: fold 1 is test, folds 2-5 are train → score 1. fold 2 is test, others train → score 2. ...etc. Average all 5 scores → reliable estimate of true performance.",
+              "Stratified K-Fold: maintains class proportions in each fold (important for imbalanced data). K=5 or K=10 are most common. More data → can use smaller K. Less data → use K=10 to maximise training data."
+            ],
+            "Grid Search": [
+              "Grid Search: exhaustively try ALL combinations of specified hyperparameter values. Like trying every single combination in a grid.",
+              "Example: Random Forest with max_depth=[3,5,7] and n_estimators=[50,100,200]. Grid search tries all 3×3=9 combinations, finds the one with best cross-validation score.",
+              "Advantage: guaranteed to find the best combination within the grid. Disadvantage: very slow — with K=5 cross-validation and 9 combinations = 45 model fits. Gets exponentially slower with more hyperparameters."
+            ],
+            "Random Search": [
+              "Random Search: instead of trying all combinations, randomly sample N combinations from the hyperparameter space. Much faster than Grid Search.",
+              "Why it works: research shows that in practice, most hyperparameters don't matter much. A few important ones dominate performance. Random search finds good combinations faster because it explores more of the important parameter space.",
+              "Practical recommendation: start with Random Search to find promising regions, then use Grid Search to fine-tune within those regions. In most cases, Random Search is sufficient."
+            ],
+            "Hyperparameter Tuning": [
+              "Hyperparameters: settings you set BEFORE training (unlike model parameters that are learned). Examples: learning_rate, n_estimators, max_depth, C (SVM), K (KNN).",
+              "Tuning process: (1) Define hyperparameter grid, (2) Use cross-validation to evaluate each combination, (3) Select combination with best CV score, (4) Retrain on full training data with best hyperparameters, (5) Evaluate ONCE on held-out test set.",
+              "Bayesian Optimization: smarter than random search — uses previous results to guide next hyperparameter choice. Libraries: Optuna, Hyperopt. Finds good parameters faster than random search."
+            ],
+            "Bias-Variance Tradeoff": [
+              "Underfitting (High Bias): model too simple. Both training and test accuracy are LOW. Solution: more complex model, more features, less regularization.",
+              "Overfitting (High Variance): model too complex. Training accuracy HIGH, test accuracy MUCH LOWER. Solution: more data, regularization (Ridge/Lasso), simpler model, dropout (neural networks), early stopping.",
+              "Learning curves: plot training and validation score vs training set size. Converging to good score = fine. Large gap between training and validation = overfitting. Both low = underfitting.",
+              "Validation curve: plot training and validation score vs hyperparameter value. Shows the sweet spot where validation score is maximised."
+            ]
+          },
+          "required_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import (\n    train_test_split, KFold, StratifiedKFold,\n    cross_val_score, GridSearchCV, RandomizedSearchCV\n)\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.metrics import accuracy_score\nimport matplotlib.pyplot as plt\n\n# Load data\ndata = load_breast_cancer()\nX, y = data.data, data.target\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y  # stratified!\n)\nscaler = StandardScaler()\nX_train_s = scaler.fit_transform(X_train)\nX_test_s  = scaler.transform(X_test)\n\n# ===== K-Fold Cross Validation =====\nmodel = RandomForestClassifier(n_estimators=100, random_state=42)\n\n# Manual K-Fold\nskf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)\nfold_scores = []\nfor fold, (train_idx, val_idx) in enumerate(skf.split(X_train_s, y_train), 1):\n    X_fold_train, X_fold_val = X_train_s[train_idx], X_train_s[val_idx]\n    y_fold_train, y_fold_val = y_train[train_idx], y_train[val_idx]\n    model.fit(X_fold_train, y_fold_train)\n    score = accuracy_score(y_fold_val, model.predict(X_fold_val))\n    fold_scores.append(score)\n    print(f\"Fold {fold}: {score:.4f}\")\nprint(f\"Mean CV Score: {np.mean(fold_scores):.4f} ± {np.std(fold_scores):.4f}\")\n\n# One-liner cross validation\ncv_scores = cross_val_score(model, X_train_s, y_train, cv=5, scoring='accuracy')\nprint(f\"\\nQuick CV: {cv_scores.mean():.4f} ± {cv_scores.std():.4f}\")\n\n# ===== Grid Search =====\nparam_grid = {\n    'n_estimators': [50, 100, 200],\n    'max_depth':    [3, 5, 7, None],\n    'min_samples_split': [2, 5]\n}\nprint(\"\\nGrid Search: trying all\", 3*4*2, \"combinations × 5 folds =\", 3*4*2*5, \"fits\")\ngrid_search = GridSearchCV(\n    RandomForestClassifier(random_state=42),\n    param_grid,\n    cv=5,\n    scoring='accuracy',\n    n_jobs=-1,  # use all CPU cores\n    verbose=0\n)\ngrid_search.fit(X_train_s, y_train)\nprint(f\"Best params: {grid_search.best_params_}\")\nprint(f\"Best CV score: {grid_search.best_score_:.4f}\")\nprint(f\"Test score: {accuracy_score(y_test, grid_search.best_estimator_.predict(X_test_s)):.4f}\")\n\n# ===== Random Search (faster, comparable results) =====\nfrom scipy.stats import randint\nparam_dist = {\n    'n_estimators':      randint(50, 300),\n    'max_depth':         [3, 5, 7, 10, None],\n    'min_samples_split': randint(2, 15),\n    'min_samples_leaf':  randint(1, 10),\n}\nrandom_search = RandomizedSearchCV(\n    RandomForestClassifier(random_state=42),\n    param_dist,\n    n_iter=20,   # try 20 random combinations (vs all in Grid Search)\n    cv=5,\n    scoring='accuracy',\n    n_jobs=-1,\n    random_state=42\n)\nrandom_search.fit(X_train_s, y_train)\nprint(f\"\\nRandom Search best params: {random_search.best_params_}\")\nprint(f\"Random Search best CV: {random_search.best_score_:.4f}\")\nprint(f\"Random Search test:    {accuracy_score(y_test, random_search.best_estimator_.predict(X_test_s)):.4f}\")",
+          "required_diagrams": [
+            "K-Fold Cross Validation diagram: clean diagram on white background. Five rows, each representing one fold. Dataset divided into 5 equal segments. In row 1: segment 1 colored blue (Validation), segments 2-5 colored grey (Training). Row 2: segment 2 blue, rest grey. Row 3: segment 3 blue, rest grey. Etc. Arrow pointing right shows 'Score' for each row. Bottom shows 'Final Score = Average of 5 scores'. White background, plain black labels."
+          ],
+          "required_tables": [
+            "Grid Search vs Random Search: Feature | Grid Search | Random Search || Strategy | Try ALL combinations | Try N random combinations || Speed | Very slow (exponential) | Fast (fixed N iterations) || Guarantee | Finds best in grid | No guarantee but usually finds good || Best for | Few hyperparameters (<3) | Many hyperparameters || When to use | Fine-tuning after Random Search | Initial exploration"
+          ],
+          "common_mistakes": [
+            "Using test set for cross-validation — test set must be completely held out. Only use training data for cross-validation, tune hyperparameters, then evaluate ONCE on test set",
+            "Not using stratified K-Fold for imbalanced classification — without stratification, some folds may have very few positive examples giving misleading scores"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Model Interpretation",
+      "topics": [
+        {
+          "name": "Model Explainability",
+          "keywords": [
+            "SHAP",
+            "feature importance",
+            "partial dependence plots",
+            "LIME",
+            "model interpretability",
+            "explainable AI",
+            "XAI"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Feature Importance",
+            "SHAP Values",
+            "Partial Dependence Plots",
+            "Interpretability (LIME)"
+          ],
+          "subtopic_content": {
+            "Feature Importance": [
+              "Feature Importance: tells you which features the model relies on most when making predictions. Essential for: understanding the model, removing irrelevant features, debugging unexpected predictions, building trust with stakeholders.",
+              "Tree-based importance (Random Forest, XGBoost): measures how much each feature reduces impurity (Gini/entropy) across all splits in all trees. Available via model.feature_importances_.",
+              "Limitation: built-in tree importance is biased towards high-cardinality features (features with many unique values are more likely to be chosen for splits even if not truly important). Better alternative: permutation importance."
+            ],
+            "SHAP Values": [
+              "SHAP (SHapley Additive exPlanations): based on game theory (Shapley values). For each prediction, assigns a contribution value to each feature. Shows how much each feature pushed the prediction above or below the average prediction.",
+              "Example: model predicts house price = ₹80L. Average prediction = ₹60L. SHAP shows: area contributed +₹15L, location contributed +₹10L, age contributed -₹5L. Adds up: 60 + 15 + 10 - 5 = ₹80L.",
+              "SHAP types: Summary plot (shows all features for all predictions — like feature importance but consistent), Force plot (single prediction explanation — shows feature contributions for ONE house), Dependence plot (how one feature's SHAP value changes with its value).",
+              "SHAP is model-agnostic but has specialized fast implementations for tree models (TreeSHAP) and neural networks. Install: pip install shap."
+            ],
+            "Partial Dependence Plots": [
+              "PDP (Partial Dependence Plot): shows the MARGINAL effect of one or two features on the predicted outcome, averaging out all other features.",
+              "How it works: fix all other features at their average values, vary the feature of interest from min to max, plot predicted value vs feature value. Shows the 'pure' relationship between one feature and prediction.",
+              "Example PDP for house price vs area: as area increases from 500 to 3000 sq ft, predicted price increases from ₹40L to ₹120L (other features held constant). Shows non-linear effects too.",
+              "ICE plots (Individual Conditional Expectation): one line per sample instead of average — reveals heterogeneous effects (the relationship might be positive for some samples and negative for others)."
+            ],
+            "Interpretability (LIME)": [
+              "LIME (Local Interpretable Model-agnostic Explanations): explains any BLACK-BOX model prediction by building a simple interpretable model LOCALLY around that specific prediction.",
+              "How it works: for a specific prediction, create perturbed versions of that input (slightly modified), get predictions from black-box model, fit a simple linear model on perturbed data weighted by similarity to original. The linear model's coefficients explain the prediction.",
+              "LIME vs SHAP: LIME is faster for individual predictions, SHAP is more mathematically grounded and consistent. For production explanations, SHAP is generally preferred. LIME is good for exploring and debugging.",
+              "Practical use: a bank denies a loan. LIME/SHAP explains: 'Your loan was denied mainly because: income is low (-0.35), high existing debt (-0.28), short credit history (-0.15).' Customer understands and can improve."
+            ]
+          },
+          "required_code": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.inspection import PermutationImportance, partial_dependence, PartialDependenceDisplay\nimport shap\nimport warnings\nwarnings.filterwarnings('ignore')\n\n# Load and prepare data\ndata = load_breast_cancer()\nX, y = data.data, data.target\nfeature_names = list(data.feature_names)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\nscaler = StandardScaler()\nX_train_s = scaler.fit_transform(X_train)\nX_test_s  = scaler.transform(X_test)\nX_train_df = pd.DataFrame(X_train_s, columns=feature_names)\nX_test_df  = pd.DataFrame(X_test_s,  columns=feature_names)\n\n# Train model\nrf = RandomForestClassifier(n_estimators=100, random_state=42)\nrf.fit(X_train_s, y_train)\n\n# ===== Feature Importance =====\nimpdf = pd.DataFrame({\n    'feature':    feature_names,\n    'importance': rf.feature_importances_\n}).sort_values('importance', ascending=False)\n\nprint(\"Top 10 Feature Importances (Random Forest):\")\nprint(impdf.head(10).to_string(index=False))\n\n# Plot\nplt.figure(figsize=(10, 6))\nplt.barh(impdf['feature'].head(10)[::-1], impdf['importance'].head(10)[::-1])\nplt.xlabel('Feature Importance')\nplt.title('Random Forest Feature Importances')\nplt.tight_layout()\nplt.savefig('feature_importance.png', dpi=100)\n\n# ===== SHAP Values =====\nprint(\"\\nCalculating SHAP values...\")\nexplainer = shap.TreeExplainer(rf)\nshap_values = explainer.shap_values(X_test_s)\n\n# Summary plot\nshap.summary_plot(shap_values[1], X_test_df, show=False)\nplt.tight_layout()\nplt.savefig('shap_summary.png', dpi=100, bbox_inches='tight')\nplt.close()\nprint(\"SHAP summary plot saved!\")\n\n# Explain ONE specific prediction\nprint(\"\\nSHAP explanation for first test sample:\")\nshap_for_sample = shap_values[1][0]  # SHAP values for first sample\ntop_features = np.argsort(np.abs(shap_for_sample))[-5:][::-1]\nfor idx in top_features:\n    print(f\"  {feature_names[idx]}: SHAP={shap_for_sample[idx]:+.4f}\")\nprint(f\"  Base value: {explainer.expected_value[1]:.4f}\")\nprint(f\"  Prediction: {rf.predict_proba(X_test_s[:1])[0][1]:.4f}\")\n\n# ===== Partial Dependence Plot =====\nprint(\"\\nGenerating Partial Dependence Plots...\")\nfig, ax = plt.subplots(1, 2, figsize=(12, 5))\nfeatures_to_plot = [0, 2]  # first and third most important features\nPartialDependenceDisplay.from_estimator(\n    rf, X_train_s, features=features_to_plot,\n    feature_names=feature_names, ax=ax\n)\nplt.tight_layout()\nplt.savefig('partial_dependence.png', dpi=100)\nprint(\"PDP plots saved!\")",
+          "required_tables": [
+            "Explainability Tool Comparison: Tool | Scope | Model Type | Strengths | Weaknesses || Feature Importance | Global (all predictions) | Tree models | Fast, built-in | Biased for high-cardinality, no direction || SHAP | Both Global and Local | Any (TreeSHAP for trees) | Theoretically grounded, consistent | Slower for neural networks || PDP | Global, one feature | Any | Shows marginal effect clearly | Assumes independence between features || LIME | Local (one prediction) | Any (model-agnostic) | Explains any black-box locally | Less stable, not consistent across similar inputs"
+          ],
+          "common_mistakes": [
+            "Trusting feature importance rankings from a single model — different models may rank features differently. Use SHAP for more reliable and consistent feature importance",
+            "Ignoring directionality in feature importance — importance tells you WHICH features matter, but not HOW. A feature could have positive or negative effect. Always check SHAP dependence plots for direction"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Text and NLP",
+      "topics": [
+        {
+          "name": "Text Preprocessing and Vectorization",
+          "keywords": [
+            "tokenization",
+            "stop words",
+            "bag of words",
+            "bigrams",
+            "ngrams",
+            "tf-idf",
+            "word2vec",
+            "avg word2vec",
+            "text preprocessing",
+            "nlp"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Text Preprocessing: Tokenization, Stop Words",
+            "Bag of Words",
+            "Bi-Grams and N-Grams",
+            "TF-IDF",
+            "Word2Vec",
+            "Avg-Word2Vec",
+            "TFIDF-Word2Vec"
+          ],
+          "subtopic_content": {
+            "Text Preprocessing: Tokenization, Stop Words": [
+              "Why preprocess text? Raw text is messy — punctuation, different cases (Hello/hello), meaningless words (the, is, a), word variations (running/runs/run). Preprocessing standardizes text so the algorithm can find meaningful patterns.",
+              "Tokenization: split text into individual tokens (words or subwords). 'Hello World!' → ['Hello', 'World', '!']. Sentence tokenization splits into sentences. Word tokenization splits into words.",
+              "Stop words: very common words that carry little meaning — 'the', 'is', 'a', 'in', 'at', 'it'. Removing them reduces noise and vocabulary size. Example: 'The movie is great' → ['movie', 'great'] after stop word removal.",
+              "Stemming: reduce word to its root form by chopping off suffixes. 'running' → 'run', 'better' → 'bett' (crude, may not be real word). Lemmatization: reduce to dictionary base form. 'running' → 'run', 'better' → 'good' (linguistically correct)."
+            ],
+            "Bag of Words": [
+              "Bag of Words (BoW): represent each document as a vector of word counts. Vocabulary = all unique words across all documents. Each document becomes a vector where each position = word count.",
+              "Example: Document 1: 'cat sat mat', Document 2: 'cat ate fish'. Vocabulary: [cat, sat, mat, ate, fish]. Doc1=[1,1,1,0,0], Doc2=[1,0,0,1,1]. Each document is a bag — order doesn't matter, only counts.",
+              "Problem: high-dimensional (vocabulary can be 50,000+ words), sparse (most words are 0 in any document), no semantic meaning (king and queen have no relationship), no word order ('good not bad' vs 'bad not good' = same vector!)."
+            ],
+            "Bi-Grams and N-Grams": [
+              "N-Gram: sequence of N consecutive words. Unigram (N=1): individual words. Bigram (N=2): pairs. Trigram (N=3): triples.",
+              "Why N-grams? BoW loses word order. 'New York' as bigram captures that these two words together mean a city, unlike unigrams 'New' and 'York' separately.",
+              "Example: 'I love machine learning' → Bigrams: ['I love', 'love machine', 'machine learning']. Trigrams: ['I love machine', 'love machine learning'].",
+              "Trade-off: higher N = more context but exponentially more features (vocabulary explodes). Usually use Unigram + Bigram combination for best results."
+            ],
+            "TF-IDF": [
+              "TF-IDF (Term Frequency — Inverse Document Frequency): better than BoW — gives higher weight to words that are FREQUENT in a specific document but RARE across all documents. These words are likely the most informative.",
+              "TF (Term Frequency): how often word appears in THIS document. IDF (Inverse Document Frequency): log(total docs / docs containing the word). Words appearing in ALL docs (like 'the') get IDF ≈ 0.",
+              "Result: common words across all documents (the, is, and) get very low TF-IDF scores. Specific, meaningful words that appear a lot in a particular document get high TF-IDF scores.",
+              "Example: the word 'neural' appears in 1 of 1000 documents. IDF = log(1000/1) = 6.9. In that document it appears 5 times. TF=0.05. TF-IDF = 0.05 × 6.9 = 0.345. Compare to 'the' appearing in all 1000 docs: IDF ≈ 0."
+            ],
+            "Word2Vec": [
+              "Word2Vec: represent words as DENSE VECTORS (embeddings) in a continuous space where semantically similar words are close together. Learns from context: words appearing in similar contexts have similar embeddings.",
+              "Two architectures: CBOW (Continuous Bag of Words — predict target word from context words) and Skip-gram (predict context words from target word). Skip-gram works better for rare words.",
+              "Famous property: word arithmetic. king - man + woman ≈ queen. paris - france + germany ≈ berlin. The vector space captures semantic relationships!",
+              "Vector size: typically 100-300 dimensions. Pretrained models: Google's Word2Vec (3M words, 300 dims, trained on Google News). Gensim library for training your own or loading pretrained."
+            ],
+            "Avg-Word2Vec": [
+              "Problem: Word2Vec gives one vector per WORD, but ML models need one vector per DOCUMENT. Solution: Avg-Word2Vec — average the Word2Vec vectors of all words in a document.",
+              "Example: document 'machine learning is great'. Get Word2Vec for each word (100-dim vector), average them → single 100-dim vector for the document. This becomes the feature vector for ML model.",
+              "Limitation: averaging loses word order and word weight — 'good not bad' and 'bad not good' get same average vector. But works surprisingly well in practice for sentence-level classification."
+            ],
+            "TFIDF-Word2Vec": [
+              "TF-IDF weighted Word2Vec: instead of simple average, weight each word's vector by its TF-IDF score. Important words (high TF-IDF) contribute more to the document vector.",
+              "Steps: (1) Calculate TF-IDF scores for all words. (2) Get Word2Vec vector for each word. (3) Weighted average: document_vector = Σ(tfidf_weight × word_vector) / Σ(tfidf_weights).",
+              "Better than plain average because: common words (low TF-IDF) contribute less, topic-specific words (high TF-IDF) contribute more. Usually outperforms plain Avg-Word2Vec."
+            ]
+          },
+          "required_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import accuracy_score, classification_report\nfrom gensim.models import Word2Vec\nimport nltk\nnltk.download('stopwords', quiet=True)\nnltk.download('punkt', quiet=True)\nfrom nltk.corpus import stopwords\nfrom nltk.tokenize import word_tokenize\nimport re\n\n# Sample text dataset (movie reviews)\nreviews = [\n    \"This movie was absolutely fantastic and amazing\",\n    \"Terrible film waste of time boring plot\",\n    \"Great acting wonderful story highly recommended\",\n    \"Awful movie worst I have ever seen\",\n    \"Brilliant cinematography beautiful music excellent\",\n    \"Horrible waste of money bad acting\",\n    \"Outstanding performance loved every minute\",\n    \"Dreadful film disappointing ending terrible\",\n]\nlabels = [1, 0, 1, 0, 1, 0, 1, 0]  # 1=positive, 0=negative\n\n# ===== Text Preprocessing =====\nstop_words_set = set(stopwords.words('english'))\n\ndef preprocess_text(text):\n    # Lowercase\n    text = text.lower()\n    # Remove punctuation\n    text = re.sub(r'[^a-zA-Z\\s]', '', text)\n    # Tokenize\n    tokens = word_tokenize(text)\n    # Remove stop words\n    tokens = [t for t in tokens if t not in stop_words_set and len(t) > 2]\n    return ' '.join(tokens)\n\nreviews_clean = [preprocess_text(r) for r in reviews]\nprint(\"Original:\", reviews[0])\nprint(\"Cleaned: \", reviews_clean[0])\n\n# ===== Bag of Words =====\nbow_vectorizer = CountVectorizer()\nX_bow = bow_vectorizer.fit_transform(reviews_clean)\nprint(\"\\nBoW shape:\", X_bow.shape)  # (8 docs, vocabulary_size)\nprint(\"Vocabulary sample:\", list(bow_vectorizer.vocabulary_.keys())[:10])\nprint(\"Doc 0 as vector:\\n\", X_bow.toarray()[0])\n\n# ===== Bigrams =====\nbigram_vectorizer = CountVectorizer(ngram_range=(1, 2))  # unigrams + bigrams\nX_bigram = bigram_vectorizer.fit_transform(reviews_clean)\nprint(\"\\nBigram vocab size:\", len(bigram_vectorizer.vocabulary_))\nprint(\"Sample bigrams:\", [k for k in bigram_vectorizer.vocabulary_ if ' ' in k][:5])\n\n# ===== TF-IDF =====\ntfidf = TfidfVectorizer(ngram_range=(1, 2), max_features=50)\nX_tfidf = tfidf.fit_transform(reviews_clean)\nprint(\"\\nTF-IDF shape:\", X_tfidf.shape)\n\n# Show TF-IDF scores for first review\ntfidf_df = pd.DataFrame(\n    X_tfidf.toarray()[0],\n    index=tfidf.get_feature_names_out(),\n    columns=['TF-IDF']\n).sort_values('TF-IDF', ascending=False)\nprint(\"Top TF-IDF terms for review 1:\")\nprint(tfidf_df[tfidf_df['TF-IDF'] > 0])\n\n# ===== Sentiment Classification with TF-IDF =====\nX_train_t, X_test_t, y_train, y_test = train_test_split(\n    X_tfidf.toarray(), labels, test_size=0.3, random_state=42\n)\nlr = LogisticRegression(max_iter=1000, random_state=42)\nlr.fit(X_train_t, y_train)\ny_pred = lr.predict(X_test_t)\nprint(f\"\\nTF-IDF + Logistic Regression Accuracy: {accuracy_score(y_test, y_pred):.2%}\")\n\n# ===== Word2Vec =====\n# Tokenize for Word2Vec (list of lists)\ntokenized = [text.split() for text in reviews_clean]\nw2v_model = Word2Vec(sentences=tokenized, vector_size=50, window=3,\n                     min_count=1, workers=4, epochs=100)\n\nprint(\"\\nWord2Vec: similar words to 'fantastic':\")\ntry:\n    similar = w2v_model.wv.most_similar('fantastic', topn=3)\n    for word, score in similar:\n        print(f\"  {word}: {score:.3f}\")\nexcept KeyError:\n    print(\"  (word not in vocabulary — need more data)\")\n\n# Avg-Word2Vec document representation\ndef avg_word2vec(text, model, vector_size=50):\n    words = text.split()\n    vectors = [model.wv[w] for w in words if w in model.wv]\n    if not vectors:\n        return np.zeros(vector_size)\n    return np.mean(vectors, axis=0)\n\nX_w2v = np.array([avg_word2vec(text, w2v_model) for text in reviews_clean])\nprint(\"\\nAvg-Word2Vec shape:\", X_w2v.shape)  # (8, 50)",
+          "required_tables": [
+            "Text Representation Comparison: Method | Dense/Sparse | Captures Semantics | Captures Order | Vocab Size | Best For || BoW | Sparse | No | No | Large | Quick baseline || TF-IDF | Sparse | Partially | No | Large | Better than BoW, standard NLP || N-grams | Sparse | Partially | Partially | Very Large | Phrase detection || Word2Vec | Dense (100-300d) | Yes | No (avg) | Fixed dim | Semantic similarity || FastText | Dense | Yes (subwords) | No | Fixed dim | Morphologically rich languages"
+          ],
+          "common_mistakes": [
+            "Not removing stop words before BoW/TF-IDF — 'the', 'is', 'a' will have highest frequencies and dominate the representation, hiding meaningful words",
+            "Training Word2Vec on small datasets — Word2Vec needs millions of sentences to learn good embeddings. For small datasets, use pretrained embeddings (GloVe, FastText)"
+          ]
+        },
+        {
+          "name": "NLP Tasks",
+          "keywords": [
+            "named entity recognition",
+            "NER",
+            "feature engineering text",
+            "supervised learning text",
+            "text classification"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Named Entity Recognition (NER)",
+            "Feature Engineering for Text",
+            "Applying Supervised Algorithms on Text"
+          ],
+          "subtopic_content": {
+            "Named Entity Recognition (NER)": [
+              "NER: identify and classify named entities in text into categories — PERSON, ORGANIZATION, LOCATION, DATE, MONEY, etc.",
+              "Example: 'Apple was founded by Steve Jobs in Cupertino in 1976' → Apple=ORG, Steve Jobs=PERSON, Cupertino=LOCATION, 1976=DATE.",
+              "Tools: spaCy (fast, production-ready), NLTK (educational), Transformers/BERT (most accurate). spaCy's en_core_web_sm model works out of the box for English NER.",
+              "Applications: extract companies from news articles, find patient names in medical records, extract dates from contracts, identify products in customer reviews."
+            ],
+            "Feature Engineering for Text": [
+              "Beyond just vectorization, you can create powerful features from text: Text length (number of words, characters), Average word length, Number of uppercase words (SHOUTING), Count of punctuation marks, Sentiment scores (TextBlob/VADER), Presence of specific keywords.",
+              "These hand-crafted features can complement TF-IDF or Word2Vec and often improve performance, especially with small datasets.",
+              "Readability scores: Flesch-Kincaid reading ease (how easy is this text to read?). Useful for detecting different types of text."
+            ],
+            "Applying Supervised Algorithms on Text": [
+              "After converting text to vectors (TF-IDF or Word2Vec), apply standard ML algorithms. Most commonly used for text: Logistic Regression (fast, interpretable, strong baseline for text), Naive Bayes (surprisingly effective for short texts, very fast), SVM (often best performance, handles high-dimensional sparse BoW well), Random Forest and XGBoost (good for combined text + numeric features).",
+              "Pipeline approach: clean text → vectorize → train classifier. sklearn Pipeline chains these steps elegantly and prevents data leakage.",
+              "Practical tips: for small datasets (< 10K samples), TF-IDF + Logistic Regression often beats complex deep learning. For large datasets, transformers (BERT, RoBERTa) dominate."
+            ]
+          },
+          "required_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.naive_bayes import MultinomialNB\nfrom sklearn.svm import LinearSVC\nfrom sklearn.model_selection import cross_val_score\nfrom sklearn.datasets import fetch_20newsgroups\nimport spacy\n\n# ===== Named Entity Recognition with spaCy =====\nprint(\"NER Example (requires: python -m spacy download en_core_web_sm)\")\ntry:\n    nlp = spacy.load('en_core_web_sm')\n    text = \"Apple was founded by Steve Jobs in Cupertino in 1976. \"\\\n           \"Microsoft CEO Satya Nadella announced $10B investment.\"\n    doc = nlp(text)\n    print(\"\\nEntities found:\")\n    for ent in doc.ents:\n        print(f\"  '{ent.text}' → {ent.label_}\")\nexcept Exception:\n    print(\"(Install spaCy and model: pip install spacy && python -m spacy download en_core_web_sm)\")\n\n# ===== Feature Engineering for Text =====\ndef extract_text_features(texts):\n    features = []\n    for text in texts:\n        words = text.split()\n        feature = {\n            'word_count':     len(words),\n            'char_count':     len(text),\n            'avg_word_len':   np.mean([len(w) for w in words]) if words else 0,\n            'num_uppercase':  sum(1 for w in words if w.isupper()),\n            'num_punct':      sum(1 for c in text if c in '!?.,;:'),\n            'exclamation':    text.count('!'),\n            'question_marks': text.count('?'),\n        }\n        features.append(feature)\n    return pd.DataFrame(features)\n\nsample_texts = [\n    \"AMAZING!!! Best movie EVER!!! Absolutely loved it!!!\",\n    \"It was okay. Nothing special. A bit boring actually.\",\n    \"WHY did I watch this? Complete waste of time!\",\n]\nprint(\"\\nText Feature Engineering:\")\nprint(extract_text_features(sample_texts))\n\n# ===== Full NLP Pipeline: Text Classification =====\n# 20 Newsgroups: classify news articles into categories\ncategories = ['rec.sport.hockey', 'sci.space', 'talk.politics.misc', 'rec.autos']\ntrain = fetch_20newsgroups(subset='train', categories=categories, remove=('headers', 'footers'))\ntest  = fetch_20newsgroups(subset='test',  categories=categories, remove=('headers', 'footers'))\n\nprint(f\"\\n20 Newsgroups: {len(train.data)} train, {len(test.data)} test samples\")\nprint(f\"Categories: {categories}\")\n\n# Compare multiple pipelines\npipelines = {\n    'TF-IDF + Logistic Regression': Pipeline([\n        ('tfidf', TfidfVectorizer(max_features=10000, ngram_range=(1,2), stop_words='english')),\n        ('clf',   LogisticRegression(max_iter=1000, random_state=42))\n    ]),\n    'TF-IDF + Naive Bayes': Pipeline([\n        ('tfidf', TfidfVectorizer(max_features=10000, stop_words='english')),\n        ('clf',   MultinomialNB(alpha=0.1))\n    ]),\n    'TF-IDF + Linear SVM': Pipeline([\n        ('tfidf', TfidfVectorizer(max_features=10000, ngram_range=(1,2), stop_words='english')),\n        ('clf',   LinearSVC(random_state=42, max_iter=2000))\n    ]),\n}\n\nprint(f\"\\n{'Pipeline':<35} {'Test Accuracy':>15}\")\nprint(\"-\" * 55)\nfor name, pipe in pipelines.items():\n    pipe.fit(train.data, train.target)\n    acc = pipe.score(test.data, test.target)\n    print(f\"{name:<35} {acc:>15.4f}\")\n\n# Show predictions for new text\nbest_pipe = pipelines['TF-IDF + Linear SVM']\nnew_texts = [\n    \"NASA launched new rocket to the International Space Station\",\n    \"The hockey team scored three goals in overtime\",\n]\npredictions = best_pipe.predict(new_texts)\nfor text, pred in zip(new_texts, predictions):\n    print(f\"\\n'{text[:60]}...' → {categories[pred]}\")",
+          "common_mistakes": [
+            "Fitting TF-IDF vectorizer on entire dataset — fit ONLY on training data, transform both train and test. Fitting on test data leaks vocabulary information",
+            "Using MultinomialNB with TF-IDF that has negative values — MultinomialNB requires non-negative features. With TF-IDF this is fine, but with StandardScaler output, use GaussianNB instead"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "Model Deployment",
+      "topics": [
+        {
+          "name": "Deploying ML Models with Flask and Streamlit",
+          "keywords": [
+            "flask deployment",
+            "streamlit deployment",
+            "model deployment",
+            "pickle",
+            "joblib",
+            "REST API",
+            "web app",
+            "model serving"
+          ],
+          "nature": "practical",
+          "no_code": false,
+          "subtopics": [
+            "Using Flask for Model Deployment",
+            "Using Streamlit for Model Deployment"
+          ],
+          "subtopic_content": {
+            "Using Flask for Model Deployment": [
+              "Flask: lightweight Python web framework. Lets you create an API endpoint that accepts input data, runs your ML model, and returns predictions as JSON. Suitable for backend services and microservices.",
+              "Workflow: (1) Train and save model (pickle/joblib). (2) Create Flask app with a /predict endpoint. (3) Accept JSON input via POST request. (4) Load model, make prediction. (5) Return prediction as JSON response.",
+              "Model serialisation: save trained model to disk with pickle (built-in Python) or joblib (better for sklearn models with large numpy arrays). Load at API startup to avoid loading on every request.",
+              "Production considerations: use gunicorn (production WSGI server, not Flask dev server), add input validation, handle errors gracefully, log predictions for monitoring, consider Docker for containerisation."
+            ],
+            "Using Streamlit for Model Deployment": [
+              "Streamlit: build interactive ML web apps purely in Python — no HTML/CSS/JavaScript needed. Perfect for: prototypes, internal tools, demos for non-technical stakeholders.",
+              "Key widgets: st.slider (numeric range), st.selectbox (dropdown), st.text_input (free text), st.button (trigger action), st.file_uploader (upload CSV/image), st.dataframe (display table), st.plotly_chart / st.pyplot (display charts).",
+              "Streamlit vs Flask: Streamlit is for INTERACTIVE UIs (human-in-the-loop). Flask is for API services (programmatic access). Use Streamlit when: end user interacts through a browser. Use Flask when: other software calls your model.",
+              "Deployment: streamlit run app.py locally. For cloud: Streamlit Cloud (free for public apps), Hugging Face Spaces (free), AWS/GCP/Azure (full control)."
+            ]
+          },
+          "required_code": "# ===== Step 1: Train and Save Model =====\n# train_and_save.py\nimport numpy as np\nimport joblib\nfrom sklearn.datasets import load_iris\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.model_selection import train_test_split\n\n# Train\niris = load_iris()\nX, y = iris.data, iris.target\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\n# Build pipeline (scaler + model together)\npipeline = Pipeline([\n    ('scaler', StandardScaler()),\n    ('model',  RandomForestClassifier(n_estimators=100, random_state=42))\n])\npipeline.fit(X_train, y_train)\nprint(f\"Model accuracy: {pipeline.score(X_test, y_test):.4f}\")\n\n# Save entire pipeline (scaler + model)\njoblib.dump(pipeline, 'iris_model.pkl')\nprint(\"Model saved as iris_model.pkl\")\n\n# ===== Step 2: Flask API =====\n# app_flask.py — run with: python app_flask.py\n\"\"\"\nfrom flask import Flask, request, jsonify\nimport joblib\nimport numpy as np\n\napp = Flask(__name__)\n\n# Load model ONCE at startup (not on every request)\npipeline = joblib.load('iris_model.pkl')\nclass_names = ['setosa', 'versicolor', 'virginica']\n\n@app.route('/predict', methods=['POST'])\ndef predict():\n    try:\n        # Get JSON input\n        data = request.get_json()\n        features = data['features']  # [sepal_len, sepal_wid, petal_len, petal_wid]\n        \n        # Validate input\n        if len(features) != 4:\n            return jsonify({'error': 'Expected 4 features'}), 400\n        \n        # Predict\n        X = np.array(features).reshape(1, -1)\n        prediction = pipeline.predict(X)[0]\n        probability = pipeline.predict_proba(X)[0].tolist()\n        \n        return jsonify({\n            'prediction': int(prediction),\n            'class_name': class_names[prediction],\n            'probability': {\n                name: round(prob, 4)\n                for name, prob in zip(class_names, probability)\n            }\n        })\n    except Exception as e:\n        return jsonify({'error': str(e)}), 500\n\n@app.route('/health', methods=['GET'])\ndef health():\n    return jsonify({'status': 'ok', 'model': 'iris_classifier'})\n\nif __name__ == '__main__':\n    app.run(debug=True, port=5000)\n\"\"\"\n\n# ===== How to call Flask API =====\n\"\"\"\nimport requests\n\n# Call the API\nresponse = requests.post(\n    'http://localhost:5000/predict',\n    json={'features': [5.1, 3.5, 1.4, 0.2]}  # example iris measurements\n)\nresult = response.json()\nprint(f\"Prediction: {result['class_name']}\")\nprint(f\"Probabilities: {result['probability']}\")\n\"\"\"\n\n# ===== Step 3: Streamlit App =====\n# streamlit_app.py — run with: streamlit run streamlit_app.py\n\"\"\"\nimport streamlit as st\nimport joblib\nimport numpy as np\nimport pandas as pd\nimport plotly.express as px\n\n# Page config\nst.set_page_config(page_title='Iris Flower Classifier', page_icon='🌸', layout='wide')\n\n# Load model\n@st.cache_resource  # cache so model loads only once\ndef load_model():\n    return joblib.load('iris_model.pkl')\n\npipeline = load_model()\nclass_names = ['Setosa', 'Versicolor', 'Virginica']\nclass_emojis = ['🌺', '🌷', '🌼']\n\n# Title\nst.title('🌸 Iris Flower Species Classifier')\nst.markdown('Enter the flower measurements below to predict the species.')\n\n# Two-column layout\ncol1, col2 = st.columns([1, 1])\n\nwith col1:\n    st.subheader('Input Measurements')\n    sepal_length = st.slider('Sepal Length (cm)', 4.0, 8.0, 5.5, 0.1)\n    sepal_width  = st.slider('Sepal Width (cm)',  2.0, 5.0, 3.0, 0.1)\n    petal_length = st.slider('Petal Length (cm)', 1.0, 7.0, 4.0, 0.1)\n    petal_width  = st.slider('Petal Width (cm)',  0.1, 2.5, 1.2, 0.1)\n\nwith col2:\n    st.subheader('Prediction')\n    \n    # Make prediction automatically on input change\n    features = np.array([[sepal_length, sepal_width, petal_length, petal_width]])\n    prediction = pipeline.predict(features)[0]\n    probabilities = pipeline.predict_proba(features)[0]\n    \n    # Show result\n    st.metric(\n        label='Predicted Species',\n        value=f\"{class_emojis[prediction]} {class_names[prediction]}\"\n    )\n    \n    # Probability chart\n    prob_df = pd.DataFrame({\n        'Species':     class_names,\n        'Probability': probabilities\n    })\n    fig = px.bar(prob_df, x='Species', y='Probability',\n                 color='Probability', range_y=[0,1],\n                 title='Prediction Probabilities')\n    st.plotly_chart(fig, use_container_width=True)\n\n# Data table option\nif st.checkbox('Show sample training data'):\n    from sklearn.datasets import load_iris\n    iris = load_iris()\n    sample_df = pd.DataFrame(iris.data, columns=iris.feature_names)\n    sample_df['species'] = [iris.target_names[t] for t in iris.target]\n    st.dataframe(sample_df.head(20))\n\"\"\"",
+          "required_tables": [
+            "Flask vs Streamlit Deployment: Feature | Flask | Streamlit || Type | REST API | Interactive Web App || Users | Other software/developers | End users (non-technical) || Interface | HTTP endpoints (JSON) | Browser GUI with widgets || Learning curve | Moderate (HTTP, JSON) | Low (pure Python) || Production use | Yes (microservices, APIs) | Prototypes, internal tools || Scalability | High (with gunicorn+nginx) | Moderate (Streamlit Cloud) || Frontend needed | No (API only) | No (auto-generated UI) || Best for | Backend service, mobile apps | Dashboards, demos, data apps"
+          ],
+          "common_mistakes": [
+            "Running Flask with debug=True in production — debug mode is insecure and single-threaded. Use gunicorn: gunicorn -w 4 app_flask:app",
+            "Not saving the scaler along with the model — if you scale data before training, you must apply the SAME scaling at prediction time. Save the entire sklearn Pipeline (scaler + model) with joblib to avoid this mistake"
+          ]
+        }
+      ]
+    }
+  ]
+}
