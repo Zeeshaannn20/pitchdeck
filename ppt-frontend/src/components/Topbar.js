@@ -1,7 +1,7 @@
 import React from 'react';
-import { Search, Bell, User } from 'lucide-react';
+import { Search, Bell, User, Moon, Sun } from 'lucide-react';
 
-const Topbar = ({ professorName }) => {
+const Topbar = ({ professorName, darkMode, setDarkMode }) => {
   const displayName = professorName?.trim() || 'Professor';
 
   return (
@@ -12,7 +12,10 @@ const Topbar = ({ professorName }) => {
       </div>
       
       <div className="topbar-right">
-        <button style={{ color: 'var(--text-muted)' }}>
+        <button className="theme-toggle" onClick={() => setDarkMode(!darkMode)} title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
+          {darkMode ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
+        <button style={{ color: 'var(--text-muted)', position: 'relative' }}>
           <Bell size={20} />
         </button>
         <div className="profile-pill">

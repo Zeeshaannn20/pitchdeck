@@ -1,7 +1,7 @@
 import React from 'react';
-import { BookOpen, LayoutDashboard, Sparkles, History, Settings, HelpCircle, LogOut, Plus } from 'lucide-react';
+import { BookOpen, LayoutDashboard, Sparkles, History, Settings, HelpCircle, LogOut, Plus, Moon, Sun } from 'lucide-react';
 
-const Sidebar = ({ currentView, setCurrentView }) => {
+const Sidebar = ({ currentView, setCurrentView, darkMode, setDarkMode }) => {
   return (
     <div className="sidebar">
       <div className="sidebar-logo">
@@ -21,6 +21,7 @@ const Sidebar = ({ currentView, setCurrentView }) => {
         >
           <LayoutDashboard size={18} />
           <span>Dashboard</span>
+          <span className="kbd" style={{ marginLeft: 'auto' }}>D</span>
         </button>
         <button 
           className={`nav-item ${['form', 'generating', 'completed'].includes(currentView) ? 'active' : ''}`}
@@ -28,8 +29,12 @@ const Sidebar = ({ currentView, setCurrentView }) => {
         >
           <Sparkles size={18} />
           <span>New Generation</span>
+          <span className="kbd" style={{ marginLeft: 'auto' }}>N</span>
         </button>
-        <button className="nav-item">
+        <button 
+          className={`nav-item ${currentView === 'history' ? 'active' : ''}`}
+          onClick={() => setCurrentView('history')}
+        >
           <History size={18} />
           <span>History</span>
         </button>
@@ -40,9 +45,31 @@ const Sidebar = ({ currentView, setCurrentView }) => {
       </nav>
 
       <div className="sidebar-bottom">
+        {/* Dark Mode Toggle */}
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+            padding: '0.65rem 1rem',
+            borderRadius: 'var(--border-radius-sm)',
+            background: 'var(--bg-tertiary)',
+            border: '1px solid var(--border-light)',
+            color: 'var(--text-secondary)',
+            fontWeight: 500,
+            fontSize: '0.85rem',
+            width: '100%',
+            transition: 'all 0.2s ease',
+          }}
+        >
+          {darkMode ? <Sun size={16} color="var(--brand-gold)" /> : <Moon size={16} />}
+          <span>{darkMode ? 'Light Mode' : 'Dark Mode'}</span>
+        </button>
+
         <button 
           className="btn-primary" 
-          style={{ width: '100%', marginBottom: '1rem' }}
+          style={{ width: '100%' }}
           onClick={() => setCurrentView('form')}
         >
           <Plus size={16} /> Generate Lecture

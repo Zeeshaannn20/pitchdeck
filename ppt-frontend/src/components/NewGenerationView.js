@@ -1,5 +1,5 @@
-import React from 'react';
-import { ArrowRight, Image as ImageIcon, Info, Zap } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { ArrowRight, Image as ImageIcon, Zap, Search } from 'lucide-react';
 
 // Backend-supported special requirement keywords
 const DIRECTIVE_CHIPS = [
@@ -13,6 +13,43 @@ const DIRECTIVE_CHIPS = [
   { label: 'Code Heavy', value: 'code implementation' },
 ];
 
+// Form progress ring
+const ProgressRing = ({ filled, total }) => {
+  const radius = 16;
+  const stroke = 3;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (filled / total) * circumference;
+  const pct = Math.round((filled / total) * 100);
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+      <svg width={38} height={38}>
+        <circle cx="19" cy="19" r={radius} fill="none" stroke="var(--border-light)" strokeWidth={stroke} />
+        <circle
+          cx="19" cy="19" r={radius} fill="none"
+          stroke={pct === 100 ? '#4ADE80' : 'var(--brand-gold)'}
+          strokeWidth={stroke}
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          className="progress-ring-circle"
+        />
+      </svg>
+      <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)' }}>
+        {filled}/{total} fields
+      </span>
+    </div>
+  );
+};
+
+// Character count
+const CharCount = ({ value, max }) => {
+  const len = (value || '').length;
+  const cls = len > max ? 'danger' : len > max * 0.8 ? 'warn' : '';
+  if (len === 0) return null;
+  return <span className={`char-count ${cls}`}>{len}/{max}</span>;
+};
+
 const NewGenerationView = ({ 
   formData, 
   setFormData, 
@@ -20,9 +57,15 @@ const NewGenerationView = ({
   onGenerate, 
   subjects, 
   durationOptions,
-  isGenerateDisabled,
-  error 
+  isGenerateDisabled 
 }) => {
+  const [subjectSearch, setSubjectSearch] = useState('');
+
+  const filteredSubjects = useMemo(() => {
+    if (!subjectSearch.trim()) return subjects;
+    const q = subjectSearch.toLowerCase();
+    return subjects.filter(s => s.toLowerCase().includes(q));
+  }, [subjects, subjectSearch]);
 
   const toggleDirective = (value) => {
     const current = formData.specialRequirements;
@@ -37,7 +80,6 @@ const NewGenerationView = ({
     return formData.specialRequirements.toLowerCase().includes(value.toLowerCase());
   };
 
-  // Get duration description based on backend's _duration_to_slide_guidance
   const getDurationInfo = (dur) => {
     if (dur <= 30) return '3–5 topic slides · Concise';
     if (dur <= 45) return '4–7 topic slides · Moderate depth';
@@ -46,24 +88,30 @@ const NewGenerationView = ({
     return '10–20 topic slides · Highly detailed';
   };
 
+  // Count filled fields for progress ring
+  const filledFields = useMemo(() => {
+    let c = 0;
+    if (formData.subject) c++;
+    if (formData.topics.trim()) c++;
+    if (formData.subtopics.trim()) c++;
+    if (formData.previousLecture.trim()) c++;
+    if (formData.specialRequirements.trim()) c++;
+    if (formData.professorName.trim()) c++;
+    if (formData.qualification.trim()) c++;
+    return c;
+  }, [formData]);
+
   return (
     <div className="fade-in" style={{ maxWidth: '800px', margin: '0 auto' }}>
       
-      <div style={{ marginBottom: '2rem' }}>
-        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>NEW WORKFLOW</p>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: 700 }}>Curate a Lecture</h1>
-        <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>Define your parameters and let Gemini synthesize a complete, branded slide deck.</p>
-      </div>
-
-      {/* Error Banner */}
-      {error && (
-        <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: '8px', padding: '1rem 1.5rem', marginBottom: '1.5rem', color: '#991B1B', fontSize: '0.9rem', display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-          <Info size={18} color="#DC2626" style={{ flexShrink: 0, marginTop: '2px' }} />
-          <div>
-            <strong>Generation Failed:</strong> {error}
-          </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
+        <div>
+          <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>NEW WORKFLOW</p>
+          <h1 style={{ fontSize: '2.5rem', fontWeight: 700 }}>Curate a Lecture</h1>
+          <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>Define your parameters and let Gemini synthesize a complete, branded slide deck.</p>
         </div>
-      )}
+        <ProgressRing filled={filledFields} total={7} />
+      </div>
 
       <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         
@@ -74,13 +122,27 @@ const NewGenerationView = ({
           <div className="form-row">
             <div className="form-col">
               <label className="form-label">Subject Domain <span style={{ color: '#DC2626' }}>*</span></label>
+              
+              {/* Search filter for subjects */}
+              <div style={{ position: 'relative', marginBottom: '0.5rem' }}>
+                <Search size={14} color="var(--text-muted)" style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)' }} />
+                <input
+                  className="form-input"
+                  type="text"
+                  placeholder="Search 26 subjects..."
+                  value={subjectSearch}
+                  onChange={(e) => setSubjectSearch(e.target.value)}
+                  style={{ paddingLeft: '2rem', fontSize: '0.85rem' }}
+                />
+              </div>
+              
               <select 
                 className="form-input" 
                 value={formData.subject} 
                 onChange={(e) => setFormData({...formData, subject: e.target.value})}
               >
-                <option value="">Select from 26 supported subjects</option>
-                {subjects.map((sub, i) => (
+                <option value="">Select from {filteredSubjects.length} subjects</option>
+                {filteredSubjects.map((sub, i) => (
                   <option key={i} value={sub}>{sub}</option>
                 ))}
               </select>
@@ -114,10 +176,14 @@ const NewGenerationView = ({
                 placeholder="e.g., Backpropagation, Gradient Descent"
                 value={formData.topics}
                 onChange={(e) => setFormData({...formData, topics: e.target.value})}
+                maxLength={200}
               />
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.3rem' }}>
-                Each topic gets dedicated slides. The AI detects whether content is theoretical, practical, or mixed.
-              </p>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.3rem' }}>
+                  Each topic gets dedicated slides. The AI detects whether content is theoretical, practical, or mixed.
+                </p>
+                <CharCount value={formData.topics} max={200} />
+              </div>
             </div>
           </div>
 
@@ -130,10 +196,14 @@ const NewGenerationView = ({
                 placeholder="e.g., Mathematics, Implementation, Common Pitfalls"
                 value={formData.subtopics}
                 onChange={(e) => setFormData({...formData, subtopics: e.target.value})}
+                maxLength={300}
               />
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.3rem' }}>
-                Comma-separated. Each subtopic = 1 dedicated slide. Overrides syllabus-based topics when specified.
-              </p>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.3rem' }}>
+                  Comma-separated. Each subtopic = 1 dedicated slide. Overrides syllabus-based topics when specified.
+                </p>
+                <CharCount value={formData.subtopics} max={300} />
+              </div>
             </div>
           </div>
         </div>
@@ -189,14 +259,15 @@ const NewGenerationView = ({
                       borderRadius: '20px',
                       fontSize: '0.8rem',
                       fontWeight: 500,
-                      border: `1px solid ${isDirectiveActive(chip.value) ? 'var(--brand-navy)' : 'var(--border-light)'}`,
-                      background: isDirectiveActive(chip.value) ? 'var(--brand-navy)' : 'transparent',
-                      color: isDirectiveActive(chip.value) ? 'white' : 'var(--text-secondary)',
+                      border: `1px solid ${isDirectiveActive(chip.value) ? 'var(--brand-gold)' : 'var(--border-light)'}`,
+                      background: isDirectiveActive(chip.value) ? 'var(--brand-gold-light)' : 'transparent',
+                      color: isDirectiveActive(chip.value) ? 'var(--brand-gold-hover)' : 'var(--text-secondary)',
                       cursor: 'pointer',
-                      transition: 'all 0.15s ease',
+                      transition: 'all 0.2s ease',
+                      ...(isDirectiveActive(chip.value) ? { animation: 'bounceIn 0.3s ease' } : {}),
                     }}
                   >
-                    {chip.label}
+                    {isDirectiveActive(chip.value) ? '✓ ' : ''}{chip.label}
                   </button>
                 ))}
               </div>
@@ -207,10 +278,14 @@ const NewGenerationView = ({
                 placeholder="Or type custom directives. e.g., 'Focus on practical implementations with real-world industry examples. Keep language simple for beginners.'"
                 value={formData.specialRequirements}
                 onChange={(e) => setFormData({...formData, specialRequirements: e.target.value})}
+                maxLength={500}
               />
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.3rem' }}>
-                These override subject rules. The AI interprets keywords like "examples", "comparison", "detail", "diagram", "simple", "exam", "industry", "code".
-              </p>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.3rem' }}>
+                  These override subject rules. The AI interprets keywords like "examples", "comparison", "detail", "diagram", "simple", "exam", "industry", "code".
+                </p>
+                <CharCount value={formData.specialRequirements} max={500} />
+              </div>
             </div>
           </div>
         </div>
@@ -246,7 +321,7 @@ const NewGenerationView = ({
             <div className="form-col">
               <label className="form-label">Presenter Avatar</label>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'var(--bg-tertiary)', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500, border: '1px solid var(--border-light)' }}>
+                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'var(--bg-tertiary)', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500, border: '1px solid var(--border-light)', transition: 'all 0.2s ease' }}>
                   <ImageIcon size={16} /> Choose Image
                   <input 
                     type="file" 
@@ -256,7 +331,7 @@ const NewGenerationView = ({
                   />
                 </label>
                 {formData.imagePreview && (
-                  <img src={formData.imagePreview} alt="preview" style={{ height: '40px', borderRadius: '50%' }} />
+                  <img src={formData.imagePreview} alt="preview" style={{ height: '40px', width: '40px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--brand-gold-border)' }} />
                 )}
                 {formData.imageFile && <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{formData.imageFile.name}</span>}
               </div>

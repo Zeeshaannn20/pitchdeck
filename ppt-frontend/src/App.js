@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import './index.css';
 
@@ -9,6 +9,8 @@ import DashboardView from './components/DashboardView';
 import NewGenerationView from './components/NewGenerationView';
 import SynthesizingView from './components/SynthesizingView';
 import CompletedView from './components/CompletedView';
+import HistoryView from './components/HistoryView';
+import ToastContainer, { useToast } from './components/ToastNotification';
 
 const API_BASE_URL = 'http://localhost:5000';
 
@@ -42,10 +44,20 @@ const SUBJECTS = [
 ];
 
 function App() {
-  const [currentView, setCurrentView] = useState('dashboard'); // dashboard, form, generating, completed
+  const [currentView, setCurrentView] = useState('dashboard');
   const [downloadBlob, setDownloadBlob] = useState(null);
-  const [error, setError] = useState('');
   const [generationHistory, setGenerationHistory] = useState([]);
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem('curator-theme') === 'dark';
+  });
+
+  const { toasts, removeToast, toast } = useToast();
+
+  // Apply dark mode
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+    localStorage.setItem('curator-theme', darkMode ? 'dark' : 'light');
+  }, [darkMode]);
 
   const [formData, setFormData] = useState({
     subject: '',
@@ -68,19 +80,41 @@ function App() {
     return opts;
   }, []);
 
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Don't fire if user is typing in an input
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+
+      if (e.key === 'n' || e.key === 'N') {
+        e.preventDefault();
+        setCurrentView('form');
+      }
+      if (e.key === 'd' || e.key === 'D') {
+        e.preventDefault();
+        setCurrentView('dashboard');
+      }
+      if (e.key === 'Escape') {
+        setCurrentView('dashboard');
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
     if (!validTypes.includes(file.type)) {
-      alert('Please upload a PNG, JPG, or WEBP image.');
+      toast.error('Please upload a PNG, JPG, or WEBP image.');
       e.target.value = '';
       return;
     }
-    const maxBytes = 3 * 1024 * 1024; // 3 MB
+    const maxBytes = 3 * 1024 * 1024;
     if (file.size > maxBytes) {
-      alert('Image too large. Please keep it under 3 MB.');
+      toast.error('Image too large. Please keep it under 3 MB.');
       e.target.value = '';
       return;
     }
@@ -95,13 +129,13 @@ function App() {
         imageBase64: b64,
         imagePreview: result
       }));
+      toast.success(`Image "${file.name}" uploaded successfully.`);
     };
     reader.readAsDataURL(file);
   };
 
   const handleGenerate = async () => {
     setCurrentView('generating');
-    setError('');
 
     const payload = {
       subject: formData.subject.trim(),
@@ -119,7 +153,7 @@ function App() {
     try {
       const res = await axios.post(`${API_BASE_URL}/api/generate-ppt`, payload, {
         responseType: 'blob',
-        timeout: 180000 // 3 minutes timeout for long generations
+        timeout: 180000
       });
       
       setDownloadBlob(res.data);
@@ -138,9 +172,9 @@ function App() {
           const text = await err.response.data.text();
           const parsed = JSON.parse(text);
           if (parsed.error) errorMsg = parsed.error;
-        } catch (_) { /* keep default message */ }
+        } catch (_) { /* keep default */ }
       }
-      setError(errorMsg);
+      toast.error(errorMsg, 8000);
       setCurrentView('form');
     }
   };
@@ -158,16 +192,18 @@ function App() {
     link.click();
     link.remove();
     window.URL.revokeObjectURL(url);
+    toast.success('Presentation downloaded successfully!');
   };
 
   const isGenerateDisabled = !formData.subject.trim() || !formData.topics.trim();
 
   return (
     <div className="app-container">
-      <Sidebar currentView={currentView} setCurrentView={setCurrentView} />
+      <ToastContainer toasts={toasts} removeToast={removeToast} />
+      <Sidebar currentView={currentView} setCurrentView={setCurrentView} darkMode={darkMode} setDarkMode={setDarkMode} />
       
       <div className="main-content-area">
-        <Topbar professorName={formData.professorName} />
+        <Topbar professorName={formData.professorName} darkMode={darkMode} setDarkMode={setDarkMode} />
         
         <div className="main-content-inner">
           {currentView === 'dashboard' && (
@@ -183,7 +219,6 @@ function App() {
               subjects={SUBJECTS}
               durationOptions={durationOptions}
               isGenerateDisabled={isGenerateDisabled}
-              error={error}
             />
           )}
 
@@ -196,6 +231,14 @@ function App() {
               formData={formData} 
               handleDownload={handleDownload} 
               setCurrentView={setCurrentView} 
+            />
+          )}
+
+          {currentView === 'history' && (
+            <HistoryView 
+              generationHistory={generationHistory}
+              setCurrentView={setCurrentView}
+              setFormData={setFormData}
             />
           )}
         </div>
