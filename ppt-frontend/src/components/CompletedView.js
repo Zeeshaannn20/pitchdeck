@@ -180,6 +180,7 @@ const CompletedView = ({ formData, handleDownload, setCurrentView }) => {
                 { label: 'Duration', value: `${formData.duration} min` },
                 ...(formData.professorName ? [{ label: 'Instructor', value: formData.professorName }] : []),
                 ...(formData.batchCode ? [{ label: 'Batch', value: formData.batchCode }] : []),
+                { label: 'AI Model', value: formData.model?.replace(/-preview.*/, '') || 'gemini-2.0-flash' },
                 ...(formData.specialRequirements ? [{ label: 'Directives', value: formData.specialRequirements }] : []),
               ].map((item, i) => (
                 <div key={i} style={{ display: 'flex', justifyContent: 'space-between' }}>

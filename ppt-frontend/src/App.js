@@ -43,10 +43,17 @@ const SUBJECTS = [
   'Essentials of Digital Marketing',
 ];
 
+const AI_MODELS = [
+  { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash', provider: 'Google', tier: 'fast', desc: 'Fast generation, great for most lectures' },
+  { id: 'gemini-2.5-flash-preview-04-17', name: 'Gemini 2.5 Flash', provider: 'Google', tier: 'balanced', desc: 'Balanced speed and quality' },
+  { id: 'gemini-2.5-pro-preview-05-06', name: 'Gemini 2.5 Pro', provider: 'Google', tier: 'premium', desc: 'Highest quality, deeper reasoning' },
+];
+
 function App() {
   const [currentView, setCurrentView] = useState('dashboard');
   const [downloadBlob, setDownloadBlob] = useState(null);
   const [generationHistory, setGenerationHistory] = useState([]);
+  const [availableModels, setAvailableModels] = useState(AI_MODELS);
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem('curator-theme') === 'dark';
   });
@@ -72,6 +79,7 @@ function App() {
     imageBase64: '',
     imagePreview: '',
     batchCode: '',
+    model: 'gemini-2.0-flash',
   });
 
   const durationOptions = useMemo(() => {
@@ -148,6 +156,7 @@ function App() {
       qualification: formData.qualification.trim(),
       instructorImage: formData.imageBase64 || undefined,
       batchCode: formData.batchCode.trim(),
+      model: formData.model,
     };
 
     try {
@@ -161,6 +170,7 @@ function App() {
         subject: formData.subject,
         topics: formData.topics,
         duration: formData.duration,
+        model: formData.model,
         timestamp: new Date().toLocaleString(),
       }]);
       setCurrentView('completed');
@@ -219,6 +229,7 @@ function App() {
               subjects={SUBJECTS}
               durationOptions={durationOptions}
               isGenerateDisabled={isGenerateDisabled}
+              aiModels={availableModels}
             />
           )}
 

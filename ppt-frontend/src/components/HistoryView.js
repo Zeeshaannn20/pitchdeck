@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, BookOpen, RefreshCw, Sparkles, ArrowRight } from 'lucide-react';
+import { Clock, BookOpen, RefreshCw, Sparkles, ArrowRight, Cpu } from 'lucide-react';
 
 const HistoryView = ({ generationHistory, setCurrentView, setFormData }) => {
   const items = [...(generationHistory || [])].reverse();
@@ -10,13 +10,14 @@ const HistoryView = ({ generationHistory, setCurrentView, setFormData }) => {
       subject: item.subject || '',
       topics: item.topics || '',
       duration: item.duration || 60,
+      model: item.model || 'gemini-2.0-flash',
     }));
     setCurrentView('form');
   };
 
   return (
     <div className="fade-in" style={{ maxWidth: '800px', margin: '0 auto' }}>
-      
+
       <div style={{ marginBottom: '2.5rem' }}>
         <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>
           GENERATION LOG
@@ -50,6 +51,11 @@ const HistoryView = ({ generationHistory, setCurrentView, setFormData }) => {
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 500 }}>
                         <Clock size={13} /> {item.duration} min
                       </span>
+                      {item.model && (
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+                          <Cpu size={13} /> {item.model.replace(/-preview.*/, '')}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <button
@@ -104,3 +110,11 @@ const HistoryView = ({ generationHistory, setCurrentView, setFormData }) => {
 };
 
 export default HistoryView;
+
+
+
+
+
+
+
+

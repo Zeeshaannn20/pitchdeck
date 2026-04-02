@@ -45,6 +45,7 @@ def generate_ppt_route():
         qualification       = data.get("qualification", "")
         instructor_b64      = data.get("instructorImage")
         batch_code          = data.get("batchCode", "")
+        model_override      = data.get("model", "")
 
         if instructor_b64 and len(instructor_b64) > 10_000_000:
             return jsonify({"error": "Instructor image too large (max ~7.5 MB)"}), 413
@@ -63,7 +64,7 @@ def generate_ppt_route():
         # ── 1. Generate content via Gemini ──────────────────────────────
         prompt   = build_prompt(subject, topics, subtopics,
                                 previousLecture, duration, specialRequirements)
-        raw_resp = call_gemini_api(prompt)
+        raw_resp = call_gemini_api(prompt, model_override=model_override)
         content  = safe_parse_json(raw_resp)
         content  = validate_content_structure(content)
 
@@ -142,6 +143,12 @@ def generate_ppt_route():
         cleanup_temp_files(temp_files)
         return jsonify({"error": f"Failed to generate presentation: {str(e)}"}), 500
 
+AVAILABLE_TEXT_MODELS = [
+    {"id": "gemini-2.0-flash",         "name": "Gemini 2.0 Flash",          "provider": "Google", "tier": "fast",    "desc": "Fast generation, great for most lectures"},
+    {"id": "gemini-2.5-flash-preview-04-17", "name": "Gemini 2.5 Flash",    "provider": "Google", "tier": "balanced","desc": "Balanced speed and quality"},
+    {"id": "gemini-2.5-pro-preview-05-06",   "name": "Gemini 2.5 Pro",      "provider": "Google", "tier": "premium", "desc": "Highest quality, deeper reasoning"},
+]
+
 @bp.route("/api/health", methods=["GET"])
 def health_check():
     return jsonify({
@@ -149,7 +156,9 @@ def health_check():
         "template_available": os.path.exists(TEMPLATE_PATH),
         "gemini_configured":  bool(GEMINI_API_KEY),
         "image_models":       _IMAGE_MODELS,
-        "version":            "7.0-modular",
+        "text_models":        AVAILABLE_TEXT_MODELS,
+        "default_model":      GEMINI_MODEL,
+        "version":            "8.0-modular",
     })
 
 

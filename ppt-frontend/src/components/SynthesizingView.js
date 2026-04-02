@@ -8,7 +8,7 @@ const LOG_PHASES = [
   { time_offset: 9000, text: "Building Gemini prompt with subject-specific rules...", color: "#D4D4D4" },
   { time_offset: 13000, text: "Injecting code language policy and Bloom's taxonomy quiz rules.", color: "#4ADE80" },
   { time_offset: 16000, text: "Syllabus loader: checking for per-subject JSON syllabus match...", color: "#D4D4D4" },
-  { time_offset: 20000, text: "Calling Gemini API (gemini-2.0-flash) for content generation...", color: "#60A5FA" },
+  { time_offset: 20000, text: "__MODEL_LINE__", color: "#60A5FA" },
   { time_offset: 28000, text: "Gemini response received. Extracting largest balanced JSON object...", color: "#4ADE80" },
   { time_offset: 33000, text: "JSON structure validated. Topics normalized to list-of-lists format.", color: "#D4D4D4" },
   { time_offset: 37000, text: "Prefetching images via Gemini Image API (4 concurrent workers)...", color: "#60A5FA" },
@@ -48,11 +48,14 @@ const SynthesizingView = ({ formData }) => {
   }, []);
 
   useEffect(() => {
-    const visibleLogs = LOG_PHASES.filter(msg => elapsed >= msg.time_offset);
+    const visibleLogs = LOG_PHASES.filter(msg => elapsed >= msg.time_offset).map(msg => ({
+      ...msg,
+      text: msg.text === '__MODEL_LINE__' ? `Calling Gemini API (${formData.model || 'gemini-2.0-flash'}) for content generation...` : msg.text
+    }));
     if (visibleLogs.length !== logs.length) {
       setLogs(visibleLogs);
     }
-  }, [elapsed, logs.length]);
+  }, [elapsed, logs.length, formData.model]);
 
   useEffect(() => {
     if (logRef.current) {
@@ -183,6 +186,7 @@ const SynthesizingView = ({ formData }) => {
                 { label: 'Topics', value: formData.topics?.substring(0, 25) || '—' },
                 ...(formData.professorName ? [{ label: 'Instructor', value: formData.professorName }] : []),
                 ...(formData.batchCode ? [{ label: 'Batch', value: formData.batchCode }] : []),
+                { label: 'AI Model', value: formData.model?.replace(/-preview.*/, '') || 'gemini-2.0-flash' },
               ].map((item, i) => (
                 <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{item.label}</span>

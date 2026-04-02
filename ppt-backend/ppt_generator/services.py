@@ -94,11 +94,12 @@ def _gemini_headers() -> dict:
 # ================
 # Text generation
 # ================
-def call_gemini_api(prompt: str) -> str:
+def call_gemini_api(prompt: str, model_override: str = "") -> str:
     if not GEMINI_API_KEY:
         raise RuntimeError("Missing GEMINI_API_KEY in environment")
 
-    url = f"{_GEMINI_BASE}/models/{GEMINI_MODEL}:generateContent"
+    model = model_override.strip() if model_override else GEMINI_MODEL
+    url = f"{_GEMINI_BASE}/models/{model}:generateContent"
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {

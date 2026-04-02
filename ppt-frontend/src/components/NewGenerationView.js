@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowRight, Image as ImageIcon, Zap, Search } from 'lucide-react';
+import { ArrowRight, Image as ImageIcon, Zap, Search, Cpu } from 'lucide-react';
 
 // Backend-supported special requirement keywords
 const DIRECTIVE_CHIPS = [
@@ -57,7 +57,8 @@ const NewGenerationView = ({
   onGenerate, 
   subjects, 
   durationOptions,
-  isGenerateDisabled 
+  isGenerateDisabled,
+  aiModels
 }) => {
   const [subjectSearch, setSubjectSearch] = useState('');
 
@@ -115,6 +116,68 @@ const NewGenerationView = ({
 
       <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         
+        {/* AI Model Selector */}
+        <div>
+          <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem', paddingBottom: '0.5rem', borderBottom: '1px solid var(--border-light)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Cpu size={18} color="var(--brand-gold-hover)" /> AI Engine
+          </h3>
+          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${(aiModels || []).length || 3}, 1fr)`, gap: '0.75rem' }}>
+            {(aiModels || []).map((m) => {
+              const isActive = formData.model === m.id;
+              const tierColors = {
+                fast: { bg: 'rgba(74,222,128,0.1)', color: '#4ADE80', border: 'rgba(74,222,128,0.3)' },
+                balanced: { bg: 'rgba(96,165,250,0.1)', color: '#60A5FA', border: 'rgba(96,165,250,0.3)' },
+                premium: { bg: 'rgba(234,201,157,0.1)', color: 'var(--brand-gold-hover)', border: 'var(--brand-gold-border)' },
+              };
+              const tc = tierColors[m.tier] || tierColors.fast;
+              return (
+                <button
+                  key={m.id}
+                  type="button"
+                  onClick={() => setFormData({...formData, model: m.id})}
+                  style={{
+                    padding: '1rem',
+                    borderRadius: 'var(--border-radius-md)',
+                    border: `2px solid ${isActive ? tc.color : 'var(--border-light)'}`,
+                    background: isActive ? tc.bg : 'var(--bg-secondary)',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    transition: 'all 0.2s ease',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.5rem',
+                    position: 'relative',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {/* Tier badge */}
+                  <span style={{
+                    position: 'absolute', top: '0.5rem', right: '0.5rem',
+                    fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.05em',
+                    padding: '0.15rem 0.4rem', borderRadius: '10px',
+                    background: tc.bg, color: tc.color, border: `1px solid ${tc.border}`,
+                    textTransform: 'uppercase',
+                  }}>
+                    {m.tier}
+                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <div style={{
+                      width: '14px', height: '14px', borderRadius: '50%',
+                      border: `2px solid ${isActive ? tc.color : 'var(--text-muted)'}`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      transition: 'all 0.2s ease',
+                    }}>
+                      {isActive && <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: tc.color }} />}
+                    </div>
+                    <span style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text-primary)' }}>{m.name}</span>
+                  </div>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0, lineHeight: 1.4 }}>{m.desc}</p>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Core Parameters */}
         <div>
           <h3 style={{ fontSize: '1.2rem', marginBottom: '1.5rem', paddingBottom: '0.5rem', borderBottom: '1px solid var(--border-light)' }}>Academic Parameters</h3>
@@ -348,7 +411,7 @@ const NewGenerationView = ({
             {!formData.subject && !formData.topics ? 'Subject and Topics are required.' : 
              !formData.subject ? 'Select a subject to continue.' : 
              !formData.topics ? 'Add at least one topic to continue.' :
-             `Ready to synthesize ${formData.duration}-minute lecture on "${formData.topics.substring(0,40)}${formData.topics.length > 40 ? '...' : ''}"`}
+             `Ready to synthesize ${formData.duration}-minute lecture using ${(aiModels || []).find(m => m.id === formData.model)?.name || formData.model}`}
           </p>
           <button 
             className="btn-gold" 
